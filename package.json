@@ -1,0 +1,27 @@
+{
+  "name": "tiploo",
+  "version": "0.0.1",
+  "description": "Steem powered blogging platform",
+  "main": "app.js",
+  "author": "bgornicki",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "steem": "latest",
+    "dotenv": "latest",
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express-sanitize-escape": "^1.1.0",
+    "express-session": "^1.15.6",
+    "morgan": "~1.9.0",
+    "pug": "2.0.0-beta11",
+    "sc2-sdk": "latest",
+    "serve-favicon": "~2.4.5",
+    "mongoose": "latest",
+    "moment": "latest",
+    "pm2": "latest"
+  }
+}

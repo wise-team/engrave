@@ -1,0 +1,158 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    title Material Design Bootstrap
+    // Font Awesome
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    // Bootstrap core CSS
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    // Material Design Bootstrap
+    link(href='/css/mdb.min.css', rel='stylesheet')
+    // Your custom styles (optional)
+    link(href='/css/style.min.css', rel='stylesheet')
+    style(type='text/css').
+      html,
+      body,
+      header,
+      .view {
+      height: 100%;
+      }
+      @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+      height: 1000px;
+      }
+      }
+      @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+      height: 650px;
+      }
+      }
+      @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+      background: #1C2331!important;
+      }
+      }
+  body
+    // Navbar
+    include partials/menu.pug
+
+    // Full Page Intro
+    .view.full-page-intro(style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg'); background-repeat: no-repeat; background-size: cover;")
+      // Mask & flexbox options
+      .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
+        // Content
+        .container
+          // Grid row
+          .row.wow.fadeIn
+            // Grid column
+            .col-md-6.mb-4.white-text.text-center.text-md-left
+              h1.display-4.font-weight-bold You are about to create new Steem powered blog
+              hr.hr-light
+              p
+                strong You have to authorize our platform with your Steem account
+              p.mb-4.d-none.d-md-block
+                strong
+                  | You will be redirected to Steemconnect website, where you need to authorize @tiploo.app to use your account. We need some permissions to post your articles, but dont worry. We do not want any of your authorization tokens. 
+              p
+                strong
+                  | Please make sure that your'e logging on official steemconnect website!
+            // Grid column
+            // Grid column
+            .col-md-6.col-xl-5.mb-4
+              // Card
+              .card
+                // Card content
+                .card-body
+                  // Form
+                  form(name='')
+                    // Heading
+                    h3.dark-grey-text.text-center
+                      strong Don't have Steem account?
+                    hr
+                    p.text-center
+                      | We can create one specially for you. Just need to know some details to proceed 
+                    .md-form
+                      i.fa.fa-user.prefix.grey-text
+                      input#form3.form-control(type='text')
+                      label(for='form3') Preffered account name
+                    .md-form
+                      i.fa.fa-envelope.prefix.grey-text
+                      input#form2.form-control(type='text')
+                      label(for='form2') Your email
+                    .md-form
+                      i.fa.fa-pencil.prefix.grey-text
+                      textarea#form8.md-textarea(type='text')
+                      label(for='form8') Your message
+                    .text-center
+                      a.btn.btn-indigo(href="/authorize/create/5") Request new Steem account
+                      hr
+                      fieldset.form-check
+                        input#checkbox1.form-check-input(type='checkbox')
+                        label.form-check-label.dark-grey-text(for='checkbox1') I'm aware that not all request will be processed
+                  // Form
+              // /.Card
+            // Grid column
+          // Grid row
+        // Content
+      // Mask & flexbox options
+    // Full Page Intro
+    
+    // Footer
+    footer.page-footer.text-center.font-small.mt-4.wow.fadeIn
+      // Call to action
+      .pt-4
+        a.btn.btn-outline-white(href='https://mdbootstrap.com/getting-started/', role='button')
+          | Download MDB
+          i.fa.fa-download.ml-2
+        a.btn.btn-outline-white(href='https://mdbootstrap.com/bootstrap-tutorial/', role='button')
+          | Start free tutorial
+          i.fa.fa-graduation-cap.ml-2
+      // /.Call to action
+      hr.my-4
+      // Social icons
+      .pb-4
+        a(href='https://www.facebook.com/mdbootstrap')
+          i.fa.fa-facebook.mr-3
+        a(href='https://twitter.com/MDBootstrap')
+          i.fa.fa-twitter.mr-3
+        a(href='https://www.youtube.com/watch?v=7MUISDJ5ZZ4')
+          i.fa.fa-youtube.mr-3
+        a(href='https://plus.google.com/u/0/b/107863090883699620484')
+          i.fa.fa-google-plus.mr-3
+        a(href='https://dribbble.com/mdbootstrap')
+          i.fa.fa-dribbble.mr-3
+        a(href='https://pinterest.com/mdbootstrap')
+          i.fa.fa-pinterest.mr-3
+        a(href='https://github.com/mdbootstrap/bootstrap-material-design')
+          i.fa.fa-github.mr-3
+        a(href='http://codepen.io/mdbootstrap/')
+          i.fa.fa-codepen.mr-3
+      // Social icons
+      // Copyright
+      .footer-copyright.py-3
+        | © 2018 Copyright:
+        a(href='https://mdbootstrap.com/bootstrap-tutorial/')  MDBootstrap.com 
+      // /.Copyright
+    // /.Footer
+    // SCRIPTS
+    // JQuery
+    script(type='text/javascript', src='/js/jquery-3.2.1.min.js')
+    // Bootstrap tooltips
+    script(type='text/javascript', src='/js/popper.min.js')
+    // Bootstrap core JavaScript
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    // MDB core JavaScript
+    script(type='text/javascript', src='/js/mdb.min.js')
+    // Initializations
+    script(type='text/javascript').
+      // Animations initialization
+      new WOW().init();
