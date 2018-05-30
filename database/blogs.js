@@ -1,4 +1,6 @@
 let mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 let Schema = mongoose.Schema;
 
 let blogSchema = new Schema({
@@ -8,10 +10,14 @@ let blogSchema = new Schema({
     port: Number,
     created: Date,
 
+    domain: String,
+
     tier: Number,
 
     configured: Boolean,
     
+    deployed: Boolean,
+
     author_name: String,
     author_surname: String,
     author_bio: String,
@@ -33,6 +39,7 @@ let blogSchema = new Schema({
     onesignal_body_length: Number,
 
     analytics_gtag: String,
+    webmastertools_id: String,
 
     theme: String,
 
@@ -54,5 +61,7 @@ let blogSchema = new Schema({
         show_featured: Boolean
     }
 });
+
+blogSchema.plugin(AutoIncrement, { inc_field: 'port' });
 
 module.exports = mongoose.model('blogs', blogSchema);

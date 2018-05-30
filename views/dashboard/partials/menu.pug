@@ -1,0 +1,42 @@
+.sidebar(data-image='/modern/img/sidebar-5.jpg')
+    //
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+        Tip 2: you can also add an image using data-image tag
+    .sidebar-wrapper
+        .logo
+            a.simple-text(href='/dashboard')
+                | ENGRAVE
+        ul.nav
+            li.nav-item(class= (url == '/') ? 'active' : '' )
+                a.nav-link(href='/dashboard')
+                    i.nc-icon.nc-chart-pie-35
+                    p Dashboard
+            li.nav-item(class= (url == 'posts') ? 'active' : '' )
+                a.nav-link(href='/dashboard/posts')
+                    i.nc-icon.nc-notes
+                    p Your posts
+            li.nav-item(class= (url == 'write') ? 'active' : '' )
+                a.nav-link(href='/dashboard/write')
+                    i.nc-icon.nc-paper-2
+                    p Write new post
+            li.nav-item(class= (url == 'wallet') ? 'active' : '' )
+                a.nav-link(href='/dashboard/wallet')
+                    i.nc-icon.nc-money-coins
+                    p Wallet
+            li.nav-item(class= (url == 'notifications') ? 'active' : '' )
+                a.nav-link(href='/dashboard/notifications')
+                    i.nc-icon.nc-bell-55
+                    p Notifications
+            li.nav-item(class= (url == 'profile') ? 'active' : '' )
+                a.nav-link(href='/dashboard/profile')
+                    i.nc-icon.nc-circle-09
+                    p Your Profile
+            li.nav-item(class= (url == 'settings') ? 'active' : '' )
+                a.nav-link(href='/dashboard/settings')
+                    i.nc-icon.nc-settings-gear-64
+                    p Blog Settings
+
+            li.nav-item.active.active-pro
+                a.nav-link.active(href='/dashboard/upgrade')
+                    i.nc-icon.nc-alien-33
+                    p Upgrade your tier

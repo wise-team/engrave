@@ -1,0 +1,18 @@
+extends website
+
+append scripts
+    script(src="/default/js/main.js")
+
+block content
+    meta(name="description", content= config.opengraph_default_description)
+    include partials/featured.pug
+    if latest
+        .posts-block.standard-box
+            .title-section
+                h1= translation.frontpage.new_articles
+            .row#posts
+                each item in latest
+                    include partials/box.pug
+        
+            .center-button
+                a(href="#").load-more= translation.frontpage.loadmore_text

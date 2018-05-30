@@ -1,0 +1,36 @@
+extends website
+
+mixin displayArticleDetails(article)
+    span.image
+        img(src= article.image width="30px")
+    span
+        strong= article.title
+    //- span.time #{moment(article.date).format('LLL')}
+    span.message= article.body.substr(0, 500) + '...'
+    span(style="font-size: 0.85em").message
+        span.label.label-default= article.user
+
+append scripts
+    script(src="/dashboard/js/moderate.js")
+
+block content
+    .page-title
+        .title_left
+            h3 Artykuły wymagające zaakceptowania
+        .title_right
+    .clearfix
+    .row
+        .x_panel
+            .x_content
+                ul.list-unstyled.msg_list(style="font-size: 1.3em")
+                    each article in articles
+                        li
+                            a
+                                +displayArticleDetails(article)
+                            .btn-group-vertical
+                                button(id= article._id).btn.btn-success.btn-xs.accept-btn Akceptuj 
+                                button.btn.btn-default.btn-xs
+                                    a(href="/dashboard/moderate/" + article._id) Edytuj
+                                button.btn.btn-default.btn-xs
+                                    a(href="/dashboard/preview/" + article._id, target="_blank") Podgląd
+                                button(id= article._id).btn.btn-danger.btn-xs.reject-btn Odrzuć

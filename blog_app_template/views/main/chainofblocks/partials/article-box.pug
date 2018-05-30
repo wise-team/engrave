@@ -1,0 +1,24 @@
+.large-blog-style.clear-fix.post-1903.post.type-post.status-publish.format-image.has-post-thumbnail.hentry.category-tesla.tag-tesla-semi.post_format-post-format-image
+    .thumb
+        a(href="/" + item.url)
+            img(src=item.image).attachment-returny_1000_600.size-returny_1000_600.wp-post-image
+        .post-meta.clear-fix
+            .post-author
+                span.avatar
+                    i.fa.fa-user
+                    a= item.root_author
+
+            .date
+                | #{moment(item.date).format('LL')}
+            .value
+                = '$' + item.value
+
+    .post-details.table
+        .table-cell
+            .out-cat-review
+                .post-cat
+                    a(href="/kategoria/"  + item.category)= item.category_fullname
+            h3.post-title
+                a(href= "/" + item.url)= item.title
+            .entry-excerpt
+                = item.body

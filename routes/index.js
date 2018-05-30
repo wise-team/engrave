@@ -4,32 +4,23 @@ let steem = require('steem');
 var config = require('../config').default;
 
 router.get('/', (req, res, next) => {
-    res.render('main/main.pug');
+    res.render('main/main.pug', {blogger: req.session.blogger});
 });
 
 router.get('/about', (req, res, next) => {
-    res.render('main/about.pug');
+    res.render('main/about.pug', {blogger: req.session.blogger});
 });
 
 router.get('/how-to-earn', (req, res, next) => {
-    res.render('main/how-to-earn.pug');
+    res.render('main/how-to-earn.pug', {blogger: req.session.blogger});
 });
 
 router.get('/create', (req, res, next) => {
-    res.render('main/create.pug');
+    res.render('main/create.pug', {blogger: req.session.blogger});
 });
 
-router.get('/create/10', (req, res, next) => {
-    res.render('main/create_partial.pug');
+router.get('/configure', (req, res, next) => {
+    res.render('main/configure.pug', {blogger: req.session.blogger});
 });
-
-router.get('/create/15', (req, res, next) => {
-    res.render('main/create_partial.pug');
-});
-
-router.get('/create/20', (req, res, next) => {
-    res.render('main/create_partial.pug');
-});
-
 
 module.exports = router;

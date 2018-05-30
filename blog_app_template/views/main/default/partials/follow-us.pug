@@ -1,0 +1,23 @@
+if user && value
+    #follow-us
+        span
+            i.fa.fa-clock-o
+            | &nbsp;
+            | #{moment(date).fromNow()}
+            = ' ' + translation.frontpage.by + ' '
+            a(href="#")
+                | @
+                = root_author
+        | &nbsp;&nbsp;&nbsp;
+        span
+            |$
+            = value
+        | &nbsp;&nbsp;&nbsp;
+        span.comments-action
+            i.fa.fa-thumbs-up
+            | &nbsp;
+            = net_votes
+        | &nbsp;&nbsp;&nbsp;
+        span.comments-action
+            i.fa.fa-reply
+            | &nbsp;Skomentuj

@@ -1,0 +1,9 @@
+/*
+Editor Style
+*/
+body#tinymce blockquote {
+    font-style: italic;
+    padding: 8px 12px;
+    background: #f8f8f8;
+    clear:both;            
+}

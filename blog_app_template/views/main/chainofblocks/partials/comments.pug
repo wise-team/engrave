@@ -1,0 +1,24 @@
+mixin renderComment(comments)
+    ol.commentlist
+        each comment in comments
+            li.comment.even.thread-even.depth-1
+                article.comment-article.media
+                    header.comment-author.clear-fix
+                        .comment-avatar
+                            img(src="https://steemitimages.com/u/" + comment.author + "/avatar", style="height: 60px; width: 60px; background-size: cover;").avatar.avatar-60.photo
+                        span.comment-author-name= comment.author
+                        span.comment-time
+                            a.comment-timestamp 15 Listopad, 2017 at 22:01
+                        span.comment-links
+                            a.comment-reply-link Odpowiedz
+                    .comment-text
+                        section.comment-content
+                            p= comment.body
+                if comment.replies.length > 0
+                    +renderComment(comment.replies)
+
+.comment-box.clear-fix
+    .comments-area.clear-fix#comments
+        .comments-area-title
+            h3 Komentarze
+        +renderComment(comments)

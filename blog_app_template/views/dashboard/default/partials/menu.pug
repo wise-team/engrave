@@ -1,0 +1,45 @@
+.col-md-3.left_col
+    .left_col.scroll-view
+        .navbar.nav_title
+            a(href="/dashboard").site_title
+                //- i.fa.fa-paw
+                span Panel autora
+        .clearfix
+        .profile.clearfix
+            .profile_pic
+                img(src="https://steemitimages.com/u/" + user.name + "/avatar").img-circle.profile_img
+            .profile_info
+                span Witaj,
+                h2= user.name
+        br
+        #sidebar-menu.main_menu_side.hidden-print.main_menu
+            .menu_section.active
+                h3 Menu
+                ul.nav.side-menu
+                    li
+                        a(href="/dashboard/cockpit")
+                            i.fa.fa-home
+                            | Kokpit
+                    li
+                        a
+                            i.fa.fa-edit
+                            | Artykuły
+                            span.fa.fa-chevron-down
+                        ul.nav.child_menu
+                            li
+                                a(href="/dashboard/articles") Twoje artykuły
+                            li
+                                a(href="/dashboard/add") Dodaj nowy
+                    li
+                        a(href="/dashboard/profile")
+                            i.fa.fa-user
+                            | Twój profil
+                    if user.permissions === "editor-in-chief"
+                        li
+                            a(href="/dashboard/moderate")
+                                i.fa.fa-bug
+                                | Moderuj
+                        li
+                            a(href="/dashboard/authors")
+                                i.fa.fa-users
+                                | Autorzy

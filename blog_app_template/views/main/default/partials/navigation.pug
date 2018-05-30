@@ -1,0 +1,24 @@
+header.clearfix.style-4
+    nav(class="navbar navbar-expand-lg navbar-light bg-light" itemscope itemtype="http://schema.org/SiteNavigationElement")
+        .container
+            button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+                span(class="navbar-toggler-icon")
+            a.navbar-brand(href="/")
+                img(src= config.website_logo_url).site-logo
+    
+            .collapse.navbar-collapse#navbarSupportedContent
+                ul.navbar-nav.ml-auto
+
+                    each nav_name, nav in config.categories
+                        li(class=['nav-item', {active: category === nav.replace("pl-", "")}] itemprop="name")
+                            a(href="/kategoria/" + nav.replace("pl-",""), class="nav-link " + nav.replace("pl-",""), itemprop="url").nav-link= nav_name
+
+                    if user
+                        li.nav-item
+                            a(href="/authorize/logout", class="nav-link internet").nav-link
+                                img(src= user.profile_image).profile-image
+                                | &nbsp;&nbsp;&nbsp;
+                                = translation.frontpage.logout_text
+                    else
+                        li.nav-item
+                            a(href="/authorize", class="nav-link internet").nav-link= translation.frontpage.login_text

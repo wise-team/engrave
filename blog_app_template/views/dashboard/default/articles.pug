@@ -1,0 +1,47 @@
+extends website
+
+mixin displayArticleDetails(article)
+    span.image
+        img(src= article.image width="30px")
+    span
+        strong= article.title
+    //- span.time #{moment(article.date).format('LLL')}
+    span.message= article.body.substr(0, 500) + '...'
+    span(style="font-size: 0.85em").message
+        if article.status === "added" 
+            span.label.label-primary Oczekujący
+        else if article.status === "draft"
+            span.label.label-default Wersja robocza
+        else if article.status === "approved"
+            span.label.label-success Zaakceptowany
+        else if article.status === "rejected"
+            span.label.label-danger Odrzucony
+
+append scripts
+    script(src="/dashboard/js/articles.js")
+
+block content
+    .page-title
+        .title_left
+            h3 Twoje artykuły
+        .title_right
+    .clearfix
+    .row
+        .x_panel
+            //- .clearfix
+            .x_content
+                ul.list-unstyled.msg_list(style="font-size: 1.3em")
+                    each article in articles
+                        li
+                            if(article.permlink)
+                                a(href="/" + article.permlink, target="_blank")
+                                    +displayArticleDetails(article)
+                            else
+                                a
+                                    +displayArticleDetails(article)
+                                .btn-group-vertical.time
+                                    button.btn.btn-default.btn-xs
+                                        a(href="/dashboard/preview/" + article._id, target="_blank") Podgląd
+                                    button.btn.btn-default.btn-xs
+                                        a(href="/dashboard/edit/" + article._id) Edytuj
+                                    button(id="rm-" + article._id).btn.btn-danger.btn-xs.remove-button Usuń

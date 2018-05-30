@@ -1,0 +1,77 @@
+extends website.pug
+
+append scripts
+    script(src="/js/parsley.min.js")
+    script(src="/js/write.js")
+
+block body
+
+    .content
+        .container-fluid
+            .row
+                .col-md-8
+                    .card
+                        .card-header
+                            h4.card-title Publish new post
+                        .card-body
+                            form#article(data-parsley-validate="")
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Title
+                                            input.form-control(type='text', placeholder='Post title...', value='', name='title', required="" minlength="5")
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Body
+                                            textarea.form-control(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' required="" minlength="10")
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Category
+                                            select.form-control(name='category')
+                                                option Technology
+                                                option Space
+                                                option Science
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Additional tags (space separated)
+                                            input.form-control(type='text', placeholder='tag anothertag', value='', name='tags')
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Preview image
+                                            input.form-control(type='text', placeholder='https://...', value='', name='image')
+                            
+                                .pull-right
+                                    //- button.btn.btn-info.btn-fill(data-toggle="modal" data-target="#myModal1" type="button")
+                                    //-     |  Modal
+                                    
+                                //- button.btn.btn-success.btn-fill.pull-right(data-toggle="modal" data-target="#myModal1" data-backdrop="static" data-keyboard="false" type="button")
+                                button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
+                                    //- i.fa.fa-refresh.fa-spin
+                                    |  Publish new post
+
+                .col-md-4
+                    .card
+                        .card-header
+                            h4.card-title Tips and tricks
+                        .card-body
+                            ul
+                                li Never show your steem account keys to anyone
+                                li User popular tags, but not if they are unintended
+                #myModal1.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+                    .modal-dialog
+                        .modal-content
+                            .modal-header.justify-content-center
+                                //- .modal-profile
+                                //-     i.nc-icon.nc-bulb-63
+                            .modal-body.text-center
+                                p You are about to publish new blog post to Steem blockchain
+                                hr
+                                h4 Please be aware that you cannot delete it or change category later
+
+                            .modal-footer
+                                button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
+                                button.btn.btn-link.btn-success.btn-fill#btn-accept(type='button') Yes, i want to publish it

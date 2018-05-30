@@ -21,7 +21,10 @@
     "sc2-sdk": "latest",
     "serve-favicon": "~2.4.5",
     "mongoose": "latest",
+    "mongoose-sequence": "latest",
     "moment": "latest",
-    "pm2": "latest"
+    "pm2": "latest",
+    "ncp": "latest",
+    "speakingurl": "latest"
   }
 }

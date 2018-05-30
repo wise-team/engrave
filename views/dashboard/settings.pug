@@ -1,0 +1,182 @@
+extends website.pug
+
+block body
+  .content
+    .container-fluid
+      .row
+        .col-md-8
+          .card
+            .card-body
+              form
+                .row
+                  .col-md-6
+                    .form-group
+                      label Domain (disabled)
+                      input.form-control(type='text', disabled='', placeholder='Domain', value='technocracy.blog')
+                  .col-md-6
+                    .form-group
+                      label Steem Username
+                      input.form-control(type='text', disabled='', placeholder='Username', value=blogger.steem_username)
+          .card
+            .card-header
+              h4.card-title General settings
+            .card-body
+                .row
+                  .col-md-6
+                    .form-group
+                      label Website title
+                      input.form-control(type='text', placeholder='Website title', value='Głodni Wiedzy')
+                  .col-md-6
+                    .form-group
+                      label Website slogan
+                      input.form-control(type='text', placeholder='Last Name', value='Najnowsze informacje ze świata')
+                .row
+                  .col-md-12
+                    .form-group
+                      label Website logo url (optional)
+                      input.form-control(type='text', placeholder='https://...', value='')
+                .row
+                  .col-md-6 
+                    .form-group
+                        label Theme
+                        select.form-control
+                            option Modern blog
+                            option Flat
+                  .col-md-6
+                    .form-group
+                        label Frontpage language
+                        select.form-control
+                            option Polish
+                            option English
+                .row
+                  .col-md-6
+                    .form-group
+                      label Posts per category page
+                      input.form-control(type='number', placeholder='Posts', value='15')
+                  .col-md-6
+                    .form-group
+                      label 'Load more' posts quantity
+                      input.form-control(type='number', placeholder='Posts', value='9')
+                
+                  
+
+                //-   .col-md-4
+                //-     .form-group
+                //-         td
+                //-             .form-check
+                //-                 label.form-check-label
+                //-                     input.form-check-input(type='checkbox', value='')
+                //-                     span.form-check-sign
+                //-         td Show only categorized posts
+                //-         td.td-actions.text-right
+            .card-body
+                .table-full-width
+                    table.table
+                        tbody
+                            tr
+                                td
+                                    .form-check
+                                        label.form-check-label
+                                            input.form-check-input(type='checkbox', value='')
+                                            span.form-check-sign
+                                td Show only categorized posts
+                                td.td-actions.text-right
+                                                        
+                            tr
+                                td
+                                    .form-check
+                                        label.form-check-label
+                                            input.form-check-input(type='checkbox', value='')
+                                            span.form-check-sign
+                                td Add website information to blockchain posts
+                                td.td-actions.text-right
+          .card
+            .card-header
+              h4.card-title SEO & OpenGraph
+            .card-body
+                .row
+                  .col-md-12
+                    .form-group
+                      label Default OpenGraph image url (optional)
+                      input.form-control(type='text', placeholder='https://...', value='')                                    
+                .row
+                  .col-md-12
+                    .form-group
+                      label Default OpenGraph description
+                      textarea.form-control(rows='5', placeholder='Site description...', style="height:auto !important;")
+          .card
+            .card-header
+              h4.card-title Push notifications
+            .card-body
+                .table-full-width
+                    table.table
+                        tbody
+                            tr
+                                td
+                                    .form-check
+                                        label.form-check-label
+                                            input.form-check-input(type='checkbox', value='')
+                                            span.form-check-sign
+                                td Enable OneSignal push notifications on post publishing
+                                td.td-actions.text-right
+
+            .card-body
+                .row
+                  .col-md-12
+                    .form-group
+                      label Onesignal APP ID
+                      input.form-control(type='text', placeholder='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', value='')                                    
+                .row
+                  .col-md-12
+                    .form-group
+                      label REST API KEY
+                      input.form-control(type='text', placeholder='...', value='')  
+                .row
+                  .col-md-12
+                    .form-group
+                      label Notification logo url
+                      input.form-control(type='text', placeholder='https://...', value='')  
+                .row
+                  .col-md-12
+                    .form-group
+                      label Notification body length (characters)
+                      input.form-control(type='number', placeholder='Characters', value='120')  
+
+          .card
+            .card-header
+                h4.card-title Statistics and analytics
+            .card-body
+                .row
+                .col-md-12
+                    .form-group
+                        label Google Analytics Identifier
+                        input.form-control(type='text', placeholder='UA-xxxxxxxxx-x', value='')                                    
+                .row
+                .col-md-12
+                    .form-group
+                        label Google Webmaster tools Verification code
+                        input.form-control(type='text', placeholder='', value='') 
+          .card
+            .card-header
+                h4.card-title Blog categories
+            .card-body
+                .row
+                    .col-md-4
+                        .form-group
+                            label Category name
+                            input.form-control(type='text', placeholder='Technology', value='')                                    
+                    .col-md-4
+                        .form-group
+                            label Category slug
+                            input.form-control(type='text', placeholder='technology', value='') 
+                    .col-md-3
+                        .form-group
+                            label Category steem tag
+                            input.form-control(type='text', placeholder='pl-technologia', value='') 
+                    .col-md-1
+                        .form-group
+                            label &nbsp;&nbsp;&nbsp;
+                            button.btn.btn-info.btn-fill.pull-right(type='submit') Add
+
+                button.btn.btn-info.btn-fill.pull-right(type='submit') Update Profile
+                .clearfix

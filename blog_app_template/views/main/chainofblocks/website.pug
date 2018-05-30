@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        title= page_title
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
+        link(rel="stylesheet" id="redux-google-fonts-returny_option-css" href="https://fonts.googleapis.com/css?family=Roboto+Condensed%3A300%2C400%2C700%2C300italic%2C400italic%2C700italic%7CRoboto%3A100%2C300%2C400%2C500%2C700%2C900%2C100italic%2C300italic%2C400italic%2C500italic%2C700italic%2C900italic&amp;ver=1510534544" type="text/css" media="all")
+        link(href="/chainofblocks/css/gino_style.css" rel="stylesheet")
+        link(href="/chainofblocks/css/responsive.css" rel="stylesheet")
+        link(rel="stylesheet" id="fa_style-css" href="/chainofblocks/css/fonts/awesome-fonts/css/font-awesome.min.css" type="text/css" media="all")
+
+        script(async src="https://www.googletagmanager.com/gtag/js?id=UA-115963005-1" rel="preload")
+        script(src='/js/analytics.js' rel="preload" async)
+
+        include partials/opengraph.pug
+
+    body
+        #container.site-container.wide
+            .page-wrap.clear-fix
+
+                include partials/navigation.pug
+            
+                .main-body.gino_site-container.clear-fix
+                    block content
+
+                include partials/footer.pug
+
+        include partials/scripts.pug

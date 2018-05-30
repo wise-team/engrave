@@ -13,130 +13,105 @@ html(lang='en')
     link(href='/css/mdb.min.css', rel='stylesheet')
     // Your custom styles (optional)
     link(href='/css/style.min.css', rel='stylesheet')
+    style(type='text/css').
+      html,
+      body,
+      header,
+      .view {
+      height: 100%;
+      }
+      @media (max-width: 740px) {
+      html,
+      body,
+      header,
+      .view {
+      height: 1000px;
+      }
+      }
+      @media (min-width: 800px) and (max-width: 850px) {
+      html,
+      body,
+      header,
+      .view {
+      height: 650px;
+      }
+      }
+      @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+      background: #1C2331!important;
+      }
+      }
   body
     // Navbar
     include partials/menu.pug
-    // Main layout
-    main.mt-5.pt-4
-      .container
-        h3.my-5.h3.text-center Choose your tier
-        // Grid row
-        .row.d-flex.justify-content-center
-          // Grid column
-          .col-md-8.text-center
-            p.mb-5
-              | Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo qui laboriosam nihil reiciendis fugit eius nostrum
-              | ipsum odio, voluptate debitis laborum perspiciatis voluptatibus? Culpa expedita rem totam eos fugit atque!
-          // Grid column
-        // Grid row
-        // Grid row
-        .row.text-center.wow.fadeIn
-          // Grid column
-          .col-lg-4.col-md-12.mb-4
-            // Card
-            .card
-              // Card header
-              .card-header
-                h4
-                  strong Basic
-              // Card content
-              .card-body
-                h3.card-title.pricing-card-title.mb-4
-                  | 10%
-                  small.text-muted  of your rewards
-                ol.list-unstyled.mb-4
-                  li
-                    | No deposit
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Custom domain name
-                    i.fa.fa-close.red-text.ml-1
-                  hr
-                  li
-                    | Free domain for one year
-                    i.fa.fa-close.red-text.ml-1
-                  hr
-                  li
-                    | Help center access
-                    i.fa.fa-close.red-text.ml-1
-                a.btn.btn-lg.btn-block.btn-primary(href='/create/5') Get started
-            // /.Card
-          // Grid column
-          // Grid column
-          .col-lg-4.col-md-6.mb-4
-            // Card
-            .card
-              // Card header
-              .card-header
-                h4
-                  strong Standard
-              // Card content
-              .card-body
-                h3.card-title.pricing-card-title.mb-4
-                  | 15%
-                  small.text-muted  of your rewards
-                ol.list-unstyled.mb-4
-                  li
-                    | No deposit
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Custom domain name
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Free domain for one year
-                    i.fa.fa-close.red-text.ml-1
-                  hr
-                  li
-                    | Help center access
-                    i.fa.fa-close.red-text.ml-1
-                a.btn.btn-lg.btn-block.btn-primary(href='/create/10') Get started
-            // /.Card
-          // Grid column
-          // Grid column
-          .col-lg-4.col-md-6.mb-4
-            // Card
-            .card
-              // Card header
-              .card-header
-                h4
-                  strong Extended
-              // Card content
-              .card-body
-                h3.card-title.pricing-card-title.mb-4
-                  | 20%
-                  small.text-muted  of your rewards
-                ol.list-unstyled.mb-4
-                  li
-                    | No deposit
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Custom domain name
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Free domain for one year
-                    i.fa.fa-check.green-text.ml-1
-                  hr
-                  li
-                    | Help center access
-                    i.fa.fa-close.red-text.ml-1
-                a.btn.btn-lg.btn-block.btn-primary(href='/create/15') Get started
-            // /.Card
-          // Grid column
-        // Grid row
-        // Grid row
-        .row.d-flex.justify-content-center
-          // Grid column
-          .col-md-8.text-center
-            p.mb-5
-              | You can always upgrade your tier in any time. The same with downgrading, but if you choose to use free domain, you will be charged 15% for at least one year.
-    // Main layout
+
+    // Full Page Intro
+    .view.full-page-intro(style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg'); background-repeat: no-repeat; background-size: cover;")
+      // Mask & flexbox options
+      .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
+        // Content
+        .container
+          // Grid row
+          .row.wow.fadeIn
+            // Grid column
+            .col-md-6.mb-4.white-text.text-center.text-md-left
+              h1.display-4.font-weight-bold You are about to create new Steem powered blog
+              hr.hr-light
+              a.btn.btn-indigo.btn-lg(href='/authorize')
+                | Complete registration with steemconnect
+                i.fa.fa-graduation-cap.ml-2
+              hr.hr-light
+              p
+                strong You have to authorize our platform with your Steem account
+              p.mb-4.d-none.d-md-block
+                strong
+                  | You will be redirected to Steemconnect website, where you need to authorize @tiploo.app to use your account. We need some permissions to post your articles, but dont worry. We do not want any of your authorization tokens. 
+              p
+                strong
+                  | Please make sure that your'e logging on official steemconnect website!
+            // Grid column
+            // Grid column
+            .col-md-6.col-xl-5.mb-4
+              // Card
+              .card
+                // Card content
+                .card-body
+                  // Form
+                  form(name='')
+                    // Heading
+                    h3.dark-grey-text.text-center
+                      strong Don't have Steem account?
+                    hr
+                    p.text-center
+                      | We can create one specially for you. Just need to know some details to proceed 
+                    .md-form
+                      i.fa.fa-user.prefix.grey-text
+                      input#form3.form-control(type='text')
+                      label(for='form3') Preffered account name
+                    .md-form
+                      i.fa.fa-envelope.prefix.grey-text
+                      input#form2.form-control(type='text')
+                      label(for='form2') Your email
+                    .md-form
+                      i.fa.fa-pencil.prefix.grey-text
+                      textarea#form8.md-textarea(type='text')
+                      label(for='form8') Your message
+                    .text-center
+                      a.btn.btn-indigo(href="/authorize/create/5") Request new Steem account
+                      hr
+                      fieldset.form-check
+                        input#checkbox1.form-check-input(type='checkbox')
+                        label.form-check-label.dark-grey-text(for='checkbox1') I'm aware that not all request will be processed
+                  // Form
+              // /.Card
+            // Grid column
+          // Grid row
+        // Content
+      // Mask & flexbox options
+    // Full Page Intro
+    
     // Footer
-    footer.page-footer.text-center.font-small.mt-5.wow.fadeIn
+    footer.page-footer.text-center.font-small.mt-4.wow.fadeIn
       // Call to action
       .pt-4
         a.btn.btn-outline-white(href='https://mdbootstrap.com/getting-started/', role='button')

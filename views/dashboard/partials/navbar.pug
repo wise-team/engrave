@@ -1,0 +1,28 @@
+nav.navbar.navbar-expand-lg(color-on-scroll='500')
+    .container-fluid
+        //- a.navbar-brand(href='#')  User 
+        button.navbar-toggler.navbar-toggler-right(href='', type='button', data-toggle='collapse', aria-controls='navigation-index', aria-expanded='false', aria-label='Toggle navigation')
+            span.navbar-toggler-bar.burger-lines
+            span.navbar-toggler-bar.burger-lines
+            span.navbar-toggler-bar.burger-lines
+        #navigation.collapse.navbar-collapse.justify-content-end
+            ul.navbar-nav.ml-auto
+                li.dropdown.nav-item
+                    a.dropdown-toggle.nav-link(href='#', data-toggle='dropdown')
+                        i.nc-icon.nc-planet
+                        span.notification 5
+                        span.d-lg-none Notification
+                    ul.dropdown-menu
+                        a.dropdown-item(href='#') @noisy upvoted your post
+                        a.dropdown-item(href='#') @rafalski commented your post
+                        a.dropdown-item(href='#') Notification 3
+                        a.dropdown-item(href='#') Notification 4
+                        a.dropdown-item(href='#') Another notification
+                li.nav-item.dropdown
+                    a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        span.no-icon= '@' + blogger.steem_username
+                    .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+                        a.dropdown-item(href='https://steemit.com/@' + blogger.steem_username) Visit Steemit
+                        a.dropdown-item(href='/') Visit your Blog
+                        .divider
+                        a.dropdown-item(href='/authorize/logout') Logout

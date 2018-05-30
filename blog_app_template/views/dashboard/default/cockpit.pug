@@ -1,0 +1,63 @@
+extends website
+append scripts
+    script(src="/dashboard/js/cockpit.js")
+block content
+    .row.tile_count
+        .col-md-2.col-sm-4.col-xs-6.tile_stats_count
+            span.count_top
+                i.fa.fa-bitcoin
+                    | &nbsp;Cena SBD
+                .count#sbd_price
+                span.count_bottom
+                    i#sbd_price_change
+                    | &nbsp;w ciągu ostatnich 24h
+        .col-md-2.col-sm-4.col-xs-6.tile_stats_count
+            span.count_top
+                i.fa.fa-bitcoin
+                    | &nbsp;Cena STEEM
+                .count#steem_price
+                span.count_bottom
+                    i#steem_price_change
+                    | &nbsp;w ciągu ostatnich 24h
+        .col-md-2.col-sm-4.col-xs-6.tile_stats_count
+            span.count_top
+                i.fa.fa-bitcoin
+                    | &nbsp;Cena Bitcoin
+                .count#bitcoin_price
+                span.count_bottom
+                    i#bitcoin_price_change
+                    | &nbsp;w ciągu ostatnich 24h
+
+    .row.top_tiles
+        .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+            .tile-stats
+                .icon
+                    i.fa.fa-check-circle
+                .count.green
+                    = approved
+                h3 Artykułów zaakceptowanych
+                p Artykuły dodane do blockchainu
+        .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+            .tile-stats
+                .icon
+                    i.fa.fa-edit
+                .count
+                    = added
+                h3 Artykułów oczekujących
+                p Zostaną dodane po akceptacji redaktora naczelnego
+        .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+            .tile-stats
+                .icon
+                    i.fa.fa-close
+                .count.red
+                    = rejected
+                h3 Artykułów do poprawy
+                p Zostaną sprawdzone ponownie po wprowadzeniu zmian
+        .animated.flipInY.col-lg-3.col-md-3.col-sm-6.col-xs-12
+            .tile-stats
+                .icon
+                    i.fa.fa-file
+                .count.gray
+                    = draft
+                h3 Wersji roboczych
+                p Artykuły nie przesłane do przeglądu

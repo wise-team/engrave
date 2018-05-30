@@ -3,6 +3,8 @@ let steem = require('../modules/steemconnect')
 let router = express.Router();
 
 let Blogs = require('../database/blogs.js');
+let nginx = require('../modules/nginx.js');
+let nodeapps = require('../modules/nodeapps.js');
 
 router.get('/logout', (req, res) => {
     var redirectUrl = '/';
@@ -14,17 +16,59 @@ router.get('/logout', (req, res) => {
 
 });
 
+router.get('/5', (req, res) => {
 
-router.get('/create', (req, res, next) => {
-    
+    if(!req.session.steemconnect) {
+        res.redirect('/');
+    } else {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+            if(blogger && !blogger.tier) {
+                blogger.tier = 5;
+                blogger.save(function(err) {
+                    res.redirect('/dashboard');
+                });
+            } else {
+                res.redirect('/');
+            }
+        }) 
+    }
 });
 
+router.get('/10', (req, res) => {
 
-// router.get('/login', (req, res) => {
-    
-//        Blogs.findOne({steem_username: "ss"});
+    if(!req.session.steemconnect) {
+        res.redirect('/');
+    } else {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+            if(blogger && !blogger.tier) {
+                blogger.tier = 10;
+                blogger.save(function(err) {
+                    res.redirect('/dashboard');
+                });
+            } else {
+                res.redirect('/');
+            }
+        }) 
+    }
+});
 
-// });
+router.get('/15', (req, res) => {
+
+    if(!req.session.steemconnect) {
+        res.redirect('/');
+    } else {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+            if(blogger && !blogger.tier) {
+                blogger.tier = 15;
+                blogger.save(function(err) {
+                    res.redirect('/dashboard');
+                });
+            } else {
+                res.redirect('/');
+            }
+        }) 
+    }
+});
 
 router.get('/', (req, res, next) => {
     
@@ -41,28 +85,47 @@ router.get('/', (req, res, next) => {
             Blogs.findOne({ steem_username: req.session.steemconnect.name}, function (err, user) {
                 if(user) {
                     console.log("Witamy ponownie: ", user.steem_username);
+                    if(user.tier) {
+                        res.redirect('/dashboard');
+                    } else {
+                        res.redirect('/configure');
+                    }
                 } else {
                     user =  new Blogs({
                         steem_username: req.session.steemconnect.name,
                         created: Date(),
-                        port: 81,
-                        email: 'bgor91@gmail.com'
+                        email: 'bgor912@gmail.com',
+                        configured: false
                     });
                     user.save(function (err) {
                         if(err) {
                             console.log("Jakiś błąd podczas zapisu nowego użytkownika");
+                            res.redirect('/');
                         } else {
-                            console.log("Dodano nowego użytkownika do bazy: ", user.steem_username)
+                            console.log("Dodano nowego użytkownika do bazy: " + user.steem_username)
+
+                            res.redirect('/configure');
+
+ 
+                            // nginx.generateCustomDomainConfig('muskindustries.space', user.port, function (err) {
+                            //     if(err) {
+                            //         console.log(err);
+                            //     } else {
+                            //         nodeapps.createAndRun('muskindustries.space', user.port);
+                            //     }
+                            // })
+
+                            // todo create pm2 ecosystem and blogs routing for nginx
                         }
                     })
                 }
             })
 
-            if (req.session.current_url) {
-                res.redirect('/' + req.session.current_url);
-            } else {
-                res.redirect('/dashboard');
-            }
+            // if (req.session.current_url) {
+            //     res.redirect('/' + req.session.current_url);
+            // } else {
+            //     res.redirect('/dashboard');
+            // }
         });
     }
 });

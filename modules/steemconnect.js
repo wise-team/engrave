@@ -4,7 +4,7 @@ let config = require('../config');
 let steem = steemconnect2.Initialize({
     app: config.steemconnect_id,
     callbackURL: config.steemconnect_redirect_uri,
-    scope: ['login', 'vote', 'comment']
+    scope: ['login', 'vote', 'comment', 'comment_options']
 });
 
 module.exports = steem;

@@ -1,0 +1,27 @@
+if ! user
+    #loggedoutModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title Jesteś wylogowany
+                .modal-body
+                    a(href="https://" + config.domain + "/authorize") Zaloguj się 
+                    | jeśli posiadasz konto Steem lub 
+                    a(href="https://signup.steemit.com/") załóż nowe 
+                    | i zacznij zarabiać głosując na treści, które Cię interesują.
+                .modal-footer
+                    a(href="https://" + config.domain + "/jak-zarabiac")
+                        button.btn.btn-info(type='button') Dowiedz się jak zarabiać
+                    button.btn.btn-default(type='button', data-dismiss='modal') Zamknij
+else
+    #loggedinModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5 Wybierz siłę głosu
+                .modal-body
+                    .slider-container
+                        input(type="text" id="example_id" name="example_name" value="50")
+                .modal-footer
+                    button.btn.btn-success(type='button' id="votingAccept") Głosuj
+                    button(type="button" class="btn btn-link" data-dismiss="modal") Zamknij

@@ -1,0 +1,35 @@
+doctype html
+html
+    head
+        title= page_title
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
+        
+        link(rel="icon" type="image/png" href= config.website_favicon_url)
+
+        block stylesheets
+            link(href="/dashboard/css/bootstrap.min.css" rel="stylesheet")
+            link(href="/dashboard/css/custom.min.css" rel="stylesheet")
+            link(href="/dashboard/css/font-awesome.min.css" rel="stylesheet")
+            link(href="/dashboard/css/bootstrap-markdown.min.css" rel="stylesheet")
+            link(href="/dashboard/css/toastr.min.css" rel="stylesheet")
+        block scripts
+            script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+            script(src="/dashboard/js/popper.js")
+            script(src="/dashboard/js/bootstrap.min.js")
+            script(src='/dashboard/js/toastr.js')
+
+    body.nav-md
+        .container.body
+            .main_container
+                include partials/menu.pug
+                include partials/top-nav.pug
+
+                div(role="main" style="min-height: 1068px;").right_col
+                    div
+                        block content
+                footer
+                    .pull-right
+                        | Test footer
+
+    script(src='/dashboard/js/custom.min.js')

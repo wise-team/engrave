@@ -1,0 +1,80 @@
+extends website
+
+append scripts
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.js" async)
+    //- script(src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js" async)
+    script(src="//cdn.jsdelivr.net/npm/marked/marked.min.js" async)
+    script(src="/default/js/single.js" async)
+
+    link(href="//cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.css" rel="stylesheet")
+
+block content
+
+    meta(name="description", content= body_abbr)
+    input(type='hidden', id='permlink', value= permlink)
+    input(type='hidden', id='editorial', value= config.editorial_username)
+    if user
+        input(type='hidden', id='logged_user', value= user.name)
+    .row
+        if user
+            #voting
+                p#voting-counter= net_votes
+                #voting-loader
+                    i(class= voted ? "voted" : "" ).fa.fa-thumbs-up#voting-icon
+                p#voting-value
+                    | $
+                    = value
+        .col-lg-8
+            div(itemscope itemtype="http://schema.org/NewsArticle").single-post
+                meta(itemprop="mainEntityOfPage" content= "https://" + config.domain + "/" + permlink)
+                meta(itemprop="datePublished" content= moment(date).toISOString())
+                meta(itemprop="dateModified" content= moment(date).toISOString())
+                meta(itemprop="image" content= image)
+                meta(itemprop="headline" content= title)
+
+                include partials/metadata/publisher.pug
+
+                ul(itemscope itemtype="http://schema.org/BreadcrumbList").post-tags
+                    li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
+                        i.lnr.lnr-tag
+                        span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
+                            a(href="/kategoria/"+ category itemprop="url")
+                                span(itemprop="name")= category_fullname
+                    li
+                        i.lnr.lnr-clock
+                        = moment.utc(date).local().format('LLL')
+                h1= article_title
+                ul.post-tags
+                    li
+                        div(itemprop="author" itemscope itemtype="https://schema.org/Person") 
+                            i.lnr.lnr-user
+                            span
+                                a(href="/autor/" + root_author, itemprop="url")
+                                    span(itemprop="name")= root_author
+                    li
+                        i.lnr.lnr-bubble
+                        = translation.frontpage.comments_count + ': ' 
+                        = comments_quantity
+                    li
+                        i.lnr.lnr-thumbs-up
+                        = translation.frontpage.votes + ': ' 
+                        = net_votes
+                    li
+                        i.lnr.lnr-diamond
+                        = translation.frontpage.reward + ': $'
+                        = value
+                .text-boxes
+                    p!= body
+                    //- h2 Tagi
+                    //- ul.tags-list
+                    //-     each tag in tags
+                    //-         li
+                    //-             a(href="/kategoria/"+ tag)= tag
+            include partials/author.pug
+            include partials/comments.pug
+
+        .col-lg-4.sidebar-sticky
+            include partials/sidebar.pug
+            include partials/voting-modal.pug

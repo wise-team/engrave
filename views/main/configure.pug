@@ -1,0 +1,187 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    title Material Design Bootstrap
+    // Font Awesome
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    // Bootstrap core CSS
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    // Material Design Bootstrap
+    link(href='/css/mdb.min.css', rel='stylesheet')
+    // Your custom styles (optional)
+    link(href='/css/style.min.css', rel='stylesheet')
+  body
+    // Navbar
+    include partials/menu.pug
+    // Main layout
+    main.mt-5.pt-4
+      .container
+        h3.my-5.h3.text-center Choose your tier
+        // Grid row
+        .row.d-flex.justify-content-center
+          // Grid column
+          .col-md-8.text-center
+            p.mb-5
+              | Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo qui laboriosam nihil reiciendis fugit eius nostrum
+              | ipsum odio, voluptate debitis laborum perspiciatis voluptatibus? Culpa expedita rem totam eos fugit atque!
+          // Grid column
+        // Grid row
+        // Grid row
+        .row.text-center.wow.fadeIn
+          // Grid column
+          .col-lg-4.col-md-12.mb-4
+            // Card
+            .card
+              // Card header
+              .card-header
+                h4
+                  strong Basic
+              // Card content
+              .card-body
+                h3.card-title.pricing-card-title.mb-4
+                  | 5%
+                  small.text-muted  of your rewards
+                ol.list-unstyled.mb-4
+                  li
+                    | No deposit
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Custom domain name
+                    i.fa.fa-close.red-text.ml-1
+                  hr
+                  li
+                    | Free domain for one year
+                    i.fa.fa-close.red-text.ml-1
+                  hr
+                  li
+                    | Help center access
+                    i.fa.fa-close.red-text.ml-1
+                a.btn.btn-lg.btn-block.btn-primary(href='/create/5') Get started
+            // /.Card
+          // Grid column
+          // Grid column
+          .col-lg-4.col-md-6.mb-4
+            // Card
+            .card
+              // Card header
+              .card-header
+                h4
+                  strong Standard
+              // Card content
+              .card-body
+                h3.card-title.pricing-card-title.mb-4
+                  | 10%
+                  small.text-muted  of your rewards
+                ol.list-unstyled.mb-4
+                  li
+                    | No deposit
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Custom domain name
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Free domain for one year
+                    i.fa.fa-close.red-text.ml-1
+                  hr
+                  li
+                    | Help center access
+                    i.fa.fa-close.red-text.ml-1
+                a.btn.btn-lg.btn-block.btn-primary(href='/create/10') Get started
+            // /.Card
+          // Grid column
+          // Grid column
+          .col-lg-4.col-md-6.mb-4
+            // Card
+            .card
+              // Card header
+              .card-header
+                h4
+                  strong Extended
+              // Card content
+              .card-body
+                h3.card-title.pricing-card-title.mb-4
+                  | 15%
+                  small.text-muted  of your rewards
+                ol.list-unstyled.mb-4
+                  li
+                    | No deposit
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Custom domain name
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Free domain for one year
+                    i.fa.fa-check.green-text.ml-1
+                  hr
+                  li
+                    | Help center access
+                    i.fa.fa-close.red-text.ml-1
+                a.btn.btn-lg.btn-block.btn-primary(href='/create/15') Get started
+            // /.Card
+          // Grid column
+        // Grid row
+        // Grid row
+        .row.d-flex.justify-content-center
+          // Grid column
+          .col-md-8.text-center
+            p.mb-5
+              | You can always upgrade your tier in any time. The same with downgrading, but if you choose to use free domain, you will be charged 15% for at least one year.
+    // Main layout
+    // Footer
+    footer.page-footer.text-center.font-small.mt-5.wow.fadeIn
+      // Call to action
+      .pt-4
+        a.btn.btn-outline-white(href='https://mdbootstrap.com/getting-started/', role='button')
+          | Download MDB
+          i.fa.fa-download.ml-2
+        a.btn.btn-outline-white(href='https://mdbootstrap.com/bootstrap-tutorial/', role='button')
+          | Start free tutorial
+          i.fa.fa-graduation-cap.ml-2
+      // /.Call to action
+      hr.my-4
+      // Social icons
+      .pb-4
+        a(href='https://www.facebook.com/mdbootstrap')
+          i.fa.fa-facebook.mr-3
+        a(href='https://twitter.com/MDBootstrap')
+          i.fa.fa-twitter.mr-3
+        a(href='https://www.youtube.com/watch?v=7MUISDJ5ZZ4')
+          i.fa.fa-youtube.mr-3
+        a(href='https://plus.google.com/u/0/b/107863090883699620484')
+          i.fa.fa-google-plus.mr-3
+        a(href='https://dribbble.com/mdbootstrap')
+          i.fa.fa-dribbble.mr-3
+        a(href='https://pinterest.com/mdbootstrap')
+          i.fa.fa-pinterest.mr-3
+        a(href='https://github.com/mdbootstrap/bootstrap-material-design')
+          i.fa.fa-github.mr-3
+        a(href='http://codepen.io/mdbootstrap/')
+          i.fa.fa-codepen.mr-3
+      // Social icons
+      // Copyright
+      .footer-copyright.py-3
+        | © 2018 Copyright:
+        a(href='https://mdbootstrap.com/bootstrap-tutorial/')  MDBootstrap.com 
+      // /.Copyright
+    // /.Footer
+    // SCRIPTS
+    // JQuery
+    script(type='text/javascript', src='/js/jquery-3.2.1.min.js')
+    // Bootstrap tooltips
+    script(type='text/javascript', src='/js/popper.min.js')
+    // Bootstrap core JavaScript
+    script(type='text/javascript', src='/js/bootstrap.min.js')
+    // MDB core JavaScript
+    script(type='text/javascript', src='/js/mdb.min.js')
+    // Initializations
+    script(type='text/javascript').
+      // Animations initialization
+      new WOW().init();
