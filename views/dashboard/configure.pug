@@ -21,17 +21,18 @@ block body
                     .form-group
                       if blogger.tier == 15
                         label Add your domain
-                        input.form-control(name='domain', type='text', placeholder='example.com', value='')
+                        input.form-control(name='domain', type='text', placeholder='example.com', value='' required)
                       else if blogger.tier == 10
                         label Domain
-                        input.form-control(name='domain', type='text', placeholder='example.com', value='')
+                        input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       else
+                        //^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$
                         label Domain (disabled in this Tier)
                         input.form-control(name='domain', type='text', disabled='', placeholder='Domain', value= blogger.steem_username + '.engrave.site')
                   .col-md-6
                     .form-group
                       label E-mail
-                      input.form-control(name='email', type='email', placeholder='e-mail', value='')
+                      input.form-control(name='email', type='email', placeholder='e-mail', value='' required)
 
                 button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
                 .clearfix

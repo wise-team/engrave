@@ -97,7 +97,8 @@ router.get('/', (req, res, next) => {
                         created: Date(),
                         configured: false,
                         posts_per_category_page: 15,
-                        load_more_posts_quantity: 9
+                        load_more_posts_quantity: 9,
+                        author_image_url: ""
                     });
                     req.session.blogger = user;
                     user.save(function (err) {

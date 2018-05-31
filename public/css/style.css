@@ -28,3 +28,7 @@ body,
 /* Footer color for sake of consistency with Navbar */
 .page-footer {
   background-color: #1C2331; }
+
+  .modal-backdrop {
+    z-index: -1;
+  }

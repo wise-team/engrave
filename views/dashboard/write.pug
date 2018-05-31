@@ -5,7 +5,20 @@ append scripts
     script(src="/js/write.js")
 
 block body
+    #myModal1.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header.justify-content-center
+                    //- .modal-profile
+                    //-     i.nc-icon.nc-bulb-63
+                .modal-body.text-center
+                    p You are about to publish new blog post to Steem blockchain
+                    hr
+                    h4 Please be aware that you cannot delete it or change category later
 
+                .modal-footer
+                    button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
+                    button.btn.btn-link.btn-success.btn-fill#btn-accept(type='button') Yes, i want to publish it
     .content
         .container-fluid
             .row
@@ -62,17 +75,3 @@ block body
                             ul
                                 li Never show your steem account keys to anyone
                                 li User popular tags, but not if they are unintended
-                #myModal1.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
-                    .modal-dialog
-                        .modal-content
-                            .modal-header.justify-content-center
-                                //- .modal-profile
-                                //-     i.nc-icon.nc-bulb-63
-                            .modal-body.text-center
-                                p You are about to publish new blog post to Steem blockchain
-                                hr
-                                h4 Please be aware that you cannot delete it or change category later
-
-                            .modal-footer
-                                button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
-                                button.btn.btn-link.btn-success.btn-fill#btn-accept(type='button') Yes, i want to publish it
