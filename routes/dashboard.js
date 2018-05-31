@@ -33,7 +33,12 @@ function isLoggedAndConfigured(req, res, next) {
 }
 
 router.get('/configure', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/configure.pug', {blogger: req.session.blogger, url: 'configure'});
+    if(!req.session.blogger.configured) {
+        res.render('dashboard/configure.pug', {blogger: req.session.blogger, url: 'configure'});
+    } else {
+        res.redirect('/dashboard');
+    }
+    
 });
 
 router.get('/', isLoggedAndConfigured, (req, res) => {
@@ -62,6 +67,10 @@ router.get('/posts', isLoggedAndConfigured, (req, res) => {
 
 router.get('/wallet', isLoggedAndConfigured, (req, res) => {
     res.render('dashboard/wallet.pug', {blogger: req.session.blogger, url: 'wallet'}); 
+});
+
+router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
+    res.render('dashboard/upgrade.pug', {blogger: req.session.blogger, url: 'upgrade'}); 
 });
 
 
@@ -174,6 +183,32 @@ router.post('/settings', isLoggedAndConfigured, (req, res) => {
     Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
         if(!err && blog) {
             copySettings(settings, blog);
+            blog.save(function(err){
+                if(!err) {
+                    res.json({ success: "Ustawienia zapisane poprawnie"});
+                } else {
+                    res.json({ error: "Wystąpił jakiś błąd..."});
+                }
+            })
+        } else {
+            res.json({ error: "Wystąpił jakiś błąd..."});
+        }
+    });    
+}); 
+
+router.post('/profile', isLoggedAndConfigured, (req, res) => {
+    
+    let profile = req.body;
+
+    console.log(profile);
+
+    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+        if(!err && blog) {
+            blog.author_name = profile.author_name;
+            blog.author_surname = profile.author_surname;
+            blog.author_bio = profile.author_bio;
+            blog.author_image_url = profile.author_image_url;
+            // blog.email = profile.email
             blog.save(function(err){
                 if(!err) {
                     res.json({ success: "Ustawienia zapisane poprawnie"});

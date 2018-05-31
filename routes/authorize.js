@@ -95,8 +95,9 @@ router.get('/', (req, res, next) => {
                     user =  new Blogs({
                         steem_username: req.session.steemconnect.name,
                         created: Date(),
-                        email: 'bgor912@gmail.com',
-                        configured: false
+                        configured: false,
+                        posts_per_category_page: 15,
+                        load_more_posts_quantity: 9
                     });
                     req.session.blogger = user;
                     user.save(function (err) {

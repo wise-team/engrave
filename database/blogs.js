@@ -18,6 +18,7 @@ let blogSchema = new Schema({
     author_name: String,
     author_surname: String,
     author_bio: String,
+    author_image_url: String,
 
     link_facebook: String,
     link_twitter: String,

@@ -1,5 +1,9 @@
 extends website.pug
 
+append scripts
+  script(src="/js/parsley.min.js")
+  script(src="/js/profile.js")
+
 block body
   .content
     .container-fluid
@@ -9,52 +13,31 @@ block body
             .card-header
               h4.card-title Edit your profile
             .card-body
-              form
+              form#profile
                 .row
-                  //- .col-md-5.pr-1
-                  //-   .form-group
-                  //-     label Domain (disabled)
-                  //-     input.form-control(type='text', disabled='', placeholder='Domain', value='technocracy.blog')
-                  //- .col-md-3.px-1
-                  //-   .form-group
-                  //-     label Username
-                  //-     input.form-control(type='text', disabled='', placeholder='Username', value='ocisly')
                   .col-md-4
                     .form-group
-                      label(for='exampleInputEmail1') Email address
-                      input.form-control(type='email', placeholder='Email')
+                      label Email address
+                      input.form-control(disabled=true, name="email", type='email', placeholder='Email', value= blogger.email)
                 .row
                   .col-md-6.pr-1
                     .form-group
                       label First Name
-                      input.form-control(type='text', placeholder='Company', value='Mike')
+                      input.form-control(name='author_name', type='text', placeholder='Company', value= blogger.author_name)
                   .col-md-6.pl-1
                     .form-group
                       label Last Name
-                      input.form-control(type='text', placeholder='Last Name', value='Andrew')
+                      input.form-control(name='author_surname', type='text', placeholder='Last Name', value= blogger.author_surname)
                 .row
                   .col-md-12
                     .form-group
-                      label Address
-                      input.form-control(type='text', placeholder='Home Address', value='Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09')
-                .row
-                  .col-md-4.pr-1
-                    .form-group
-                      label City
-                      input.form-control(type='text', placeholder='City', value='Mike')
-                  .col-md-4.px-1
-                    .form-group
-                      label Country
-                      input.form-control(type='text', placeholder='Country', value='Andrew')
-                  .col-md-4.pl-1
-                    .form-group
-                      label Postal Code
-                      input.form-control(type='number', placeholder='ZIP Code')
+                      label Profile image URL
+                      input.form-control(type='text', name='author_image_url', placeholder='https://...', value= blogger.author_image_url)
                 .row
                   .col-md-12
                     .form-group
                       label About Me
-                      textarea.form-control(rows='4', cols='80', placeholder='Here can be your description', value='Mike') Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.
+                      textarea.form-control(name='author_bio', rows='4', placeholder='Here can be your description', style="height:auto !important;")= blogger.author_bio
                 button.btn.btn-info.btn-fill.pull-right(type='submit') Update Profile
                 .clearfix
         .col-md-4
@@ -63,17 +46,13 @@ block body
               img(src='https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400', alt='...')
             .card-body
               .author
-                a(href='#')
-                  img.avatar.border-gray(src='https://i.imgur.com/dmQmTxv.jpg', alt='...')
-                  h5.title Julia Barkowska
+                a(href='')
+                  img.avatar.border-gray(src= blogger.author_image_url != '' ? blogger.author_image_url : '/img/default-person.jpg', alt='...')
+                  h5.title= blogger.author_name + ' ' + blogger.author_surname
                 p.description
-                  | @ocisly
+                  = '@' + blogger.steem_username
               p.description.text-center
-                | "In Elon we Trust
-                br
-                |  His our master
-                br
-                |  I'm in that two seat Lambo"
+                = blogger.author_bio
             hr
             .button-container.mr-auto.ml-auto
               button.btn.btn-simple.btn-link.btn-icon(href='#')

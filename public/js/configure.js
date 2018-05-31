@@ -27,7 +27,10 @@ $(document).ready(function () {
                         }
                     });
 
-                    location.reload();
+                    setTimeout(function(){
+                        location.reload(true);
+                    }, 1500);
+                    // location.reload(true);
 
                 } else if (data.error) {
                     $.notify({
