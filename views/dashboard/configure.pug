@@ -1,11 +1,37 @@
 extends website.pug
-  
+
+append scripts
+  script(src="/js/parsley.min.js")
+  script(src="/js/configure.js")
+
 block body
   .content
     .container-fluid
       .row
-        .col-md-12
+        .col-md-6
           .card
             .card-header
               h4.card-title Your blog is almost ready
+              span We just need few more informations
+              hr
             .card-body
+              form#configure
+                .row
+                  .col-md-6
+                    .form-group
+                      if blogger.tier == 15
+                        label Add your domain
+                        input.form-control(name='domain', type='text', placeholder='example.com', value='')
+                      else if blogger.tier == 10
+                        label Domain
+                        input.form-control(name='domain', type='text', placeholder='example.com', value='')
+                      else
+                        label Domain (disabled in this Tier)
+                        input.form-control(name='domain', type='text', disabled='', placeholder='Domain', value= blogger.steem_username + '.engrave.site')
+                  .col-md-6
+                    .form-group
+                      label E-mail
+                      input.form-control(name='email', type='email', placeholder='e-mail', value='')
+
+                button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
+                .clearfix

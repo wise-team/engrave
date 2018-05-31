@@ -2,6 +2,7 @@ let express = require('express');
 let steem = require('../modules/steemconnect')
 let router = express.Router();
 var getSlug = require('speakingurl');
+var config = require('../config');
 
 let Blogs = require('../database/blogs.js');
 
@@ -44,24 +45,28 @@ router.get('/profile', isLoggedAndConfigured, (req, res) => {
 });
 
 router.get('/settings', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/settings.pug', {blogger: blogger, url: 'settings'}); 
+    res.render('dashboard/settings.pug', {blogger: req.session.blogger, url: 'settings'}); 
 });
 
 router.get('/write', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/write.pug', {blogger: blogger, url: 'write'}); 
+    res.render('dashboard/write.pug', {blogger: req.session.blogger, url: 'write'}); 
 });
 
 router.get('/notifications', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/notifications.pug', {blogger: blogger, url: 'notifications'}); 
+    res.render('dashboard/notifications.pug', {blogger: req.session.blogger, url: 'notifications'}); 
 });
 
 router.get('/posts', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/posts.pug', {blogger: blogger, url: 'posts'}); 
+    res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts'}); 
 });
 
 router.get('/wallet', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/wallet.pug', {blogger: blogger, url: 'wallet'}); 
+    res.render('dashboard/wallet.pug', {blogger: req.session.blogger, url: 'wallet'}); 
 });
+
+
+
+/////// POST REQUESTS
 
 router.post('/publish', (req, res) => {
     
@@ -125,6 +130,41 @@ router.post('/publish', (req, res) => {
 
 }); 
 
+router.post('/configure/finish', (req, res) => {
+    
+    let configuration = req.body;
+
+    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+        if(!err && blog) {
+            if(!blog.configured) {
+                blog.configured = true;
+                blog.email = configuration.email;
+                if(blog.tier == 5) {
+                    blog.domain = req.session.steemconnect.name + '.' + config.domain;
+                } else if (blog.tier == 10 || blog.tier == 15) {
+                    blog.domain = configuration.domain;
+                }
+
+                blog.save(function(err) {
+                    if(err) {
+                        console.log(err);
+                        res.json({ error: "Wystąpił błąd podczas konfiguracji"});
+                    } else {
+                        res.json({ success: "Konfiguracja zakończona!"});
+                    }
+                });
+                
+            } else {
+                res.json({ error: "Już skonfigurowano! Nie oszukuj!"});
+            }
+        } else {
+            res.json({ error: "Wystąpił błąd podczas konfiguracji"});
+        }
+    });
+
+    console.log(configuration);
+}); 
+
 router.post('/settings', (req, res) => {
     
     let settings = req.body;
@@ -132,18 +172,6 @@ router.post('/settings', (req, res) => {
     console.log(settings);
 
     res.json({ success: "Ogarniemy później"});
-
-    // steem.setAccessToken(req.session.access_token);
-    // steem.comment('', 'test2', req.session.steemconnect.name, 'test-te2stowu', article.title,  article.body, "", (err, steemResponse) => {
-    //     if(err) {
-    //         console.log(err);
-    //         var errorstring = err.error_description.split('\n');
-    //         res.json({ error: errorstring[0]});
-    //     } else {
-    //         console.log("Article posted on steem");
-    //         res.json({ success: "Artykuł został opublikowany"});
-    //     }
-    // });
 }); 
 
 module.exports = router;

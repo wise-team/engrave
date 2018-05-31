@@ -16,7 +16,7 @@ router.get('/logout', (req, res) => {
 
 });
 
-router.get('/5', (req, res) => {
+router.get('/tier/5', (req, res) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -34,7 +34,7 @@ router.get('/5', (req, res) => {
     }
 });
 
-router.get('/10', (req, res) => {
+router.get('/tier/10', (req, res) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -52,7 +52,7 @@ router.get('/10', (req, res) => {
     }
 });
 
-router.get('/15', (req, res) => {
+router.get('/tier/15', (req, res) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -84,6 +84,7 @@ router.get('/', (req, res, next) => {
 
             Blogs.findOne({ steem_username: req.session.steemconnect.name}, function (err, user) {
                 if(user) {
+                    req.session.blogger = user;
                     console.log("Witamy ponownie: ", user.steem_username);
                     if(user.tier) {
                         res.redirect('/dashboard');
@@ -97,6 +98,7 @@ router.get('/', (req, res, next) => {
                         email: 'bgor912@gmail.com',
                         configured: false
                     });
+                    req.session.blogger = user;
                     user.save(function (err) {
                         if(err) {
                             console.log("Jakiś błąd podczas zapisu nowego użytkownika");
