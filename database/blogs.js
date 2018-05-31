@@ -8,12 +8,9 @@ let blogSchema = new Schema({
     steem_username: String,
     email: String,
     port: Number,
-    created: Date,
-
     domain: String,
-
+    created: Date,
     tier: Number,
-
     configured: Boolean,
     
     deployed: Boolean,
@@ -31,17 +28,22 @@ let blogSchema = new Schema({
     blog_slogan: String,
     blog_logo_url: String,
 
-    opengraph_default_image: String,
+    opengraph_default_image_url: String,
     opengraph_default_description: String,
 
-    onesignal_id: String,
-    onesignal_apikey: String,
+    onesignal_app_id: String,
+    onesignal_api_key: String,
     onesignal_body_length: Number,
+    onesignal_logo_url: String,
 
     analytics_gtag: String,
     webmastertools_id: String,
-
+    frontpage_language: String,
     theme: String,
+    show_only_categorized_posts: Boolean,
+
+    posts_per_category_page: Number,
+    load_more_posts_quantity: Number,
 
     categories: [
         {

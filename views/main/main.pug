@@ -1,378 +1,210 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    meta(http-equiv='x-ua-compatible', content='ie=edge')
-    title ENGRAVE - Steem powered blogging system
-    // Font Awesome
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
-    // Bootstrap core CSS
-    link(href='/css/bootstrap.min.css', rel='stylesheet')
-    // Material Design Bootstrap
-    link(href='/css/mdb.min.css', rel='stylesheet')
-    // Your custom styles (optional)
-    link(href='/css/style.min.css', rel='stylesheet')
-    style(type='text/css').
-      @media (min-width: 800px) and (max-width: 850px) {
-      .navbar:not(.top-nav-collapse) {
-      background: #1C2331!important;
-      }
-      }
-  body
-    // Navbar
-    include partials/menu.pug
-    // Carousel Wrapper
-    #carousel-example-1z.carousel.slide.carousel-fade(data-ride='carousel')
-      // Slides
-      .carousel-inner(role='listbox')
-        // First slide
-        .carousel-item.active
-          .view(style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg'); background-repeat: no-repeat; background-size: cover;")
-            // Mask & flexbox options
-            .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
-              // Content
-              .text-center.white-text.mx-5.wow.fadeIn
-                h1.mb-4
-                  strong Create blog and start earning money in three simple steps
-                p
-                  strong With Steem blockchain technology
-                p.mb-4.d-none.d-md-block
-                  strong
-                    | Steem is one of the most dynamics blockchain projects. Collect STEEM and SBD tokens by just posting your blog articles.
-                a.btn.btn-outline-white.btn-lg(href='/create')
-                  | CREATE YOUR OWN BLOG
-                  i.fa.fa-graduation-cap.ml-2
-              // Content
-            // Mask & flexbox options
-        // /First slide
-      // /.Slides
-    // /.Carousel Wrapper
-    // Main layout
-    main
-      .container
-        // Section: Main info
-        section.mt-5.wow.fadeIn
-          // Grid row
-          .row
-            // Grid column
-            .col-md-6.mb-4
-              img.img-fluid.z-depth-1-half(src='https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg', alt='')
-            // Grid column
-            // Grid column
-            .col-md-6.mb-4
-              // Main heading
-              h3.h3.mb-3 Steem powered blogging platform
+extends website.pug
+
+block body
+  #carousel-example-1z.carousel.slide.carousel-fade(data-ride='carousel')
+    .carousel-inner(role='listbox')
+      .carousel-item.active
+        .view(style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/77.jpg'); background-repeat: no-repeat; background-size: cover;")
+          .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
+            .text-center.white-text.mx-5.wow.fadeIn
+              h1.mb-4
+                strong Create blog and start earning money in three simple steps
               p
-                | Aren't you bored by investing your work and time in creating non-returning blog or website? Start making money easily by just posting high quality articles.
-              // Main heading
-              hr
-              p
-                | Tiploo is 
-                strong free and easy
-                |  to use. You can choose your website's design from 
-                strong 3 modern and nice-looking
-                |  templates. You won't pay anything unless you earn something. And if so, everything will be settled-up automatically!
-              // CTA
-              a.btn.btn-grey.btn-md(href='#')
-                | See example
-                i.fa.fa-retweet.ml-1
-              a.btn.btn-grey.btn-md(href='#')
-                | Create blog
-                i.fa.fa-image.ml-1
-            // Grid column
-          // Grid row
-        // Section: Main info
-        hr.my-5
-        // Section: Main features & Quick Start
-        section
-          h3.h3.text-center.mb-5 About ENGRAVE
-          // Grid row
-          .row.wow.fadeIn
-            // Grid column
-            .col-lg-6.col-md-12.px-4
-              // First row
-              .row
-                .col-1.mr-3
-                  i.fa.fa-code.fa-2x.indigo-text
-                .col-10
-                  h5.feature-title Steem Blockchain
-                  p.grey-text
-                    | All content is stored directly in Steem blockchain. You don't need to own any dedicated server or other hosting
-              // /First row
-              div(style='height:30px')
-              // Second row
-              .row
-                .col-1.mr-3
-                  i.fa.fa-book.fa-2x.blue-text
-                .col-10
-                  h5.feature-title User targeted
-                  p.grey-text
-                    | Simple but powerfull website templates with integrated Steem accounts handling. Let your readers interact with your content easy and secure
-              // /Second row
-              div(style='height:30px')
-              // Third row
-              .row
-                .col-1.mr-3
-                  i.fa.fa-graduation-cap.fa-2x.cyan-text
-                .col-10
-                  h5.feature-title SEO friendly
-                  p.grey-text
-                    | Be visible on the web. SEO powered templates will boost your position on search engines results
-              // /Third row
-            // /Grid column
-            // Grid column
-            .col-lg-6.col-md-12
-              p.h5.text-center.mb-4 Watch our "3 steps Quick Start" tutorial
-              .embed-responsive.embed-responsive-16by9
-                iframe.embed-responsive-item(src='https://www.youtube.com/embed/cXTThxoywNQ', allowfullscreen='')
-            // /Grid column
-          // /Grid row
-        // Section: Main features & Quick Start
-        hr.my-5
-        // Section: Not enough
-        section
-          h2.my-5.h3.text-center Not enough?
-          // First row
-          .row.features-small.mb-5.mt-3.wow.fadeIn
-            // First column
-            .col-md-4
-              // First row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Easy installation
-                  p.grey-text
-                    | You can create your own blog with just few clicks in three simple steps
-                  div(style='height:15px')
-              // /First row
-              // Second row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Admin dashboard
-                  p.grey-text
-                    | Configure everything and create articles in one place
-                  div(style='height:15px')
-              // /Second row
-              // Third row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Free *.com domain
-                  p.grey-text For highest tier you can request .com domain for one year. Totally for free!
-                  div(style='height:15px')
-              // /Third row
-              // Fourth row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Fully responsive
-                  p.grey-text
-                    | It doesn't matter whether your project will be displayed on desktop, laptop, tablet or mobile phone
-                  div(style='height:15px')
-              // /Fourth row
-            // /First column
-            // Second column
-            .col-md-4.flex-center
-              img.z-depth-0.img-fluid(src='https://mdbootstrap.com/img/Others/screens.png', alt='MDB Magazine Template displayed on iPhone')
-            // /Second column
-            // Third column
-            .col-md-4.mt-2
-              // First row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Blog with your domain
-                  p.grey-text
-                    | If you own a domain, you can easily use it to create blog without any charge
-                  div(style='height:15px')
-              // /First row
-              // Second row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Useful templates
-                  p.grey-text Modern and nice looking templates will help you create your ideal blog
-                  div(style='height:15px')
-              // /Second row
-              // Third row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title No deposit
-                  p.grey-text
-                    | Don't pay for anything! We will took few percents from your articles rewards
-                  div(style='height:15px')
-              // /Third row
-              // Fourth row
-              .row
-                .col-2
-                  i.fa.fa-check-circle.fa-2x.indigo-text
-                .col-10
-                  h6.feature-title Track blockchain operations
-                  p.grey-text You will see every interaction on your dashboard panel. You won't miss anything
-                  div(style='height:15px')
-              // /Fourth row
-            // /Third column
-          // /First row
-        // Section: Not enough
-        hr.mb-5
-        // Section: More
-        section
-          h2.my-5.h3.text-center ...and even more
-          // First row
-          .row.features-small.mt-5.wow.fadeIn
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-firefox.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2.pl-3
-                  h5.feature-title.font-bold.mb-1 Cross-browser compatibility
-                  p.grey-text.mt-2
-                    | Chrome, Firefox, IE, Safari, Opera, Microsoft Edge - ENGRAVE loves all browsers; all browsers love ENGRAVE.
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-level-up.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Frequent updates
-                  p.grey-text.mt-2
-                    | ENGRAVE becomes better every month. We love the project and enhance as much as possible.
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-comments-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Active community
-                  p.grey-text.mt-2
-                    | Steem society grows day by day. Creating high quality websites will boost it even more.
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-code.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Responsive
-                  p.grey-text.mt-2
-                    | All templates are fully responsive so your blog will look good even on mobile phones.
-              // /Grid row
-            // /Grid column
-          // /First row
-          // Second row
-          .row.features-small.mt-4.wow.fadeIn
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-cubes.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Customizable
-                  p.grey-text.mt-2 You can configure your website easily by using admin dashboard.
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-question.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Technical support
-                  p.grey-text.mt-2
-                    | We care about reliability. If you have any questions - do not hesitate to contact us.
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-th.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Expandable
-                  p.grey-text.mt-2 We would love to hear your ideas and new features requests. Just contact us!
-              // /Grid row
-            // /Grid column
-            // Grid column
-            .col-xl-3.col-lg-6
-              // Grid row
-              .row
-                .col-2
-                  i.fa.fa-file-code-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
-                .col-10.mb-2
-                  h5.feature-title.font-bold.mb-1 Custom templates
-                  p.grey-text.mt-2 We can create new powerfull template specially for you. We just need to talk.
-              // /Grid row
-            // /Grid column
-          // /Second row
-        // Section: More
-    // Main layout
-    // Footer
-    footer.page-footer.text-center.font-small.mt-4.wow.fadeIn
-      // Call to action
-      .pt-4
-        a.btn.btn-outline-white(href='/create', role='button')
-          | Create your own blog
-          i.fa.fa-graduation-cap.ml-2
-      // /.Call to action
-      hr.my-4
-      // Social icons
-      .pb-4
-        a(href='#')
-          i.fa.fa-facebook.mr-3
-        a(href='#')
-          i.fa.fa-twitter.mr-3
-        a(href='#')
-          i.fa.fa-youtube.mr-3
-        a(href='#')
-          i.fa.fa-google-plus.mr-3
-        a(href='#')
-          i.fa.fa-dribbble.mr-3
-        a(href='#')
-          i.fa.fa-pinterest.mr-3
-        a(href='#')
-          i.fa.fa-github.mr-3
-        a(href='#')
-          i.fa.fa-codepen.mr-3
-      // Social icons
-      // Copyright
-      .footer-copyright.py-3
-        | © 2018 Copyright:
-        a(href='https://tiploo.io')  Tiploo.io 
-      // /.Copyright
-    // /.Footer
-    // SCRIPTS
-    // JQuery
-    script(type='text/javascript', src='js/jquery-3.2.1.min.js')
-    // Bootstrap tooltips
-    script(type='text/javascript', src='js/popper.min.js')
-    // Bootstrap core JavaScript
-    script(type='text/javascript', src='js/bootstrap.min.js')
-    // MDB core JavaScript
-    script(type='text/javascript', src='js/mdb.min.js')
-    // Initializations
-    script(type='text/javascript').
-      // Animations initialization
-      new WOW().init();
+                strong With Steem blockchain technology
+              p.mb-4.d-none.d-md-block
+                strong
+                  | Steem is one of the most dynamics blockchain projects. Collect STEEM and SBD tokens by just posting your blog articles.
+              a.btn.btn-outline-white.btn-lg(href='/create')
+                | CREATE YOUR OWN BLOG
+                i.fa.fa-graduation-cap.ml-2
+  main
+    .container
+      section.mt-5.wow.fadeIn
+        .row
+          .col-md-6.mb-4
+            img.img-fluid.z-depth-1-half(src='https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg', alt='')
+          .col-md-6.mb-4
+            h3.h3.mb-3 Steem powered blogging platform
+            p
+              | Aren't you bored by investing your work and time in creating non-returning blog or website? Start making money easily by just posting high quality articles.
+            hr
+            p
+              | Tiploo is 
+              strong free and easy
+              |  to use. You can choose your website's design from 
+              strong 3 modern and nice-looking
+              |  templates. You won't pay anything unless you earn something. And if so, everything will be settled-up automatically!
+            a.btn.btn-grey.btn-md(href='#')
+              | See example
+              i.fa.fa-retweet.ml-1
+            a.btn.btn-grey.btn-md(href='#')
+              | Create blog
+              i.fa.fa-image.ml-1
+      hr.my-5
+      section
+        h3.h3.text-center.mb-5 About ENGRAVE
+        .row.wow.fadeIn
+          .col-lg-6.col-md-12.px-4
+            .row
+              .col-1.mr-3
+                i.fa.fa-code.fa-2x.indigo-text
+              .col-10
+                h5.feature-title Steem Blockchain
+                p.grey-text
+                  | All content is stored directly in Steem blockchain. You don't need to own any dedicated server or other hosting
+            div(style='height:30px')
+            .row
+              .col-1.mr-3
+                i.fa.fa-book.fa-2x.blue-text
+              .col-10
+                h5.feature-title User targeted
+                p.grey-text
+                  | Simple but powerfull website templates with integrated Steem accounts handling. Let your readers interact with your content easy and secure
+            div(style='height:30px')
+            .row
+              .col-1.mr-3
+                i.fa.fa-graduation-cap.fa-2x.cyan-text
+              .col-10
+                h5.feature-title SEO friendly
+                p.grey-text
+                  | Be visible on the web. SEO powered templates will boost your position on search engines results
+          .col-lg-6.col-md-12
+            p.h5.text-center.mb-4 Watch our "3 steps Quick Start" tutorial
+            .embed-responsive.embed-responsive-16by9
+              iframe.embed-responsive-item(src='https://www.youtube.com/embed/cXTThxoywNQ', allowfullscreen='')
+
+      hr.my-5
+      section
+        h2.my-5.h3.text-center Not enough?
+        .row.features-small.mb-5.mt-3.wow.fadeIn
+          .col-md-4
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Easy installation
+                p.grey-text
+                  | You can create your own blog with just few clicks in three simple steps
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Admin dashboard
+                p.grey-text
+                  | Configure everything and create articles in one place
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Free *.com domain
+                p.grey-text For highest tier you can request .com domain for one year. Totally for free!
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Fully responsive
+                p.grey-text
+                  | It doesn't matter whether your project will be displayed on desktop, laptop, tablet or mobile phone
+                div(style='height:15px')
+          .col-md-4.flex-center
+            img.z-depth-0.img-fluid(src='https://mdbootstrap.com/img/Others/screens.png', alt='MDB Magazine Template displayed on iPhone')
+          .col-md-4.mt-2
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Blog with your domain
+                p.grey-text
+                  | If you own a domain, you can easily use it to create blog without any charge
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Useful templates
+                p.grey-text Modern and nice looking templates will help you create your ideal blog
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title No deposit
+                p.grey-text
+                  | Don't pay for anything! We will took few percents from your articles rewards
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Track blockchain operations
+                p.grey-text You will see every interaction on your dashboard panel. You won't miss anything
+                div(style='height:15px')
+      hr.mb-5
+      section
+        h2.my-5.h3.text-center ...and even more
+        .row.features-small.mt-5.wow.fadeIn
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-firefox.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Cross-browser compatibility
+                p.grey-text.mt-2
+                  | Chrome, Firefox, IE, Safari, Opera, Microsoft Edge - ENGRAVE loves all browsers; all browsers love ENGRAVE.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-level-up.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Frequent updates
+                p.grey-text.mt-2
+                  | ENGRAVE becomes better every month. We love the project and enhance as much as possible.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-comments-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Active community
+                p.grey-text.mt-2
+                  | Steem society grows day by day. Creating high quality websites will boost it even more.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-code.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Responsive
+                p.grey-text.mt-2
+                  | All templates are fully responsive so your blog will look good even on mobile phones.
+        .row.features-small.mt-4.wow.fadeIn
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-cubes.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Customizable
+                p.grey-text.mt-2 You can configure your website easily by using admin dashboard.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-question.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Technical support
+                p.grey-text.mt-2
+                  | We care about reliability. If you have any questions - do not hesitate to contact us.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-th.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Expandable
+                p.grey-text.mt-2 We would love to hear your ideas and new features requests. Just contact us!
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-file-code-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Custom templates
+                p.grey-text.mt-2 We can create new powerfull template specially for you. We just need to talk.

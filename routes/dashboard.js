@@ -165,13 +165,45 @@ router.post('/configure/finish', (req, res) => {
     console.log(configuration);
 }); 
 
-router.post('/settings', (req, res) => {
+router.post('/settings', isLoggedAndConfigured, (req, res) => {
     
     let settings = req.body;
 
     console.log(settings);
 
-    res.json({ success: "Ogarniemy później"});
+    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+        if(!err && blog) {
+            copySettings(settings, blog);
+            blog.save(function(err){
+                if(!err) {
+                    res.json({ success: "Ustawienia zapisane poprawnie"});
+                } else {
+                    res.json({ error: "Wystąpił jakiś błąd..."});
+                }
+            })
+        } else {
+            res.json({ error: "Wystąpił jakiś błąd..."});
+        }
+    });    
 }); 
+
+function copySettings(new_settings, oldsettings) {
+    oldsettings.blog_title = new_settings.blog_title
+    oldsettings.blog_slogan = new_settings.blog_slogan;
+    oldsettings.blog_logo_url = new_settings.blog_logo_url;
+    oldsettings.theme = new_settings.theme;
+    oldsettings.frontpage_language = new_settings.frontpage_language;
+    oldsettings.posts_per_category_page = new_settings.posts_per_category_page;
+    oldsettings.load_more_posts_quantity = new_settings.load_more_posts_quantity;
+    // oldsettings.show_only_categorized_posts = new_settings.show_only_categorized_posts;
+    oldsettings.opengraph_default_description = new_settings.opengraph_default_description;
+    oldsettings.opengraph_default_image_url = new_settings.opengraph_default_image_url;
+    oldsettings.onesignal_app_id = new_settings.onesignal_app_id;
+    oldsettings.onesignal_api_key = new_settings.onesignal_api_key;
+    oldsettings.onesignal_logo_url = new_settings.onesignal_logo_url;
+    oldsettings.onesignal_body_length = new_settings.onesignal_body_length;
+    oldsettings.analytics_gtag = new_settings.analytics_gtag;
+    oldsettings.webmastertools_id = new_settings.webmastertools_id;
+}
 
 module.exports = router;
