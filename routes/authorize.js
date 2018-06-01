@@ -111,27 +111,11 @@ router.get('/', (req, res, next) => {
                             console.log("Dodano nowego użytkownika do bazy: " + user.steem_username)
 
                             res.redirect('/configure');
-
- 
-                            // nginx.generateCustomDomainConfig('muskindustries.space', user.port, function (err) {
-                            //     if(err) {
-                            //         console.log(err);
-                            //     } else {
-                            //         nodeapps.createAndRun('muskindustries.space', user.port);
-                            //     }
-                            // })
-
-                            // todo create pm2 ecosystem and blogs routing for nginx
                         }
                     })
                 }
             })
 
-            // if (req.session.current_url) {
-            //     res.redirect('/' + req.session.current_url);
-            // } else {
-            //     res.redirect('/dashboard');
-            // }
         });
     }
 });

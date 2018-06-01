@@ -5,7 +5,7 @@ let path = require('path');
 
 var pm2 = require('pm2');
 
-module.exports.createAndRun = (domain, port) => {
+module.exports.createAndRun = (domain, port, steem_username) => {
     pm2.connect(function (err) {
         if (err) {
             console.error(err);
@@ -23,6 +23,7 @@ module.exports.createAndRun = (domain, port) => {
                     watch: true,
                     env: {
                         PORT: port,
+                        EDITORIAL_STEEM_USERNAME: steem_username,
                         NODE_ENV: "development"
                     },
                 }]

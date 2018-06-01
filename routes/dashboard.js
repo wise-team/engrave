@@ -213,7 +213,7 @@ router.post('/configure/finish', (req, res) => {
                                 if(err) {
                                     console.log(err);
                                 } else {
-                                    nodeapps.createAndRun(blog.domain, blog.port);
+                                    nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
                                 }
                             });
                         } else if (blog.tier == 10 || blog.tier == 15) {
@@ -221,7 +221,7 @@ router.post('/configure/finish', (req, res) => {
                                 if(err) {
                                     console.log(err);
                                 } else {
-                                    nodeapps.createAndRun(blog.domain, blog.port);
+                                    nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
                                 }
                             });
                         }
