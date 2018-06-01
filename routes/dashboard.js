@@ -209,7 +209,13 @@ router.post('/configure/finish', (req, res) => {
                         res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                     } else {
                         if(blog.tier == 5) {
-
+                            nginx.generateSubdomainConfig(blog.domain, blog.port, function (err) {
+                                if(err) {
+                                    console.log(err);
+                                } else {
+                                    nodeapps.createAndRun(blog.domain, blog.port);
+                                }
+                            });
                         } else if (blog.tier == 10 || blog.tier == 15) {
                             nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
                                 if(err) {
@@ -217,7 +223,7 @@ router.post('/configure/finish', (req, res) => {
                                 } else {
                                     nodeapps.createAndRun(blog.domain, blog.port);
                                 }
-                            })
+                            });
                         }
                         
                         res.json({ success: "Konfiguracja zakończona!"});
