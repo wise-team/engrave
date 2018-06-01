@@ -44,9 +44,8 @@ block body
                                         .form-group
                                             label Category
                                             select.form-control(name='category')
-                                                option Technology
-                                                option Space
-                                                option Science
+                                                each category in blogger.categories 
+                                                    option= category.name
                                 .row
                                     .col-md-12
                                         .form-group

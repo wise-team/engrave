@@ -6,10 +6,10 @@ let subdomain_template = 'server {\r\n\tserver_name EXAMPLE;\r\n\treturn 301 htt
 let domain_template = 'server {\n\tlisten 80;\n\n\tserver_name EXAMPLE www.EXAMPLE;\n\nlocation \/ {\n\tproxy_pass http:\/\/localhost:PORT;\n\tproxy_http_version 1.1;\n\tproxy_set_header Upgrade $http_upgrade;\n\tproxy_set_header Connection \'upgrade\';\n\tproxy_set_header Host $host;\n\tproxy_cache_bypass $http_upgrade;\n   }\n}\n\n';
 
 module.exports.generateSubdomainConfig = (subdomain, port, cb) => {
-    let tmp1 = subdomain_template.replace(/EXAMPLE/g, subdomain + '.muskindustries.space');
+    let tmp1 = subdomain_template.replace(/EXAMPLE/g, subdomain + '.engrave.website');
     let tmp2 = tmp1.replace(/PORT/g, port);
 
-    fs.writeFile(subdomain + '.muskindustries.space', tmp2, (err) => {
+    fs.writeFile(subdomain + '.engrave.website', tmp2, (err) => {
         if (!err) {
             console.log('The file has been saved!');
         }
@@ -18,7 +18,6 @@ module.exports.generateSubdomainConfig = (subdomain, port, cb) => {
             cb(err);
         }
     });
-
 };
 
 module.exports.generateCustomDomainConfig = (domain, port, cb) => {

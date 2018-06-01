@@ -9,7 +9,7 @@ block body
     .container-fluid
       form#settings
         .row
-          .col-md-8
+          .col-md-8.sm-12
             .card
               .card-body
                 .row
@@ -29,16 +29,16 @@ block body
                     .col-md-6
                       .form-group
                         label Website title
-                        input.form-control(name='blog_title', type='text', placeholder='Website title', value= blogger.blog_title)
+                        input.form-control(name='blog_title', required=true, type='text', placeholder='Website title', value= blogger.blog_title)
                     .col-md-6
                       .form-group
                         label Website slogan
-                        input.form-control(name='blog_slogan',type='text', placeholder='Last Name', value=blogger.blog_slogan)
+                        input.form-control(name='blog_slogan', type='text', placeholder='Last Name', value=blogger.blog_slogan)
                   .row
                     .col-md-12
                       .form-group
                         label Website logo url (optional)
-                        input.form-control(name='blog_logo_url',type='text', placeholder='https://...', value= blogger.blog_logo_url)
+                        input.form-control(name='blog_logo_url',type='url', placeholder='https://...', value= blogger.blog_logo_url)
                   .row
                     .col-md-6 
                       .form-group
@@ -61,18 +61,39 @@ block body
                       .form-group
                         label 'Load more' posts quantity
                         input.form-control(name='load_more_posts_quantity', type='number', placeholder='Posts', value= blogger.load_more_posts_quantity)
+            .card
+              .card-header
+                  h4.card-title Blog posts' categories
               .card-body
-                  .table-full-width
-                      table.table
-                          tbody
-                              tr
-                                  td
-                                      .form-check
-                                          label.form-check-label
-                                              input.form-check-input(name='show_categorized_posts_only', type='checkbox', value=blogger.show_categorized_posts_only)
-                                              span.form-check-sign
-                                  td Show only categorized posts
-                                  td.td-actions.text-right
+                  .row
+                      .col-md-4
+                          .form-group
+                              label Category name                                 
+                      .col-md-4
+                          .form-group
+                              label Category slug
+                      .col-md-3
+                          .form-group
+                              label Category steem tag
+                  div#categories
+                    each category, index in blogger.categories
+                      .row(id = 'celement' + index)
+                        .col-md-4
+                            .form-group
+                                input.form-control(name="c_" + index + '_name', required=true, type='text', placeholder='Technology', value=category.name)                                    
+                        .col-md-4
+                            .form-group
+                                input.form-control(pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+", name="c_" + index + '_slug', required=true, type='text', placeholder='technology', value=category.slug) 
+                        .col-md-3
+                            .form-group
+                                input.form-control(pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+", name="c_" + index + '_steem_tag', required=true, type='text', placeholder='pl-technologia', value=category.steem_tag) 
+                        .col-md-1
+                            .form-group
+                                button.btn.btn-danger.btn-fill.pull-right.category_remove_btn(type='button') X
+                  .row
+                      .col-md-12
+                          .form-group
+                              button.btn.btn-info.btn-fill.pull-right#add(type='button') Add
             .card
               .card-header
                 h4.card-title SEO & OpenGraph
@@ -139,27 +160,6 @@ block body
                       .form-group
                           label Google Webmaster tools Verification code
                           input.form-control(name='webmastertools_id', type='text', placeholder='', value=blogger.webmastertools_id) 
-            .card
-              .card-header
-                  h4.card-title Blog categories
-              .card-body
-                  .row
-                      .col-md-4
-                          .form-group
-                              label Category name
-                              input.form-control(type='text', placeholder='Technology', value='')                                    
-                      .col-md-4
-                          .form-group
-                              label Category slug
-                              input.form-control(type='text', placeholder='technology', value='') 
-                      .col-md-3
-                          .form-group
-                              label Category steem tag
-                              input.form-control(type='text', placeholder='pl-technologia', value='') 
-                      .col-md-1
-                          .form-group
-                              label &nbsp;&nbsp;&nbsp;
-                              button.btn.btn-info.btn-fill.pull-right#add(type='button') Add
 
                   button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save blog settings
                   .clearfix

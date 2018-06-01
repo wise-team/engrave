@@ -98,7 +98,8 @@ router.get('/', (req, res, next) => {
                         configured: false,
                         posts_per_category_page: 15,
                         load_more_posts_quantity: 9,
-                        author_image_url: ""
+                        author_image_url: "",
+                        categories: [{steem_tag: 'blog', slug: 'blog', name: 'Default category'}]
                     });
                     req.session.blogger = user;
                     user.save(function (err) {

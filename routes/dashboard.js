@@ -2,7 +2,11 @@ let express = require('express');
 let steem = require('../modules/steemconnect')
 let router = express.Router();
 var getSlug = require('speakingurl');
+let getUrls = require('get-urls');
+const isImage = require('is-image');
 var config = require('../config');
+let nginx = require('../modules/nginx.js');
+let nodeapps = require('../modules/nodeapps.js');
 
 let Blogs = require('../database/blogs.js');
 
@@ -84,28 +88,73 @@ router.post('/publish', (req, res) => {
 
     if(article.body != '' && article.title != '') {
 
-        var permlink = getSlug(article.title);
+        article.permlink = getSlug(article.title);
 
-        console.log(article.category, article.tags);
+        var urls = getUrls(article.body);
+        var links = [];
+        var image = [];
+        var category = null;
+
+        if(article.image && article.image != '') {
+            image.push(article.image);
+        }
+
+        urls.forEach(url => {
+            if (url[url.length - 1] == ')') {
+                var trimmed = url.substring(0, url.length - 1);
+            } else {
+                var trimmed = url;
+            }
+
+            if (isImage(trimmed)) {
+                image.push(trimmed);
+            } else {
+                links.push(trimmed);
+            }
+        })
+
+        var tags = [];
+
+        for (var i=0; i < req.session.blogger.categories.length; i++) {
+            if (req.session.blogger.categories[i].name === article.category) {
+                category = req.session.blogger.categories[i];
+                tags.push(req.session.blogger.categories[i].steem_tag); // obtain category steem tags
+                break;
+            }
+        }
+
+        var tempTags = article.tags.split(" ");
+        tempTags.forEach(tag => {
+            if (tag != ' ' && tag != null && tag != '') {
+                tags.push(tag.trim());
+            }
+        })
+
+        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](https://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
 
         const operations = [ 
             ['comment', 
               { 
                 parent_author: "", 
-                parent_permlink: 'test2', 
+                parent_permlink: tags[0], 
                 author: req.session.steemconnect.name, 
-                permlink: permlink, 
+                permlink: article.permlink, 
                 title: article.title, 
                 body: article.body, 
                 json_metadata : JSON.stringify({ 
-                  tags: ['test2'], 
-                  app: `engrave/0.1` 
+                  tags: tags, 
+                  image: image,
+                  links: links,
+                  category: category,
+                  app: `engrave/0.1`,
+                  format: "markdown",
+                  domain: req.session.blogger.domain
                 }) 
               } 
             ], 
             ['comment_options', { 
               author: req.session.steemconnect.name, 
-              permlink: permlink, 
+              permlink: article.permlink, 
               max_accepted_payout: '1000000.000 SBD', 
               percent_steem_dollars: 10000, 
               allow_votes: true, 
@@ -113,7 +162,7 @@ router.post('/publish', (req, res) => {
               extensions: [ 
                 [0, { 
                   beneficiaries: [ 
-                    { account: 'nicniezgrublem', weight: 1000 }
+                    { account: 'nicniezgrublem', weight: req.session.blogger.tier * 100 }
                   ] 
                 }] 
               ] 
@@ -159,6 +208,18 @@ router.post('/configure/finish', (req, res) => {
                         console.log(err);
                         res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                     } else {
+                        if(blog.tier == 5) {
+
+                        } else if (blog.tier == 10 || blog.tier == 15) {
+                            nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
+                                if(err) {
+                                    console.log(err);
+                                } else {
+                                    nodeapps.createAndRun(blog.domain, blog.port);
+                                }
+                            })
+                        }
+                        
                         res.json({ success: "Konfiguracja zakończona!"});
                     }
                 });
@@ -178,22 +239,65 @@ router.post('/settings', isLoggedAndConfigured, (req, res) => {
     
     let settings = req.body;
 
-    console.log(settings);
+    let matches = [];
 
-    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
-        if(!err && blog) {
-            copySettings(settings, blog);
-            blog.save(function(err){
-                if(!err) {
-                    res.json({ success: "Ustawienia zapisane poprawnie"});
-                } else {
-                    res.json({ error: "Wystąpił jakiś błąd..."});
-                }
-            })
-        } else {
-            res.json({ error: "Wystąpił jakiś błąd..."});
+    for(var key in settings) {
+        if(key.match(/(c_)([0-9]*)(_name)+/)) {
+            matches.push({name: key, value: settings[key]});
         }
-    });    
+    }
+
+    // const matches = settings.filter( ({name}) => name.match(/(c_)([0-9]*)(_name)+/) );
+
+    var categories = [];
+    matches.forEach(match => {
+        let id = match.name.replace('c_', "").replace('_name',"");
+        let slug_reg = new RegExp('(c_)(' + id + ')(_slug)', "i");
+        let steem_tag_reg = new RegExp('(c_)(' + id + ')(_steem_tag)', "i");
+        
+        let slug = null;
+        let steem_tag = null;
+
+        for(var key in settings) {
+            if(key.match(slug_reg)) {
+                slug = settings[key];
+            }
+        }
+
+        for(var key in settings) {
+            if(key.match(steem_tag_reg)) {
+                steem_tag = settings[key];
+            }
+        }
+
+        categories.push({
+            steem_tag: steem_tag,
+            slug: slug,
+            name: match.value
+        })
+    })
+
+    if(!categories.length) {
+        res.json({ error: "Add at least one category"});
+    } else {
+        settings.categories = categories;
+
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+            if(!err && blog) {
+                copySettings(settings, blog);
+                blog.save(function(err){
+                    if(!err) {
+                        req.session.blogger = blog;
+                        res.json({ success: "Ustawienia zapisane poprawnie"});
+                    } else {
+                        res.json({ error: "Wystąpił jakiś błąd..."});
+                    }
+                })
+            } else {
+                res.json({ error: "Wystąpił jakiś błąd..."});
+            }
+        });    
+    }
 }); 
 
 router.post('/profile', isLoggedAndConfigured, (req, res) => {
@@ -211,6 +315,7 @@ router.post('/profile', isLoggedAndConfigured, (req, res) => {
             // blog.email = profile.email
             blog.save(function(err){
                 if(!err) {
+                    req.session.blogger = blog;
                     res.json({ success: "Ustawienia zapisane poprawnie"});
                 } else {
                     res.json({ error: "Wystąpił jakiś błąd..."});
@@ -239,6 +344,10 @@ function copySettings(new_settings, oldsettings) {
     oldsettings.onesignal_body_length = new_settings.onesignal_body_length;
     oldsettings.analytics_gtag = new_settings.analytics_gtag;
     oldsettings.webmastertools_id = new_settings.webmastertools_id;
+
+    if(new_settings.categories && new_settings.categories != '') {
+        oldsettings.categories = new_settings.categories;
+    }
 }
 
 module.exports = router;

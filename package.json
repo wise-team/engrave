@@ -25,6 +25,8 @@
     "moment": "latest",
     "pm2": "latest",
     "ncp": "latest",
-    "speakingurl": "latest"
+    "speakingurl": "latest",
+    "get-urls": "latest",
+    "is-image": "latest"
   }
 }
