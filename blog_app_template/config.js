@@ -31,10 +31,10 @@ let config = {
     wykop_username: process.env.WYKOP_USERNAME || "",
     wykop_token: process.env.WYKOP_TOKEN || "",
 
-    posts_from_categories_only: process.env.POSTS_FROM_CATEGORIES_ONLY || "true",
+    posts_from_categories_only: process.env.POSTS_FROM_CATEGORIES_ONLY || "false",
     theme: process.env.THEME || 'default',
 
-    load_more_quantity: process.env.LOAD_MORE_QUANTITY || 21,
+    load_more_quantity: process.env.LOAD_MORE_QUANTITY || 9,
     category_articles_quantity: process.env.CATEGORY_ARTICLES_QUANTITY || 21,
 
     beneficiary: process.env.BENEFICIARY || "",
