@@ -7,6 +7,7 @@ const isImage = require('is-image');
 var config = require('../config');
 let nginx = require('../modules/nginx.js');
 let nodeapps = require('../modules/nodeapps.js');
+let utils = require('../modules/utils.js');
 
 let Blogs = require('../database/blogs.js');
 
@@ -66,7 +67,11 @@ router.get('/notifications', isLoggedAndConfigured, (req, res) => {
 });
 
 router.get('/posts', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts'}); 
+
+    utils.getAllPosts(25, null, req.session.steemconnect.name, function(err, posts) {
+        res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts', drafts: [], posts: posts}); 
+    });
+    
 });
 
 router.get('/wallet', isLoggedAndConfigured, (req, res) => {

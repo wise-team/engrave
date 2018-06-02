@@ -572,8 +572,16 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                     if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
                                         if (cnt < limit && !resteemed) {
                                             
-                                            posts.push(element);
-                                            cnt++;
+                                            if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {
+                                                if(element.json_metadata && element.json_metadata != '') {
+                                                    let metadata = JSON.parse(element.json_metadata);
+                                                    if(metadata.image && metadata.image.length) {
+                                                        element.thumbnail = metadata.image[0];
+                                                    }
+                                                }
+                                                posts.push(element);
+                                                cnt++;
+                                            }
                                         }
                                     }
                                 }
@@ -601,8 +609,16 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                 
                                 if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
                                     if (cnt < limit && !resteemed) {
-                                        posts.push(element);
-                                        cnt++;
+                                        if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {
+                                            if(element.json_metadata && element.json_metadata != '') {
+                                                let metadata = JSON.parse(element.json_metadata);
+                                                if(metadata.image && metadata.image.length) {
+                                                    element.thumbnail = metadata.image[0];
+                                                }
+                                            }
+                                            posts.push(element);
+                                            cnt++;
+                                        }
                                     }
                                 }
                             });

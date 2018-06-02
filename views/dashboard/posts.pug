@@ -26,7 +26,21 @@ block body
                         .row
                             .col-md-6
                                 .form-group
-                                    label No articles published yet
+                                    if !posts || !posts.length
+                                        label No articles published yet
+                                    else
+                                        each post in posts
+                                            .row
+                                                .col-xs-12.col-sm-3.col-md-3
+                                                    if post.thumbnail
+                                                        img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
+                                                    else    
+                                                        img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
+                                                .col-xs-12.col-sm-9.col-md-9
+                                                    label
+                                                        a(href='#')= post.title
+                                                    p.card-category= post.body.substring(200,0)
+                                            hr
                         //- table.table.table-hover.table-striped
                         //-     thead
                         //-         tr
