@@ -130,7 +130,7 @@ router.post('/publish', (req, res) => {
             }
         })
 
-        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](https://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
+        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](http://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
 
         const operations = [ 
             ['comment', 
