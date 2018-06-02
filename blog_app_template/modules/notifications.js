@@ -1,10 +1,10 @@
-var config = require('../config').get_config();
+var cfg = require('../config');
 var https = require('https');
 
 var processOnesignalNotification = function (data) {
     var headers = {
         "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic " + config.onesignal_apikey
+        "Authorization": "Basic " + cfg.get_config().onesignal_apikey
     };
 
     var options = {
@@ -35,20 +35,20 @@ var processOnesignalNotification = function (data) {
 
 module.exports.sendNotification = function (title, body, image, permlink, category) {
 
-    if(config.onesignal_apikey != "" && config.onesignal_id != "") {
+    if(cfg.get_config().onesignal_apikey != "" && cfg.get_config().onesignal_id != "") {
         var message = {
-            app_id: config.onesignal_id,
+            app_id: cfg.get_config().onesignal_id,
             headings: {
-                "en": config.blog_title // + " / " + category
+                "en": cfg.get_config().blog_title // + " / " + category
             },
             contents: {
                 "en": title
             },
-            url: "https://" + config.domain + "/" + permlink,
+            url: "https://" + cfg.get_config().domain + "/" + permlink,
             big_picture: image,
             chrome_big_picture: image,
             chrome_web_image: image,
-            chrome_web_icon: config.onesignal_logo_url, //  onesignal_logo_url
+            chrome_web_icon: cfg.get_config().onesignal_logo_url, //  onesignal_logo_url
             included_segments: ["All"]
         };
 

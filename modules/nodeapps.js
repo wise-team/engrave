@@ -23,7 +23,7 @@ module.exports.createAndRun = (domain, port, steem_username) => {
                     watch: true,
                     env: {
                         PORT: port,
-                        EDITORIAL_STEEM_USERNAME: steem_username,
+                        STEEM_USERNAME: steem_username,
                         DATABASE_URL: config.database_url,
                         NODE_ENV: "development"
                     },

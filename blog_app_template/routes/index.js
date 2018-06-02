@@ -4,6 +4,7 @@ let router = express.Router();
 let utils = require('../modules/utils.js');
 let authors = require('../modules/authors.js');
 let steem = require('steem');
+var cfg = require('../config');
 var config = require('../config').get_config();
 let moment = require('moment');
 var showdown = require('showdown')
@@ -29,8 +30,8 @@ router.get('/sitemap.xml', (req, res, next) => {
 router.get('/o-nas', (req, res, next) => {
 
     req.session.current_url = "o-nas";
-    res.render('main/' + config.theme + '/static/about', { 
-        categories: config.categories, 
+    res.render('main/' + cfg.get_config().theme + '/static/about', { 
+        categories: cfg.get_config().categories, 
         page_title: "O nas - Głodni Wiedzy", 
         user: utils.prepareLoggedUserObject(req.session), 
         featured: articles.getFeaturedPosts() 
@@ -40,8 +41,8 @@ router.get('/o-nas', (req, res, next) => {
 router.get('/jak-zarabiac', (req, res, next) => {
 
     req.session.current_url = "jak-zarabiac";
-    res.render('main/' + config.theme + '/static/jak-zarabiac', { 
-        categories: config.categories, 
+    res.render('main/' + cfg.get_config().theme + '/static/jak-zarabiac', { 
+        categories: cfg.get_config().categories, 
         page_title: "Jak zarabiać - Głodni Wiedzy", 
         user: utils.prepareLoggedUserObject(req.session), 
         featured: articles.getFeaturedPosts() 
@@ -51,8 +52,8 @@ router.get('/jak-zarabiac', (req, res, next) => {
 router.get('/kontakt', (req, res, next) => {
 
     req.session.current_url = "kontakt";
-    res.render('main/' + config.theme + '/static/contact', { 
-        categories: config.categories, 
+    res.render('main/' + cfg.get_config().theme + '/static/contact', { 
+        categories: cfg.get_config().categories, 
         page_title: "Kontakt - Głodni Wiedzy",
         user: utils.prepareLoggedUserObject(req.session), 
         featured: articles.getFeaturedPosts() 
@@ -64,13 +65,13 @@ router.get('/', (req, res, next) => {
     req.session.current_url = null;
 
     let category = {};
-    category.latest = articles.getArticlesByCategory(null, config.category_articles_quantity);
+    category.latest = articles.getArticlesByCategory(null, cfg.get_config().category_articles_quantity);
     category.featured = articles.getFeaturedPosts();
     category.user = utils.prepareLoggedUserObject(req.session);
     category.category = "/";
-    category.page_title = config.blog_title + " - " + config.blog_slogan;
+    category.page_title = cfg.get_config().blog_title + " - " + cfg.get_config().blog_slogan;
     
-    res.render('main/' + config.theme + '/index', category);
+    res.render('main/' + cfg.get_config().theme + '/index', category);
 });
 
 router.get('/favicon.ico', (req, res) => {
@@ -83,11 +84,11 @@ router.get('/kategoria/:category', (req, res) => {
         req.session.current_url = 'kategoria/' + req.params.category.replace("pl-", "");
 
         let category = {};
-        category.latest = articles.getArticlesByCategory(req.params.category, config.category_articles_quantity);
+        category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().category_articles_quantity);
         category.user = utils.prepareLoggedUserObject(req.session);
         category.category = req.params.category;
-        category.page_title = utils.getCategoryFullName(req.params.category) + " - " + config.blog_title;
-        res.render('main/' + config.theme + '/category', category);
+        category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
+        res.render('main/' + cfg.get_config().theme + '/category', category);
     } else {
         res.redirect('/'); 
     }
@@ -100,9 +101,9 @@ router.get('/:permlink', (req, res, next) => {
         if (art) {
             art.user = utils.prepareLoggedUserObject(req.session);
             art.featured = articles.getFeaturedPosts();
-            res.render('main/' + config.theme + '/single', art);
+            res.render('main/' + cfg.get_config().theme + '/single', art);
         } else {
-            res.render('main/' + config.theme + '/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + config.blog_title });
+            res.render('main/' + cfg.get_config().theme + '/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + cfg.get_config().blog_title });
         }
     });
 
@@ -114,7 +115,7 @@ router.get('/autor/:author', (req, res, next) => {
 
     if (authors.getAuthorDetails(req.params.author)) {
         let authorListing = {};
-        authorListing.latest = articles.getArticlesByAuthor(req.params.author, config.category_articles_quantity);
+        authorListing.latest = articles.getArticlesByAuthor(req.params.author, cfg.get_config().category_articles_quantity);
         authorListing.user = utils.prepareLoggedUserObject(req.session);
         authorListing.author = authors.getAuthorDetails(req.params.author)
         let page_title = req.params.author;
@@ -125,8 +126,8 @@ router.get('/autor/:author', (req, res, next) => {
             }
         }        
 
-        authorListing.page_title = page_title + " - " + config.blog_title;
-        res.render('main/' + config.theme + '/author', authorListing);
+        authorListing.page_title = page_title + " - " + cfg.get_config().blog_title;
+        res.render('main/' + cfg.get_config().theme + '/author', authorListing);
     } else {
         res.redirect('/'); 
     }

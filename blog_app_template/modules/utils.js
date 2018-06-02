@@ -6,7 +6,7 @@ var striptags = require('striptags');
 var steem = require('steem');
 var url = require('url');
 
-var config = require('../config').get_config();
+var cfg = require('../config');
 
 moment.locale('pl');
 
@@ -195,7 +195,7 @@ module.exports.prepareSinglePostToRender = (steem_post, username) => {
         category_fullname = category;
     }
 
-    var page_title = steem_post.title + " - " + config.blog_title;
+    var page_title = steem_post.title + " - " + cfg.get_config().blog_title;
     var article_title = steem_post.title;
 
     let tmp = exports.removeWebsiteAdvertsElements(striptags(steem_post.body));
@@ -211,10 +211,10 @@ module.exports.prepareSinglePostToRender = (steem_post, username) => {
         if (metadata.root_author) {
             var root_author = metadata.root_author;
         } else {
-            var root_author = config.steem_username;
+            var root_author = cfg.get_config().steem_username;
         }
     } else {
-        var root_author = config.steem_username;
+        var root_author = cfg.get_config().steem_username;
     }
     
     var comments_quantity = steem_post.children;
@@ -350,7 +350,7 @@ module.exports.prepareCategoryListing = (category_name, steem_posts) => {
     if (steem_posts) {
         steem_posts.forEach(post => {
 
-            if ((post.author == config.steem_username) && (module.exports.isPostInCategory(post.category, category_name)) ) {
+            if ((post.author == cfg.get_config().steem_username) && (module.exports.isPostInCategory(post.category, category_name)) ) {
                 var metadata = JSON.parse(post.json_metadata);
                 
                 if (metadata.image) {
@@ -359,11 +359,11 @@ module.exports.prepareCategoryListing = (category_name, steem_posts) => {
                 if (metadata.root_author) {
                     var root_author = metadata.root_author;
                 } else {
-                    var root_author = config.steem_username;
+                    var root_author = cfg.get_config().steem_username;
                 }
 
                 var category = post.category.replace("pl-", "").replace("-", " ");
-                var category_fullname = config.categories[post.category];
+                var category_fullname = cfg.get_config().categories[post.category];
                 if (!category_fullname) {
                     category_fullname = category;
                 }
@@ -389,19 +389,19 @@ module.exports.prepareCategoryListing = (category_name, steem_posts) => {
             counter++;
             if (counter >= steem_posts.length) {
                 if (category_name) {
-                    if (config.categories[category_name]) {
-                        var category_fullname = config.categories[category_name];
+                    if (cfg.get_config().categories[category_name]) {
+                        var category_fullname = cfg.get_config().categories[category_name];
                     } else {
-                        var category_fullname = config.categories["pl-" + category_name];
+                        var category_fullname = cfg.get_config().categories["pl-" + category_name];
                     }
                     if (!category_fullname) {
                         category_fullname = category_name;
                     }
-                    listing.page_title = category_fullname + " - " + config.blog_title;
+                    listing.page_title = category_fullname + " - " + cfg.get_config().blog_title;
                     listing.category = category_name;
                     listing.category_fullname = category_fullname;
                 } else {
-                    listing.page_title = config.blog_title + " - " + config.blog_slogan;
+                    listing.page_title = cfg.get_config().blog_title + " - " + cfg.get_config().blog_slogan;
                     listing.category = "/";
                 }
 
@@ -426,7 +426,7 @@ module.exports.prepareFeaturedPosts = (steem_posts) => {
 
 module.exports.removeWebsiteAdvertsElements = (body) => {
 
-    let a = body.replace("***********\n\n### " + config.info_website_info_text, "");
+    let a = body.replace("***********\n\n### " + cfg.get_config().info_website_info_text, "");
     let b = a.replace(/(\*\*\*\*\*\*\*\*\*\*\*\n\nArtykuł autorstwa: @)(?:.*)(, dodany za pomocą serwisu )(?:.*)\(https:\/\/(?:.*)\)/g, "");
     return b;
 }
@@ -434,10 +434,10 @@ module.exports.removeWebsiteAdvertsElements = (body) => {
 
 module.exports.categoryGetFullName = (category) => {
     if (category) {
-        if (config.categories[category]) {
-            var category_fullname = config.categories[category];
+        if (cfg.get_config().categories[category]) {
+            var category_fullname = cfg.get_config().categories[category];
         } else {
-            var category_fullname = config.categories["pl-" + category];
+            var category_fullname = cfg.get_config().categories["pl-" + category];
         }
 
         if (!category_fullname) {
@@ -463,14 +463,14 @@ module.exports.dashboardPreparePostPreview = (article) => {
     var category_fullname = article.category;
     var category = "";
 
-    for (key in config.categories) {
-        if (config.categories[key] == article.category) {
+    for (key in cfg.get_config().categories) {
+        if (cfg.get_config().categories[key] == article.category) {
             category = key;
         }
     }
 
     var date = moment(new Date(article.date)).format('LLLL');
-    var page_title = article.title + " - " + config.blog_title;
+    var page_title = article.title + " - " + cfg.get_config().blog_title;
     var article_title = article.title;
 
     var body = "![](" + article.image + ")\n\n";
@@ -523,10 +523,10 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
 
     let cnt = 0;
     let posts = [];
-    var start_author = config.steem_username;
+    var start_author = cfg.get_config().steem_username;
 
     var query = {
-        tag: config.steem_username,
+        tag: cfg.get_config().steem_username,
         limit: 21
     };
 
@@ -553,7 +553,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                             result = result.slice(1, result.length)
                         }
 
-                        if (config.posts_from_categories_only == "true" || config.posts_from_categories_only == true) {
+                        if (cfg.get_config().posts_from_categories_only == "true" || cfg.get_config().posts_from_categories_only == true) {
 
                             result.forEach(element => {
 
@@ -563,10 +563,10 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                         var root_author = metadata.root_author
                                     }
                                 } else {
-                                    var root_author = config.steem_username;
+                                    var root_author = cfg.get_config().steem_username;
                                 }
 
-                                var resteemed = (element.author != config.steem_username);
+                                var resteemed = (element.author != cfg.get_config().steem_username);
 
                                 if (exports.isPostCategorized(element.category)) {
                                     if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
@@ -587,7 +587,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                             }
                         } else {
                             result.forEach(element => {
-                                var resteemed = (element.author != config.steem_username);
+                                var resteemed = (element.author != cfg.get_config().steem_username);
 
 
                                 if(element.json_metadata != '') {
@@ -596,7 +596,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                         var root_author = metadata.root_author
                                     }
                                 } else {
-                                    var root_author = config.steem_username;
+                                    var root_author = cfg.get_config().steem_username;
                                 }
                                 
                                 if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
@@ -624,7 +624,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
 
 module.exports.isCategoryValid = (category) => {
     let valid = false;
-    config.categories.every(function(element, index) {
+    cfg.get_config().categories.every(function(element, index) {
         if(element.slug == category) {
             valid = true;
             return false // break iteration
@@ -640,12 +640,12 @@ module.exports.isPostInCategory = (post_category, category_name) => {
     if(category_name == null) {
         return true;
     } else {
-        for(var i = 0; i < config.categories.length; i++) {
-            if (config.categories[i].slug == category_name) {
+        for(var i = 0; i < cfg.get_config().categories.length; i++) {
+            if (cfg.get_config().categories[i].slug == category_name) {
 
-                for(var j = 0; j < config.categories[i].tags.length; j++) {
+                for(var j = 0; j < cfg.get_config().categories[i].tags.length; j++) {
 
-                    if(config.categories[i].tags[j] == post_category) {
+                    if(cfg.get_config().categories[i].tags[j] == post_category) {
                         valid = true;
                         break;
                     }
@@ -661,11 +661,11 @@ module.exports.isPostInCategory = (post_category, category_name) => {
 module.exports.isPostCategorized = (post_tag) => {
     let valid = false;
 
-    for(let i = 0; i < config.categories.length && !valid; i++) {
+    for(let i = 0; i < cfg.get_config().categories.length && !valid; i++) {
 
-        for(let j = 0; j < config.categories[i].tags.length && !valid; j++) {
+        for(let j = 0; j < cfg.get_config().categories[i].tags.length && !valid; j++) {
 
-            if(config.categories[i].tags[j] == post_tag) {
+            if(cfg.get_config().categories[i].tags[j] == post_tag) {
                 valid = true;
                 break;
             }
@@ -677,9 +677,9 @@ module.exports.isPostCategorized = (post_tag) => {
 
 module.exports.getCategorySlugFromSteemTag = (tag) => {
 
-    for(var i = 0; i < config.categories.length; i++) {
-        if(config.categories[i].steem_tag == tag) {
-            return config.categories[i].slug;
+    for(var i = 0; i < cfg.get_config().categories.length; i++) {
+        if(cfg.get_config().categories[i].steem_tag == tag) {
+            return cfg.get_config().categories[i].slug;
         }
     }
     return null;
@@ -687,9 +687,9 @@ module.exports.getCategorySlugFromSteemTag = (tag) => {
 
 module.exports.getCategoryFullNameFromSteemTag = (tag) => {
 
-    for(var i = 0; i < config.categories.length; i++) {
-        if(config.categories[i].steem_tag == tag) {
-            return config.categories[i].name;
+    for(var i = 0; i < cfg.get_config().categories.length; i++) {
+        if(cfg.get_config().categories[i].steem_tag == tag) {
+            return cfg.get_config().categories[i].name;
         }
     }
     return null;
@@ -697,9 +697,9 @@ module.exports.getCategoryFullNameFromSteemTag = (tag) => {
 
 module.exports.getCategoryFullName = (slug) => {
 
-    for(var i = 0; i < config.categories.length; i++) {
-        if(config.categories[i].slug == slug) {
-            return config.categories[i].name;
+    for(var i = 0; i < cfg.get_config().categories.length; i++) {
+        if(cfg.get_config().categories[i].slug == slug) {
+            return cfg.get_config().categories[i].name;
         }
     }
     return slug;

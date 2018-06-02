@@ -1,10 +1,10 @@
 let sm = require('sitemap');
 let Articles = require('../models/articles.js');
-var config = require('../config').get_config();
+var cfg = require('../config');
 let moment = require('moment');
 
 let sitemap = sm.createSitemap({
-    hostname: 'https://' + config.domain,
+    hostname: 'https://' + cfg.get_config().domain,
     cacheTime: 600000,        // 600 sec - cache purge period
     urls: [
         { url: '/', changefreq: 'daily', priority: 0.9 },
@@ -21,7 +21,7 @@ exports.addUrl = (url, image) => {
 exports.initialize = () => {
     console.log("Sitemap module initialized");
 
-    config.categories.forEach(category => {
+    cfg.get_config().categories.forEach(category => {
         sitemap.add({ url: "/kategoria/" + category.slug, priority: 0.9});
     });
 

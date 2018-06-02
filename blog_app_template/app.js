@@ -1,11 +1,12 @@
 require('dotenv').config();
+let CronJob = require('cron').CronJob;
 
 var mongoose = require('mongoose');
-let config = require('./config');
+let cfg = require('./config');
 mongoose.connection.on('error', function (err) { console.log(err) });
-mongoose.connect(config.get_config().database_url);
+mongoose.connect(cfg.get_config().database_url);
 
-config.refresh_config(function() {
+cfg.refresh_config(function() {
     let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon');
@@ -29,7 +30,7 @@ let lang = require('./translation');
 var fs = require('fs');
 
 console.log("Launched on " + moment().format("LLLL"));
-console.log(config.get_config());
+console.log(cfg.get_config());
 
 let app = express();
 
@@ -54,13 +55,24 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-lang.initialize(config.get_config().frontpage_language);
+lang.initialize(cfg.get_config().frontpage_language);
 
-app.use((req, res, next) => {
-    res.locals.config = config.get_config();
-    res.locals.translation = lang.get_translation();
-    next();
-});
+function refresh_shared_config() {
+    console.log("Shared settings refreshing for templates: " + Date());
+    app.use((req, res, next) => {
+        res.locals.config = cfg.get_config();
+        res.locals.translation = lang.get_translation();
+        next();
+    });
+}
+
+refresh_shared_config();
+
+cfg.init_refreshing();
+
+
+new CronJob('* * * * *', function () { refresh_shared_config() }, null, true, 'America/Los_Angeles');
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
@@ -97,7 +109,7 @@ app.use(function (err, req, res, next) {
     
     // render the error page
     res.status(err.status || 500);
-    res.render('main/' + config.get_config().theme + '/error', {categories: config.get_config().categories});
+    res.render('main/' + cfg.get_config().theme + '/error', {categories: cfg.get_config().categories});
 });
 
 let debug = require('debug')('boilerplate:server');
@@ -107,8 +119,8 @@ let debug = require('debug')('boilerplate:server');
  * Create HTTP server.
  */
 var http = require('http');
-let server = http.createServer(app).listen(parseInt(config.get_config().port));
-let port = normalizePort(config.get_config().port);
+let server = http.createServer(app).listen(parseInt(cfg.get_config().port));
+let port = normalizePort(cfg.get_config().port);
 app.set('port', port);
 
 server.on('error', onError);

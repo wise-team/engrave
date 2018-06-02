@@ -4,7 +4,7 @@ let featured_posts = require('../modules/featured');
 let authors = require('../modules/authors');
 let CronJob = require('cron').CronJob;
 let steem = require('steem');
-let config = require('../config').get_config();
+let cfg = require('../config');
 
 let cachedArticles = [];
 
@@ -65,7 +65,7 @@ module.exports.getArticleWithPermlink = (permlink, cb) => {
             }
         } else {
 
-            steem.api.getContent(config.steem_username, permlink, function (err, result) {
+            steem.api.getContent(cfg.get_config().steem_username, permlink, function (err, result) {
                 if(err) {
                     console.log(err);
                     if (cb) {

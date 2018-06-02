@@ -1,6 +1,6 @@
 var CronJob = require('cron').CronJob;
 let steem = require('steem');
-var config = require('../config').get_config();
+var cfg = require('../config');
 
 let featured_posts = [];
 
@@ -14,7 +14,7 @@ function sortByKey(array, key) {
 
 function check_featured_posts(cb) {
     steem.api.getDiscussionsByBlog({
-        tag: config.steem_username,
+        tag: cfg.get_config().steem_username,
         limit: 20
     }, function (err, result) {
 
@@ -32,7 +32,7 @@ function check_featured_posts(cb) {
                 if (metadata.root_author) {
                     var root_author = metadata.root_author;
                 } else {
-                    var root_author = config.steem_username;
+                    var root_author = cfg.get_config().steem_username;
                 }
 
                 var value = parseFloat(parseFloat(post.pending_payout_value.replace(" SBD", "")) + parseFloat(post.total_payout_value.replace(" SBD", ""))).toFixed(2);
@@ -46,7 +46,7 @@ function check_featured_posts(cb) {
                     category: post.category
                 }                
 
-                if (post.author == config.steem_username) {
+                if (post.author == cfg.get_config().steem_username) {
                     posts.push(featured_post);
                 }
 

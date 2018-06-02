@@ -3,13 +3,13 @@ let router = express.Router();
 let utils = require('../modules/utils.js');
 let steem = require('../modules/steemconnect')
 let steemhelper = require("steem");
-var config = require('../config').get_config();
+var cfg = require('../config');
 let articles = require('../modules/articles');
 
 router.post('/vote', utils.isAuthenticated, (req, res) => {
     console.log("Vote from session: " + req.session.steemconnect.name);
 
-    var author = config.steem_username;
+    var author = cfg.get_config().steem_username;
     var voter = req.session.steemconnect.name;
     var permlink = req.session.current_url;
     let weight = 10000
@@ -40,7 +40,7 @@ router.post('/vote', utils.isAuthenticated, (req, res) => {
 router.post('/comment', utils.isAuthenticated, (req, res) => {
     let title = 'RE: ' + req.body.title;
     let body = req.body.comment_body;
-    let parentAuthor = req.body.parent_author ? req.body.parent_author : config.steem_username;
+    let parentAuthor = req.body.parent_author ? req.body.parent_author : cfg.get_config().steem_username;
     let parentPermlink = req.body.permlink;
     let author = req.session.steemconnect.name;
     let commentPermlink = steemhelper.formatter.commentPermlink(parentAuthor, parentPermlink);
@@ -101,29 +101,29 @@ router.post('/more', (req, res) => {
 
     if (req.body.author) {
         // var author = req.body.author;
-        var posts = articles.getArticlesByAuthor(req.body.author, parseInt(config.load_more_quantity), start_permlink)
+        var posts = articles.getArticlesByAuthor(req.body.author, parseInt(cfg.get_config().load_more_quantity), start_permlink)
         res.json({ success: "ha! ok!", more: posts });
     } else {
-        var posts = articles.getArticlesByCategory(req.body.category, parseInt(config.load_more_quantity), start_permlink)
+        var posts = articles.getArticlesByCategory(req.body.category, parseInt(cfg.get_config().load_more_quantity), start_permlink)
         res.json({ success: "ha! ok!", more: posts });
     }
 
     // if (req.body.category) {
     //     // var category = req.body.category;
-    //     var posts = articles.getArticlesByCategory(req.body.category, parseInt(config.load_more_quantity), start_permlink)
+    //     var posts = articles.getArticlesByCategory(req.body.category, parseInt(cfg.get_config().load_more_quantity), start_permlink)
     //     res.json({ success: "ha! ok!", more: posts });
     // } else if(req.body.author) {
     //     // var author = req.body.author;
-    //     var posts = articles.getArticlesByAuthor(req.body.author, parseInt(config.load_more_quantity), start_permlink)
+    //     var posts = articles.getArticlesByAuthor(req.body.author, parseInt(cfg.get_config().load_more_quantity), start_permlink)
     //     res.json({ success: "ha! ok!", more: posts });
     // } else {
-    //     var posts = articles.getArticlesByCategory(null, parseInt(config.load_more_quantity), start_permlink)
+    //     var posts = articles.getArticlesByCategory(null, parseInt(cfg.get_config().load_more_quantity), start_permlink)
     //     res.json({ success: "ha! ok!", more: posts });
     // }
    
-    // let test = articles.getArticlesByCategory('', parseInt(config.load_more_quantity), start_permlink)
+    // let test = articles.getArticlesByCategory('', parseInt(cfg.get_config().load_more_quantity), start_permlink)
 
-    // utils.getUserFeed(parseInt(config.load_more_quantity), start_permlink, category, author, function (results) {
+    // utils.getUserFeed(parseInt(cfg.get_config().load_more_quantity), start_permlink, category, author, function (results) {
     //     var posts = utils.prepareCategoryListing(null, results);
     //     res.json({ success: "ha! ok!", more: posts.latest });
        

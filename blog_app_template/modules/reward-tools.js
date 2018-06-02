@@ -1,10 +1,10 @@
 let CronJob = require('cron').CronJob;
 let steem = require("steem");
 let Articles = require("../models/articles.js");
-let config = require('../config').get_config();
+let cfg = require('../config');
 
 function checkAndClaimRewards() {
-    steem.api.getAccounts([config.steem_username], function(err, results) {
+    steem.api.getAccounts([cfg.get_config().steem_username], function(err, results) {
         if(err) {
             console.log(err);
         } else {
@@ -15,7 +15,7 @@ function checkAndClaimRewards() {
             if( (sbdReward + steemReward) > 0.5) {
                 console.log("Found some funds to claim: " + sbdReward  +" SBD, " + steemReward + " STEEM, " + vestingReward + " VESTS");
                 
-                steem.broadcast.claimRewardBalance(config.editorial_active_key, config.steem_username, results[0].reward_steem_balance, results[0].reward_sbd_balance, results[0].reward_vesting_balance, function(err, result) {
+                steem.broadcast.claimRewardBalance(cfg.get_config().editorial_active_key, cfg.get_config().steem_username, results[0].reward_steem_balance, results[0].reward_sbd_balance, results[0].reward_vesting_balance, function(err, result) {
                     if(err) {
                         console.log(err);
                     } else if(result) {
@@ -31,7 +31,7 @@ function checkAndClaimRewards() {
 }
 
 function settleAuthorsRewards() {
-    steem.api.getAccountHistory(config.steem_username, -1, 1000, function(err, result) {
+    steem.api.getAccountHistory(cfg.get_config().steem_username, -1, 1000, function(err, result) {
         if(err) {
             console.log(err);
             return;
@@ -45,11 +45,11 @@ function settleAuthorsRewards() {
                 let reward = action[1].op[1];
                 Articles.findOne({permlink: reward.permlink}, function(err, article) {
                     if(article && article.settled != true) {
-                        if(article.user != config.steem_username) {
+                        if(article.user != cfg.get_config().steem_username) {
                             console.log("Not settled: " + article.permlink + ": " + reward.sbd_payout);
     
                             if(article.user) {
-                                steem.broadcast.transfer(config.editorial_active_key, config.steem_username, article.user, reward.sbd_payout, "Wynagrodzenie za artykuł: https://" + config.domain + "/" + article.permlink, function (err, sendResult) {
+                                steem.broadcast.transfer(cfg.get_config().editorial_active_key, cfg.get_config().steem_username, article.user, reward.sbd_payout, "Wynagrodzenie za artykuł: https://" + cfg.get_config().domain + "/" + article.permlink, function (err, sendResult) {
                                     if(err) {
                                         console.log(err);
                                     } else {
@@ -78,7 +78,7 @@ function settleAuthorsRewards() {
 module.exports.initialize = () => {
     
     new CronJob('*/10 * * * *', function() {
-        if(config.send_sbd_to_authors) {
+        if(cfg.get_config().send_sbd_to_authors) {
             checkAndClaimRewards();
             settleAuthorsRewards();
         }
