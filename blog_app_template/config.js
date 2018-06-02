@@ -21,8 +21,6 @@ module.exports.refresh_config = (cb) => {
         console.log("Settings refreshed: " + Date());
         if(!err && blog) {
             config = blog;
-            config.port = 8080;
-            config.session_secret = 'asdadsdsdgsdgsdgsg';
             if(cb) {
                 setTimeout(module.exports.refresh_config, 60*1000);
                 cb();

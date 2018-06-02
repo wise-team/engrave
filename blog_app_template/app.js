@@ -33,8 +33,19 @@ console.log(config.get_config());
 
 let app = express();
 
+
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 15; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+}
+
 app.use(session({
-    secret: config.get_config().session_secret,
+    secret: makeid(),
     saveUninitialized: true,
     resave: false
 }));
