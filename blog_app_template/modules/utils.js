@@ -572,13 +572,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                     if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
                                         if (cnt < limit && !resteemed) {
                                             
-                                            if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {
-                                                if(element.json_metadata && element.json_metadata != '') {
-                                                    let metadata = JSON.parse(element.json_metadata);
-                                                    if(metadata.image && metadata.image.length) {
-                                                        element.thumbnail = metadata.image[0];
-                                                    }
-                                                }
+                                            if(canPostBeDisplayed(element)) {
                                                 posts.push(element);
                                                 cnt++;
                                             }
@@ -609,13 +603,7 @@ module.exports.getUserFeed = function(limit, start_permlink, category, author, c
                                 
                                 if ((category == null && author == null) || element.category == category || element.category == "pl-" + category || (author && root_author == author)) {
                                     if (cnt < limit && !resteemed) {
-                                        if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {
-                                            if(element.json_metadata && element.json_metadata != '') {
-                                                let metadata = JSON.parse(element.json_metadata);
-                                                if(metadata.image && metadata.image.length) {
-                                                    element.thumbnail = metadata.image[0];
-                                                }
-                                            }
+                                        if(canPostBeDisplayed(element)) {
                                             posts.push(element);
                                             cnt++;
                                         }
@@ -673,6 +661,14 @@ module.exports.isPostInCategory = (post_category, category_name) => {
 
     return valid;
 };
+
+function canPostBeDisplayed(post) {
+    if(cfg.get_config().show_everything == 'true' || cfg.get_config().show_everything == true || (post.beneficiaries.length && post.beneficiaries[0].account == 'nicniezgrublem')) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 module.exports.isPostCategorized = (post_tag) => {
     let valid = false;
