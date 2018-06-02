@@ -168,7 +168,8 @@ router.post('/publish', (req, res) => {
               ] 
             }] 
           ];
-
+        
+        steem.setAccessToken(req.session.access_token);
         steem.broadcast(operations, function (err, result) {
             if(err) {
                 console.log(err);
