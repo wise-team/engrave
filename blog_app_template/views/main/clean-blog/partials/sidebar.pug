@@ -1,0 +1,30 @@
+.sidebar.theiaStickySidebar
+    .widget
+        if config.fb_fanpage_url && config.fb_fanpage_url != ''
+            .fb-page(data-href=config.fb_fanpage_url data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true")
+                blockquote(cite=config.fb_fanpage_url).fb-xfbml-parse-ignore
+                    a(href=config.fb_fanpage_url)
+                        = config.blog_title
+    //- .widget.social-widget
+    //-     h1 My w social mediach
+    //-     p Bądź na bieżąco z wszelkimi treściami dodawanymi na stronie, obserwuj nas w social media
+    //-     ul.social-share
+    //-         li
+    //-             a(href="#").rss
+    //-                 i.fa.fa-rss
+    //-                 span 329
+    //-         li
+    //-             a(href="#").facebook
+    //-                 i.fa.fa-facebook
+    //-                 span 329
+    //-         li
+    //-             a(href="#").twitter
+    //-                 i.fa.fa-twitter
+    //-                 span 329
+    //-         li
+    //-             a(href="#").google
+    //-                 i.fa.fa-google
+    //-                 span 329
+    .widget.news-widget
+        h1= translation.frontpage.most_popular
+        include sidebar/featured.pug

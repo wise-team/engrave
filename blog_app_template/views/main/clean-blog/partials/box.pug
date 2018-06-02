@@ -1,0 +1,10 @@
+.post-preview
+    a(href='/' + item.permlink)
+        h2.post-title= item.title
+        h3.post-subtitle= item.body_abbr
+    p.post-meta
+        if config.author_name
+            | Posted by 
+            a(href='#')= config.author_name + ', '
+        = moment(item.date).format('LL')
+    hr

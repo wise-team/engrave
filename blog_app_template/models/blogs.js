@@ -42,6 +42,7 @@ let blogSchema = new Schema({
     frontpage_language: String,
     theme: String,
     show_only_categorized_posts: Boolean,
+    show_everything: Boolean,
 
     posts_per_category_page: Number,
     load_more_posts_quantity: Number,

@@ -1,0 +1,18 @@
+extends website
+
+block header
+    header.masthead(style="background-image: url('/clean-blog/img/home-bg.jpg')")
+        .overlay
+        .container
+            .row
+                .col-lg-8.col-md-10.mx-auto
+                    .site-heading
+                        h1= category_fullname
+                        //- span.subheading
+
+block content
+    .container
+      .row
+        .col-lg-8.col-md-10.mx-auto
+            each item in latest
+                include partials/box.pug
