@@ -39,7 +39,7 @@ var settingsSchema = new Schema({
     theme: String,
 
     load_more_quantity: Number,
-    category_articles_quantity: Number,
+    posts_per_category_page: Number,
 
     info_add_root_author: Boolean,
     info_add_website: Boolean,

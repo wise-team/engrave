@@ -99,8 +99,9 @@ router.get('/', (req, res, next) => {
                         posts_per_category_page: 15,
                         load_more_posts_quantity: 9,
                         author_image_url: "",
-                        theme: 'default',
-                        blog_title: 'Personal Blog',
+                        theme: 'clean-blog',
+                        blog_title: 'Steem Blog',
+                        blog_slogan: 'Personal Steem Powered Blog',
                         categories: [{steem_tag: 'blog', slug: 'blog', name: 'Default category'}]
                     });
                     req.session.blogger = user;

@@ -65,7 +65,7 @@ router.get('/', (req, res, next) => {
     req.session.current_url = null;
 
     let category = {};
-    category.latest = articles.getArticlesByCategory(null, cfg.get_config().category_articles_quantity);
+    category.latest = articles.getArticlesByCategory(null, cfg.get_config().posts_per_category_page);
     category.featured = articles.getFeaturedPosts();
     category.user = utils.prepareLoggedUserObject(req.session);
     category.category = "/";
@@ -84,7 +84,7 @@ router.get('/kategoria/:category', (req, res) => {
         req.session.current_url = 'kategoria/' + req.params.category.replace("pl-", "");
 
         let category = {};
-        category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().category_articles_quantity);
+        category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().posts_per_category_page);
         category.user = utils.prepareLoggedUserObject(req.session);
         category.category = req.params.category;
         category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
@@ -115,7 +115,7 @@ router.get('/autor/:author', (req, res, next) => {
 
     if (authors.getAuthorDetails(req.params.author)) {
         let authorListing = {};
-        authorListing.latest = articles.getArticlesByAuthor(req.params.author, cfg.get_config().category_articles_quantity);
+        authorListing.latest = articles.getArticlesByAuthor(req.params.author, cfg.get_config().posts_per_category_page);
         authorListing.user = utils.prepareLoggedUserObject(req.session);
         authorListing.author = authors.getAuthorDetails(req.params.author)
         let page_title = req.params.author;
