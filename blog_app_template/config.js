@@ -18,11 +18,10 @@ module.exports.get_config = () => {
 module.exports.refresh_config = (cb) => {
 
     Blogs.findOne({steem_username: config.steem_username}, function(err, blog) {
-        console.log("Settings refreshed: " + Date());
         if(!err && blog) {
             config = blog;
+            setTimeout(module.exports.refresh_config, 60*1000);
             if(cb) {
-                setTimeout(module.exports.refresh_config, 60*1000);
                 cb();
             }
         } else {
