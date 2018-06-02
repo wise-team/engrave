@@ -3,15 +3,20 @@ header.clearfix.style-4
         .container
             button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
                 span(class="navbar-toggler-icon")
-            a.navbar-brand(href="/")
-                img(src= config.website_logo_url).site-logo
+
+            if config.website_logo_url && config.website_logo_url != ""                     
+                a.navbar-brand(href="/")
+                    img(src= config.website_logo_url).site-logo
+            else
+                a.navbar-brand(href="/")
+                    h3=config.blog_title
     
             .collapse.navbar-collapse#navbarSupportedContent
                 ul.navbar-nav.ml-auto
-
-                    each nav_name, nav in config.categories
-                        li(class=['nav-item', {active: category === nav.replace("pl-", "")}] itemprop="name")
-                            a(href="/kategoria/" + nav.replace("pl-",""), class="nav-link " + nav.replace("pl-",""), itemprop="url").nav-link= nav_name
+                    each nav in config.categories
+                        //- =nav
+                        li(class=['nav-item', {active: category === nav.slug}] itemprop="name")
+                            a(href="/kategoria/" + nav.slug, class="nav-link " + nav.slug, itemprop="url").nav-link= nav.name
 
                     if user
                         li.nav-item

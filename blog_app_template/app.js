@@ -1,7 +1,12 @@
 require('dotenv').config();
-let config = require('./config')
 
-let express = require('express');
+var mongoose = require('mongoose');
+let config = require('./config');
+mongoose.connection.on('error', function (err) { console.log(err) });
+mongoose.connect(config.get_config().database_url);
+
+config.refresh_config(function() {
+    let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon');
 let logger = require('morgan');
@@ -9,28 +14,27 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let expressSanitized = require('express-sanitize-escape');
-var mongoose = require('mongoose');
+
 let steem = require("steem");
 let moment = require("moment");
 
 let featured_posts = require('./modules/featured.js');
 let reward_tools = require('./modules/reward-tools');
 let authors = require('./modules/authors');
-let sitemap = require('./modules/sitemap.js');
+let sitemap = require('./modules/sitemap');
 let articles = require('./modules/articles');
 
+let lang = require('./translation');
 
 var fs = require('fs');
 
-steem.api.setOptions({ url: 'https://gtg.steem.house:8090' });
-
 console.log("Launched on " + moment().format("LLLL"));
-console.log(config);
+console.log(config.get_config());
 
 let app = express();
 
 app.use(session({
-    secret: config.session_secret,
+    secret: config.get_config().session_secret,
     saveUninitialized: true,
     resave: false
 }));
@@ -39,15 +43,11 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-let translation = JSON.parse(fs.readFileSync(__dirname + '/locales/pl/translation.json', 'utf8'));
-if (config.frontpage_language == 'en') {
-    translation = JSON.parse(fs.readFileSync(__dirname + '/locales/en/translation.json', 'utf8'));
-}
-
+lang.initialize(config.get_config().frontpage_language);
 
 app.use((req, res, next) => {
-    res.locals.config = config;
-    res.locals.translation = translation;
+    res.locals.config = config.get_config();
+    res.locals.translation = lang.get_translation();
     next();
 });
 // uncomment after placing your favicon in /public
@@ -71,10 +71,6 @@ app.use('/logout', authorize);
 
 app.locals.moment = require('moment');
 
-mongoose.connection.on('error', function (err) { console.log(err) });
-mongoose.connect(config.database_url);
-
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
@@ -90,7 +86,7 @@ app.use(function (err, req, res, next) {
     
     // render the error page
     res.status(err.status || 500);
-    res.render('main/' + config.theme + '/error', {categories: config.categories});
+    res.render('main/' + config.get_config().theme + '/error', {categories: config.get_config().categories});
 });
 
 let debug = require('debug')('boilerplate:server');
@@ -100,8 +96,8 @@ let debug = require('debug')('boilerplate:server');
  * Create HTTP server.
  */
 var http = require('http');
-let server = http.createServer(app).listen(parseInt(config.port));
-let port = normalizePort(config.port);
+let server = http.createServer(app).listen(parseInt(config.get_config().port));
+let port = normalizePort(config.get_config().port);
 app.set('port', port);
 
 server.on('error', onError);
@@ -172,3 +168,6 @@ function onListening() {
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
 }
+
+});
+

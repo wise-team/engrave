@@ -3,13 +3,13 @@ let router = express.Router();
 let utils = require('../modules/utils.js');
 let steem = require('../modules/steemconnect')
 let steemhelper = require("steem");
-var config = require('../config');
+var config = require('../config').get_config();
 let articles = require('../modules/articles');
 
 router.post('/vote', utils.isAuthenticated, (req, res) => {
     console.log("Vote from session: " + req.session.steemconnect.name);
 
-    var author = config.editorial_username;
+    var author = config.steem_username;
     var voter = req.session.steemconnect.name;
     var permlink = req.session.current_url;
     let weight = 10000
@@ -40,7 +40,7 @@ router.post('/vote', utils.isAuthenticated, (req, res) => {
 router.post('/comment', utils.isAuthenticated, (req, res) => {
     let title = 'RE: ' + req.body.title;
     let body = req.body.comment_body;
-    let parentAuthor = req.body.parent_author ? req.body.parent_author : config.editorial_username;
+    let parentAuthor = req.body.parent_author ? req.body.parent_author : config.steem_username;
     let parentPermlink = req.body.permlink;
     let author = req.session.steemconnect.name;
     let commentPermlink = steemhelper.formatter.commentPermlink(parentAuthor, parentPermlink);
@@ -128,6 +128,17 @@ router.post('/more', (req, res) => {
     //     res.json({ success: "ha! ok!", more: posts.latest });
        
     // })
+});
+
+router.post('/offchain-comment', (req, res) => {
+
+    var body = req.body.comment_body;
+    var author = req.body.comment_author;
+    var email = req.body.comment_email;
+    var followReplies = req.body.comment_follow_replies; // should you get information about replies
+
+    comments.add_comment(author, body, parent_author, parent_permlink, cb);
+    
 });
 
 module.exports = router;

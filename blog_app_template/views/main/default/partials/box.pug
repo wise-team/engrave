@@ -10,7 +10,7 @@ article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
     .news-post.standart-post
         .post-image
             a(href= '/' + item.url)
-                img(src= item.image)
+                img(src= item.image? item.image : '/default/img/default.jpg')
             a(href="/kategoria/"+ item.category, class="category category-" + item.category) #{item.category_fullname}
         h2
             a(href= '/' + item.url, itemprop="url") #{item.title}

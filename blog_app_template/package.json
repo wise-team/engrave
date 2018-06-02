@@ -1,14 +1,8 @@
 {
-  "name": "steem-press-website",
+  "name": "steemblog",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
@@ -32,10 +26,19 @@
     "get-urls": "latest",
     "is-image": "latest",
     "speakingurl": "latest",
-    "image-cache": "latest",
     "url-embed": "latest",
     "wykop-es6": "latest",
     "dotenv": "latest",
     "sitemap": "latest"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bgornicki@bitbucket.org/bgornicki/steemblog.git"
+  },
+  "author": "",
+  "license": "ISC"
 }

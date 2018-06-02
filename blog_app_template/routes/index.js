@@ -4,7 +4,7 @@ let router = express.Router();
 let utils = require('../modules/utils.js');
 let authors = require('../modules/authors.js');
 let steem = require('steem');
-var config = require('../config');
+var config = require('../config').get_config();
 let moment = require('moment');
 var showdown = require('showdown')
 var converter = new showdown.Converter();
@@ -68,7 +68,7 @@ router.get('/', (req, res, next) => {
     category.featured = articles.getFeaturedPosts();
     category.user = utils.prepareLoggedUserObject(req.session);
     category.category = "/";
-    category.page_title = config.website_title + " - " + config.website_slogan;
+    category.page_title = config.blog_title + " - " + config.blog_slogan;
     
     res.render('main/' + config.theme + '/index', category);
 });
@@ -86,7 +86,7 @@ router.get('/kategoria/:category', (req, res) => {
         category.latest = articles.getArticlesByCategory(req.params.category, config.category_articles_quantity);
         category.user = utils.prepareLoggedUserObject(req.session);
         category.category = req.params.category;
-        category.page_title = utils.categoryGetFullName(req.params.category) + " - " + config.website_title;
+        category.page_title = utils.getCategoryFullName(req.params.category) + " - " + config.blog_title;
         res.render('main/' + config.theme + '/category', category);
     } else {
         res.redirect('/'); 
@@ -102,7 +102,7 @@ router.get('/:permlink', (req, res, next) => {
             art.featured = articles.getFeaturedPosts();
             res.render('main/' + config.theme + '/single', art);
         } else {
-            res.render('main/' + config.theme + '/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + config.website_title });
+            res.render('main/' + config.theme + '/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + config.blog_title });
         }
     });
 
@@ -125,7 +125,7 @@ router.get('/autor/:author', (req, res, next) => {
             }
         }        
 
-        authorListing.page_title = page_title + " - " + config.website_title;
+        authorListing.page_title = page_title + " - " + config.blog_title;
         res.render('main/' + config.theme + '/author', authorListing);
     } else {
         res.redirect('/'); 

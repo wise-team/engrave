@@ -14,7 +14,7 @@ block content
 
     meta(name="description", content= body_abbr)
     input(type='hidden', id='permlink', value= permlink)
-    input(type='hidden', id='editorial', value= config.editorial_username)
+    input(type='hidden', id='editorial', value= config.steem_username)
     if user
         input(type='hidden', id='logged_user', value= user.name)
     .row
@@ -44,27 +44,9 @@ block content
                                 span(itemprop="name")= category_fullname
                     li
                         i.lnr.lnr-clock
-                        = moment.utc(date).local().format('LLL')
+                        //- = moment.utc(date).local().format('LL')
+                        span(title= moment.utc(date).local().format('LLL'))= moment.utc(date).local().fromNow()
                 h1= article_title
-                ul.post-tags
-                    li
-                        div(itemprop="author" itemscope itemtype="https://schema.org/Person") 
-                            i.lnr.lnr-user
-                            span
-                                a(href="/autor/" + root_author, itemprop="url")
-                                    span(itemprop="name")= root_author
-                    li
-                        i.lnr.lnr-bubble
-                        = translation.frontpage.comments_count + ': ' 
-                        = comments_quantity
-                    li
-                        i.lnr.lnr-thumbs-up
-                        = translation.frontpage.votes + ': ' 
-                        = net_votes
-                    li
-                        i.lnr.lnr-diamond
-                        = translation.frontpage.reward + ': $'
-                        = value
                 .text-boxes
                     p!= body
                     //- h2 Tagi

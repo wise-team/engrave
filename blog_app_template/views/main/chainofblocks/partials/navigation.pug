@@ -13,8 +13,12 @@
         .header-inner.gino_site-container
             .logo
                 h1
-                    a(href="/")
-                        img(src= config.website_logo_url)
+                    =config.blog_title
+                    if config.website_logo_url && config.website_logo_url != ""
+                        a(href="/")
+                            img(src= config.website_logo_url)
+                    else
+                        p=config.website_name
 
     .main-nav
         .gino_site-container.clear-fix

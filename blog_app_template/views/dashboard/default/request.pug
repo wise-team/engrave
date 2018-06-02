@@ -16,7 +16,7 @@ body.login
             section.login_content
                 form#request_form
                     h1 Zgłoś się
-                    p Jeśli chcesz zostać autorem na portalu #{config.website_title}, wypełnij poniższy formularz i poczekaj na kontakt mailowy.
+                    p Jeśli chcesz zostać autorem na portalu #{config.blog_title}, wypełnij poniższy formularz i poczekaj na kontakt mailowy.
                     
                     .form-group
                         label(for="email") Adres e-mail
@@ -24,7 +24,7 @@ body.login
 
                         label(for="interests") Czym się interesujesz, o czym chcesz pisać?
                         textarea.form-control(id="interests" name="interests" rows="3" required="")
-                        button(type="submit").btn.btn-default.submit Chcę zostać autorem na #{config.website_title}
+                        button(type="submit").btn.btn-default.submit Chcę zostać autorem na #{config.blog_title}
 
                 .separator
                     p ©2018 Głodni Wiedzy

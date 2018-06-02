@@ -4,7 +4,7 @@ let featured_posts = require('../modules/featured');
 let authors = require('../modules/authors');
 let CronJob = require('cron').CronJob;
 let steem = require('steem');
-let config = require('../config');
+let config = require('../config').get_config();
 
 let cachedArticles = [];
 
@@ -65,7 +65,7 @@ module.exports.getArticleWithPermlink = (permlink, cb) => {
             }
         } else {
 
-            steem.api.getContent(config.editorial_username, permlink, function (err, result) {
+            steem.api.getContent(config.steem_username, permlink, function (err, result) {
                 if(err) {
                     console.log(err);
                     if (cb) {
@@ -115,6 +115,7 @@ module.exports.getArticlesByCategory = (category, limit, start_permlink) => {
 
     for(i in cachedArticles) {
         if (parseInt(i) >= 1 + parseInt(permlinkCnt)) {
+            // if (utils.isPostInCategory(cachedArticles[i].category, category)) {
             if (cachedArticles[i].category == category || category == null) {
                 cnt++;
                 categoryListing.push(cachedArticles[i]);
@@ -158,4 +159,9 @@ module.exports.getArticlesByAuthor = (root_author, limit, start_permlink) => {
 module.exports.getFeaturedPosts = () => {
     let posts = exports.getArticlesByCategory(null, 20);
     return utils.sortByKey(posts, 'value').slice(0, 5);
+}
+
+module.exports.flushCache = () => {
+    cachedArticles = [];
+    cacheAllArticles();
 }

@@ -23,7 +23,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success) {
                         $('#_id').val(data._id);
-                        var win = window.open('https://glodniwiedzy.pl/dashboard/preview/' + data._id, '_blank');
+                        var win = window.open('/dashboard/preview/' + data._id, '_blank');
                         if (win) {
                             //Browser has allowed it to be opened
                             win.focus();

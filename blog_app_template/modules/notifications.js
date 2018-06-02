@@ -1,4 +1,4 @@
-const config = require('../config');
+var config = require('../config').get_config();
 var https = require('https');
 
 var processOnesignalNotification = function (data) {
@@ -39,7 +39,7 @@ module.exports.sendNotification = function (title, body, image, permlink, catego
         var message = {
             app_id: config.onesignal_id,
             headings: {
-                "en": config.website_title // + " / " + category
+                "en": config.blog_title // + " / " + category
             },
             contents: {
                 "en": title
@@ -48,7 +48,7 @@ module.exports.sendNotification = function (title, body, image, permlink, catego
             big_picture: image,
             chrome_big_picture: image,
             chrome_web_image: image,
-            chrome_web_icon: process.env.ONESIGNAL_ICON_URL,
+            chrome_web_icon: config.onesignal_logo_url, //  onesignal_logo_url
             included_segments: ["All"]
         };
 

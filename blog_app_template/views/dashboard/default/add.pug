@@ -34,10 +34,10 @@ block content
                 .x_content  
                     label.control-label Kategoria:
                     select(name="category").form-control
-                        each nav_name, nav in config.categories
-                            option(selected= (article && article.category === nav_name))= nav_name
+                        each nav in config.categories
+                            option(value= nav.slug,selected= (article && article.category === nav.slug))= nav.name
                 .x_content
-                    label.control-label Dodatkowe tagi (bez przedrostka "pl-", oddzielone spacją, najważniejsze tagi jak pl-artykuly i polish zostaną dodane automatycznie)
+                    label.control-label Dodatkowe tagi (oddzielone spacją)
                     input(name="tags" type="text" placeholder="..." value= (article && article.tags) ? article.tags : "").form-control
                 .x_content
                     label.control-label Nazwa źródła:

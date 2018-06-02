@@ -16,6 +16,7 @@ var articleSchema = new Schema({
     permlink: String,
     wykop_link: String,
     articles_count: Number,
+    settled: Boolean,
     rewards_links: [
         {
             permlink: String,

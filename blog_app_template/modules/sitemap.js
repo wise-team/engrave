@@ -1,6 +1,6 @@
 let sm = require('sitemap');
 let Articles = require('../models/articles.js');
-let config = require('../config');
+var config = require('../config').get_config();
 let moment = require('moment');
 
 let sitemap = sm.createSitemap({
@@ -21,9 +21,9 @@ exports.addUrl = (url, image) => {
 exports.initialize = () => {
     console.log("Sitemap module initialized");
 
-    for(category in config.categories) {
-        sitemap.add({ url: "/kategoria/" + category.replace("pl-",""), priority: 0.9});
-    }
+    config.categories.forEach(category => {
+        sitemap.add({ url: "/kategoria/" + category.slug, priority: 0.9});
+    });
 
     Articles.find({status: "approved"}, function (err, articles) {
         if(err) {

@@ -13,8 +13,6 @@ let upvoteComment = null;
 
 $(document).ready(function () {
 
-    steem.api.setOptions({ url: 'https://gtg.steem.house:8090' });
-
     loggedInUser = $('#logged_user').val();
 
     $("#example_id").ionRangeSlider({
