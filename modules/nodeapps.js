@@ -20,7 +20,7 @@ module.exports.createAndRun = (domain, port, steem_username) => {
                 apps: [{
                     name: domain,
                     script: './pm2_blogs/' + domain + '/app.js',
-                    watch: true,
+                    watch: false,
                     env: {
                         PORT: port,
                         STEEM_USERNAME: steem_username,
