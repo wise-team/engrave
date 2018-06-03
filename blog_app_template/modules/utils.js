@@ -428,7 +428,7 @@ module.exports.removeWebsiteAdvertsElements = (body) => {
 
     let a = body.replace("***********\n\n### " + cfg.get_config().info_website_info_text, "");
     let b = a.replace(/(\*\*\*\*\*\*\*\*\*\*\*\n\nArtykuł autorstwa: @)(?:.*)(, dodany za pomocą serwisu )(?:.*)\(https:\/\/(?:.*)\)/g, "");
-    let c = b.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "");
+    let c = b.replace(/(\n\*\*\*\n\n###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.)/g, "");
     return c;
 }
 
