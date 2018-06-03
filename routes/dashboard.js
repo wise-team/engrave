@@ -75,6 +75,7 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
             }
 
             let tags = '';
+            let thumbnail = '';
 
             if(steem_post.json_metadata && steem_post.json_metadata != '') {
                 let metadata = JSON.parse(steem_post.json_metadata);
@@ -85,6 +86,9 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
                         }
                     })
                 }
+                if(metadata && metadata.image.length) {
+                    thumbnail = metadata.image[0];
+                }
             }
 
             let post = {
@@ -92,6 +96,7 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
                 title: steem_post.title,
                 body: steem_post.body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, ""),
                 category: category,
+                image: thumbnail,
                 tags: tags
             }
 
