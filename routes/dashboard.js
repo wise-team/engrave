@@ -1,5 +1,6 @@
 let express = require('express');
-let steem = require('../modules/steemconnect')
+let steemconnect = require('../modules/steemconnect');
+let steem = require('steem');
 let router = express.Router();
 var getSlug = require('speakingurl');
 let getUrls = require('get-urls');
@@ -60,6 +61,46 @@ router.get('/settings', isLoggedAndConfigured, (req, res) => {
 
 router.get('/write', isLoggedAndConfigured, (req, res) => {
     res.render('dashboard/write.pug', {blogger: req.session.blogger, url: 'write'}); 
+});
+
+router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
+    steem.api.getContent(req.session.steemconnect.name, req.params.permlink, function(err, steem_post){
+        if(!err && steem_post) {
+            let category = steem_post.category;
+            for(var i=0; i<req.session.blogger.categories.length; i++) {
+                if(req.session.blogger.categories[i].steem_tag == steem_post.category) {
+                    category = req.session.blogger.categories[i].steem_tag;
+                    break;
+                }
+            }
+
+            let tags = '';
+
+            if(steem_post.json_metadata && steem_post.json_metadata != '') {
+                let metadata = JSON.parse(steem_post.json_metadata);
+                if(metadata && metadata.tags) {
+                    metadata.tags.forEach((tag) =>{
+                        if(tag != steem_post.category) {
+                            tags += tag + ' ';
+                        }
+                    })
+                }
+            }
+
+            let post = {
+                permlink: steem_post.permlink,
+                title: steem_post.title,
+                body: steem_post.body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, ""),
+                category: category,
+                tags: tags
+            }
+
+            res.render('dashboard/edit.pug', {blogger: req.session.blogger, url: 'edit', post: post}); 
+        } else {
+            res.redirect('/dashboard');
+        }
+    })
+    
 });
 
 router.get('/notifications', isLoggedAndConfigured, (req, res) => {
@@ -123,7 +164,7 @@ router.post('/publish', (req, res) => {
         for (var i=0; i < req.session.blogger.categories.length; i++) {
             if (req.session.blogger.categories[i].name === article.category) {
                 category = req.session.blogger.categories[i];
-                tags.push(req.session.blogger.categories[i].steem_tag); // obtain category steem tags
+                tags.push(req.session.blogger.categories[i].steem_tag); // obtain category steemconnect tags
                 break;
             }
         }
@@ -174,8 +215,8 @@ router.post('/publish', (req, res) => {
             }] 
           ];
         
-        steem.setAccessToken(req.session.access_token);
-        steem.broadcast(operations, function (err, result) {
+        steemconnect.setAccessToken(req.session.access_token);
+        steemconnect.broadcast(operations, function (err, result) {
             if(err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -186,7 +227,7 @@ router.post('/publish', (req, res) => {
                 }
                 
             } else {
-                console.log("Article posted on steem");
+                console.log("Article posted on steemconnect");
                 res.json({ success: "Artykuł został opublikowany"});
             }
         });
@@ -194,6 +235,96 @@ router.post('/publish', (req, res) => {
 
 }); 
 
+router.post('/edit', (req, res) => {
+    
+    let article = req.body;
+    console.log(article);
+
+    if(article.body != '' && article.title != '') {
+
+        var urls = getUrls(article.body);
+        var links = [];
+        var image = [];
+        var category = null;
+
+        if(article.image && article.image != '') {
+            image.push(article.image);
+        }
+
+        urls.forEach(url => {
+            if (url[url.length - 1] == ')') {
+                var trimmed = url.substring(0, url.length - 1);
+            } else {
+                var trimmed = url;
+            }
+
+            if (isImage(trimmed)) {
+                image.push(trimmed);
+            } else {
+                links.push(trimmed);
+            }
+        })
+
+        var tags = [];
+
+        for (var i=0; i < req.session.blogger.categories.length; i++) {
+            if (req.session.blogger.categories[i].name === article.category) {
+                category = req.session.blogger.categories[i];
+                tags.push(req.session.blogger.categories[i].steem_tag);
+                break;
+            }
+        }
+
+        var tempTags = article.tags.split(" ");
+        tempTags.forEach(tag => {
+            if (tag != ' ' && tag != null && tag != '') {
+                tags.push(tag.trim());
+            }
+        })
+
+        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](http://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
+
+        const operations = [ 
+            ['comment', 
+              { 
+                parent_author: "", 
+                parent_permlink: article.parent_category, 
+                author: req.session.steemconnect.name, 
+                permlink: article.permlink, 
+                title: article.title, 
+                body: article.body, 
+                json_metadata : JSON.stringify({ 
+                  tags: tags, 
+                  image: image,
+                  links: links,
+                  category: category,
+                  app: `engrave/0.1`,
+                  format: "markdown",
+                  domain: req.session.blogger.domain
+                }) 
+              } 
+            ], 
+          ];
+        
+        steemconnect.setAccessToken(req.session.access_token);
+        steemconnect.broadcast(operations, function (err, result) {
+            if(err) {
+                console.log(err);
+                var errorstring =  '';
+                if(err.error_description) {
+                    errorstring = err.error_description.split(': ')[1];
+                } else if (err.message) {
+                    errorstring = err.message.split(': ')[1];
+                }
+                res.json({ error: errorstring});
+            } else {
+                console.log("Article posted on steemconnect");
+                res.json({ success: "Article has been updated successfully"});
+            }
+        });
+    }
+
+}); 
 router.post('/configure/finish', (req, res) => {
     
     let configuration = req.body;

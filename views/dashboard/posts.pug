@@ -38,7 +38,7 @@ block body
                                                         img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
                                                 .col-xs-12.col-sm-9.col-md-9
                                                     label
-                                                        a(href='#')= post.title
+                                                        a(href='/dashboard/edit/' + post.permlink)= post.title
                                                     p.card-category= post.body.substring(200,0)
                                             hr
                         //- table.table.table-hover.table-striped

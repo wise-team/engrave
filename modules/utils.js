@@ -38,16 +38,6 @@ module.exports.getAllPosts = (limit, start_permlink, username, callback) => {
 
                         result.forEach(element => {
                             var resteemed = (element.author != username);
-
-
-                            // if(element.json_metadata != '') {
-                            //     var metadata = JSON.parse(element.json_metadata);
-                            //     if (metadata.root_author) {
-                            //         var root_author = metadata.root_author
-                            //     }
-                            // } else {
-                            //     var root_author = username;
-                            // }
                             
                             if (cnt < limit && !resteemed) {
                                 if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {

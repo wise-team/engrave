@@ -34,7 +34,7 @@ module.exports.createAndRun = (domain, port, steem_username) => {
 
             fs.writeFile(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), teetteet, (err) => {
                 if (!err) {
-                    console.log('createAndRun: The file has been saved!');
+                    console.log('Copying files completed.');
 
                     pm2.start(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), function (err, apps) {
 
@@ -42,39 +42,16 @@ module.exports.createAndRun = (domain, port, steem_username) => {
                             console.log(err);
                         }
                         
-
-                        console.log('teet');
                         pm2.disconnect();   // Disconnects from PM2
-                        console.log('done!');
+                        console.log('New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
 
                         // if (err) throw err
                     });
 
                 } else {
-                    console.log("write file error:", err);
+                    console.log("Copying files error:", err);
                 }
             });
-
         });
-
-
     });
-
 }; 
-
-
-module.exports.generateCustomDomainConfig = (domain, port, cb) => {
-    let tmp1 = domain_template.replace(/EXAMPLE/g, domain);
-    let tmp2 = tmp1.replace(/PORT/g, port);
-
-    fs.writeFile(domain, tmp2, (err) => {
-        if (!err) {
-            console.log('nginx.generateCustomDomainConfig: The file has been saved!');
-        }
-
-        if (cb) {
-            cb(err);
-        }
-    });
-
-};
