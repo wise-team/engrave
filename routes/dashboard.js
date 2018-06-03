@@ -135,7 +135,6 @@ router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
 router.post('/publish', (req, res) => {
     
     let article = req.body;
-    console.log(article);
 
     if(article.body != '' && article.title != '') {
 
@@ -232,8 +231,8 @@ router.post('/publish', (req, res) => {
                 }
                 
             } else {
-                console.log("Article posted on steemconnect");
-                res.json({ success: "Artykuł został opublikowany"});
+                console.log("Article has been posted by @" + req.session.steemconnect.name);
+                res.json({ success: "Article has been published successfully"});
             }
         });
     }
@@ -243,7 +242,6 @@ router.post('/publish', (req, res) => {
 router.post('/edit', (req, res) => {
     
     let article = req.body;
-    console.log(article);
 
     if(article.body != '' && article.title != '') {
 
@@ -323,7 +321,7 @@ router.post('/edit', (req, res) => {
                 }
                 res.json({ error: errorstring});
             } else {
-                console.log("Article posted on steemconnect");
+                console.log("Article has been updated by @" + req.session.steemconnect.name);
                 res.json({ success: "Article has been updated successfully"});
             }
         });
