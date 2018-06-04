@@ -14,7 +14,10 @@
                         meta(itemprop="image" content= featured_item.image)
                         meta(itemprop="headline" content= featured_item.title)
 
-                        img(src=featured_item.image)
+                        if featured_item.image && featured_item.image != ''
+                            img(src=featured_item.image)
+                        else
+                            img(src='/default/img/default-big.png')
                         .slider-caption
                             a(href="/kategoria/"+ featured_item.category, class="category category-" + featured_item.category) #{featured_item.category_fullname}
                             h2

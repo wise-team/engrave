@@ -35,11 +35,11 @@ block body
                                                     if post.thumbnail
                                                         img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
                                                     else    
-                                                        img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
+                                                        img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail-small
                                                 .col-xs-12.col-sm-9.col-md-9
                                                     label
                                                         a(href='/dashboard/edit/' + post.permlink)= post.title
-                                                    p.card-category= post.body.substring(200,0)
+                                                    p.card-category= '$' + parseFloat(parseFloat(post.pending_payout_value.replace(" SBD", "")) + parseFloat(post.total_payout_value.replace(" SBD", ""))).toFixed(2)
                                             hr
                         //- table.table.table-hover.table-striped
                         //-     thead
