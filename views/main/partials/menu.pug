@@ -2,7 +2,8 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
       .container
         // Brand
         a.navbar-brand(href='/')
-          strong ENGRAVE
+          img(src='/img/logo.png').navbar-left
+          //- strong ENGRAVE
         // Collapse
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
           span.navbar-toggler-icon
@@ -14,10 +15,10 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
               a.nav-link(href='/')
                 | Home
                 span.sr-only (current)
-            li.nav-item
-              a.nav-link(href='/about') About ENGRAVE
-            li.nav-item
-              a.nav-link(href='/how-to-earn') How to earn
+            //- li.nav-item
+            //-   a.nav-link(href='/about') About ENGRAVE
+            //- li.nav-item
+            //-   a.nav-link(href='/how-to-earn') How to earn
             if !blogger    
               li.nav-item
                 a.nav-link(href='/create') Create Blog

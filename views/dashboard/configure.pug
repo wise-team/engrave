@@ -21,8 +21,8 @@ block body
                     .form-group
                       if blogger.tier == 15
                         label Add your domain
-                        input.form-control(name='domain', type='text', placeholder='example.com', value='' required)
-                      else if blogger.tier == 10
+                        input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
+                      else if blogger.tier == 12
                         label Domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       else

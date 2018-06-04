@@ -32,3 +32,7 @@ body,
   .modal-backdrop {
     z-index: -1;
   }
+
+.navbar-brand img {
+  height: 35px;
+}

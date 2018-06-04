@@ -150,16 +150,40 @@ block body
               .card-header
                   h4.card-title Statistics and analytics
               .card-body
-                  .row
+                .row
                   .col-md-12
                       .form-group
                           label Google Analytics Identifier
                           input.form-control(name='analytics_gtag', type='text', placeholder='UA-xxxxxxxxx-x', value=blogger.analytics_gtag)                                    
-                  .row
+                .row
                   .col-md-12
                       .form-group
                           label Google Webmaster tools Verification code
                           input.form-control(name='webmastertools_id', type='text', placeholder='', value=blogger.webmastertools_id) 
 
-                  button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save blog settings
-                  .clearfix
+                button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save blog settings
+                .clearfix
+                
+          .col-md-4
+              .card
+                  .card-header
+                      h4.card-title Basic
+                  .card-body
+                      ul
+                          li You blog's setting are updated every minute so you may need to wait some time to see effects.
+                      h4 Categories
+                      ul
+                        li Due to Steem blockchain principles, it's not possible to change category after publishing. It is important to configure them first!
+                        li It's important to set every field in every category unique!
+                        li Use category <strong>NAME</strong> for it's description, for example in menu listing.
+                        li Category <strong>SLUG</strong> is used in your blog URL address. If you set it as a 'my-category' it will be available at /kategoria/my-category
+                        li Category <strong>STEEM TAG</strong> is very important. Use it to distinguish your content type. It cannot be changed after post publishing so set it carrefoully. Use best possible tag related to category, e.g. if you are setting <strong>Technology news</strong> category, use <strong>technology</strong> tag.
+                      h4 SEO & OpenGraph
+                      ul
+                        li Provide default description and name for your main page to look better when sharing on social media
+                      h4 OneSignal notifications
+                      ul
+                        li It's possible to enable OneSignal web-push notifications system
+                        li Simply configure new application on 
+                          a(href='https://onesignal.com') Onesignal.com 
+                          | and provide APP ID and API KEY

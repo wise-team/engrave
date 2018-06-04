@@ -337,9 +337,9 @@ router.post('/configure/finish', (req, res) => {
             if(!blog.configured) {
                 blog.configured = true;
                 blog.email = configuration.email;
-                if(blog.tier == 5) {
+                if(blog.tier == 10) {
                     blog.domain = req.session.steemconnect.name + '.' + config.domain;
-                } else if (blog.tier == 10 || blog.tier == 15) {
+                } else if (blog.tier == 12 || blog.tier == 15) {
                     blog.domain = configuration.domain;
                 }
 
@@ -348,7 +348,7 @@ router.post('/configure/finish', (req, res) => {
                         console.log(err);
                         res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                     } else {
-                        if(blog.tier == 5) {
+                        if(blog.tier == 10) {
                             nginx.generateSubdomainConfig(blog.domain, blog.port, function (err) {
                                 if(err) {
                                     console.log(err);
@@ -356,7 +356,7 @@ router.post('/configure/finish', (req, res) => {
                                     nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
                                 }
                             });
-                        } else if (blog.tier == 10 || blog.tier == 15) {
+                        } else if (blog.tier == 12 || blog.tier == 15) {
                             nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
                                 if(err) {
                                     console.log(err);

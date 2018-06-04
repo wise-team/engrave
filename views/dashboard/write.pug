@@ -56,14 +56,8 @@ block body
                                         .form-group
                                             label Preview image
                                             input.form-control(type='text', placeholder='https://...', value='', name='image')
-                            
-                                .pull-right
-                                    //- button.btn.btn-info.btn-fill(data-toggle="modal" data-target="#myModal1" type="button")
-                                    //-     |  Modal
-                                    
-                                //- button.btn.btn-success.btn-fill.pull-right(data-toggle="modal" data-target="#myModal1" data-backdrop="static" data-keyboard="false" type="button")
+                                                             
                                 button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
-                                    //- i.fa.fa-refresh.fa-spin
                                     |  Publish new post
 
                 .col-md-4
@@ -72,5 +66,10 @@ block body
                             h4.card-title Tips and tricks
                         .card-body
                             ul
-                                li Never show your steem account keys to anyone
-                                li User popular tags, but not if they are unintended
+                                li Never show your account's keys to anyone. Never!
+                                li Use popular tags, but only if they match the context
+                                li Style your articles using Markdown
+                                li Nice images makes everything look better
+                            h4 Categories
+                            ul
+                                li Due to Steem blockchain principles, it's not possible to change category after publishing. It is important to configure them first!
