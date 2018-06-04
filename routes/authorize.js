@@ -107,10 +107,10 @@ router.get('/', (req, res, next) => {
                     req.session.blogger = user;
                     user.save(function (err) {
                         if(err) {
-                            console.log("Jakiś błąd podczas zapisu nowego użytkownika");
+                            console.log(" * Jakiś błąd podczas zapisu nowego użytkownika");
                             res.redirect('/');
                         } else {
-                            console.log("Dodano nowego użytkownika do bazy: " + user.steem_username)
+                            console.log(" * Dodano nowego użytkownika do bazy: " + user.steem_username)
 
                             res.redirect('/configure');
                         }

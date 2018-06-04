@@ -34,7 +34,7 @@ module.exports.createAndRun = (domain, port, steem_username) => {
 
             fs.writeFile(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), teetteet, (err) => {
                 if (!err) {
-                    console.log('Copying files completed.');
+                    console.log(' * Copying files completed.');
 
                     pm2.start(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), function (err, apps) {
 
@@ -43,13 +43,13 @@ module.exports.createAndRun = (domain, port, steem_username) => {
                         }
                         
                         pm2.disconnect();   // Disconnects from PM2
-                        console.log('New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
+                        console.log(' * New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
 
                         // if (err) throw err
                     });
 
                 } else {
-                    console.log("Copying files error:", err);
+                    console.log(" * Copying files error:", err);
                 }
             });
         });

@@ -77,16 +77,16 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
             let tags = '';
             let thumbnail = '';
 
-            if(steem_post.json_metadata && steem_post.json_metadata != '') {
+            if(steem_post.hasOwnProperty('json_metadata') && steem_post.json_metadata != '') {
                 let metadata = JSON.parse(steem_post.json_metadata);
-                if(metadata && metadata.tags) {
+                if(metadata && metadata.hasOwnProperty('tags')) {
                     metadata.tags.forEach((tag) =>{
                         if(tag != steem_post.category) {
                             tags += tag + ' ';
                         }
                     })
                 }
-                if(metadata && metadata.image.length) {
+                if(metadata && metadata.hasOwnProperty('image') && metadata.image.length) {
                     thumbnail = metadata.image[0];
                 }
             }

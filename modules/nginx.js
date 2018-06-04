@@ -12,7 +12,7 @@ module.exports.generateSubdomainConfig = (subdomain, port, cb) => {
 
     fs.writeFile("/etc/nginx/conf.d/" + port + '_' + subdomain + ".conf", tmp2, (err) => {
         if (!err) {
-            console.log('Subdomain config for NGINX has been saved successfully');
+            console.log(' * Subdomain config for NGINX has been saved successfully');
         }
 
         if (cb) {
@@ -27,7 +27,7 @@ module.exports.generateCustomDomainConfig = (domain, port, cb) => {
 
     fs.writeFile("/etc/nginx/conf.d/" + port + '_' + domain + ".conf", tmp2, (err) => {
         if (!err){
-            console.log('Domain config for NGINX has been saved successfully');
+            console.log(' * Domain config for NGINX has been saved successfully');
         }
         
         if (cb) {
