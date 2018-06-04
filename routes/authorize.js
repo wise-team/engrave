@@ -16,25 +16,7 @@ router.get('/logout', (req, res) => {
 
 });
 
-router.get('/tier/5', (req, res) => {
-
-    if(!req.session.steemconnect) {
-        res.redirect('/');
-    } else {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
-            if(blogger && !blogger.tier) {
-                blogger.tier = 5;
-                blogger.save(function(err) {
-                    res.redirect('/dashboard');
-                });
-            } else {
-                res.redirect('/');
-            }
-        }) 
-    }
-});
-
-router.get('/tier/10', (req, res) => {
+router.get('/tier/basic', (req, res) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -52,7 +34,25 @@ router.get('/tier/10', (req, res) => {
     }
 });
 
-router.get('/tier/15', (req, res) => {
+router.get('/tier/standard', (req, res) => {
+
+    if(!req.session.steemconnect) {
+        res.redirect('/');
+    } else {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+            if(blogger && !blogger.tier) {
+                blogger.tier = 12;
+                blogger.save(function(err) {
+                    res.redirect('/dashboard');
+                });
+            } else {
+                res.redirect('/');
+            }
+        }) 
+    }
+});
+
+router.get('/tier/extended', (req, res) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');

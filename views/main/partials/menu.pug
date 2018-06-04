@@ -18,8 +18,9 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
               a.nav-link(href='/about') About ENGRAVE
             li.nav-item
               a.nav-link(href='/how-to-earn') How to earn
-            li.nav-item
-              a.nav-link(href='/create') Create Blog
+            if !blogger    
+              li.nav-item
+                a.nav-link(href='/create') Create Blog
           // Right
           ul.navbar-nav.nav-flex-icons
 
