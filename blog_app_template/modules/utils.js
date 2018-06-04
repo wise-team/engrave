@@ -199,7 +199,8 @@ module.exports.prepareSinglePostToRender = (steem_post, username) => {
     var article_title = steem_post.title;
 
     let tmp = exports.removeWebsiteAdvertsElements(striptags(steem_post.body));
-
+    
+    converter.setOption('tables', true);
     var body = converter.makeHtml(tmp);
     var value = parseFloat(parseFloat(steem_post.pending_payout_value.replace(" SBD", "")) + parseFloat(steem_post.curator_payout_value.replace(" SBD", "")) + parseFloat(steem_post.total_payout_value.replace(" SBD", ""))).toFixed(2);
     
@@ -328,7 +329,6 @@ module.exports.prepareSinglePostComments = (steem_comments) => {
             value: parseFloat(parseFloat(comment.pending_payout_value.replace(" SBD", "")) + parseFloat(comment.total_payout_value.replace(" SBD", ""))).toFixed(2),
             created: moment(new Date(comment.created)).format('LL LT'),
             permlink: comment.permlink,
-            // body: converter.makeHtml(comment.body),
             body: comment.body,
             replies: exports.prepareSinglePostComments(comment.replies)
         }
@@ -485,7 +485,8 @@ module.exports.dashboardPreparePostPreview = (article) => {
             body += "\n\nŹródło: [" + url.parse(article.source_link).hostname + "](" + article.source_link + ")";
         }
     }
-
+    
+    converter.setOption('tables', true);
     body = converter.makeHtml(body);
     var value = 0;
     var imageLink = article.image;

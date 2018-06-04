@@ -3591,3 +3591,22 @@ span.img-caption {
 .sidebar-link-with-image {
   overflow: hidden;
 }
+
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;  
+}
+
+th {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #e9ecef;
+}
+
+td {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #e9ecef;
+}
