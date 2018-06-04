@@ -22,16 +22,11 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
               a.nav-link(href='/create') Create Blog
           // Right
           ul.navbar-nav.nav-flex-icons
-            li.nav-item
-              a.nav-link(href='#')
-                i.fa.fa-facebook
-            li.nav-item
-              a.nav-link(href='#')
-                i.fa.fa-twitter
+
             li.nav-item
               if !blogger
-                a.nav-link.border.border-light.rounded(href='/authorize')
-                  | Login with STEEM
+                a.nav-link.border.border-light.rounded(href='/dashboard')
+                  | Login to dashboard
               else
-                a.nav-link.border.border-light.rounded(href='/authorize/logout')
-                  = blogger.steem_username
+                a.nav-link.border.border-light.rounded(href='/dashboard')
+                  | Take me to dashboard
