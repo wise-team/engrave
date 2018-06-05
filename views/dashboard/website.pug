@@ -21,6 +21,14 @@ html(lang='en')
     link(href='/css/parsley.css', rel='stylesheet')
     link(href='/modern/css/style.css', rel='stylesheet')
 
+    // Global site tag (gtag.js) - Google Analytics
+    script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-120365822-2')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-120365822-2');
+
   body
     .wrapper
       include partials/menu.pug
