@@ -23,7 +23,14 @@ html(lang='en')
     meta(property="og:title" content= 'Engrave - Steem powered blogging platform')
     meta(property="og:description" content= 'Create blog and start earning money in three simple steps with Steem blockchain technology. Collect STEEM and SBD tokens by just posting your blog articles.')
     meta(property="og:image" content= 'https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg')
-
+    
+    // Global site tag (gtag.js) - Google Analytics
+    script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-120365822-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-120365822-1');
 
     style(type='text/css').
       @media (min-width: 800px) and (max-width: 850px) {
