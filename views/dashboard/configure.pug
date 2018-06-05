@@ -23,6 +23,8 @@ block body
                         label Add your domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       else if blogger.tier == 12
+                        label Information
+                        p Due to alpha release, we do not own DNS server yet, so you have to point your domain directly to our server. Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
                         label Domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       else
