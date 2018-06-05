@@ -38,6 +38,7 @@ block body
                       if blogger.tier != 15
                         label E-mail
                         input.form-control(name='email', type='email', placeholder='e-mail', value='' required)
+                a(href='/authorize/tier/cancel').btn.btn-link Change your tier
                 if blogger.tier != 15
                   button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
                 .clearfix

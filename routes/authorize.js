@@ -70,6 +70,24 @@ router.get('/tier/extended', (req, res) => {
     }
 });
 
+router.get('/tier/cancel', (req, res) => {
+
+    if(!req.session.steemconnect) {
+        res.redirect('/');
+    } else {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+            if(blogger && !blogger.configured) {
+                blogger.tier = null;
+                blogger.save(function(err) {
+                    res.redirect('/dashboard');
+                });
+            } else {
+                res.redirect('/');
+            }
+        }) 
+    }
+});
+
 router.get('/', (req, res, next) => {
     
     if(!req.query.access_token) {

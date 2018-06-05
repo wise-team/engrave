@@ -231,7 +231,7 @@ router.post('/publish', (req, res) => {
                 }
                 
             } else {
-                console.log("Article has been posted by @" + req.session.steemconnect.name);
+                console.log("New article has been posted by @" + req.session.steemconnect.name);
                 res.json({ success: "Article has been published successfully"});
             }
         });
