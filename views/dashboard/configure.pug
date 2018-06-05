@@ -20,8 +20,10 @@ block body
                   .col-md-6
                     .form-group
                       if blogger.tier == 15
-                        label Add your domain
-                        input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
+                        //- label Add your domain
+                        p Please leave comment in this topic:
+
+                        a(href='') ENAGRAVE at Steemit.com
                       else if blogger.tier == 12
                         label Information
                         p Due to alpha release, we do not own DNS server yet, so you have to point your domain directly to our server. Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
@@ -33,8 +35,9 @@ block body
                         input.form-control(name='domain', type='text', disabled='', placeholder='Domain', value= blogger.steem_username + '.engrave.site')
                   .col-md-6
                     .form-group
-                      label E-mail
-                      input.form-control(name='email', type='email', placeholder='e-mail', value='' required)
-
-                button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
+                      if blogger.tier != 15
+                        label E-mail
+                        input.form-control(name='email', type='email', placeholder='e-mail', value='' required)
+                if blogger.tier != 15
+                  button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
                 .clearfix
