@@ -16,8 +16,10 @@ router.get('/logout', (req, res) => {
 
 router.get('/', (req, res, next) => {
     if(!req.query.access_token) {
-        let uri = steem.getLoginURL();
-        res.redirect(uri);
+        var host = req.get('host');
+        console.log(host);
+        // let uri = steem.getLoginURL();
+        res.redirect('https://engrave.website/authorize?' + host);
     } else {
         req.session.access_token = req.query.access_token;
         steem.setAccessToken(req.session.access_token);
