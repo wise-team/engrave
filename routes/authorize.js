@@ -91,6 +91,7 @@ router.get('/tier/cancel', (req, res) => {
 router.get('/', (req, res, next) => {
     if(!req.query.access_token) {
         if(req.query.blog) {
+            console.log(req.query.blog);;
             req.session.blog_redirect = req.query.blog;
         }
         let uri = steem.getLoginURL();
