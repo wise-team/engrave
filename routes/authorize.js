@@ -100,7 +100,7 @@ router.get('/', (req, res, next) => {
         console.log(req.session.blog_redirect);
         let redirect = req.session.blog_redirect;
         req.session.blog_redirect = null;
-        res.redirect('http://' + redirect + '?access_token=' + req.query.access_token);
+        res.redirect('http://' + redirect + '/authorize?access_token=' + req.query.access_token);
     } else {        
         req.session.access_token = req.query.access_token;
         steem.setAccessToken(req.session.access_token);
