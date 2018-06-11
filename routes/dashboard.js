@@ -121,11 +121,30 @@ router.get('/posts', isLoggedAndConfigured, (req, res) => {
 });
 
 router.get('/wallet', isLoggedAndConfigured, (req, res) => {
-    res.render('dashboard/wallet.pug', {blogger: req.session.blogger, url: 'wallet'}); 
+    steemconnect.me(function(err, user) {
+        if(!err && user) {
+            steem.api.getDynamicGlobalProperties((err, result) => {
+                // var accountValue = steem.formatter.estimateAccountValue(req.session.steemconnect.name);
+                var steemPower = steem.formatter.vestToSteem(user.account.vesting_shares, result.total_vesting_shares, result.total_vesting_fund_steem);
+                res.render('dashboard/wallet.pug', {blogger: req.session.blogger, user: user, steemPower: steemPower, url: 'wallet'}); 
+              });
+        } else {
+            res.redirect('/');
+        }
+    })
+    
 });
 
 router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
     res.render('dashboard/upgrade.pug', {blogger: req.session.blogger, url: 'upgrade'}); 
+});
+
+router.get('/claim', isLoggedAndConfigured, (req, res) => {
+    steemconnect.me(function(err, user) { 
+        steemconnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err, result) {
+            res.redirect('/dashboard/wallet');
+        })
+    });
 });
 
 

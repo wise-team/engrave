@@ -2,3 +2,7 @@
     /* bug fix - no overlay */    
     display: none;    
 }
+
+.logo img {
+    max-width: 80%;
+  }

@@ -5,7 +5,55 @@ block body
         .container-fluid
             .row
                 .col-md-8
+                    if parseFloat(user.account.reward_sbd_balance) > 0 || parseFloat(user.account.reward_steem_balance) > 0 || parseFloat(user.account.reward_vesting_balance) > 0 || parseFloat(user.account.reward_vesting_steem) > 0
+                        .card
+                            .card-body
+                                p.text-success Pending rewards: 
+                                    if parseFloat(user.account.reward_sbd_balance) > 0
+                                        = user.account.reward_sbd_balance 
+                                    if parseFloat(user.account.reward_steem_balance) > 0
+                                        if parseFloat(user.account.reward_sbd_balance) > 0
+                                            = ', '
+                                        = user.account.reward_steem_balance 
+                                    if parseFloat(user.account.reward_vesting_steem) > 0
+                                        if parseFloat(user.account.reward_sbd_balance) > 0 || parseFloat(user.account.reward_steem_balance) > 0
+                                            = ', '
+                                        = user.account.reward_vesting_steem
+                                    a(href='/dashboard/claim')
+                                        button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
+                                            |  Get your rewards
                     .card
                         .card-header
-                            h4.card-title COMING SOON
-                        .card-body
+                            h4.card-title Wallet
+                            p.card-category You total tokens, including liquid and freezed tokens as Steem Power
+                        .card-body.table-full-width.table-responsive
+                            table.table.table-hover
+                                tbody
+                                    tr
+                                        td STEEM
+                                            p.small Liquid STEEM tokens are transferable
+                                        td= user.account.balance
+                                    tr
+                                        td STEEM DOLLARS
+                                            p.small Liquid SBD tokens are transferable
+                                        td= user.account.sbd_balance
+                                    tr
+                                        td STEEM POWER
+                                            p.small STEEM POWER tokens are freezed and can be withrawed in 13 weeks
+                                        td= parseFloat(steemPower).toFixed(3) + ' STEEM'
+                                    tr
+                                        td SAVINGS
+                                            p.small Savings can be withdrawed with three days waiting period
+                                        td
+                                            p= user.account.savings_balance + ', ' + user.account.savings_sbd_balance
+                                    //- tr
+                                    //-     td Estimated Account Value
+                                    //-         p.small Savings can be withdrawed with three days waiting period
+                                    //-     td
+                                    //-         p= accountValue
+                    //- .card
+                    //-     .card-header
+                    //-         h4.card-title Transfer
+                    //-         p.card-category Savings can be withdrawed with three days waiting period. It's better to handle your liquid tokens in Savings, because if you loose your keys, you have three days before anyone will be able to transfer this funds.
+                    //-     .card-body
+                    //-         | kjkjjfg
