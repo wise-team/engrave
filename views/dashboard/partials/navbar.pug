@@ -18,8 +18,8 @@ nav.navbar.navbar-expand-lg(color-on-scroll='500')
                     a#navbarDropdownMenuLink.nav-link.dropdown-toggle(href='', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                         span.no-icon= '@' + blogger.steem_username
                     .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
-                        a.dropdown-item(target='_blank', href='https://steemit.com/@' + blogger.steem_username) Visit Steemit
                         if blogger.domain
                             a.dropdown-item(target='_blank', href= 'http://' + blogger.domain) Visit your Blog
+                        a.dropdown-item(target='_blank', href='https://steemit.com/@' + blogger.steem_username) Visit Steemit
                         .divider
                         a.dropdown-item(href='/authorize/logout') Logout

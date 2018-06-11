@@ -38,7 +38,7 @@ block body
                                                         img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
                                                 .col-xs-12.col-sm-6.col-md-6
                                                     label
-                                                        a(href= 'http://' + blogger.domain + '/' + post.permlink, target='_blank')= post.title
+                                                        a(href='/dashboard/edit/' + post.permlink)= post.title
                                                     p.card-category= post.body.substring(120, 0) + '...'
                                                     ul.list-inline
                                                         li.list-inline-item.card-category
@@ -58,9 +58,9 @@ block body
                                                             = '$' + parseFloat(parseFloat(post.pending_payout_value.replace(" SBD", "")) + parseFloat(post.total_payout_value.replace(" SBD", ""))).toFixed(2)
                                                 .col-xs-12.col-sm-5.col-md-3
                                                     .td-actions.text-right
-                                                        a(href='/dashboard/edit/' + post.permlink)
-                                                            button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                                                                i.fa.fa-edit
+                                                        a(href= 'http://' + blogger.domain + '/' + post.permlink, target='_blank')
+                                                            button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='View')
+                                                                i.fa.fa-external-link
                                                     //- p.card-category= '$' + 
                                             hr
                         //- table.table.table-hover.table-striped

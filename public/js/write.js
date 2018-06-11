@@ -1,5 +1,19 @@
 $(document).ready(function () {
 
+    var simplemde = new SimpleMDE(
+        {
+            autosave: {
+                enabled: true, 
+                uniqueId: "MyUniqueID", 
+                delay: 1000
+            },
+            forceSync: true, 
+            spellChecker: false,
+            element: document.getElementById("post-body"),
+            showIcons: ["code", "table"],
+          
+        });
+
     $('#article').parsley();
 
     let inProgress = false;
@@ -57,6 +71,7 @@ $(document).ready(function () {
                         });
 
                         $('#article').trigger('reset');
+                        simplemde.value("");
 
                     } else if (data.error) {
                         $.notify({

@@ -1,9 +1,5 @@
 extends website.pug
 
-append scripts
-    script(src="/js/parsley.min.js")
-    script(src="/js/edit.js")
-
 block body
     #myModal1.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
@@ -38,7 +34,7 @@ block body
                                     .col-md-12
                                         .form-group
                                             label Body
-                                            textarea.form-control(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' required="" minlength="10")= post.body
+                                            textarea.form-control#edit-body(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' required="" minlength="10")= post.body
                                             a.btn.btn-link.btn-simple.pull-right(target='_blank' href='https://guides.github.com/features/mastering-markdown/') Markdown styling guide
                                 .row
                                     .col-md-12
@@ -70,3 +66,8 @@ block body
                             ul
                                 li Never show your steem account keys to anyone
                                 li User popular tags, but not if they are unintended
+append scripts
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css')
+    script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+    script(src="/js/parsley.min.js")
+    script(src="/js/edit.js")

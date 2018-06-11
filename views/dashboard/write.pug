@@ -1,9 +1,5 @@
 extends website.pug
 
-append scripts
-    script(src="/js/parsley.min.js")
-    script(src="/js/write.js")
-
 block body
     #myModal1.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
         .modal-dialog
@@ -37,7 +33,7 @@ block body
                                     .col-md-12
                                         .form-group
                                             label Body
-                                            textarea.form-control(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' required="" minlength="10")
+                                            textarea.form-control#post-body(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' minlength="10")
                                             a.btn.btn-link.btn-simple.pull-right(target='_blank' href='https://guides.github.com/features/mastering-markdown/') Markdown styling guide
                                 .row
                                     .col-md-12
@@ -73,3 +69,9 @@ block body
                             h4 Categories
                             ul
                                 li Due to Steem blockchain principles, it's not possible to change category after publishing. It is important to configure them first!
+
+append scripts
+    link(rel='stylesheet', href='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css')
+    script(src='https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js')
+    script(src="/js/parsley.min.js")
+    script(src="/js/write.js")

@@ -232,7 +232,7 @@ router.post('/publish', (req, res) => {
                 
             } else {
                 console.log("New article has been posted by @" + req.session.steemconnect.name);
-                res.json({ success: "Article has been published successfully"});
+                res.json({ success: "Article published"});
             }
         });
     }
@@ -322,7 +322,7 @@ router.post('/edit', (req, res) => {
                 res.json({ error: errorstring});
             } else {
                 console.log("Article has been updated by @" + req.session.steemconnect.name);
-                res.json({ success: "Article has been updated successfully"});
+                res.json({ success: "Article updated"});
             }
         });
     }

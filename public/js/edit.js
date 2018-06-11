@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    var simplemde = new SimpleMDE({ autosave: { enabled: false, uniqueId: "MyUniqueID", delay: 1000},forceSync: true, element: document.getElementById("edit-body") });
+
     $('#article').parsley();
 
     let inProgress = false;
