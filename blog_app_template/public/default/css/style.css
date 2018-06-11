@@ -490,7 +490,7 @@ li:hover .mega-posts-menu {
   top: 100%;
   left: 0;
   background: #212121;
-  width: 200px;
+  width: 220px;
   visibility: hidden;
   opacity: 0;
   margin-top: 10px;
@@ -501,10 +501,17 @@ li:hover .mega-posts-menu {
   .dropdown > li {
     position: relative;
     display: block;
-    border-bottom: 1px solid #333333; }
+    border-bottom: 1px solid #333333; 
+    min-height: 40px; 
+    /* min-width: 220px; */
+    padding: 10px;
+    }
+    .dropdown > li:first-child { 
+      margin-top: 10px;
+  }
     .dropdown > li a {
       padding: 10px 20px;
-      font-size: 12px;
+      font-size: 0.815em;
       font-family: "Open Sans", sans-serif;
       color: #fff; }
       .dropdown > li a i {
@@ -3177,6 +3184,12 @@ footer {
   margin-bottom: -20px;
 }
 
+@media (max-width: 991px) {
+  .profile-image {
+    width: 25px;
+  }
+}
+
 .steemit-info {
 	background: rgba(245, 245, 245, 1);
   text-align: center;
@@ -3590,23 +3603,4 @@ span.img-caption {
 
 .sidebar-link-with-image {
   overflow: hidden;
-}
-
-table {
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  background-color: transparent;  
-}
-
-th {
-  padding: .75rem;
-  vertical-align: top;
-  border-top: 1px solid #e9ecef;
-}
-
-td {
-  padding: .75rem;
-  vertical-align: top;
-  border-top: 1px solid #e9ecef;
 }
