@@ -1,7 +1,13 @@
 $(document).ready(function () {
 
-    var simplemde = new SimpleMDE({ autosave: { enabled: false, uniqueId: "MyUniqueID", delay: 1000},forceSync: true, element: document.getElementById("edit-body") });
-
+    var simplemde = new SimpleMDE(
+        {
+            forceSync: true, 
+            spellChecker: false,
+            element: document.getElementById("edit-body"),
+            showIcons: ["code", "table"]
+          
+        });
     $('#article').parsley();
 
     let inProgress = false;
