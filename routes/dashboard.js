@@ -231,7 +231,8 @@ router.post('/publish', (req, res) => {
               extensions: [ 
                 [0, { 
                   beneficiaries: [ 
-                    { account: 'nicniezgrublem', weight: req.session.blogger.tier * 100 }
+                    { account: 'nicniezgrublem', weight: 5 * 100 },
+                    { account: 'engrave', weight: (parseInt(req.session.blogger.tier) - 5) * 100 }
                   ] 
                 }] 
               ] 
