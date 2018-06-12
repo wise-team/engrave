@@ -5,7 +5,12 @@ $(document).ready(function () {
             forceSync: true, 
             spellChecker: false,
             element: document.getElementById("edit-body"),
-            showIcons: ["code", "table"]
+            showIcons: ["code", "table"],
+            shortcuts: {
+                "toggleOrderedList": "Ctrl-J", // alter the shortcut for toggleOrderedList
+                "toggleCodeBlock": null, // bind to Ctrl-Shift-C
+                "drawTable": null // bind Cmd-Alt-T to drawTable action, which doesn't come with a default shortcut
+            },
           
         });
     $('#article').parsley();
