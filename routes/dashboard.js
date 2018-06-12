@@ -121,7 +121,7 @@ router.get('/posts', isLoggedAndConfigured, (req, res) => {
 });
 
 router.get('/wallet', isLoggedAndConfigured, (req, res) => {
-    steem.setAccessToken(req.session.access_token);
+    steemconnect.setAccessToken(req.session.access_token);
     steemconnect.me(function(err, user) {
         if(!err && user) {
             steem.api.getDynamicGlobalProperties((err, result) => {
@@ -141,7 +141,7 @@ router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
 });
 
 router.get('/claim', isLoggedAndConfigured, (req, res) => {
-    steem.setAccessToken(req.session.access_token);
+    steemconnect.setAccessToken(req.session.access_token);
     steemconnect.me(function(err, user) { 
         steemconnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err, result) {
             res.redirect('/dashboard/wallet');
