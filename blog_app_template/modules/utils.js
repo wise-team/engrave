@@ -665,8 +665,17 @@ module.exports.isPostInCategory = (post_category, category_name) => {
 };
 
 function canPostBeDisplayed(post) {
-    if(cfg.get_config().show_everything == 'true' || cfg.get_config().show_everything == true || (post.beneficiaries.length && post.beneficiaries[0].account == 'nicniezgrublem')) {
+
+    if(cfg.get_config().show_everything == 'true' || cfg.get_config().show_everything == true) {
         return true;
+    }
+
+    if((post.beneficiaries.length && (post.beneficiaries[0].account == 'nicnienicniezgrublem' || post.beneficiaries[0].account == 'engrave') )) {
+        
+        let pattern = /(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/;
+        
+        return pattern.test(post.body);
+        
     } else {
         return false;
     }

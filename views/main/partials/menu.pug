@@ -30,4 +30,4 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
                   | Login to dashboard
               else
                 a.nav-link.border.border-light.rounded(href='/dashboard')
-                  | Take me to dashboard
+                  = 'Hello @' + blogger.steem_username +  ', open dashboard'

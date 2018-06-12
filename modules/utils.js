@@ -40,7 +40,7 @@ module.exports.getAllPosts = (limit, start_permlink, username, callback) => {
                             var resteemed = (element.author != username);
                             
                             if (cnt < limit && !resteemed) {
-                                if(element.beneficiaries.length && element.beneficiaries[0].account == 'nicniezgrublem') {
+                                if(element.beneficiaries.length && (element.beneficiaries[0].account == 'nicniezgrublem' || element.beneficiaries[0].account == 'engrave')) {
                                     if(element.json_metadata && element.json_metadata != '') {
                                         let metadata = JSON.parse(element.json_metadata);
                                         if(metadata.image && metadata.image.length) {
