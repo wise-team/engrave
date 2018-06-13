@@ -13,6 +13,7 @@ var mongoose = require('mongoose');
 let steem = require("steem");
 let moment = require("moment");
 var pm2 = require('pm2');
+var scheduler = require('./modules/scheduler.js');
 
 console.log("Launched on " + moment().format("LLLL"));
 console.log(config);
@@ -74,6 +75,8 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('main/error', { categories: config.categories });
 });
+
+scheduler.initialize();
 
 /**
  * Create HTTP server.

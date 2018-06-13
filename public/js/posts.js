@@ -1,91 +1,56 @@
 $(document).ready(function () {
-    
-    $('[data-toggle="tooltip"]').tooltip();
-
-    let id = $('#_id').val();
-
-    console.log(id);
-
-    var simplemde = new SimpleMDE(
-        {
-            autosave: {
-                enabled: true, 
-                uniqueId: id ? id : "new", 
-                delay: 1000
-            },
-            shortcuts: {
-                "toggleOrderedList": "Ctrl-J", // alter the shortcut for toggleOrderedList
-                "toggleCodeBlock": null, // bind to Ctrl-Shift-C
-                "drawTable": null // bind Cmd-Alt-T to drawTable action, which doesn't come with a default shortcut
-            },
-            forceSync: true, 
-            spellChecker: false,
-            element: document.getElementById("post-body"),
-            showIcons: ["code", "table"],
-          
-        });
-
-    $('#article').parsley();
 
     let inProgress = false;
+    let id = null;
+    let btn = null;
 
-    $('#btn-publish').click(function(e) {    
+    $('.btn-func-delete').click(function (e) {
+        id = $(this)[0].id.replace("rm-","");
+        btn = $(this);
 
-        $('#article').parsley().validate();
-        if ($('#article').parsley().isValid()) {
-            $('#myModal1').modal({backdrop: 'static'});
-        }
+        $('#modal-delete').modal();
     });
 
-    $('#btn-draft').click(function(e) {    
-        $('#article').parsley().validate();
-        if ($('#article').parsley().isValid()) {
-            var article = $('#article').serialize();
-            console.log(article);
-            $.ajax({
-                type: "POST",
-                url: "/dashboard/draft",
-                data: article,
-                success: function (data) {
-                    if (data.success) {
-                        $.notify({
-                            icon: "nc-icon nc-send",
-                            message: data.success            
-                        }, {
-                            type: 'success',
-                            timer: 8000,
-                            spacing: 15,
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            }
-                        });
+    $('.btn-chain-delete').click(function (e) {
+        id = $(this)[0].id.replace("cdel-","");
+        btn = $(this);
+        
+        $('#modal-chain-delete').modal({backdrop: 'static'});
+    });
 
-                        if(data._id) {
-                            console.log('New draft ID: ', data._id);
-                            $('#_id').attr('value', data._id);
-                            $('#btn-draft').html("Update draft");
+    $('.btn-func-publish').click(function (e) {
+        id = $(this)[0].id.replace("pub-","");
+        btn = $(this);
+
+        $('#modal-publish').modal({backdrop: 'static'});
+    });
+
+    $('#btn-delete').click(function(e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/dashboard/draft/delete",
+            data: {id: id},
+            success: function (data) {
+                $('#modal-delete').modal('hide');
+                if (data.success) {
+                    $.notify({
+                        icon: "nc-icon nc-send",
+                        message: data.success            
+                    }, {
+                        type: 'success',
+                        timer: 8000,
+                        spacing: 15,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
                         }
-
-                    } else if (data.error) {
-                        $.notify({
-                            icon: "nc-icon nc-fav-remove",
-                            message: data.error            
-                        }, {
-                            type: 'danger',
-                            timer: 8000,
-                            spacing: 15,
-                            placement: {
-                                from: 'top',
-                                align: 'right'
-                            }
-                        });
-                    }
-                },
-                error: function (data) {
+                    });
+                    btn.parent().parent().parent().remove();
+                } else if (data.error) {
                     $.notify({
                         icon: "nc-icon nc-fav-remove",
-                        message: "Coś poszło nie tak..."        
+                        message: data.error            
                     }, {
                         type: 'danger',
                         timer: 8000,
@@ -96,41 +61,42 @@ $(document).ready(function () {
                         }
                     });
                 }
-            });
-        }
+            },
+            error: function (data) {
+                $('#modal-delete').modal('hide');
+                $.notify({
+                    icon: "nc-icon nc-fav-remove",
+                    message: 'Something gone wrong. Try again'            
+                }, {
+                    type: 'danger',
+                    timer: 8000,
+                    spacing: 15,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+        });
     });
 
-    $('#btn-accept').click(function(e) {    
-
+    $('#btn-publish').click(function(e) {
         if(!inProgress) {
             var i = document.createElement('i')
             $(i).addClass('fa').addClass('fa-refresh').addClass('fa-spin').attr('id', 'progress-loader');
     
-            $('#btn-accept').prepend(i);
-            $('#article').trigger('submit');
-        }
-    
-    });
-
-    $('#article').submit(function (e) {
-        if(!inProgress) {
+            $('#btn-publish').prepend(i);
             inProgress = true;
-            e.preventDefault();
-
-            var article = $(this).serialize();
-            
-            console.log(article);
 
             $.ajax({
                 type: "POST",
-                url: "/dashboard/publish",
-                data: article,
+                url: "/dashboard/draft/publish",
+                data: {id: id},
                 success: function (data) {
-                    $('#myModal1').modal('hide');
+                    $('#modal-publish').modal('hide');
                     inProgress = false;
                     $('#progress-loader').remove();
                     if (data.success) {
-                        
                         $.notify({
                             icon: "nc-icon nc-send",
                             message: data.success            
@@ -143,15 +109,7 @@ $(document).ready(function () {
                                 align: 'right'
                             }
                         });
-
-                        $('#article').trigger('reset');
-                        simplemde.value("");
-                        simplemde.clearAutosavedValue();
-                        if(data.draft) {
-                            window.location.replace("/dashboard/write");
-                        }
-                        
-
+                        btn.parent().parent().parent().remove();
                     } else if (data.error) {
                         $.notify({
                             icon: "nc-icon nc-fav-remove",
@@ -168,12 +126,12 @@ $(document).ready(function () {
                     }
                 },
                 error: function (data) {
-                    $('#myModal1').modal('hide');
+                    $('#modal-publish').modal('hide');
                     inProgress = false;
                     $('#progress-loader').remove();
                     $.notify({
                         icon: "nc-icon nc-fav-remove",
-                        message: "Coś poszło nie tak..."        
+                        message: 'Something gone wrong. Try again'            
                     }, {
                         type: 'danger',
                         timer: 8000,
@@ -185,8 +143,78 @@ $(document).ready(function () {
                     });
                 }
             });
+
         }
+        
+    });
+
+    $('#btn-chain-delete').click(function(e) {
+        if(!inProgress) {
+            var i = document.createElement('i')
+            $(i).addClass('fa').addClass('fa-refresh').addClass('fa-spin').attr('id', 'progress-loader');
+    
+            $('#btn-chain-delete').prepend(i);
+            inProgress = true;
+
+            $.ajax({
+                type: "POST",
+                url: "/dashboard/delete",
+                data: {permlink: id},
+                success: function (data) {
+                    $('#modal-chain-delete').modal('hide');
+                    inProgress = false;
+                    $('#progress-loader').remove();
+                    if (data.success) {
+                        $.notify({
+                            icon: "nc-icon nc-trash",
+                            message: data.success            
+                        }, {
+                            type: 'success',
+                            timer: 8000,
+                            spacing: 15,
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            }
+                        });
+                    } else if (data.error) {
+                        $.notify({
+                            icon: "nc-icon nc-fav-remove",
+                            message: data.error            
+                        }, {
+                            type: 'danger',
+                            timer: 8000,
+                            spacing: 15,
+                            placement: {
+                                from: 'top',
+                                align: 'right'
+                            }
+                        });
+                    }
+                },
+                error: function (data) {
+                    $('#modal-chain-delete').modal('hide');
+                    inProgress = false;
+                    $('#progress-loader').remove();
+                    $.notify({
+                        icon: "nc-icon nc-fav-remove",
+                        message: 'Something gone wrong. Try again'            
+                    }, {
+                        type: 'danger',
+                        timer: 8000,
+                        spacing: 15,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+                }
+            });
+
+        }
+        
     });
 
 });
+
 

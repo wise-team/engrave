@@ -18,7 +18,6 @@ router.get('/', (req, res, next) => {
     if(!req.query.access_token) {
         var host = req.get('host');
         console.log(host);
-        // let uri = steem.getLoginURL();
         res.redirect('https://engrave.website/authorize?blog=' + host);
     } else {
         req.session.access_token = req.query.access_token;
@@ -28,7 +27,7 @@ router.get('/', (req, res, next) => {
 
             Users.findOne({ username: req.session.steemconnect.name}, function (err, user) {
                 if(user) {
-                    console.log("Witamy ponownie: ", user.username);
+                    console.log("Witamy ponownie: ", user.username, " na blogu: ", req.get('host'));
                 } else {
                     user =  new Users({
                         username: req.session.steemconnect.name,

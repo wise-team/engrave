@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('[data-toggle="tooltip"]').tooltip();
+    
     var simplemde = new SimpleMDE(
         {
             forceSync: true, 

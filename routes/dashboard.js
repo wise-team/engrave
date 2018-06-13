@@ -11,6 +11,7 @@ let nodeapps = require('../modules/nodeapps.js');
 let utils = require('../modules/utils.js');
 
 let Blogs = require('../database/blogs.js');
+let Posts = require('../database/posts.js');
 
 function isLoggedAndConfigured(req, res, next) {
 
@@ -57,6 +58,18 @@ router.get('/profile', isLoggedAndConfigured, (req, res) => {
 
 router.get('/settings', isLoggedAndConfigured, (req, res) => {
     res.render('dashboard/settings.pug', {blogger: req.session.blogger, url: 'settings'}); 
+});
+
+router.get('/write/:id', isLoggedAndConfigured, (req, res) => {
+    Posts.findById(req.params.id, function(err, draft) {
+        if(!err && draft && (draft.steem_username == req.session.blogger.steem_username)) {
+            draft.body = utils.removeWebsiteAdvertsElements(draft.body);
+            res.render('dashboard/write.pug', {blogger: req.session.blogger, draft: draft, url: 'write'}); 
+        } else {
+            res.redirect('/dashboard');
+        }
+    });
+    
 });
 
 router.get('/write', isLoggedAndConfigured, (req, res) => {
@@ -115,7 +128,9 @@ router.get('/notifications', isLoggedAndConfigured, (req, res) => {
 router.get('/posts', isLoggedAndConfigured, (req, res) => {
 
     utils.getAllPosts(25, null, req.session.steemconnect.name, function(err, posts) {
-        res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts', drafts: [], posts: posts}); 
+        Posts.find({steem_username: req.session.blogger.steem_username}, function(err, drafts) {
+            res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts}); 
+        })
     });
     
 });
@@ -149,207 +164,209 @@ router.get('/claim', isLoggedAndConfigured, (req, res) => {
     });
 });
 
-
-
 /////// POST REQUESTS
 
-router.post('/publish', (req, res) => {
+router.post('/publish', isLoggedAndConfigured, (req, res) => {
     
+    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
+
+    if(post) {
+        const operations = utils.prepareOperations('publish', post, req.session.blogger);
+
+        if(operations) {
+            steemconnect.setAccessToken(req.session.access_token);
+            steemconnect.broadcast(operations, function (err, result) {
+                if(err) {
+                    console.log(err);
+                    var errorstring = err.error_description.split('\n')[0].split(': ')[1];
+                    if(errorstring == 'Comment already has beneficiaries specified.') {
+                        res.json({ error: 'There is an article with that title!'});
+                    } else {
+                        res.json({ error: errorstring});
+                    }
+                    
+                } else {
+                    console.log("New article has been posted by @" + req.session.steemconnect.name);
+                    if(post._id && post._id != '') {
+                        Posts.deleteOne({_id: post._id}, function(err) {
+                            if(err) {
+                                console.log(err);
+                            }
+                        });
+                        res.json({ success: "Article published", draft: true});
+                    } else {
+                        res.json({ success: "Article published"});
+                    }
+                    
+                }
+            });
+        }
+    } else {
+        res.json({ error: "Article parsing error"});
+    }
+}); 
+
+router.post('/edit', isLoggedAndConfigured, (req, res) => {
+    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
+    if(post) {
+        const operations = utils.prepareOperations('edit', post, req.session.blogger);
+        if(operations) {
+            steemconnect.setAccessToken(req.session.access_token);
+            steemconnect.broadcast(operations, function (err, result) {
+                if(err) {
+                    console.log(err);
+                    var errorstring =  '';
+                    if(err.error_description) {
+                        errorstring = err.error_description.split(': ')[1];
+                    } else if (err.message) {
+                        errorstring = err.message.split(': ')[1];
+                    }
+                    res.json({ error: errorstring});
+                } else {
+                    console.log("Article has been updated by @" + req.session.steemconnect.name);
+                    res.json({ success: "Article updated"});
+                }
+            });
+        }        
+    } else {
+        res.json({ error: "Article parsing error"});
+    }
+}); 
+
+router.post('/delete', isLoggedAndConfigured, (req,res) => {
     let article = req.body;
+    if(article && article.permlink != '') {
+        console.log(article.permlink);
 
-    if(article.body != '' && article.title != '') {
+        let operations = [ 
+            ['delete_comment', {
+            author: req.session.blogger.steem_username,
+            permlink: article.permlink
+        }]];
 
-        article.permlink = getSlug(article.title);
-
-        var urls = getUrls(article.body);
-        var links = [];
-        var image = [];
-        var category = null;
-
-        if(article.image && article.image != '') {
-            image.push(article.image);
-        }
-
-        urls.forEach(url => {
-            if (url[url.length - 1] == ')') {
-                var trimmed = url.substring(0, url.length - 1);
-            } else {
-                var trimmed = url;
-            }
-
-            if (isImage(trimmed)) {
-                image.push(trimmed);
-            } else {
-                links.push(trimmed);
-            }
-        })
-
-        var tags = [];
-
-        for (var i=0; i < req.session.blogger.categories.length; i++) {
-            if (req.session.blogger.categories[i].name === article.category) {
-                category = req.session.blogger.categories[i];
-                tags.push(req.session.blogger.categories[i].steem_tag); // obtain category steemconnect tags
-                break;
-            }
-        }
-
-        var tempTags = article.tags.split(" ");
-        tempTags.forEach(tag => {
-            if (tag != ' ' && tag != null && tag != '') {
-                tags.push(tag.trim());
-            }
-        })
-
-        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](http://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
-
-        const operations = [ 
-            ['comment', 
-              { 
-                parent_author: "", 
-                parent_permlink: tags[0], 
-                author: req.session.steemconnect.name, 
-                permlink: article.permlink, 
-                title: article.title, 
-                body: article.body, 
-                json_metadata : JSON.stringify({ 
-                  tags: tags, 
-                  image: image,
-                  links: links,
-                  category: category,
-                  app: `engrave/0.1`,
-                  format: "markdown",
-                  domain: req.session.blogger.domain
-                }) 
-              } 
-            ], 
-            ['comment_options', { 
-              author: req.session.steemconnect.name, 
-              permlink: article.permlink, 
-              max_accepted_payout: '1000000.000 SBD', 
-              percent_steem_dollars: 10000, 
-              allow_votes: true, 
-              allow_curation_rewards: true, 
-              extensions: [ 
-                [0, { 
-                  beneficiaries: [ 
-                    { account: 'nicniezgrublem', weight: 5 * 100 },
-                    { account: 'engrave', weight: (parseInt(req.session.blogger.tier) - 5) * 100 }
-                  ] 
-                }] 
-              ] 
-            }] 
-          ];
-        
         steemconnect.setAccessToken(req.session.access_token);
         steemconnect.broadcast(operations, function (err, result) {
             if(err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
                 if(errorstring == 'Comment already has beneficiaries specified.') {
-                    res.json({ error: 'Artykuł o podanym tytule już istnieje!'});
+                    res.json({ error: 'There is an article with that title!'});
                 } else {
                     res.json({ error: errorstring});
                 }
-                
             } else {
-                console.log("New article has been posted by @" + req.session.steemconnect.name);
-                res.json({ success: "Article published"});
-            }
-        });
-    }
-
-}); 
-
-router.post('/edit', (req, res) => {
-    
-    let article = req.body;
-
-    if(article.body != '' && article.title != '') {
-
-        var urls = getUrls(article.body);
-        var links = [];
-        var image = [];
-        var category = null;
-
-        if(article.image && article.image != '') {
-            image.push(article.image);
-        }
-
-        urls.forEach(url => {
-            if (url[url.length - 1] == ')') {
-                var trimmed = url.substring(0, url.length - 1);
-            } else {
-                var trimmed = url;
-            }
-
-            if (isImage(trimmed)) {
-                image.push(trimmed);
-            } else {
-                links.push(trimmed);
-            }
-        })
-
-        var tags = [];
-
-        for (var i=0; i < req.session.blogger.categories.length; i++) {
-            if (req.session.blogger.categories[i].name === article.category) {
-                category = req.session.blogger.categories[i];
-                tags.push(req.session.blogger.categories[i].steem_tag);
-                break;
-            }
-        }
-
-        var tempTags = article.tags.split(" ");
-        tempTags.forEach(tag => {
-            if (tag != ' ' && tag != null && tag != '') {
-                tags.push(tag.trim());
-            }
-        })
-
-        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + req.session.blogger.blog_title + '](http://' + req.session.blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
-
-        const operations = [ 
-            ['comment', 
-              { 
-                parent_author: "", 
-                parent_permlink: article.parent_category, 
-                author: req.session.steemconnect.name, 
-                permlink: article.permlink, 
-                title: article.title, 
-                body: article.body, 
-                json_metadata : JSON.stringify({ 
-                  tags: tags, 
-                  image: image,
-                  links: links,
-                  category: category,
-                  app: `engrave/0.1`,
-                  format: "markdown",
-                  domain: req.session.blogger.domain
-                }) 
-              } 
-            ], 
-          ];
-        
-        steemconnect.setAccessToken(req.session.access_token);
-        steemconnect.broadcast(operations, function (err, result) {
-            if(err) {
-                console.log(err);
-                var errorstring =  '';
-                if(err.error_description) {
-                    errorstring = err.error_description.split(': ')[1];
-                } else if (err.message) {
-                    errorstring = err.message.split(': ')[1];
+                console.log("Post deleted");
+                    res.json({ success: "Post deleted"});
                 }
-                res.json({ error: errorstring});
+        });
+
+    } else {
+        res.json({error: 'Error while deleting article'});
+    }
+})
+router.post('/draft', isLoggedAndConfigured, (req,res) => {
+    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
+    if(post._id && post._id != '') {
+        Posts.findById(post._id, function(err, draft) {
+            if(!err && draft && (draft.steem_username == req.session.blogger.steem_username)) {
+                draft.title = post.title;
+                draft.body = post.body;
+                draft.category = post.category;
+                draft.tags = post.tags;
+                draft.image = post.image;
+                draft.links = post.links;
+                draft.thumbnail = post.thumbnail;
+                draft.steem_username = req.session.blogger.steem_username;
+                draft.save(function(err){
+                    if(err) {
+                        res.json({error: 'Error while saving draft'});
+                    } else {
+                        res.json({success: 'Draft updated', _id: draft._id});
+                    }
+                });
             } else {
-                console.log("Article has been updated by @" + req.session.steemconnect.name);
-                res.json({ success: "Article updated"});
+                res.json({error: 'Error while saving draft'});
+            }
+        });
+    } else {
+        delete post["_id"];
+        let draft = new Posts(post);
+        draft.steem_username = req.session.blogger.steem_username;
+        draft.save(function(err){
+            if(err) {
+                res.json({error: 'Error while saving draft'});
+            } else {
+                res.json({success: 'Draft saved', _id: draft._id});
             }
         });
     }
+})
 
-}); 
+router.post('/draft/delete', isLoggedAndConfigured, (req,res) => {
+    let draft = req.body;
+    if(draft && draft.id != '') {
+        Posts.deleteOne({_id: draft.id}, function(err) {
+            if(err) {
+                res.json({error: 'Error while deleting draft'});  
+            } else {
+                res.json({success: 'Draft deleted'});  
+            }
+        });
+    } else {
+        res.json({error: 'Error while deleting draft'});
+    }
+})
+
+router.post('/draft/publish', isLoggedAndConfigured, (req,res) => {
+    let draft = req.body;
+    if(draft && draft.id != '') {
+        Posts.findById({_id: draft.id}, function(err, draft) {
+            if(!err && draft) {
+                draft.body = utils.removeWebsiteAdvertsElements(draft.body);
+                let post = utils.prepareBloggerPost(draft, req.session.blogger);
+
+                if(post) {
+                    const operations = utils.prepareOperations('publish', post, req.session.blogger);
+
+                    if(operations) {
+                        steemconnect.setAccessToken(req.session.access_token);
+                        steemconnect.broadcast(operations, function (err, result) {
+                            if(err) {
+                                console.log(err);
+                                var errorstring = err.error_description.split('\n')[0].split(': ')[1];
+                                if(errorstring == 'Comment already has beneficiaries specified.') {
+                                    res.json({ error: 'There is an article with that title!'});
+                                } else {
+                                    res.json({ error: errorstring});
+                                }
+                                
+                            } else {
+                                console.log("New article has been posted by @" + req.session.steemconnect.name);
+                                if(post._id && post._id != '') {
+                                    Posts.deleteOne({_id: post._id}, function(err) {
+                                        if(err) {
+                                            console.log(err);
+                                        }
+                                    });
+                                    res.json({ success: "Article published", draft: true});
+                                } else {
+                                    res.json({ success: "Article published"});
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    res.json({ error: "Article parsing error"});
+                }
+            } else {
+                res.json({success: 'Draft deleted'});  
+            }
+        });
+    } else {
+        res.json({error: 'Error while deleting draft'});
+    }
+})
+
 router.post('/configure/finish', (req, res) => {
     
     let configuration = req.body;

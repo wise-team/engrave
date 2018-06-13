@@ -51,12 +51,12 @@ block body
                                 .row
                                     .col-md-12
                                         .form-group
-                                            label Preview image
+                                            label(data-toggle="tooltip" data-placement="top" title="If not specified - first image from post will be used as post thumbnail") Thumbnail image (optional)
                                             input.form-control(type='text', placeholder='https://...', value=post.image, name='image')
                             
                                 .pull-right
                                 button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
-                                    |  Update post
+                                    |  Update post at blockchain
 
                 .col-md-4
                     .card

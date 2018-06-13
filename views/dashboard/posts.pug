@@ -1,127 +1,145 @@
 extends website.pug
 
 block body
-  .content
-    .container-fluid
-        .row
-            .col-md-8
-                .card
-                    .card-header
-                        h4.card-title Drafts
-                        p.card-category Your drafts that can be published at any moment
-                    .card-body
-                        .row
-                            .col-md-6
-                                .form-group
-                                    label No drafts found
-        .row
-            .col-md-8
-                //- .card.strpied-tabled-with-hover
-                .card
-                    .card-header
-                        h4.card-title Published
-                        p.card-category Here are posts that already exist in blockchain
-                    //- .card-body.table-full-width.table-responsive
-                    .card-body
-                        .row
-                            .col-md-12
-                                .form-group
-                                    if !posts || !posts.length
-                                        label No articles published yet
-                                    else
-                                        each post in posts
-                                            .row
-                                                .col-xs-12.col-sm-3.col-md-3
-                                                    if post.thumbnail
-                                                        img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
-                                                    else    
-                                                        img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
-                                                .col-xs-12.col-sm-6.col-md-6
-                                                    label
-                                                        a(href='/dashboard/edit/' + post.permlink)= post.title
-                                                    p.card-category= post.body.substring(120, 0) + '...'
-                                                    ul.list-inline
-                                                        li.list-inline-item.card-category
-                                                            | &nbsp;
-                                                            i.fa.fa-comments
-                                                            | &nbsp;
-                                                            span= post.children
-                                                        li.list-inline-item.card-category
-                                                            | &nbsp;
-                                                            i.fa.fa-thumbs-up
-                                                            | &nbsp;
-                                                            = post.net_votes
-                                                        li.list-inline-item.card-category
-                                                            | &nbsp;
-                                                            i.fa.fa-btc
-                                                            | &nbsp;
-                                                            = '$' + parseFloat(parseFloat(post.pending_payout_value.replace(" SBD", "")) + parseFloat(post.total_payout_value.replace(" SBD", ""))).toFixed(2)
-                                                .col-xs-12.col-sm-5.col-md-3
-                                                    .td-actions.text-right
-                                                        a(href= 'http://' + blogger.domain + '/' + post.permlink, target='_blank')
-                                                            button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='View')
-                                                                i.fa.fa-external-link
-                                                    //- p.card-category= '$' + 
-                                            hr
-                        //- table.table.table-hover.table-striped
-                        //-     thead
-                        //-         tr
-                        //-             th Date
-                        //-             th Title
-                        //-             th Reward
-                        //-             th Action
-                        //-     tbody
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Dakota Rice Dakota Rice Dakota Rice
-                        //-             td $36,738
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                        //-                 //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                        //-                 //-     i.fa.fa-times
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Minerva Hooper
-                        //-             td $23,789
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                        //-                 //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                        //-                 //-     i.fa.fa-times
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Sage Rodriguez
-                        //-             td $56,142
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                        //-                 //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                        //-                 //-     i.fa.fa-times
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Philip Chaney
-                        //-             td $38,735
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                        //-                 //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                        //-                 //-     i.fa.fa-times
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Doris Greene
-                        //-             td $63,542
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                        //-                 //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                        //-                 //-     i.fa.fa-times
-                        //-         tr
-                        //-             td.md-1 2019.04.03 19:30
-                        //-             td Mason Porter
-                        //-             td $78,615
-                        //-             td.td-actions.text-right
-                        //-                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Edit post')
-                        //-                     i.fa.fa-edit
-                                        //- button.btn.btn-danger.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='Remove')
-                                        //-     i.fa.fa-times
+    #modal-delete.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header.justify-content-center
+                    .modal-profile
+                        i.nc-icon.nc-simple-delete
+                .modal-body.text-center
+                    p Are you sure you want to delete this draft?
+
+                .modal-footer
+                    button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
+                    button.btn.btn-link.btn-danger.btn-fill#btn-delete(type='button') Yes, delete
+    
+    #modal-publish.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header.justify-content-center
+                    .modal-profile
+                        i.nc-icon.nc-send
+                .modal-body.text-center
+                    p Are you sure you want to publish this draft? You won't be able to change category later.
+
+                .modal-footer
+                    button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
+                    button.btn.btn-link.btn-success.btn-fill#btn-publish(type='button') Yes, publish
+    
+    #modal-chain-delete.modal.fade.modal.modal-primary(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+            .modal-content
+                .modal-header.justify-content-center
+                    .modal-profile
+                        i.nc-icon.nc-simple-delete
+                .modal-body.text-center
+                    p Are you sure you want to delete this article? It may be hidden on blockchain but still accessible
+
+                .modal-footer
+                    button.btn.btn-link.btn-simple(type='button', data-dismiss='modal') Back
+                    button.btn.btn-link.btn-danger.btn-fill#btn-chain-delete(type='button') Yes, delete
+    .content
+        .container-fluid
+            .row
+                .col-md-8
+                    .card
+                        .card-header
+                            h4.card-title Drafts
+                            p.card-category Your drafts that can be published at any moment
+                        .card-body
+                            .row
+                                .col-md-12
+                                    .form-group
+                                        if !drafts || !drafts.length
+                                            label No drafts found
+                                        else
+                                            each post in drafts
+                                                .row
+                                                    .col-xs-12.col-sm-3.col-md-3
+                                                        if post.thumbnail
+                                                            img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
+                                                        else    
+                                                            img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
+                                                    .col-xs-12.col-sm-6.col-md-6
+                                                        label= post.category.name + ': ' 
+                                                            a(href='/dashboard/write/' + post._id)= post.title
+                                                        p.card-category= post.body.substring(150, 0) + '...'
+                                                        each tag, index in post.tags
+                                                            if index > 0
+                                                                span.badge.badge-light= tag
+                                                    .col-xs-12.col-sm-5.col-md-3
+                                                        .td-actions.text-right
+                                                            button.btn.btn-danger.btn-simple.btn-link.btn-func-delete(id="rm-" + post._id, type='button', rel='tooltip', title='', data-original-title='Delete draft')
+                                                                i.fa.fa-trash
+                                                            //- button.btn.btn-info.btn-simple.btn-link.btn-func-schedule(type='button', rel='tooltip', title='', data-original-title='Schedule')
+                                                            //-     i.fa.fa-calendar
+                                                            button.btn.btn-success.btn-simple.btn-link.btn-func-publish(id="pub-" + post._id, type='button', rel='tooltip', title='', data-original-title='Publish now')
+                                                                i.fa.fa-share
+                                                    hr(style="width: 98%; ")
+                                                    
+            .row
+                .col-md-8
+                    //- .card.strpied-tabled-with-hover
+                    .card
+                        .card-header
+                            h4.card-title Published
+                            p.card-category Here are posts that already exist in blockchain
+                        //- .card-body.table-full-width.table-responsive
+                        .card-body
+                            .row
+                                .col-md-12
+                                    .form-group
+                                        if !posts || !posts.length
+                                            label No articles published yet
+                                        else
+                                            each post in posts
+                                                .row
+                                                    .col-xs-12.col-sm-3.col-md-3
+                                                        if post.thumbnail
+                                                            img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
+                                                        else    
+                                                            img(src='/img/default.jpg').img-responsive.img-box.img-thumbnail
+                                                    .col-xs-12.col-sm-6.col-md-6
+                                                        label
+                                                            a(href='/dashboard/edit/' + post.permlink)= post.title
+                                                        p.card-category= post.body.substring(150, 0) + '...'
+                                                        ul.list-inline
+                                                            li.list-inline-item.card-category
+                                                                | &nbsp;
+                                                                i.fa.fa-comments
+                                                                | &nbsp;
+                                                                span= post.children
+                                                            li.list-inline-item.card-category
+                                                                | &nbsp;
+                                                                i.fa.fa-thumbs-up
+                                                                | &nbsp;
+                                                                = post.net_votes
+                                                            li.list-inline-item.card-category
+                                                                | &nbsp;
+                                                                i.fa.fa-btc
+                                                                | &nbsp;
+                                                                = '$' + parseFloat(parseFloat(post.pending_payout_value.replace(" SBD", "")) + parseFloat(post.total_payout_value.replace(" SBD", ""))).toFixed(2)
+                                                    .col-xs-12.col-sm-5.col-md-3
+                                                        .td-actions.text-right
+                                                            button.btn.btn-danger.btn-simple.btn-link.btn-chain-delete(id="cdel-" + post.permlink, type='button', rel='tooltip', title='', data-original-title='Delete (hide on blockchain)')
+                                                                i.fa.fa-trash
+                                                            a(href= 'http://' + blogger.domain + '/' + post.permlink, target='_blank')
+                                                                button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='View at blog')
+                                                                    i.fa.fa-external-link
+                                                hr
+                    
+        div(style='overflow:hidden;')
+            .form-group
+                .row
+                .col-md-8
+                    #datetimepicker12
+            script(type='text/javascript').
+                $(function () {
+                $('#datetimepicker12').datetimepicker({
+                inline: true,
+                sideBySide: true
+                });
+                });
+append scripts
+    script(src="/js/posts.js")

@@ -5,8 +5,6 @@ block body
         .modal-dialog
             .modal-content
                 .modal-header.justify-content-center
-                    //- .modal-profile
-                    //-     i.nc-icon.nc-bulb-63
                 .modal-body.text-center
                     p You are about to publish new blog post to Steem blockchain
                     hr
@@ -24,37 +22,43 @@ block body
                             h4.card-title Publish new post
                         .card-body
                             form#article(data-parsley-validate="")
+                                input(hidden=true, name='_id', id='_id' value= (draft && draft._id) ? draft._id : '')
                                 .row
                                     .col-md-12
                                         .form-group
                                             label Title
-                                            input.form-control(type='text', placeholder='Post title...', value='', name='title', required="" minlength="5")
+                                            input.form-control(type='text', placeholder='Post title...', value= (draft && draft.title) ? draft.title : '', name='title', required="" minlength="5")
                                 .row
                                     .col-md-12
                                         .form-group
                                             label Body
-                                            textarea.form-control#post-body(rows='10', placeholder='Blog post...', style="height:auto !important;", name='body' minlength="10")
-                                            a.btn.btn-link.btn-simple.pull-right(target='_blank' href='https://guides.github.com/features/mastering-markdown/') Markdown styling guide
+                                            textarea.form-control#post-body(rows='10', placeholder='Blog post...', style="height:auto !important;", required="", name='body' minlength="5")
+                                                if draft && draft.body
+                                                    = draft.body
                                 .row
                                     .col-md-12
                                         .form-group
-                                            label Category
                                             select.form-control(name='category')
-                                                each category in blogger.categories 
-                                                    option= category.name
+                                                each category in blogger.categories
+                                                    option(selected= (draft && draft.category && (draft.category.name == category.name)))= category.name
                                 .row
                                     .col-md-12
                                         .form-group
                                             label Additional tags (space separated)
-                                            input.form-control(type='text', placeholder='tag anothertag', value='', name='tags')
+                                            input.form-control(type='text', placeholder='tag anothertag', value= (draft && draft.tags) ? draft.tags.slice(1).join(" ") : '', name='tags')
                                 .row
                                     .col-md-12
                                         .form-group
-                                            label Preview image
-                                            input.form-control(type='text', placeholder='https://...', value='', name='image')
-                                                             
+                                            label(data-toggle="tooltip" data-placement="top" title="If not specified - first image from post will be used as post thumbnail") Thumbnail image (optional)
+                                            input.form-control(type='text', placeholder='https://...', value= (draft && draft.thumbnail) ? draft.thumbnail : '', name='image')
+                                               
                                 button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
                                     |  Publish new post
+                                button.btn.btn-info.btn-fill#btn-draft( type="button")
+                                    if draft && draft._id
+                                        |  Update draft
+                                    else 
+                                        |  Save draft
 
                 .col-md-4
                     .card
