@@ -670,7 +670,7 @@ function canPostBeDisplayed(post) {
         return true;
     }
 
-    if((post.beneficiaries.length && (post.beneficiaries[0].account == 'nicnienicniezgrublem' || post.beneficiaries[0].account == 'engrave') )) {
+    if((post.beneficiaries.length && (post.beneficiaries[0].account == 'nicniezgrublem' || post.beneficiaries[0].account == 'engrave') )) {
         
         let pattern = /(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/;
         
