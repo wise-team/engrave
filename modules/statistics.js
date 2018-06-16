@@ -7,8 +7,6 @@ let Blogs = require('../database/blogs.js');
 module.exports.initialize = () => {
     console.log("Statistics module initialized");
 
-    get_all_accounts_statistics();
-
     new CronJob('00 00 * * *', function () { 
         
         get_all_accounts_statistics();
