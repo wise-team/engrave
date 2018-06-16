@@ -14,6 +14,7 @@ let steem = require("steem");
 let moment = require("moment");
 var pm2 = require('pm2');
 var scheduler = require('./modules/scheduler.js');
+var statistics = require('./modules/statistics.js');
 
 console.log("Launched on " + moment().format("LLLL"));
 console.log(config);
@@ -77,6 +78,7 @@ app.use(function (err, req, res, next) {
 });
 
 scheduler.initialize();
+statistics.initialize();
 
 /**
  * Create HTTP server.
