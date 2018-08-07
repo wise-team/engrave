@@ -12,7 +12,10 @@ block header
 
 block content
     .container
-      .row
-        .col-lg-8.col-md-10.mx-auto
-            each item in latest
-                include partials/box.pug
+        .row
+            .col-lg-8.col-md-10.mx-auto
+                if latest.length == 0
+                    p= translation.frontpage.category_no_posts_found
+                else
+                    each item in latest
+                        include partials/box.pug
