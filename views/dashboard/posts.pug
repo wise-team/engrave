@@ -64,7 +64,9 @@ block body
                                                     .col-xs-12.col-sm-6.col-md-6
                                                         label= post.category.name + ': ' 
                                                             a(href='/dashboard/write/' + post._id)= post.title
-                                                        p.card-category= post.body.substring(150, 0) + '...'
+                                                        p.card-category= post.body.substring(150, 0)
+                                                            if post.body.length > 150
+                                                                | ...
                                                         each tag, index in post.tags
                                                             if index > 0
                                                                 span.badge.badge-light= tag
@@ -103,7 +105,9 @@ block body
                                                     .col-xs-12.col-sm-6.col-md-6
                                                         label
                                                             a(href='/dashboard/edit/' + post.permlink)= post.title
-                                                        p.card-category= post.body.substring(150, 0) + '...'
+                                                        p.card-category= post.body.substring(150, 0)
+                                                            if post.body.length > 150
+                                                                | ...
                                                         ul.list-inline
                                                             li.list-inline-item.card-category
                                                                 | &nbsp;
