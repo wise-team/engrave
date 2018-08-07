@@ -73,19 +73,18 @@ router.get('/favicon.ico', (req, res) => {
 });
 
 router.get('/kategoria/:category', (req, res) => {
-
-    if (utils.isCategoryValid(req.params.category)) {
-        req.session.current_url = 'kategoria/' + req.params.category.replace("pl-", "");
-
-        let category = {};
-        category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().posts_per_category_page);
-        category.user = utils.prepareLoggedUserObject(req.session);
-        category.category = req.params.category;
-        category.category_fullname = utils.getCategoryFullName(req.params.category);
-        category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
-        res.render('main/' + cfg.get_config().theme + '/category', category);
+    if(cfg.get_config().frontpage_language == 'pl') {
+        handleCategoryRoute(req, res);
     } else {
-        res.redirect('/'); 
+        res.redirect('/category/' + req.params.category)
+    }
+});
+
+router.get('/category/:category', (req, res) => {
+    if(cfg.get_config().frontpage_language == 'en') {
+        handleCategoryRoute(req, res);
+    } else {
+        res.redirect('/kategoria/' + req.params.category)
     }
 });
 
@@ -105,7 +104,38 @@ router.get('/:permlink', (req, res, next) => {
 });
 
 router.get('/autor/:author', (req, res, next) => {
+    if(cfg.get_config().frontpage_language == 'pl') {
+        handleAuthorRoute(req, res);
+    } else {
+        res.redirect('/author/' + req.params.author)
+    }
+});
 
+router.get('/author/:author', (req, res, next) => {
+    if(cfg.get_config().frontpage_language == 'en') {
+        handleAuthorRoute(req, res);
+    } else {
+        res.redirect('/autor/' + req.params.author)
+    }
+});
+
+handleCategoryRoute = (req, res) => {
+    if (utils.isCategoryValid(req.params.category)) {
+        req.session.current_url = 'kategoria/' + req.params.category.replace("pl-", "");
+
+        let category = {};
+        category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().posts_per_category_page);
+        category.user = utils.prepareLoggedUserObject(req.session);
+        category.category = req.params.category;
+        category.category_fullname = utils.getCategoryFullName(req.params.category);
+        category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
+        res.render('main/' + cfg.get_config().theme + '/category', category);
+    } else {
+        res.redirect('/'); 
+    }
+}
+
+handleAuthorRoute = (req, res) => {
     req.session.current_url = 'autor/' + req.params.author;
 
     if (authors.getAuthorDetails(req.params.author)) {
@@ -126,6 +156,6 @@ router.get('/autor/:author', (req, res, next) => {
     } else {
         res.redirect('/'); 
     }
-});
+}
 
 module.exports = router;
