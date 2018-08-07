@@ -9,4 +9,4 @@ nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
             ul.navbar-nav.ml-auto
                 each category in config.categories
                     li.nav-item
-                        a.nav-link(href='/kategoria/' + category.slug)= category.name
+                        a.nav-link(href=((config.frontpage_language == 'pl') ? '/kategoria/' : '/category/') + category.slug)= category.name
