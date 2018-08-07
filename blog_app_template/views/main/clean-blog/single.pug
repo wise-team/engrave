@@ -10,8 +10,10 @@ block header
               h1= title
               h2.subheading= body_abbr + '...'
               span.meta
-                = translation.frontpage.posted_by + ' '
-                a(href='#')= config.author_name + ', '
+                if config.author_name
+                  = translation.frontpage.posted_by + ' '
+                  a()= config.author_name
+                  | , 
                 = moment(created).format('LLL')
     article
       .container

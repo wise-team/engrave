@@ -4,6 +4,7 @@ let steem = require('steem');
 var getSlug = require('speakingurl');
 let getUrls = require('get-urls');
 const isImage = require('is-image');
+const utils = require('../modules/utils');
 
 module.exports.getAllPosts = (limit, start_permlink, username, callback) => {
 
@@ -48,6 +49,7 @@ module.exports.getAllPosts = (limit, start_permlink, username, callback) => {
                                         let metadata = JSON.parse(element.json_metadata);
                                         if(metadata.image && metadata.image.length) {
                                             element.thumbnail = metadata.image[0];
+                                            element.body = utils.removeWebsiteAdvertsElements(element.body);
                                         }
                                     }
                                     posts.push(element);
@@ -124,7 +126,11 @@ module.exports.prepareBloggerPost = (article, blogger) => {
             }
         })
 
-        article.body += '\n\n***\n<center>\n### Oryginally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
+        if(blogger.frontpage_language == 'pl') {
+            article.body += '\n\n***\n<center>\n### Pierwotnie opublikowano na [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [ENGRAVE](https://engrave.website).\n</center>';
+        } else {
+            article.body += '\n\n***\n<center>\n### Oryginally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
+        }
         article.links = links;
         article.tags = tags;
         article.image = image;
@@ -187,5 +193,7 @@ module.exports.prepareOperations = (scope, article, blogger) => {
 }
 
 module.exports.removeWebsiteAdvertsElements = (body) => {
-    return body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "");
+    let newBody = body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
+    newBody = newBody.replace(/(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/g, "")
+    return newBody;
 }

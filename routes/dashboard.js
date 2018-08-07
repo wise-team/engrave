@@ -107,7 +107,7 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
             let post = {
                 permlink: steem_post.permlink,
                 title: steem_post.title,
-                body: steem_post.body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, ""),
+                body: utils.removeWebsiteAdvertsElements(steem_post.body),
                 category: category,
                 image: thumbnail,
                 tags: tags
