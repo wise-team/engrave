@@ -19,6 +19,9 @@
         "logout_text": "Wyloguj",
         "most_popular": "Najpopularniejsze",
         "new_articles": "Najnowsze artykuły",
-        "source": "Źródło"
+        "source": "Źródło",
+        "posted_by": "Dodany przez",
+        "category_no_posts_found": "Brak postów w tej kategorii",
+        "powered_by": "Napędzany przez"
     }
 }

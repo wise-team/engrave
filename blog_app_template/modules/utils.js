@@ -8,8 +8,6 @@ var url = require('url');
 
 var cfg = require('../config');
 
-moment.locale('pl');
-
 let urlEmbed = require('url-embed');
 let EmbedEngine = urlEmbed.EmbedEngine;
 let Embed = urlEmbed.Embed;

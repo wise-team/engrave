@@ -4,7 +4,7 @@
         h3.post-subtitle= item.body_abbr
     p.post-meta
         if config.author_name
-            | Posted by 
+            = translation.frontpage.posted_by + ' '
             a(href='#')= config.author_name + ', '
         = moment(item.date).format('LL')
     hr

@@ -1,15 +1,9 @@
 let express = require('express');
-const removeMd = require('remove-markdown');
 let router = express.Router();
 let utils = require('../modules/utils.js');
 let authors = require('../modules/authors.js');
-let steem = require('steem');
 var cfg = require('../config');
-var config = require('../config').get_config();
-let moment = require('moment');
 var showdown = require('showdown')
-var converter = new showdown.Converter();
-let featured_posts = require('../modules/featured.js');
 let articles = require('../modules/articles.js');
 
 let sitemap = require('../modules/sitemap');
@@ -87,6 +81,7 @@ router.get('/kategoria/:category', (req, res) => {
         category.latest = articles.getArticlesByCategory(req.params.category, cfg.get_config().posts_per_category_page);
         category.user = utils.prepareLoggedUserObject(req.session);
         category.category = req.params.category;
+        category.category_fullname = utils.getCategoryFullName(req.params.category);
         category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
         res.render('main/' + cfg.get_config().theme + '/category', category);
     } else {

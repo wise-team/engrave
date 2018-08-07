@@ -26,22 +26,26 @@ html(lang='en')
         .row
           .col-lg-8.col-md-10.mx-auto
             ul.list-inline.text-center
-              li.list-inline-item
-                a(href='#')
-                  span.fa-stack.fa-lg
-                    i.fa.fa-circle.fa-stack-2x
-                    i.fa.fa-twitter.fa-stack-1x.fa-inverse
-              li.list-inline-item
-                a(href='#')
-                  span.fa-stack.fa-lg
-                    i.fa.fa-circle.fa-stack-2x
-                    i.fa.fa-facebook.fa-stack-1x.fa-inverse
-              li.list-inline-item
-                a(href='#')
-                  span.fa-stack.fa-lg
-                    i.fa.fa-circle.fa-stack-2x
-                    i.fa.fa-github.fa-stack-1x.fa-inverse
-            p.copyright.text-muted Copyright © #{config.blog_title} 2018. Powered by 
+              if config.twitter_url
+                li.list-inline-item
+                  a(href= twitter_url)
+                    span.fa-stack.fa-lg
+                      i.fa.fa-circle.fa-stack-2x
+                      i.fa.fa-twitter.fa-stack-1x.fa-inverse
+              if config.facebook_url
+                li.list-inline-item
+                  a(href=facebook_url)
+                    span.fa-stack.fa-lg
+                      i.fa.fa-circle.fa-stack-2x
+                      i.fa.fa-facebook.fa-stack-1x.fa-inverse
+              if config.instagram_url
+                li.list-inline-item
+                  a(href=instagram_url)
+                    span.fa-stack.fa-lg
+                      i.fa.fa-circle.fa-stack-2x
+                      i.fa.fa-instagram.fa-stack-1x.fa-inverse
+
+            p.copyright.text-muted Copyright © #{config.blog_title} 2018. #{translation.frontpage.powered_by}&nbsp;
                 a(href="https://engrave.website") ENGRAVE
     script(src='/clean-blog/vendor/jquery/jquery.min.js')
     script(src='/clean-blog/vendor/bootstrap/js/bootstrap.bundle.min.js')

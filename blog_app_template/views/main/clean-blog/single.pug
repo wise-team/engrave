@@ -1,16 +1,16 @@
 extends website
 
 block header
-    header.masthead(style="background-image: url('/clean-blog/img/post-bg.jpg')")
+    header.masthead(style= (image) ? "background-image: url('" + image + "')" : "")
       .overlay
       .container
         .row
           .col-lg-8.col-md-10.mx-auto
             .post-heading
               h1= title
-              h2.subheading= body_abbr
+              h2.subheading= body_abbr + '...'
               span.meta
-                | Posted by 
+                = translation.frontpage.posted_by + ' '
                 a(href='#')= config.author_name + ', '
                 = moment(created).format('LLL')
     article

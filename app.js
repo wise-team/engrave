@@ -19,7 +19,6 @@ var statistics = require('./modules/statistics.js');
 console.log("Launched on " + moment().format("LLLL"));
 console.log(config);
 
-
 let app = express();
 
 app.use(session({
