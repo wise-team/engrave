@@ -1,7 +1,7 @@
 let config = require('../config.js');
 let fs = require('fs');
 
-let subdomain_template = 'server {\r\n\tserver_name EXAMPLE;\r\n\treturn 301 https://EXAMPLE$request_uri;\r\n}\r\n\r\nserver {\r\n\tlisten 443 ssl;\r\n\tserver_name EXAMPLE;\r\n\r\n\tssl_certificate \/etc\/letsencrypt\/live\/engrave.website-0001\/fullchain.pem;\r\n\tssl_certificate_key \/etc\/letsencrypt\/live\/engrave.website-0001\/privkey.pem;\r\n\t\r\nlocation \/ {\r\nd\tproxy_pass http:\/\/localhost:PORT;\r\nd\tproxy_http_version 1.1;\r\nd\tproxy_set_header Upgrade $http_upgrade;\r\nd\tproxy_set_header Connection \'upgrade\';\r\nd\tproxy_set_header Host $host;\r\nd\tproxy_cache_bypass $http_upgrade;\r\n\t}\r\n}';
+let subdomain_template = 'server {\r\n\tserver_name EXAMPLE;\r\n\treturn 301 https://EXAMPLE$request_uri;\r\n}\r\n\r\nserver {\r\n\tlisten 443 ssl;\r\n\tserver_name EXAMPLE;\r\n\r\n\tssl_certificate \/etc\/letsencrypt\/live\/engrave.website-0001\/fullchain.pem;\r\n\tssl_certificate_key \/etc\/letsencrypt\/live\/engrave.website-0001\/privkey.pem;\r\n\t\r\nlocation \/ {\r\n\tproxy_pass http:\/\/localhost:PORT;\r\n\tproxy_http_version 1.1;\r\n\tproxy_set_header Upgrade $http_upgrade;\r\n\tproxy_set_header Connection \'upgrade\';\r\n\tproxy_set_header Host $host;\r\n\tproxy_cache_bypass $http_upgrade;\r\n\t}\r\n}';
 let domain_template = 'server {\n\tlisten 80;\n\n\tserver_name EXAMPLE www.EXAMPLE;\n\nlocation \/ {\n\tproxy_pass http:\/\/localhost:PORT;\n\tproxy_http_version 1.1;\n\tproxy_set_header Upgrade $http_upgrade;\n\tproxy_set_header Connection \'upgrade\';\n\tproxy_set_header Host $host;\n\tproxy_cache_bypass $http_upgrade;\n   }\n}\n\n';
 
 module.exports.generateSubdomainConfig = (subdomain, port, cb) => {
