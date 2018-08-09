@@ -48,5 +48,9 @@ module.exports.generateCertificatesForDomain = (domain, cb) => {
                 cb(err);
             }
         });
+    } else {
+        if(cb) {
+            cb(new Error('SSL module need to be configurated first'));
+        }
     }
 }

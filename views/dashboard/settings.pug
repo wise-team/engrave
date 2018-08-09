@@ -21,6 +21,8 @@ block body
                     .form-group
                       label Steem Username
                       input.form-control(type='text', disabled='', placeholder='Username', value=blogger.steem_username)
+                if !blogger.ssl
+                  button.btn.btn-success.btn-fill#btn-enable-ssl(type='button') Enable SSL
             .card
               .card-header
                 h4.card-title General settings
