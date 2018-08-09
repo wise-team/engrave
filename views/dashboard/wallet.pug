@@ -1,5 +1,8 @@
 extends website.pug
 
+append scripts
+    script(src="/js/wallet.js")
+
 block body
     .content
         .container-fluid
@@ -19,9 +22,8 @@ block body
                                         if parseFloat(user.account.reward_sbd_balance) > 0 || parseFloat(user.account.reward_steem_balance) > 0
                                             = ', '
                                         = user.account.reward_vesting_steem
-                                    a(href='/dashboard/claim')
-                                        button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
-                                            |  Get your rewards
+                                    button.btn.btn-success.btn-fill.pull-right#btn-claim( type="button")
+                                        |  Get your rewards
                     .card
                         .card-header
                             h4.card-title Wallet
