@@ -4,7 +4,6 @@ module.exports.generateCertificatesForDomain = (domain, cb) => {
     if(domain && process.env.SSL_CERTIFICATES_DIR && process.env.SSL_EMAIL) {
 
         console.log(' * Trying to generate certificates');
-        console.log('Trying to save at: ', path.join(__dirname, '../pm2_blogs/' + domain + '/public/.well-known/acme-challenge'));
 
         var leStore = require('le-store-certbot').create({
             configDir: process.env.SSL_CERTIFICATES_DIR          // or /etc/acme or wherever
@@ -29,9 +28,6 @@ module.exports.generateCertificatesForDomain = (domain, cb) => {
             communityMember: false
         };
         
-        console.log("leStore:", leStore);
-        console.log("opts:", opts);
-        
         var greenlock = require('greenlock').create({
             version: 'draft-12',
             server: 'https://acme-v02.api.letsencrypt.org/directory',
@@ -40,7 +36,6 @@ module.exports.generateCertificatesForDomain = (domain, cb) => {
         
         greenlock.register(opts).then(function (certs) {
             console.log(" * SSL certificates generated sucessfully!");
-            console.log(certs);
             if(cb) {
                 cb(null);
             }

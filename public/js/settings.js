@@ -70,7 +70,7 @@ $(document).ready(function () {
                     $('#ssl-progress-loader').remove();
                     $.notify({
                         icon: "nc-icon nc-fav-remove",
-                        message: "Coś poszło nie tak..."        
+                        message: "Something gone wrong. Try again..."        
                     }, {
                         type: 'danger',
                         timer: 8000,
@@ -110,7 +110,8 @@ $(document).ready(function () {
                         inProgress = false;
                         $('#progress-loader').remove();
     
-                        if (data.success) {                        
+                        if (data.success) {
+                            $('#btn-enable-ssl').remove();
                             $.notify({
                                 icon: "nc-icon nc-send",
                                 message: data.success            
@@ -144,7 +145,7 @@ $(document).ready(function () {
                         $('#progress-loader').remove();
                         $.notify({
                             icon: "nc-icon nc-fav-remove",
-                            message: "Coś poszło nie tak..."        
+                            message: "Something gone wrong. Try again..."        
                         }, {
                             type: 'danger',
                             timer: 8000,
