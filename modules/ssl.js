@@ -3,8 +3,11 @@ let path = require('path');
 module.exports.generateCertificatesForDomain = (domain, cb) => {
     if(domain && process.env.SSL_CERTIFICATES_DIR && process.env.SSL_EMAIL) {
 
+        console.log(' * Trying to generate certificates');
+        console.log('Trying to save at: ', path.join(__dirname, '../pm2_blogs/' + domain + '/.well-known/acme-challenge'));
+
         var leStore = require('le-store-certbot').create({
-            configDir: process.env.SSL_CERTIFICATES_DIR + ''          // or /etc/acme or wherever
+            configDir: process.env.SSL_CERTIFICATES_DIR          // or /etc/acme or wherever
           , privkeyPath: ':configDir/live/:hostname/privkey.pem'          //
           , fullchainPath: ':configDir/live/:hostname/fullchain.pem'      // Note: both that :configDir and :hostname
           , certPath: ':configDir/live/:hostname/cert.pem'                //       will be templated as expected by
@@ -50,6 +53,7 @@ module.exports.generateCertificatesForDomain = (domain, cb) => {
         });
     } else {
         if(cb) {
+            console.log("SSL module ened to be configured first");
             cb(new Error('SSL module need to be configurated first'));
         }
     }
