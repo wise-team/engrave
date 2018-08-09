@@ -156,10 +156,13 @@ router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
     res.render('dashboard/upgrade.pug', {blogger: req.session.blogger, url: 'upgrade'}); 
 });
 
-router.get('/claim', isLoggedAndConfigured, (req, res) => {
+router.post('/claim', isLoggedAndConfigured, (req, res) => {
     steemconnect.setAccessToken(req.session.access_token);
     steemconnect.me(function(err, user) { 
         steemconnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err, result) {
+            if(err) {
+                res.json({error: "Error while claiming rewards"})
+            }
             res.redirect('/dashboard/wallet');
         })
     });
@@ -237,7 +240,6 @@ router.post('/edit', isLoggedAndConfigured, (req, res) => {
 router.post('/delete', isLoggedAndConfigured, (req,res) => {
     let article = req.body;
     if(article && article.permlink != '') {
-        console.log(article.permlink);
 
         let operations = [ 
             ['delete_comment', {
@@ -418,8 +420,6 @@ router.post('/configure/finish', (req, res) => {
             res.json({ error: "Wystąpił błąd podczas konfiguracji"});
         }
     });
-
-    console.log(configuration);
 }); 
 
 router.post('/settings', isLoggedAndConfigured, (req, res) => {
@@ -521,8 +521,6 @@ router.post('/ssl', isLoggedAndConfigured, (req, res) => {
 router.post('/profile', isLoggedAndConfigured, (req, res) => {
     
     let profile = req.body;
-
-    console.log(profile);
 
     Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
         if(!err && blog) {
