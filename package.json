@@ -27,6 +27,9 @@
     "ncp": "latest",
     "speakingurl": "latest",
     "get-urls": "latest",
-    "is-image": "latest"
+    "is-image": "latest",
+    "greenlock": "latest",
+    "le-store-certbot": "latest",
+    "homedir": "latest"
   }
 }

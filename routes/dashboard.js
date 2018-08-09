@@ -9,6 +9,7 @@ var config = require('../config');
 let nginx = require('../modules/nginx.js');
 let nodeapps = require('../modules/nodeapps.js');
 let utils = require('../modules/utils.js');
+let ssl = require('../modules/ssl.js');
 
 let Blogs = require('../database/blogs.js');
 let Posts = require('../database/posts.js');
@@ -378,6 +379,7 @@ router.post('/configure/finish', (req, res) => {
                 blog.email = configuration.email;
                 if(blog.tier == 10) {
                     blog.domain = req.session.steemconnect.name + '.' + config.domain;
+                    blog.ssl = true;
                 } else if (blog.tier == 12 || blog.tier == 15) {
                     blog.domain = configuration.domain;
                 }
@@ -484,6 +486,37 @@ router.post('/settings', isLoggedAndConfigured, (req, res) => {
         });    
     }
 }); 
+
+router.post('/ssl', isLoggedAndConfigured, (req, res) => {
+
+    console.log("Asked for SSl enable on: ", req.session.blogger.domain);
+    ssl.generateCertificatesForDomain(req.session.blogger.domain, (err) => {
+        if(err) {
+            res.json({error: "SSL could not be enabled. Try again or contact admin"});
+        } else {
+            nginx.generateConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err) {
+                if(err) {
+                    res.json({error: "SSL could not be enabled. Try again or contact admin"});
+                } else {
+                    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+                        if(!err && blog) {
+                            blog.ssl = true;
+                            blog.save(function(err) {
+                                if(!err) {
+                                    res.json({success: "SSL enabled!"});
+                                } else {
+                                    res.json({error: "SSL could not be enabled. Try again or contact admin"});
+                                }
+                            });
+                        } else {
+                            res.json({error: "SSL could not be enabled. Try again or contact admin"});
+                        }
+                    });
+                }
+            })
+        }
+    });
+})
 
 router.post('/profile', isLoggedAndConfigured, (req, res) => {
     
