@@ -2,9 +2,10 @@ extends website
 
 append scripts
   script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
-  script(src="/clean-blog/js/single.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+  script(src="//cdn.jsdelivr.net/npm/marked/marked.min.js" async)
+  script(src="/clean-blog/js/single.js")
 
 block header
     input(type='hidden', id='permlink', value= permlink)

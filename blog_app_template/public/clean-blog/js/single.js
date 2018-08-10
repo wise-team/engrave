@@ -82,14 +82,13 @@ $(document).ready(function () {
         var comment_body = document.createElement('p');
     
         if (comment.net_rshares >= 0) {
-            $(comment_body).append(comment.body);
+            $(comment_body).append(marked(comment.body));
         } else {
             $(comment_body).append('Komentarz ukryty');
         }
         
     
-        var comment_action = document.createElement('div');
-        $(comment_action).addClass('comment-action');
+       
         var i_voted = document.createElement('i');
         $(i_voted).addClass('fa').addClass('fa-thumbs-up').addClass('comments-action').addClass('comment-vote');
     
@@ -106,8 +105,11 @@ $(document).ready(function () {
     
         var span_replay = document.createElement('span');
         $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Odpowiedz");
-    
-        $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value).append(span_replay);
+        
+        var comment_action = document.createElement('i');
+        $(comment_action).addClass('pull-right');
+        $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value);
+        // $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value).append(span_replay);
     
         let hidden_permlink = document.createElement('input');
         $(hidden_permlink).attr('type', 'hidden').attr('name', 'comment_permlink').attr('value', comment.permlink);
@@ -118,9 +120,7 @@ $(document).ready(function () {
         $(content).append(hidden_author);
         $(content).append(authorsLink);
         $(content).append(": ");
-        // $(content).append(h4);
-        // $(content).append(span);
-        // $(content).append(comment_action);
+        $(content).append(comment_action);
     
         $(new_comment_box).append(content);
         $(new_comment_box).append(comment_body);
