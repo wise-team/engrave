@@ -1,6 +1,14 @@
 extends website
 
+append scripts
+  script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
+  script(src="/clean-blog/js/single.js")
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+  script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+
 block header
+    input(type='hidden', id='permlink', value= permlink)
+    input(type='hidden', id='editorial', value= config.steem_username)
     header.masthead(style= (image) ? "background-image: url('" + image + "')" : "")
       .overlay
       .container
@@ -20,3 +28,5 @@ block header
         .row
           .col-lg-8.col-md-10.mx-auto
             != body
+    hr
+    include partials/comments.pug
