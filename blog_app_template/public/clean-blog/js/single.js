@@ -23,30 +23,9 @@ $(document).ready(function () {
                 let li = document.createElement('li');
                 $(li).addClass('clearfix');
                 $(ul).append(li);
-                if (loggedInUser) {
-                    (function (lli, lcmt) {
-                        steem.api.getActiveVotes(lcmt.author, lcmt.permlink, function (err, result) {
-    
-                            if (!err && result) {
-                                let voted = false;
-                                result.forEach(voter => {
-                                    if (voter.voter == loggedInUser) {
-                                        voted = true;
-                                    }
-                                });
-    
-                                (function (lli2, lcmt2) {
-                                    renderComment(lcmt2, voted, lli2);
-                                })(lli, lcmt);
-    
-                            }
-                        });
-                    })(li, cmt);
-                } else {
-                    (function (lli, lcmt) {
-                        renderComment(lcmt, false, lli);
-                    })(li, cmt);
-                }
+                (function (lli, lcmt) {
+                    renderComment(lcmt, false, lli);
+                })(li, cmt);
     
                 if (cmt.children > 0) {
     
@@ -91,14 +70,14 @@ $(document).ready(function () {
         $(content).append(moment(comment.created).format('LLL') + ", ");
 
         var authorsLink = document.createElement('a');
-        $(authorsLink).prop('href', "#");
+        $(authorsLink).prop('href', "https://steemit.com/@" + comment.author);
         $(authorsLink).append(comment.author);
     
-        var span = document.createElement('span');
+        var created_span = document.createElement('span');
         var i = document.createElement('i');
         $(i).addClass('fa').addClass('fa-clock-o');
-        $(span).append(i);
-        $(span).append(moment(comment.created).format("LLL"));
+        $(created_span).append(i);
+        $(created_span).append(moment(comment.created).format("LLL"));
     
         var comment_body = document.createElement('p');
     
