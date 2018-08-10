@@ -46,6 +46,9 @@ $(document).ready(function () {
     
         steem.api.getContentReplies(author, permlink, function (err, result) {
             if (!err && result) {
+                if(result.length) {
+                    $('#comments-empty').remove();
+                }
                 (function(ul) {
                     renderCommentsList(result, ul);
                 })(list_id);

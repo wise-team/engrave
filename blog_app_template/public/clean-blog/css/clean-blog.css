@@ -518,3 +518,7 @@ font-weight: 800;
   border-left: 1px solid #788187;
   padding-left: 10px;
 }
+
+.blog-comment #comments-empty {
+  margin-left: 85px;
+}
