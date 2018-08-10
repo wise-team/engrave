@@ -22,6 +22,7 @@
         "source": "Source",
         "posted_by": "Posted by",
         "category_no_posts_found": "No posts in category",
-        "powered_by": "Powered by"
+        "powered_by": "Powered by",
+        "no_comments": "Nobody commented yet"
     }
 }

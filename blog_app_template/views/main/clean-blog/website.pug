@@ -14,6 +14,11 @@ html(lang='en')
   
     include partials/opengraph.pug
 
+    block scripts
+      script(src='/clean-blog/vendor/jquery/jquery.min.js')
+      script(src='/clean-blog/vendor/bootstrap/js/bootstrap.bundle.min.js')
+      script(src='/clean-blog/js/clean-blog.min.js')
+
 
   body
     include partials/navigation.pug
@@ -51,6 +56,4 @@ html(lang='en')
 
             p.copyright.text-muted Copyright © #{config.blog_title} 2018. #{translation.frontpage.powered_by}&nbsp;
                 a(href="https://engrave.website") ENGRAVE
-    script(src='/clean-blog/vendor/jquery/jquery.min.js')
-    script(src='/clean-blog/vendor/bootstrap/js/bootstrap.bundle.min.js')
-    script(src='/clean-blog/js/clean-blog.min.js')
+
