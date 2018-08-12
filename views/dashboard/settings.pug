@@ -146,7 +146,7 @@ block body
                     .col-md-12
                       .form-group
                         label Notification body length (characters)
-                        input.form-control(name='onesignal_body_length', type='number', placeholder='Characters', value=blogger.onesignal_body_length)  
+                        input.form-control(name='onesignal_body_length', type='number', min='1', max='250', placeholder='Characters', value=blogger.onesignal_body_length)  
 
             .card
               .card-header
