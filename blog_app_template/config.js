@@ -17,7 +17,6 @@ module.exports.get_config = () => {
 }
 
 module.exports.refresh_config = (cb) => {
-    console.log("Settings refreshing: " + Date());
     Blogs.findOne({steem_username: config.steem_username}, function(err, blog) {
         if(!err && blog) {
             config = blog;          
@@ -31,6 +30,6 @@ module.exports.refresh_config = (cb) => {
 }
 
 module.exports.init_refreshing = () => {
-    console.log("Settings refreshig every minute!")
+    console.log("Settings will be rehreshed every minute!")
     new CronJob('* * * * *', function () { module.exports.refresh_config() }, null, true, 'America/Los_Angeles');
 }
