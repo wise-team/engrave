@@ -49,9 +49,9 @@ let authorize = require('./routes/authorize');
 let dashboard = require('./routes/dashboard');
 
 // app.use('/dashboard', dashboard);
-app.use('/', index);
 app.use('/authorize', authorize);
 app.use('/dashboard', dashboard);
+app.use('/', index);
 
 app.locals.moment = require('moment');
 
