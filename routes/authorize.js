@@ -126,7 +126,8 @@ router.get('/', (req, res, next) => {
                         theme: 'clean-blog',
                         blog_title: 'Steem Blog',
                         blog_slogan: 'Personal Steem Powered Blog',
-                        categories: [{steem_tag: 'blog', slug: 'blog', name: 'Default category'}]
+                        frontpage_language: 'en',
+                        categories: [{steem_tag: 'engrave', slug: 'blog', name: 'Default category'}]
                     });
                     req.session.blogger = user;
                     user.save(function (err) {
