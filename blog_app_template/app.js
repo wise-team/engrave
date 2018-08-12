@@ -58,7 +58,6 @@ app.set('view engine', 'pug');
 lang.initialize(cfg.get_config().frontpage_language);
 
 function refresh_shared_config() {
-    console.log("Shared settings refreshing for templates: " + Date());
     app.use((req, res, next) => {
         res.locals.config = cfg.get_config();
         lang.initialize(res.locals.config.frontpage_language);
