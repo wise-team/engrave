@@ -41,6 +41,7 @@ function isLoggedAndConfigured(req, res, next) {
 }
 
 router.get('/configure', isLoggedAndConfigured, (req, res) => {
+
     if(!req.session.blogger.configured) {
         res.render('dashboard/configure.pug', {blogger: req.session.blogger, url: 'configure'});
     } else {
@@ -379,52 +380,64 @@ router.post('/configure/finish', (req, res) => {
     
     let configuration = req.body;
 
-    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
-        if(!err && blog) {
-            if(!blog.configured) {
-                blog.configured = true;
-                blog.email = configuration.email;
-                if(blog.tier == 10) {
-                    blog.domain = req.session.steemconnect.name + '.' + config.domain;
-                    blog.ssl = true;
-                } else if (blog.tier == 12 || blog.tier == 15) {
-                    blog.domain = configuration.domain;
-                }
+    let domain = configuration.domain;
 
-                blog.save(function(err) {
-                    if(err) {
-                        console.log(err);
-                        res.json({ error: "Wystąpił błąd podczas konfiguracji"});
-                    } else {
-                        if(blog.tier == 10) {
-                            nginx.generateSubdomainConfig(blog.domain, blog.port, function (err) {
-                                if(err) {
-                                    console.log(err);
-                                } else {
-                                    nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
-                                }
-                            });
-                        } else if (blog.tier == 12 || blog.tier == 15) {
-                            nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
-                                if(err) {
-                                    console.log(err);
-                                } else {
-                                    nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
-                                }
-                            });
-                        }
-                        
-                        res.json({ success: "Konfiguracja zakończona!"});
-                    }
-                });
-                
-            } else {
-                res.json({ error: "Już skonfigurowano! Nie oszukuj!"});
-            }
+    if(configuration.subdomain) {
+        domain = configuration.subdomain + "." + configuration.domain;
+    }
+
+    Blogs.findOne({domain: domain}, function(err, result) {
+        if(err || result) {
+            res.json({error: "Blog with that domain already exist. Try another one"});
         } else {
-            res.json({ error: "Wystąpił błąd podczas konfiguracji"});
+            Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+                if(!err && blog) {
+                    if(!blog.configured) {
+                        blog.configured = true;
+                        blog.email = configuration.email;
+                        if(blog.tier == 10) {
+                            blog.domain = domain;
+                            blog.ssl = true;
+                        } else if (blog.tier == 12 || blog.tier == 15) {
+                            blog.domain = domain;
+                        }
+        
+                        blog.save(function(err) {
+                            if(err) {
+                                console.log(err);
+                                res.json({ error: "Wystąpił błąd podczas konfiguracji"});
+                            } else {
+                                if(blog.tier == 10) {
+                                    nginx.generateSubdomainConfig(blog.domain, blog.port, function (err) {
+                                        if(err) {
+                                            console.log(err);
+                                        } else {
+                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                        }
+                                    });
+                                } else if (blog.tier == 12 || blog.tier == 15) {
+                                    nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
+                                        if(err) {
+                                            console.log(err);
+                                        } else {
+                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                        }
+                                    });
+                                }
+                                
+                                res.json({ success: "Konfiguracja zakończona!"});
+                            }
+                        });
+                        
+                    } else {
+                        res.json({ error: "Już skonfigurowano! Nie oszukuj!"});
+                    }
+                } else {
+                    res.json({ error: "Wystąpił błąd podczas konfiguracji"});
+                }
+            });
         }
-    });
+    })
 }); 
 
 router.post('/settings', isLoggedAndConfigured, (req, res) => {

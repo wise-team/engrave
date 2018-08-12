@@ -19,25 +19,32 @@ block body
                 .row
                   .col-md-6
                     .form-group
+                      
                       if blogger.tier == 15
                         //- label Add your domain
                         p Please leave comment in this topic:
 
                         a(href='https://steemit.com/pl-projekty/@nicniezgrublem/engrave-pierwsza-platforma-blogowa-oparta-na-sieci-steem') ENAGRAVE at Steemit.com
+                      
                       else if blogger.tier == 12
                         label Information
                         p Due to alpha release, we do not own DNS server yet, so you have to point your domain directly to our server. Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
                         label Domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
+                      
                       else
                         //^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$
-                        label Domain (disabled in this Tier)
-                        input.form-control(name='domain', type='text', disabled='', placeholder='Domain', value= blogger.steem_username + '.engrave.website')
+                        label Blog address
+                        input.form-control(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="You cant use whitespaces in blog address", type='text', placeholder='Domain', value= blogger.steem_username)
+                  
                   .col-md-6
                     .form-group
-                      if blogger.tier != 15
-                        label E-mail
-                        input.form-control(name='email', type='email', placeholder='e-mail', value='' required)
+                      if blogger.tier == 10
+                        label Domain
+                        select.form-control(name="domain")
+                          each domain in config.blog_domains
+                            option(value=domain )= "." + domain
+
                 a(href='/authorize/tier/cancel').btn.btn-link Change your tier
                 if blogger.tier != 15
                   button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
