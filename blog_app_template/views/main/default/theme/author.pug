@@ -1,0 +1,20 @@
+extends website
+
+append scripts
+    script(src="/js/main.js")
+
+block content
+    input(type="hidden" value=author.username)#author_indicator
+    .posts-block.standard-box
+        .title-section
+            h1= translation.frontpage.author_page
+        include partials/author.pug
+        .row#posts
+            if latest
+                each item in latest
+                    include partials/box.pug            
+            else
+                h1= translation.frontpage.no_posts_in_category
+    
+        .center-button
+            a(href="#").load-more= translation.frontpage.loadmore_text

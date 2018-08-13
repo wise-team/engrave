@@ -1,5 +1,7 @@
 let Blogs = require('./models/blogs');
 let CronJob = require('cron').CronJob;
+let path = require("path");
+const dynamicStatic = require('express-dynamic-static')(); // immediate initialization
 
 let config = {
     port: process.env.PORT || 8080,
@@ -19,6 +21,9 @@ module.exports.get_config = () => {
 module.exports.refresh_config = (cb) => {
     Blogs.findOne({steem_username: config.steem_username}, function(err, blog) {
         if(!err && blog) {
+            if(config.theme != blog.theme) {
+                dynamicStatic.setPath(path.join(__dirname, './views/main/' + blog.theme + '/public'));
+            }
             config = blog;          
             if(cb) {
                 cb();

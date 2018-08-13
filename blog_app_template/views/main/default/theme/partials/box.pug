@@ -1,0 +1,41 @@
+article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
+    
+    include metadata/publisher.pug
+
+    meta(itemprop="mainEntityOfPage" content= "https://" + config.domain + "/" + item.permlink)
+    meta(itemprop="datePublished" content= moment(item.date).toISOString())
+    meta(itemprop="dateModified" content= moment(item.date).toISOString())
+    meta(itemprop="image" content= item.image)
+    meta(itemprop="headline" content= item.title)
+    .news-post.standart-post
+        .post-image
+            a(href= '/' + item.url)
+                img(src= item.image? item.image : '/img/default.jpg')
+            a(href="/kategoria/"+ item.category, class="category category-" + item.category) #{item.category_fullname}
+        h2
+            a(href= '/' + item.url, itemprop="url") #{item.title}
+        ul.post-tags
+            li
+                div(itemprop="author" itemscope itemtype="https://schema.org/Person")
+                    i.lnr.lnr-user
+                    = translation.frontpage.author + ' '
+                    span
+                        a(href="/autor/" + item.root_author, itemprop="url")
+                            if item.author && item.author.name && item.author.surname
+                                span(itemprop="name")= item.author.name + ' ' + item.author.surname
+                            else if item.author && item.author.name
+                                span(itemprop="name")= item.author.name
+                            else 
+                                span(itemprop="name")= item.root_author
+            li
+                a(href= '/' + item.url + "#comments")
+                    i.lnr.lnr-bubble
+                    span= item.comments_quantity
+            li
+                i.lnr.lnr-thumbs-up
+                = item.net_votes
+            li
+                i.lnr.lnr-diamond
+                | $
+                = item.value
+        p= item.body_abbr + "..."

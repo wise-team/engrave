@@ -1,5 +1,7 @@
 require('dotenv').config();
 let CronJob = require('cron').CronJob;
+let path = require("path");
+const dynamicStatic = require('express-dynamic-static')(); // immediate initialization
 
 var mongoose = require('mongoose');
 let cfg = require('./config');
@@ -81,6 +83,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressSanitized.middleware());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(dynamicStatic);
+
+dynamicStatic.setPath(path.join(__dirname, '/views/main/' + cfg.get_config().theme + '/public'));
 
 let index = require('./routes/index');
 let authorize = require('./routes/authorize');
@@ -110,7 +115,7 @@ app.use(function (err, req, res, next) {
     
     // render the error page
     res.status(err.status || 500);
-    res.render('main/' + cfg.get_config().theme + '/error', {categories: cfg.get_config().categories});
+    res.render('main/' + cfg.get_config().theme + '/theme/error', {categories: cfg.get_config().categories});
 });
 
 let debug = require('debug')('boilerplate:server');

@@ -29,7 +29,8 @@
     "url-embed": "latest",
     "wykop-es6": "latest",
     "dotenv": "latest",
-    "sitemap": "latest"
+    "sitemap": "latest",
+    "express-dynamic-static": "latest"
   },
   "devDependencies": {},
   "scripts": {

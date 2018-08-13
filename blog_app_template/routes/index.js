@@ -65,7 +65,7 @@ router.get('/', (req, res, next) => {
     category.category = "/";
     category.page_title = cfg.get_config().blog_title + " - " + cfg.get_config().blog_slogan;
     
-    res.render('main/' + cfg.get_config().theme + '/index', category);
+    res.render('main/' + cfg.get_config().theme + '/theme/index', category);
 });
 
 router.get('/favicon.ico', (req, res) => {
@@ -95,9 +95,9 @@ router.get('/:permlink', (req, res, next) => {
         if (art) {
             art.user = utils.prepareLoggedUserObject(req.session);
             art.featured = articles.getFeaturedPosts();
-            res.render('main/' + cfg.get_config().theme + '/single', art);
+            res.render('main/' + cfg.get_config().theme + '/theme/single', art);
         } else {
-            res.render('main/' + cfg.get_config().theme + '/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + cfg.get_config().blog_title });
+            res.render('main/' + cfg.get_config().theme + '/theme/404', { featured: articles.getFeaturedPosts(), page_title: "Nie znaleziono - " + cfg.get_config().blog_title });
         }
     });
 
@@ -129,7 +129,7 @@ handleCategoryRoute = (req, res) => {
         category.category = req.params.category;
         category.category_fullname = utils.getCategoryFullName(req.params.category);
         category.page_title = utils.getCategoryFullName(req.params.category) + " - " + cfg.get_config().blog_title;
-        res.render('main/' + cfg.get_config().theme + '/category', category);
+        res.render('main/' + cfg.get_config().theme + '/theme/category', category);
     } else {
         res.redirect('/'); 
     }
@@ -152,7 +152,7 @@ handleAuthorRoute = (req, res) => {
         }        
 
         authorListing.page_title = page_title + " - " + cfg.get_config().blog_title;
-        res.render('main/' + cfg.get_config().theme + '/author', authorListing);
+        res.render('main/' + cfg.get_config().theme + '/theme/author', authorListing);
     } else {
         res.redirect('/'); 
     }
