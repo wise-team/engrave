@@ -35,7 +35,7 @@ block body
                       else
                         //^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$
                         label Blog address
-                        input.form-control(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="You cant use whitespaces in blog address", type='text', placeholder='Domain', value= blogger.steem_username)
+                        input.form-control.text-right(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="You cant use whitespaces in blog address", type='text', placeholder='Domain', value= blogger.steem_username)
                   
                   .col-md-6
                     .form-group
