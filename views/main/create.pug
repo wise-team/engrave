@@ -32,13 +32,9 @@ block body
 
 
   .view.full-page-intro(style="background-image: url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg'); background-repeat: no-repeat; background-size: cover;")
-    // Mask & flexbox options
     .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
-      // Content
       .container
-        // Grid row
         .row.wow.fadeIn
-          // Grid column
           .col-md-6.mb-4.white-text.text-center.text-md-left
             h1.display-4.font-weight-bold You are about to create new Steem powered blog
             hr.hr-light
@@ -54,36 +50,15 @@ block body
             p
               strong
                 | Please make sure that your'e logging on official steemconnect website!
-          // Grid column
-          // Grid column
           .col-md-6.col-xl-5.mb-4
-            // Card
             .card
-              // Card content
               .card-body
-                // Form
                 form(name='')
-                  // Heading
                   h3.dark-grey-text.text-center
                     strong Don't have Steem account?
                   hr
                   p.text-center
-                    | We can create one especially for you. Just need to know some details to proceed 
-                  .md-form
-                    i.fa.fa-user.prefix.grey-text
-                    input#form3.form-control(type='text')
-                    label(for='form3') Preffered account name
-                  .md-form
-                    i.fa.fa-envelope.prefix.grey-text
-                    input#form2.form-control(type='text')
-                    label(for='form2') Your email
-                  .md-form
-                    i.fa.fa-pencil.prefix.grey-text
-                    textarea#form8.md-textarea(type='text')
-                    label(for='form8') Your interests (what will you write about)
+                    | You can create one quickly and easy. Just need to write something about you or your first article!
+                  
                   .text-center
-                    a.btn.btn-indigo(href="/") Request new Steem account
-                    hr
-                    fieldset.form-check
-                      input#checkbox1.form-check-input(type='checkbox')
-                      label.form-check-label.dark-grey-text(for='checkbox1') I'm aware that not every request will be considered positively
+                    a.btn.btn-indigo(href="https://steemfounders.com") Try Steemfounders

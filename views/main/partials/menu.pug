@@ -29,8 +29,8 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
                 a.nav-link.border.border-light.rounded(href='/authorize')
                   | Login to dashboard
               else
-                a.nav-link.border.border-light.rounded(href='/dashboard')
-                  = 'Logout'
+                a.nav-link(href='/logout')
+                  | Logout
             li.nav-item
               if blogger
                 a.nav-link.border.border-light.rounded(href='/dashboard')

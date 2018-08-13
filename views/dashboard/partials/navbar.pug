@@ -10,8 +10,8 @@ nav.navbar.navbar-expand-lg(color-on-scroll='500')
                 li.dropdown.nav-item
                     a.dropdown-toggle.nav-link(href='#', data-toggle='dropdown')
                         i.nc-icon.nc-planet
-                        span.notification 1
-                        span.d-lg-none  &nbsp;Notification
+                        //- span.notification 1
+                        //- span.d-lg-none  &nbsp;Notification
                     ul.dropdown-menu
                         a.dropdown-item(href='#') Coming soon...
                 li.nav-item.dropdown
@@ -19,7 +19,10 @@ nav.navbar.navbar-expand-lg(color-on-scroll='500')
                         span.no-icon= '@' + blogger.steem_username
                     .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
                         if blogger.domain
-                            a.dropdown-item(target='_blank', href= 'http://' + blogger.domain) Visit your Blog
+                            if blogger.ssl
+                                a.dropdown-item(target='_blank', href= 'https://' + blogger.domain) Visit your Blog
+                            else
+                                a.dropdown-item(target='_blank', href= 'http://' + blogger.domain) Visit your Blog
                         a.dropdown-item(target='_blank', href='https://steemit.com/@' + blogger.steem_username) Visit Steemit
                         .divider
                         a.dropdown-item(href='/authorize/logout') Logout
