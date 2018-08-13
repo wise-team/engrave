@@ -26,7 +26,7 @@ block header
                   = translation.frontpage.posted_by + ' '
                   a()= config.author_name
                   | , 
-                = moment(created).format('LLL')
+                span(title= moment.utc(date).local().format('LLL'))= moment.utc(date).local().fromNow()
     article
       .container
         .row

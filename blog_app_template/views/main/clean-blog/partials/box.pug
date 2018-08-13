@@ -7,5 +7,5 @@
             = translation.frontpage.posted_by + ' '
             a()= config.author_name
             | , 
-        = moment(item.date).format('LL')
+        span(title= moment.utc(item.date).local().format('LLL'))= moment.utc(item.date).local().fromNow()
     hr
