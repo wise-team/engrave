@@ -13,6 +13,7 @@ let blogSchema = new Schema({
     created: Date,
     tier: Number,
     configured: Boolean,
+    category: String,
     
     deployed: Boolean,
 
