@@ -44,14 +44,14 @@ app.use(expressSanitized.middleware());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-let index = require('./routes/index');
+let main = require('./routes/main');
 let authorize = require('./routes/authorize');
 let dashboard = require('./routes/dashboard');
 
 // app.use('/dashboard', dashboard);
 app.use('/authorize', authorize);
 app.use('/dashboard', dashboard);
-app.use('/', index);
+app.use('/', main);
 
 app.locals.moment = require('moment');
 

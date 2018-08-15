@@ -3,8 +3,6 @@ let steem = require('../modules/steemconnect')
 let router = express.Router();
 
 let Blogs = require('../database/blogs.js');
-let nginx = require('../modules/nginx.js');
-let nodeapps = require('../modules/nodeapps.js');
 
 router.get('/logout', (req, res) => {
     var redirectUrl = '/';
