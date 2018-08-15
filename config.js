@@ -6,7 +6,8 @@ let config = {
     steemconnect_redirect_uri: process.env.STEEMCONNECT_REDIRECT_URI || 'https://localhost/authorize/',
     beneficiary: process.env.BENEFICIARY || "tiploo",
     domain: process.env.DOMAIN || 'engrave.site',
-    blog_domains: (process.env.BLOG_DOMAINS) ? (JSON.parse(process.env.BLOG_DOMAINS)) : [process.env.DOMAIN],
+    blogs_domains: (process.env.BLOGS_DOMAINS) ? (JSON.parse(process.env.BLOGS_DOMAINS)) : [process.env.DOMAIN],
+    blogs_categories:(process.env.BLOGS_CATEGORIES) ? (JSON.parse(process.env.BLOGS_CATEGORIES)) : ["Other"],
 }
 
 module.exports = config;

@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $("#category-select").imagepicker({show_label: true});
+
     $('#configure').submit(function (e) {
         e.preventDefault();
 

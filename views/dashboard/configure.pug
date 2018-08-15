@@ -3,12 +3,14 @@ extends website.pug
 append scripts
   script(src="/js/parsley.min.js")
   script(src="/js/configure.js")
+  script(src="/js/image-picker.min.js")
+  link(href='/css/image-picker.css', rel='stylesheet')
 
 block body
   .content
     .container-fluid
       .row
-        .col-md-6
+        .col-md-8
           .card
             .card-header
               h4.card-title Your blog is almost ready
@@ -28,22 +30,35 @@ block body
                       
                       else if blogger.tier == 12
                         label Information
-                        p Due to alpha release, we do not own DNS server yet, so you have to point your domain directly to our server. Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
+                        p Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
                         label Domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       
                       else
-                        //^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$
                         label Blog address
-                        input.form-control.text-right(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="You cant use whitespaces in blog address", type='text', placeholder='Domain', value= blogger.steem_username)
+                        input.form-control.text-right(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='Blog address', value= blogger.steem_username)
                   
                   .col-md-6
                     .form-group
                       if blogger.tier == 10
                         label Domain
                         select.form-control(name="domain")
-                          each domain in config.blog_domains
+                          each domain in config.blogs_domains
                             option(value=domain )= "." + domain
+                .row.justify-content-md-center
+                  .col-md-7
+                    .form-group
+                      label Theme
+                      select.form-control.image-picker(name="theme")#category-select
+                          option(value='clean-blog', data-img-src='/img/clean-blog-theme.png', data-img-class="first")  Clean Blog
+                          option(value='default', data-img-src='/img/magazine-theme.png', data-img-class="last") Magazine
+                .row
+                  .col-md-12
+                    .form-group
+                      label Category
+                      select.form-control(name="category")
+                        each category in config.blogs_categories
+                          option(value=category )= category
 
                 a(href='/authorize/tier/cancel').btn.btn-link Change your tier
                 if blogger.tier != 15

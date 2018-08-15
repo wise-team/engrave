@@ -395,6 +395,9 @@ router.post('/configure/finish', (req, res) => {
                     if(!blog.configured) {
                         blog.configured = true;
                         blog.email = configuration.email;
+                        blog.theme = configuration.theme;
+                        blog.category = configuration.category;
+                        
                         if(blog.tier == 10) {
                             blog.domain = domain;
                             blog.ssl = true;

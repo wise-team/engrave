@@ -52,8 +52,8 @@ module.exports.generateConfigWithSSL = (domain, port, cb) => {
 }
 
 module.exports.isBlogDomainCorrect = (domain) => {
-    for(let i in config.blog_domains) {
-        if (config.blog_domains[i] == domain) {
+    for(let i in config.blogs_domains) {
+        if (config.blogs_domains[i] == domain) {
             return true;
         }
     }
