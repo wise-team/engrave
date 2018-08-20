@@ -24,7 +24,12 @@ module.exports.refresh_config = (cb) => {
             if(config.theme != blog.theme) {
                 dynamicStatic.setPath(path.join(__dirname, './views/main/' + blog.theme + '/public'));
             }
-            config = blog;          
+            config = blog;
+
+            if(process.env.PORT) {
+                config.port = process.env.PORT;
+            }
+            
             if(cb) {
                 cb();
             }
