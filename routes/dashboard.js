@@ -517,7 +517,7 @@ router.post('/ssl', isLoggedAndConfigured, (req, res) => {
         if(err) {
             res.json({error: "SSL could not be enabled. Try again or contact admin"});
         } else {
-            nginx.generateConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err) {
+            nginx.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err) {
                 if(err) {
                     res.json({error: "SSL could not be enabled. Try again or contact admin"});
                 } else {
