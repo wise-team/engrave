@@ -31,6 +31,7 @@ let blogSchema = new Schema({
     blog_title: String,
     blog_slogan: String,
     blog_logo_url: String,
+    blog_main_image: String,
 
     opengraph_default_image_url: String,
     opengraph_default_description: String,

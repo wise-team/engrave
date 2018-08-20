@@ -1,7 +1,7 @@
 extends website
 
 block header
-    header.masthead(style="background-image: url('/img/home-bg.jpg')")
+    header.masthead(style= (config.blog_main_image) ? "background-image: url('" + config.blog_main_image + "')" : "background-image: url('/img/home-bg.jpg')")
         .overlay
         .container
             .row
