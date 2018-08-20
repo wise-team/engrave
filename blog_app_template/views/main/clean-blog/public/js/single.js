@@ -111,7 +111,7 @@ $(document).ready(function () {
         $(span_value).attr('name', "comment-value").append('$').append(value);
     
         var span_replay = document.createElement('span');
-        $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Odpowiedz");
+        $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;" + btn_reply_text);
         
         var comment_action = document.createElement('i');
         $(comment_action).addClass('pull-right');
@@ -217,7 +217,7 @@ $(document).ready(function () {
         if (loggedInUser) {
             let commentBox = $(this).parent().parent().parent();
             if(!commentBox.find('.comment-reply-form').length) {
-                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply">Wyślij odpowiedź</button></form></div>');
+                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply">' + btn_send_reply_text + '</button></form></div>');
             }
         } else {
             $("#loggedoutModal").modal();
@@ -315,11 +315,15 @@ $(document).ready(function () {
                         console.log(data.error);
                         toastr.error(data.error);
                     }
-                    $(this).removeClass('formGrayOut');
+                    box.find('[name="comment_body"]').css("visibility", "visible");
+                    box.find('.submit-reply').css("visibility", "visible");
+                    box.removeClass('formGrayOut');
                 },
                 error: function (data) {
                     toastr.error("Coś poszło nie tak...");
-                    $(this).removeClass('formGrayOut');
+                    box.find('[name="comment_body"]').css("visibility", "visible");
+                    box.find('.submit-reply').css("visibility", "visible");
+                    box.removeClass('formGrayOut');
                 }
             });
         } else {

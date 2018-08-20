@@ -677,6 +677,6 @@ padding: 0;
 }
 @keyframes highlight {
   100% {
-    background-color: green;
+    background-color: #00A7B3;
   }
 }

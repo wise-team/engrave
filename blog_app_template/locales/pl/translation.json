@@ -25,6 +25,11 @@
         "powered_by": "Napędzany przez",
         "no_comments": "Nikt jeszcze nie skomentował",
         "steemit_box_content": "Możesz zalogować się swoim kontem Steem za pomocą bezpiecznego Steemconnect, aby wpływać na treści bloga. Będziesz mógł komentować oraz głosować na wpisy i komentarze.",
-        "btn_steemconnect_login": "Zaloguj się Steemconnect"
+        "btn_steemconnect_login": "Zaloguj się Steemconnect",
+        "btn_vote": "Głosuj",
+        "btn_close": "Zamknij",
+        "btn_cancel": "Anuluj",
+        "select_voting_power": "Wybierz siłę głosu",
+        "you_are_logged_out": "Jesteś wylogowany"
     }
 }

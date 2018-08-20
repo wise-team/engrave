@@ -1,6 +1,10 @@
 extends website
 
 append scripts
+  script(type='text/javascript').
+    var btn_reply_text = !{JSON.stringify(translation.frontpage.reply_text)}
+    var btn_send_reply_text = !{JSON.stringify(translation.frontpage.send_reply_text)}
+    var btn_cancel_text = !{JSON.stringify(translation.frontpage.btn_cancel)}
   script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
   if config.frontpage_language == 'pl'
