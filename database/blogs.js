@@ -9,6 +9,7 @@ let blogSchema = new Schema({
     email: String,
     port: Number,
     domain: String,
+    is_domain_custom: Boolean,
     ssl: Boolean,
     created: Date,
     tier: Number,

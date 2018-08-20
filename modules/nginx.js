@@ -36,7 +36,7 @@ module.exports.generateCustomDomainConfig = (domain, port, cb) => {
     });
 };
 
-module.exports.generateConfigWithSSL = (domain, port, cb) => {
+module.exports.generateCustomDomainConfigWithSSL = (domain, port, cb) => {
     let tmp1 = ssl_domain_template.replace(/EXAMPLE/g, domain);
     let tmp2 = tmp1.replace(/PORT/g, port);
 

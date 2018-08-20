@@ -400,9 +400,11 @@ router.post('/configure/finish', (req, res) => {
                         
                         if(blog.tier == 10) {
                             blog.domain = domain;
+                            blog.is_domain_custom = false;
                             blog.ssl = true;
                         } else if (blog.tier == 12 || blog.tier == 15) {
                             blog.domain = domain;
+                            blog.is_domain_custom = true;
                         }
         
                         blog.save(function(err) {
