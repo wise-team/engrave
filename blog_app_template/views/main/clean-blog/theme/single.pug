@@ -13,6 +13,8 @@ append scripts
 block header
     input(type='hidden', id='permlink', value= permlink)
     input(type='hidden', id='editorial', value= config.steem_username)
+    if user
+      input(type='hidden', id='logged_user', value= user.name)
     header.masthead(style= (image) ? "background-image: url('" + image + "')" : "")
       .overlay
       .container
@@ -27,6 +29,8 @@ block header
                   a()= config.author_name
                   | , 
                 span(title= moment.utc(date).local().format('LLL'))= moment.utc(date).local().fromNow()
+                = ', ' + translation.frontpage.comments_count.toLowerCase() + ": "
+                span= comments_quantity
     article
       .container
         .row
@@ -34,3 +38,4 @@ block header
             != body
     hr
     include partials/comments.pug
+    include partials/voting-modal.pug

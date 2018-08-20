@@ -51,7 +51,12 @@ router.post('/comment', utils.isAuthenticated, (req, res) => {
             console.log(err);
             if (err.error_description) {
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
-                res.json({ error: errorstring });
+                if (errorstring.length > 0) {
+                    res.json({ error: errorstring });
+                } else {
+                    res.json({ error: "Error" });
+                }
+                
             } else {
                 res.json({ error: err.message });
             }

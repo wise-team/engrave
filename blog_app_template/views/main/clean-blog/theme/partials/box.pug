@@ -8,4 +8,6 @@
             a()= config.author_name
             | , 
         span(title= moment.utc(item.date).local().format('LLL'))= moment.utc(item.date).local().fromNow()
+        = ', ' + translation.frontpage.comments_count.toLowerCase() + ": "
+        span= item.comments_quantity
     hr

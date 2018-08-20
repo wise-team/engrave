@@ -553,3 +553,130 @@ padding: 0;
     margin-left: 25px;
   }
 }
+
+
+ .comments-action {
+  font-size: 12px;
+   opacity: 0.6;
+} 
+
+.comments-action:hover {
+  opacity: 0.8;
+  cursor: pointer;
+  color: #00A7B3;
+}
+
+.voted {
+  color: green;
+}
+
+.contact-form-box textarea {
+  width: 100%;
+  padding: 12px 12px;
+  background: transparent;
+  color: #565656;
+  font-size: 13px;
+  font-family: "Open Sans", sans-serif;
+  outline: none;
+  border: 1px solid #e1e1e1;
+  margin: 20px 0 15px;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px; 
+}
+
+.formGrayOut {
+  opacity: 0.2;
+  background: #333 url('https://code.jquery.com/mobile/1.3.1/images/ajax-loader.gif') no-repeat 50% 50%;
+}
+
+.comment-reply-form textarea {
+    width: 100%;
+    margin-left: 85px;
+    padding: 12px 12px;
+    background: transparent;
+    color: #565656;
+    font-size: 13px;
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+    border: 1px solid #e1e1e1;
+    margin: 20px 0 15px;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    border-radius: 0px; }
+.comment-reply-form button {
+  color: #fff;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  padding: 12px 25px;
+  background: #00A7B3;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  border-radius: 0px;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  margin: 0;
+  border: none;
+  outline: none; }
+  .comment-reply-form button i {
+    display: inline-block;
+    margin-right: 10px; }
+.comment-reply-form button:hover {
+  opacity: 0.85; }
+
+
+  .steemit-info {
+  border: 1px solid #eee;
+  text-align: center;
+  padding: 20px;
+}
+
+.steemit-info h1 {
+	padding: 10px;
+}
+
+.steemit-info p {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.steemit-info img {
+  padding: 10px;
+}
+
+.steemit-login-btn {
+  border: none;
+  color: white;
+  background: #00A7B3;
+  padding: 12px 20px;
+  margin: 10px;
+}
+
+.steemit-login-btn:hover {
+  text-decoration: none;
+  color: white;
+  opacity: 0.9;
+}
+
+.comment-highlight {
+  border-radius: 3px;
+  animation: highlight 500ms ease-out 2 alternate;
+}
+@keyframes highlight {
+  100% {
+    background-color: green;
+  }
+}

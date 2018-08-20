@@ -23,6 +23,8 @@
         "posted_by": "Posted by",
         "category_no_posts_found": "No posts in category",
         "powered_by": "Powered by",
-        "no_comments": "Nobody commented yet"
+        "no_comments": "Nobody commented yet",
+        "steemit_box_content": "You can login with your Steem account using secure Steemconnect and interact with Engrave blogs easily.",
+        "btn_steemconnect_login": "Login with Steemconnect"
     }
 }

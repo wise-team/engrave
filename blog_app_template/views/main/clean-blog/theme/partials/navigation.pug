@@ -10,3 +10,8 @@ nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
                 each category in config.categories
                     li.nav-item
                         a.nav-link(href=((config.frontpage_language == 'pl') ? '/kategoria/' : '/category/') + category.slug)= category.name
+                li.nav-item
+                    if !user
+                        a.nav-link(href='/authorize') Login
+                    else
+                        a.nav-link(href='/authorize/logout')= 'Logout, @' + user.name

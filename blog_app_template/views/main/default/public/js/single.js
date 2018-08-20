@@ -99,6 +99,7 @@ $(document).ready(function () {
                 upvoteAuthor = comment_author;
                 upvoteComment = $(this).parent();
 
+
                 $("#loggedinModal").modal();
             }
         } else {
