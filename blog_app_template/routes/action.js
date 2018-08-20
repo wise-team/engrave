@@ -49,8 +49,12 @@ router.post('/comment', utils.isAuthenticated, (req, res) => {
     steem.comment(parentAuthor, parentPermlink, author, commentPermlink, title, body, "", (err, steemResponse) => {
         if(err) {
             console.log(err);
-            var errorstring = err.error_description.split('\n');
-            res.json({ error: errorstring[0]});
+            if (err.error_description) {
+                var errorstring = err.error_description.split('\n')[0].split(': ')[1];
+                res.json({ error: errorstring });
+            } else {
+                res.json({ error: err.message });
+            }
         } else {
             console.log("Comment posted on steem");
             res.json({ success: "Komentarz dodany", permlink: commentPermlink, body: body, author: author});
