@@ -92,7 +92,7 @@ $(document).ready(function () {
         if (comment.net_rshares >= 0) {
             $(comment_body).append(marked(comment.body));
         } else {
-            $(comment_body).append('Komentarz ukryty');
+            $(comment_body).append(comment_hidden);
         }
     
        
