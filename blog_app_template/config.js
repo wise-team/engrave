@@ -8,7 +8,7 @@ let config = {
     database_url: process.env.DATABASE_URL || "mongodb://user:password@database",
     theme: process.env.THEME || 'default',
     beneficiary: process.env.BENEFICIARY || "nicniezgrublem",
-    steem_username: process.env.STEEM_USERNAME || "acronyms",
+    steem_username: process.env.STEEM_USERNAME || "nicniezgrublem",
     beneficiary_share_percentage: process.env.BENEFICIARY_SHARE_PERCENTAGE || "5",
     domain: process.env.DOMAIN || 'localhost',
     session_secret: process.env.SESSION_SECRET || 'PUT_RANDOM_CHARACTERS_HERE',

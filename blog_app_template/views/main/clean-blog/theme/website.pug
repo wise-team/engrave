@@ -1,10 +1,17 @@
-html
+analyticshtml
 html(lang='en')
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
     meta(name='author', content='')
+    
+    if config.webmastertools_id && config.webmastertools_id != ''
+      meta(name="google-site-verification" content= config.webmastertools_id)
+
+    if config.website_favicon_url && config.website_favicon_url != ''
+      link(rel="icon" type="image/png" href= config.website_favicon_url)
+
     title= page_title
     link(href='/vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
     link(href='/vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
@@ -18,12 +25,7 @@ html(lang='en')
     include partials/opengraph.pug
 
     block scripts
-      script(src='/vendor/jquery/jquery.min.js')
-      script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
-      script(src='/js/ion.rangeSlider.min.js')
-      script(src='/js/clean-blog.min.js')
-      script(src='/js/popper.js')
-      script(src='/js/toastr.js')
+      include partials/scripts.pug
 
 
   body

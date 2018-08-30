@@ -3,20 +3,19 @@ link(rel="manifest preload" href="/manifest.json")
 
 script(type='text/javascript').
     var onesignal_id = !{JSON.stringify(config.onesignal_id)}
-    var analytics_identifier = !{JSON.stringify(config.analytics_identifier)}
+    var analytics_identifier = !{JSON.stringify(config.analytics_gtag)}
 script(async src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" rel="preload")
-script(src='/default/js/onesignal.js' rel="preload" async)
-script(async src="https://www.googletagmanager.com/gtag/js?id=" + config.analytics_identifier rel="preload")
-script(src='/default/js/analytics.js' rel="preload" async)
+script(src='/js/onesignal.js' rel="preload" async)
+script(async src="https://www.googletagmanager.com/gtag/js?id=" + config.analytics_gtag rel="preload")
+script(src='/js/analytics.js' rel="preload" async)
 
 #fb-root
-script(src='/default/js/facebook-sdk.js' rel="preload" async)
-script(src="/default/js/twitter.js" rel="preload" async)
+script(src='/js/facebook-sdk.js' rel="preload" async)
+script(src="/js/twitter.js" rel="preload" async)
 
-script(src='/default/js/modernmag-plugins.min.js')
-script(src='/default/js/popper.js')
-script(src='/default/js/bootstrap.min.js')
-script(src='/default/js/script.js')
-script(src='/default/js/toastr.js')
-script(src='/default/js/hotjar.js')
-script(src='/default/js/ion.rangeSlider.min.js')
+script(src='/vendor/jquery/jquery.min.js')
+script(src='/vendor/bootstrap/js/bootstrap.bundle.min.js')
+script(src='/js/ion.rangeSlider.min.js')
+script(src='/js/clean-blog.min.js')
+script(src='/js/popper.js')
+script(src='/js/toastr.js')
