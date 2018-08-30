@@ -4,6 +4,7 @@ link(rel="manifest preload" href="/manifest.json")
 script(type='text/javascript').
     var onesignal_id = !{JSON.stringify(config.onesignal_id)}
     var analytics_identifier = !{JSON.stringify(config.analytics_gtag)}
+    
 script(async src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" rel="preload")
 script(src='/js/onesignal.js' rel="preload" async)
 script(async src="https://www.googletagmanager.com/gtag/js?id=" + config.analytics_gtag rel="preload")
