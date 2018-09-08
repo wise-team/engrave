@@ -1,5 +1,6 @@
 import * as express from 'express';
 import {Config} from './config'
+import { Statistics } from './modules/statistics';
 
 require('dotenv').config();
 
@@ -18,7 +19,6 @@ let steem = require("steem");
 let moment = require("moment");
 var pm2 = require('pm2');
 var scheduler = require('./modules/scheduler.js');
-var statistics = require('./modules/statistics.js');
 var ssl = require('./modules/ssl.js');
 
 console.log("Launched on " + moment().format("LLLL"));
@@ -82,8 +82,9 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 });
 
 scheduler.initialize();
-statistics.initialize();
 ssl.initialize();
+
+let statistics = new Statistics(); // constructor creates CronJob
 
 /**
  * Create HTTP server.
