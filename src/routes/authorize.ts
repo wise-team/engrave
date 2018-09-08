@@ -1,5 +1,5 @@
 import { Blogs } from './../database/BlogsModel';
-import { Tier } from './../database/TierEnum';
+import { Tier } from '../database/helpers/TierEnum';
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/SteemConnect';
 import * as express from 'express';

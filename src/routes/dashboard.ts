@@ -12,7 +12,8 @@ let router = express.Router();
 
 // let Posts = require('../database/posts.js');
 
-import { Posts, IPost } from '../database/PostsModel';
+import { Posts } from '../database/PostsModel';
+import { IPost } from "../database/helpers/IPost";
 
 async function isLoggedAndConfigured(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
 
