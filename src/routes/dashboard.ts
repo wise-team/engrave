@@ -1,17 +1,13 @@
 import * as express from 'express';
-import { Utils } from '../modules/utils'
-import { SSL } from '../modules/ssl'
+import { Utils } from '../modules/Utils'
+import { SSL } from '../modules/SSL'
 import { IExtendedRequest } from './IExtendedRequest';
-import { SteemConnect } from '../modules/steemconnect';
+import { SteemConnect } from '../modules/SteemConnect';
+import { NodeApps } from '../modules/NodeApps';
 
 let steem = require('steem');
 let router = express.Router();
-var getSlug = require('speakingurl');
-let getUrls = require('get-urls');
-const isImage = require('is-image');
-var config = require('../config');
 let nginx = require('../modules/nginx.js');
-let nodeapps = require('../modules/nodeapps.js');
 
 let Blogs = require('../database/blogs.js');
 let Posts = require('../database/posts.js');
@@ -421,7 +417,7 @@ router.post('/configure/finish', (req: IExtendedRequest, res: express.Response) 
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeApps.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
                                 } else if (blog.tier == 12 || blog.tier == 15) {
@@ -429,7 +425,7 @@ router.post('/configure/finish', (req: IExtendedRequest, res: express.Response) 
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeApps.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
                                 }

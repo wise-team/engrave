@@ -2,9 +2,9 @@ require('dotenv').config();
 
 import * as express from 'express';
 import {Config} from './config'
-import { Statistics } from './modules/statistics';
-import { Scheduler } from './modules/scheduler';
-import { SSL } from './modules/ssl';
+import { Statistics } from './modules/Statistics';
+import { Scheduler } from './modules/Scheduler';
+import { SSL } from './modules/SSL';
 
 let config = Config.GetConfig();
 

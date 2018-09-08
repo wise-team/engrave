@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { IExtendedRequest } from './IExtendedRequest';
-import { SteemConnect } from '../modules/steemconnect';
+import { SteemConnect } from '../modules/SteemConnect';
 
 let router = express.Router();
 
