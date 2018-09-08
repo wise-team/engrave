@@ -41,12 +41,13 @@ $(document).ready(function () {
         $('#modal-delete').modal();
     });
 
-    $('.btn-chain-delete').click(function (e) {
+    $('body').on("click", ".btn-chain-delete", function () {
         id = $(this)[0].id.replace("cdel-", "");
         btn = $(this);
 
         $('#modal-chain-delete').modal({ backdrop: 'static' });
     });
+
 
     $('.btn-func-publish').click(function (e) {
         id = $(this)[0].id.replace("pub-", "");
