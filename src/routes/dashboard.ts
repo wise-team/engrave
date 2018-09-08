@@ -4,10 +4,10 @@ import { SSL } from '../modules/SSL'
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/SteemConnect';
 import { NodeApps } from '../modules/NodeApps';
+import { Nginx } from '../modules/Nginx';
 
 let steem = require('steem');
 let router = express.Router();
-let nginx = require('../modules/nginx.js');
 
 let Blogs = require('../database/blogs.js');
 let Posts = require('../database/posts.js');
@@ -413,7 +413,7 @@ router.post('/configure/finish', (req: IExtendedRequest, res: express.Response) 
                                 res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                             } else {
                                 if(blog.tier == 10) {
-                                    nginx.generateSubdomainConfig(blog.domain, blog.port, function (err: Error) {
+                                    Nginx.generateSubdomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
@@ -421,7 +421,7 @@ router.post('/configure/finish', (req: IExtendedRequest, res: express.Response) 
                                         }
                                     });
                                 } else if (blog.tier == 12 || blog.tier == 15) {
-                                    nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err: Error) {
+                                    Nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
@@ -517,7 +517,7 @@ router.post('/ssl', isLoggedAndConfigured, (req: IExtendedRequest, res: express.
         if(err) {
             res.json({error: "SSL could not be enabled. Try again or contact admin"});
         } else {
-            nginx.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err: Error) {
+            Nginx.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err: Error) {
                 if(err) {
                     res.json({error: "SSL could not be enabled. Try again or contact admin"});
                 } else {
