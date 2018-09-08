@@ -9,7 +9,6 @@ import { SteemConnect } from '../modules/SteemConnect';
 import { NodeAppsModule } from '../modules/NodeApps';
 import { NginxModule } from '../modules/Nginx';
 import { Posts } from '../database/PostsModel';
-import { IArticle } from "../database/helpers/IArticle";
 import * as express from 'express';
 import { Tier } from '../database/helpers/TierEnum';
 import { GetValidators } from '../validators/GetValidators';
@@ -108,7 +107,7 @@ router.get('/notifications', GetValidators.isLoggedAndConfigured, (req: IExtende
 router.get('/posts', GetValidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
     try {
-        let posts = await Utils.GetPostsFromBlockchain(25, null, req.session.steemconnect.name);
+        let posts = await Utils.GetPostsFromBlockchain(10, null, req.session.steemconnect.name);
         let drafts = await Posts.find({ steem_username: req.session.blogger.steem_username });
         res.render('dashboard/posts.pug', { blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts });
     } catch (error) {
@@ -534,6 +533,16 @@ router.post('/profile', PostValidators.isLoggedAndConfigured, async (req: IExten
     }
 
 }); 
+
+router.post('/posts', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+    try {
+        let start_permlink = req.body.start_permlink;
+        let posts = await Utils.GetPostsFromBlockchain(10, start_permlink, req.session.steemconnect.name);
+        res.json({success: "OK", posts: posts});
+    } catch (error) {
+        res.json({error: "Error while trying to get blockchain posts"})
+    }
+})
 
 
 module.exports = router;

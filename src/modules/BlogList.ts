@@ -24,4 +24,17 @@ export class BlogListModule {
             return false;
         }
     }
+
+    /**
+     * Get all registerd blogs as domains array
+     */
+    static async listAllBlogDomains() {
+        let blogList: string[] = [];
+        let blogs = await Blogs.find({}, {domain: 1});
+        for(let blog of blogs) {
+            blogList.push(blog.domain);
+        }
+        return blogList;
+    }
+
 }

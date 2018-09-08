@@ -91,12 +91,12 @@ block body
                         .card-body
                             .row
                                 .col-md-12
-                                    .form-group
+                                    .form-group#published-posts
                                         if !posts || !posts.length
                                             label No articles published yet
                                         else
                                             each post in posts
-                                                .row
+                                                .row(id='art-' + post.permlink)
                                                     .col-xs-12.col-sm-3.col-md-3
                                                         if post.thumbnail
                                                             img(src= post.thumbnail).img-responsive.img-box.img-thumbnail
@@ -132,18 +132,9 @@ block body
                                                                 button.btn.btn-info.btn-simple.btn-link(type='button', rel='tooltip', title='', data-original-title='View at blog')
                                                                     i.fa.fa-external-link
                                                 hr
-                    
-        div(style='overflow:hidden;')
-            .form-group
-                .row
-                .col-md-8
-                    #datetimepicker12
-            script(type='text/javascript').
-                $(function () {
-                $('#datetimepicker12').datetimepicker({
-                inline: true,
-                sideBySide: true
-                });
-                });
+                                    .load-more-button
+                                        button.btn.btn-success.btn-fill.pull-right#btn-load-more(type="button")
+                                            |  Load more
+
 append scripts
     script(src="/js/posts.js")
