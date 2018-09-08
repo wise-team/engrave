@@ -425,61 +425,63 @@ router.post('/configure/finish', PostValidators.isLoggedAndConfigured, (req: IEx
 
 router.post('/settings', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     
-    let settings = req.body;
+    try {
+        let newSettings = req.body;
+        let tempCategories = [];
+        let categories: ICategory[] = [];
 
-    let matches = [];
-
-    for(var key in settings) {
-        if(key.match(/(c_)([0-9]*)(_name)+/)) {
-            matches.push({name: key, value: settings[key]});
-        }
-    }
-
-    var categories: ICategory[] = [];
-
-    matches.forEach(match => {
-        let id = match.name.replace('c_', "").replace('_name',"");
-        let slug_reg = new RegExp('(c_)(' + id + ')(_slug)', "i");
-        let steem_tag_reg = new RegExp('(c_)(' + id + ')(_steem_tag)', "i");
-        
-        let slug = null;
-        let steem_tag = null;
-
-        for(var key in settings) {
-            if(key.match(slug_reg)) {
-                slug = settings[key];
+        for (var key in newSettings) {
+            if (key.match(/(c_)([0-9]*)(_name)+/)) {
+                tempCategories.push({ name: key, value: newSettings[key] });
             }
         }
 
-        for(var key in settings) {
-            if(key.match(steem_tag_reg)) {
-                steem_tag = settings[key];
-            }
-        }
+        tempCategories.forEach(singleCategory => {
+            let id = singleCategory.name.replace('c_', "").replace('_name', "");
+            let slug_reg = new RegExp('(c_)(' + id + ')(_slug)', "i");
+            let steem_tag_reg = new RegExp('(c_)(' + id + ')(_steem_tag)', "i");
 
-        categories.push({
-            steem_tag: steem_tag,
-            slug: slug,
-            name: match.value
+            let slug = null;
+            let steem_tag = null;
+
+            for (var key in newSettings) {
+                if (key.match(slug_reg)) {
+                    slug = newSettings[key];
+                }
+            }
+
+            for (var key in newSettings) {
+                if (key.match(steem_tag_reg)) {
+                    steem_tag = newSettings[key];
+                }
+            }
+
+            for(let category of categories){
+                if(category.slug == slug || category.steem_tag == steem_tag) throw new Error('You can\'t set categories with repeated slug or Steem tag') 
+            }
+
+            categories.push({
+                steem_tag: steem_tag,
+                slug: slug,
+                name: singleCategory.value
+            })
         })
-    })
 
-    if(!categories.length) {
-        res.json({ error: "Add at least one category"});
-    } else {
-        settings.categories = categories;
-
-        try {
-            let blog = await Blogs.findOne({steem_username: req.session.steemconnect.name});
-            Utils.CopySettings(settings, blog);
+        if (!categories.length) {
+            res.json({ error: "Add at least one category" });
+        } else {
+            newSettings.categories = categories;
+            let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
+            Utils.CopySettings(newSettings, blog);
             await blog.save();
             req.session.blogger = blog;
-            res.json({ success: "Ustawienia zapisane poprawnie" });
-
-        } catch (error) {
-                res.json({ error: "Wystąpił jakiś błąd..." });
-        }   
+            res.json({ success: "Settings saved successfully" });
+        } 
+    } catch (error) {
+        res.json({error: error.message});
     }
+
+   
 }); 
 
 router.post('/ssl', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
