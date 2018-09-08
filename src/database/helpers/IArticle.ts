@@ -1,7 +1,7 @@
 import { ICategory } from './ICategory';
 import { Document } from 'mongoose';
 
-export interface IPost extends Document {
+export interface IArticle extends Document {
     steem_username: string;
     date: Date;
     scheduled: boolean;

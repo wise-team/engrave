@@ -1,5 +1,6 @@
-import { resolve } from "path";
-import { resolveCname } from "dns";
+import { Tier } from "../database/helpers/TierEnum";
+import { Blogs } from "../database/BlogsModel";
+import { IBlog } from "../database/helpers/IBlog";
 
 let steem = require('steem');
 var getSlug = require('speakingurl');
@@ -19,14 +20,14 @@ export class Utils {
             limit: 25
         };
 
-        while(posts.length < limit) {
+        while (posts.length < limit) {
             if (start_permlink) {
                 query.start_permlink = start_permlink;
                 query.start_author = start_author;
             }
 
             let steemPosts = await steem.api.getDiscussionsByBlogAsync(query);
-            
+
             if (start_permlink) {
                 steemPosts = steemPosts.slice(1, steemPosts.length)
             }
@@ -56,7 +57,7 @@ export class Utils {
                 start_permlink = steemPosts[steemPosts.length - 1].permlink;
                 start_author = steemPosts[steemPosts.length - 1].author;
             }
-        }  
+        }
 
         return new Promise<object>((resolve, reject) => {
             resolve(posts);
@@ -193,6 +194,36 @@ export class Utils {
         let newBody = body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
         newBody = newBody.replace(/(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/g, "")
         return newBody;
+    }
+
+    static async setBloggerTier(steemUsername: string, tier: Tier) {
+        let blogger = await Blogs.findOne({ steem_username: steemUsername });
+        if (!blogger || blogger.tier) throw new Error('Blogger already exists');
+        blogger.tier = tier;
+        return blogger.save();
+    }
+
+    static CopySettings(new_settings: any, oldsettings: IBlog) {
+        oldsettings.blog_title = new_settings.blog_title
+        oldsettings.blog_slogan = new_settings.blog_slogan;
+        oldsettings.blog_logo_url = new_settings.blog_logo_url;
+        oldsettings.theme = new_settings.theme;
+        oldsettings.frontpage_language = new_settings.frontpage_language;
+        oldsettings.posts_per_category_page = new_settings.posts_per_category_page;
+        oldsettings.load_more_posts_quantity = new_settings.load_more_posts_quantity;
+        oldsettings.opengraph_default_description = new_settings.opengraph_default_description;
+        oldsettings.opengraph_default_image_url = new_settings.opengraph_default_image_url;
+        oldsettings.onesignal_app_id = new_settings.onesignal_app_id;
+        oldsettings.onesignal_api_key = new_settings.onesignal_api_key;
+        oldsettings.onesignal_logo_url = new_settings.onesignal_logo_url;
+        oldsettings.onesignal_body_length = new_settings.onesignal_body_length;
+        oldsettings.analytics_gtag = new_settings.analytics_gtag;
+        oldsettings.webmastertools_id = new_settings.webmastertools_id;
+        oldsettings.blog_main_image = new_settings.blog_main_image;
+
+        if (new_settings.categories && new_settings.categories != '') {
+            oldsettings.categories = new_settings.categories;
+        }
     }
 }
 

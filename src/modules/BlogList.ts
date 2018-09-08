@@ -1,7 +1,7 @@
 import { Blogs } from './../database/BlogsModel';
 let parseDomain = require('parse-domain');
 
-export class BlogList {
+export class BlogListModule {
     /**
      * Check if blog is registerd on Engrave system to prevent from using Engrave Steemconnect App to get SC2 token without registering own app
      * @param domain domain with or without http or https

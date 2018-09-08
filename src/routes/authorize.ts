@@ -1,13 +1,15 @@
-import { BlogList } from './../modules/BlogList';
+import { GetValidators } from './../validators/GetValidators';
+import { BlogListModule } from './../modules/BlogList';
 import { Blogs } from './../database/BlogsModel';
 import { Tier } from '../database/helpers/TierEnum';
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/SteemConnect';
 import * as express from 'express';
+import { Utils } from '../modules/Utils';
 
 let router = express.Router();
 
-router.get('/logout', (req: IExtendedRequest, res: express.Response) => {
+router.get('/logout', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     var redirectUrl = '/';
     if (req.session.current_url) {
         redirectUrl += req.session.current_url;
@@ -17,13 +19,13 @@ router.get('/logout', (req: IExtendedRequest, res: express.Response) => {
 
 });
 
-router.get('/tier/basic', async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/basic', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
         try {    
-            await setBloggerTier(req.session.steemconnect.name, Tier.BASIC);
+            await Utils.setBloggerTier(req.session.steemconnect.name, Tier.BASIC);
             res.redirect('/dashboard');
         } catch(err) {
             res.redirect('/');
@@ -32,14 +34,14 @@ router.get('/tier/basic', async (req: IExtendedRequest, res: express.Response) =
 
 });
 
-router.get('/tier/standard', async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/standard', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
 
         try {
-            await setBloggerTier(req.session.steemconnect.name, Tier.STANDARD);
+            await Utils.setBloggerTier(req.session.steemconnect.name, Tier.STANDARD);
             res.redirect('/dashboard');
         } catch (err) {
             res.redirect('/');
@@ -48,13 +50,13 @@ router.get('/tier/standard', async (req: IExtendedRequest, res: express.Response
 
 });
 
-router.get('/tier/extended', async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/extended', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');
     } else {
         try {
-            await setBloggerTier(req.session.steemconnect.name, Tier.EXTENDED);
+            await Utils.setBloggerTier(req.session.steemconnect.name, Tier.EXTENDED);
             res.redirect('/dashboard');
 
         } catch (err) {
@@ -64,7 +66,7 @@ router.get('/tier/extended', async (req: IExtendedRequest, res: express.Response
 
 });
 
-router.get('/tier/cancel', async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/cancel', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -89,7 +91,7 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
     if(!req.query.access_token) {
         if(req.query.blog) {
 
-            if (await BlogList.IsBlogRegistered(req.query.blog)) {
+            if (await BlogListModule.IsBlogRegistered(req.query.blog)) {
                 req.session.blog_redirect = req.query.blog;
                 let uri = SteemConnect.getLoginURL();
                 res.redirect(uri);
@@ -149,11 +151,6 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
     }
 });
 
-async function setBloggerTier(steemUsername: string, tier: Tier) {
-    let blogger = await Blogs.findOne({ steem_username: steemUsername });
-    if (!blogger || blogger.tier) throw new Error('Blogger already exists');
-    blogger.tier = tier;
-    return blogger.save();
-}
+
 
 module.exports = router;

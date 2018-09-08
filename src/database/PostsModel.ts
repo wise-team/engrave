@@ -1,5 +1,5 @@
 import { Schema, Model, model } from 'mongoose';
-import { IPost } from './helpers/IPost';
+import { IArticle } from './helpers/IArticle';
 
 export let PostSchema: Schema = new Schema({
     steem_username: String,
@@ -14,4 +14,4 @@ export let PostSchema: Schema = new Schema({
     thumbnail: String
 });
 
-export const Posts: Model<IPost> = model<IPost>("posts", PostSchema);
+export const Posts: Model<IArticle> = model<IArticle>("posts", PostSchema);
