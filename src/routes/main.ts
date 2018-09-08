@@ -1,21 +1,21 @@
-let express = require('express');
-let router = express.Router();
-let steem = require('steem');
-var config = require('../config')
+import { IExtendedRequest } from "./IExtendedRequest";
+import * as express from 'express';
 
-router.get('/', (req, res, next) => {
+let router = express.Router();
+
+router.get('/', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     res.render('main/main.pug', {blogger: req.session.blogger});
 });
 
-router.get('/about', (req, res, next) => {
+router.get('/about', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     res.render('main/about.pug', {blogger: req.session.blogger});
 });
 
-router.get('/how-to-earn', (req, res, next) => {
+router.get('/how-to-earn', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     res.render('main/how-to-earn.pug', {blogger: req.session.blogger});
 });
 
-router.get('/create', (req, res, next) => {
+router.get('/create', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if(!req.session.blogger) {
         res.render('main/create.pug', {blogger: req.session.blogger});
     } else if(!req.session.blogger.tier) {
@@ -25,7 +25,7 @@ router.get('/create', (req, res, next) => {
     }
 });
 
-router.get('/configure', (req, res, next) => {
+router.get('/configure', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if(req.session.blogger && !req.session.blogger.tier) {
         res.render('main/configure.pug', {blogger: req.session.blogger});
     } else {
@@ -34,7 +34,7 @@ router.get('/configure', (req, res, next) => {
     
 });
 
-router.get('*', (req, res, next) => {
+router.get('*', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     res.redirect('/');
 })
 

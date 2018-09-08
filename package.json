@@ -5,31 +5,36 @@
   "main": "app.js",
   "author": "bgornicki",
   "scripts": {
-    "start": "node app.js"
+    "start": "tsc & node dist/app.js"
   },
   "dependencies": {
-    "express": "latest",
-    "steem": "latest",
-    "dotenv": "latest",
+    "@types/express": "^4.16.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "latest",
+    "express": "latest",
     "express-sanitize-escape": "^1.1.0",
     "express-session": "^1.15.6",
+    "get-urls": "latest",
+    "greenlock": "latest",
+    "homedir": "latest",
+    "is-image": "latest",
+    "le-store-certbot": "latest",
+    "moment": "latest",
+    "mongoose": "latest",
+    "mongoose-sequence": "latest",
     "morgan": "~1.9.0",
+    "ncp": "latest",
+    "pm2": "latest",
     "pug": "2.0.0-beta11",
     "sc2-sdk": "latest",
     "serve-favicon": "~2.4.5",
-    "mongoose": "latest",
-    "mongoose-sequence": "latest",
-    "moment": "latest",
-    "pm2": "latest",
-    "ncp": "latest",
     "speakingurl": "latest",
-    "get-urls": "latest",
-    "is-image": "latest",
-    "greenlock": "latest",
-    "le-store-certbot": "latest",
-    "homedir": "latest"
+    "steem": "latest",
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^10.9.4"
   }
 }

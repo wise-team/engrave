@@ -1,10 +1,12 @@
-let express = require('express');
+import * as express from 'express';
+import { IExtendedRequest } from './IExtendedRequest';
+
 let steem = require('../modules/steemconnect')
 let router = express.Router();
 
 let Blogs = require('../database/blogs.js');
 
-router.get('/logout', (req, res) => {
+router.get('/logout', (req: IExtendedRequest, res: express.Response) => {
     var redirectUrl = '/';
     if (req.session.current_url) {
         redirectUrl += req.session.current_url;
@@ -14,15 +16,15 @@ router.get('/logout', (req, res) => {
 
 });
 
-router.get('/tier/basic', (req, res) => {
+router.get('/tier/basic', (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err: Error, blogger: any) {
             if(blogger && !blogger.tier) {
                 blogger.tier = 10;
-                blogger.save(function(err) {
+                blogger.save(function(err: Error) {
                     res.redirect('/dashboard');
                 });
             } else {
@@ -32,15 +34,15 @@ router.get('/tier/basic', (req, res) => {
     }
 });
 
-router.get('/tier/standard', (req, res) => {
+router.get('/tier/standard', (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err: Error, blogger: any) {
             if(blogger && !blogger.tier) {
                 blogger.tier = 12;
-                blogger.save(function(err) {
+                blogger.save(function(err: Error) {
                     res.redirect('/dashboard');
                 });
             } else {
@@ -50,15 +52,15 @@ router.get('/tier/standard', (req, res) => {
     }
 });
 
-router.get('/tier/extended', (req, res) => {
+router.get('/tier/extended', (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err: Error, blogger: any) {
             if(blogger && !blogger.tier) {
                 blogger.tier = 15;
-                blogger.save(function(err) {
+                blogger.save(function(err: Error) {
                     res.redirect('/dashboard');
                 });
             } else {
@@ -68,15 +70,15 @@ router.get('/tier/extended', (req, res) => {
     }
 });
 
-router.get('/tier/cancel', (req, res) => {
+router.get('/tier/cancel', (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
     } else {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
+        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err: Error, blogger: any) {
             if(blogger && !blogger.configured) {
                 blogger.tier = null;
-                blogger.save(function(err) {
+                blogger.save(function(err: Error) {
                     res.redirect('/dashboard');
                 });
             } else {
@@ -86,7 +88,7 @@ router.get('/tier/cancel', (req, res) => {
     }
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if(!req.query.access_token) {
         if(req.query.blog) {
             req.session.blog_redirect = req.query.blog;
@@ -100,11 +102,11 @@ router.get('/', (req, res, next) => {
     } else {        
         req.session.access_token = req.query.access_token;
         steem.setAccessToken(req.session.access_token);
-        steem.me((err, steemResponse) => {
+        steem.me((err: Error, steemResponse: any) => {
             req.session.steemconnect = steemResponse.account;
             console.log("Steemconnect logged in: " + req.session.steemconnect.name);
 
-            Blogs.findOne({ steem_username: req.session.steemconnect.name}, function (err, user) {
+            Blogs.findOne({ steem_username: req.session.steemconnect.name}, function (err: Error, user: any) {
                 if(user) {
                     req.session.blogger = user;
                     console.log("Witamy ponownie: ", user.steem_username);
@@ -128,7 +130,7 @@ router.get('/', (req, res, next) => {
                         categories: [{steem_tag: 'engrave', slug: 'blog', name: 'Default category'}]
                     });
                     req.session.blogger = user;
-                    user.save(function (err) {
+                    user.save(function (err: Error) {
                         if(err) {
                             console.log(" * Jakiś błąd podczas zapisu nowego użytkownika");
                             res.redirect('/');
