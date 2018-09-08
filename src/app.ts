@@ -2,9 +2,9 @@ require('dotenv').config();
 
 import * as express from 'express';
 import {Config} from './config'
-import { Statistics } from './modules/Statistics';
-import { Scheduler } from './modules/Scheduler';
-import { SSL } from './modules/SSL';
+import { StatisticsModule } from './modules/Statistics';
+import { SchedulerModule } from './modules/Scheduler';
+import { SSLModule } from './modules/SSL';
 
 let config = Config.GetConfig();
 
@@ -77,9 +77,9 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
     res.render('main/error');
 });
 
-let sslModuleInstance = new SSL(); // constructor creates CronJob
-let schedulerModuleInstance = new Scheduler(); // constructor creates CronJob
-let statisticsModuleInstance = new Statistics(); // constructor creates CronJob
+let sslModuleInstance = new SSLModule(); // constructor creates CronJob
+let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
+let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
 
 /**
  * Create HTTP server.

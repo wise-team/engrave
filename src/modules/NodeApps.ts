@@ -8,7 +8,7 @@ var pm2 = require('pm2');
 
 let config = Config.GetConfig();
 
-export class NodeApps {
+export class NodeAppsModule {
 
     static async createAndRun(domain: string, port: any, steem_username: string) {
 

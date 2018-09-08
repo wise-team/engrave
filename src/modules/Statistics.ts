@@ -1,11 +1,11 @@
-let CronJob = require('cron').CronJob;
+import { Statistics } from '../database/StatisticsModel'
 
+let CronJob = require('cron').CronJob;
 let steem = require('steem');
 
-let StatisticsModel = require('../database/statistics.js');
 let BlogsModel = require('../database/blogs.js');
 
-export class Statistics {
+export class StatisticsModule {
 
     constructor () {
         console.log("Statistics module initialized");
@@ -31,11 +31,11 @@ export class Statistics {
 
             steemAccountsArary.forEach(async (steemUser: any) => {
 
-                let databaseUser = await StatisticsModel.findOne({ steem_username: steemUser.name });
+                let databaseUser = await Statistics.findOne({ steem_username: steemUser.name });
 
                 if (!databaseUser) {
                     console.log("No steem_user in database. Adding new: ", steemUser.name);
-                    databaseUser = new StatisticsModel();
+                    databaseUser = new Statistics();
                     databaseUser.steem_username = steemUser.name;
                 }
 

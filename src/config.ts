@@ -16,7 +16,7 @@ export class Config {
     
     private constructor() {
         Config.config = {
-            port: process.env.PORT || "8080",
+            port: process.env.PORT || "8081",
             session_secret: process.env.SESSION_SECRET || 'PcxgE3gU3uyhed9LdfIRMHTpF9UXI7glEO1AYlKO',
             database_url: process.env.DATABASE_URL || "mongodb://user:password@server.com",
             steemconnect_id: process.env.STEEMCONNECT_ID || 'engrave.app',

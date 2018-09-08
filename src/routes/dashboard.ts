@@ -1,16 +1,18 @@
 import * as express from 'express';
 import { Utils } from '../modules/Utils'
-import { SSL } from '../modules/SSL'
+import { SSLModule } from '../modules/SSL'
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/SteemConnect';
-import { NodeApps } from '../modules/NodeApps';
-import { Nginx } from '../modules/Nginx';
+import { NodeAppsModule } from '../modules/NodeApps';
+import { NginxModule } from '../modules/Nginx';
 
 let steem = require('steem');
 let router = express.Router();
 
 let Blogs = require('../database/blogs.js');
-let Posts = require('../database/posts.js');
+// let Posts = require('../database/posts.js');
+
+import { Posts, IPost } from '../database/PostsModel';
 
 async function isLoggedAndConfigured(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
 
@@ -132,7 +134,7 @@ router.get('/notifications', isLoggedAndConfigured, (req: IExtendedRequest, res:
 router.get('/posts', isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
     let posts = await Utils.GetAllPostsFromBlockchain(25, null, req.session.steemconnect.name);
-    let drafts = await Posts.find({ steem_username: req.session.blogger.steem_username });
+    let drafts: IPost[] = await Posts.find({ steem_username: req.session.blogger.steem_username });
     res.render('dashboard/posts.pug', { blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts });
 
 });
@@ -413,19 +415,19 @@ router.post('/configure/finish', (req: IExtendedRequest, res: express.Response) 
                                 res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                             } else {
                                 if(blog.tier == 10) {
-                                    Nginx.generateSubdomainConfig(blog.domain, blog.port, function (err: Error) {
+                                    NginxModule.generateSubdomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            NodeApps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeAppsModule.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
                                 } else if (blog.tier == 12 || blog.tier == 15) {
-                                    Nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err: Error) {
+                                    NginxModule.generateCustomDomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            NodeApps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeAppsModule.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
                                 }
@@ -513,11 +515,11 @@ router.post('/settings', isLoggedAndConfigured, (req: IExtendedRequest, res: exp
 router.post('/ssl', isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     console.log("Asked for SSl enable on: ", req.session.blogger.domain);
-    SSL.generateCertificatesForDomain(req.session.blogger.domain, (err: Error) => {
+    SSLModule.generateCertificatesForDomain(req.session.blogger.domain, (err: Error) => {
         if(err) {
             res.json({error: "SSL could not be enabled. Try again or contact admin"});
         } else {
-            Nginx.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err: Error) {
+            NginxModule.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err: Error) {
                 if(err) {
                     res.json({error: "SSL could not be enabled. Try again or contact admin"});
                 } else {

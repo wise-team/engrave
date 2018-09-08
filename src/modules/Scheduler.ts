@@ -1,6 +1,6 @@
 let CronJob = require('cron').CronJob;
 
-export class Scheduler {
+export class SchedulerModule {
     constructor() {
         console.log("Scheduler module initialized");
 

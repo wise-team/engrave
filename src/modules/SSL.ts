@@ -1,10 +1,10 @@
-import { Nginx } from "./Nginx";
+import { NginxModule } from "./Nginx";
 
 let path = require('path');
 let CronJob = require('cron').CronJob;
 let Blogs = require('../database/blogs.js');
 
-export class SSL {
+export class SSLModule {
     constructor() {
 
         console.log("SSL module initialized");
@@ -73,10 +73,10 @@ export class SSL {
             blogs.forEach((blog: any) => {
                 console.log("Unsecured blog: ", blog.domain);
 
-                SSL.generateCertificatesForDomain(blog.domain, (err: Error) => {
+                SSLModule.generateCertificatesForDomain(blog.domain, (err: Error) => {
                     if (!err) {
                         console.log(" * SSL generated for ", blog.domain);
-                        Nginx.generateCustomDomainConfigWithSSL(blog.domain, blog.port, async (err: Error) => {
+                        NginxModule.generateCustomDomainConfigWithSSL(blog.domain, blog.port, async (err: Error) => {
                             if (!err) {
                                 console.log(" * NGINX with SSL generated for ", blog.domain);
                                 
