@@ -1,8 +1,8 @@
+import { Blogs } from './../database/BlogsModel';
 import { NginxModule } from "./Nginx";
 
 let path = require('path');
 let CronJob = require('cron').CronJob;
-let Blogs = require('../database/blogs.js');
 
 export class SSLModule {
     constructor() {

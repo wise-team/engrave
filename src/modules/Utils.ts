@@ -1,3 +1,6 @@
+import { resolve } from "path";
+import { resolveCname } from "dns";
+
 let steem = require('steem');
 var getSlug = require('speakingurl');
 let getUrls = require('get-urls');
@@ -5,7 +8,7 @@ const isImage = require('is-image');
 
 export class Utils {
 
-    static async GetAllPostsFromBlockchain(limit: number, start_permlink: string, username: string) {
+    static async GetPostsFromBlockchain(limit: number, start_permlink: string, username: string) {
 
         let cnt: number = 0;
         let posts: object[] = [];
@@ -16,20 +19,19 @@ export class Utils {
             limit: 25
         };
 
-        (async function innerFunction() {
-
+        while(posts.length < limit) {
             if (start_permlink) {
                 query.start_permlink = start_permlink;
                 query.start_author = start_author;
             }
 
-            let result = await steem.api.getDiscussionsByBlog(query);
-
+            let steemPosts = await steem.api.getDiscussionsByBlogAsync(query);
+            
             if (start_permlink) {
-                result = result.slice(1, result.length)
+                steemPosts = steemPosts.slice(1, steemPosts.length)
             }
 
-            result.forEach((element: any) => {
+            steemPosts.forEach((element: any) => {
                 var resteemed = (element.author != username);
 
                 if (cnt < limit && !resteemed) {
@@ -46,14 +48,20 @@ export class Utils {
                     }
                 }
             });
-            if (cnt >= limit || (start_permlink == null && result.length < 25) || result.length + 1 < 25) {
-                return posts;
+
+            if (cnt >= limit || (start_permlink == null && steemPosts.length < 25) || steemPosts.length + 1 < 25) {
+                break;
+                // return posts;
             } else {
-                start_permlink = result[result.length - 1].permlink;
-                start_author = result[result.length - 1].author;
-                innerFunction();
+                start_permlink = steemPosts[steemPosts.length - 1].permlink;
+                start_author = steemPosts[steemPosts.length - 1].author;
             }
-        })();
+        }  
+
+        return new Promise<object>((resolve, reject) => {
+            resolve(posts);
+        });
+
     }
 
     static PrepareOperations(scope: string, article: any, blogger: any) {

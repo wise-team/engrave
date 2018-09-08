@@ -1,15 +1,15 @@
-import * as express from 'express';
+import { Blogs } from './../database/BlogsModel';
 import { Utils } from '../modules/Utils'
 import { SSLModule } from '../modules/SSL'
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/SteemConnect';
 import { NodeAppsModule } from '../modules/NodeApps';
 import { NginxModule } from '../modules/Nginx';
+import * as express from 'express';
 
 let steem = require('steem');
 let router = express.Router();
 
-let Blogs = require('../database/blogs.js');
 // let Posts = require('../database/posts.js');
 
 import { Posts, IPost } from '../database/PostsModel';
@@ -133,9 +133,13 @@ router.get('/notifications', isLoggedAndConfigured, (req: IExtendedRequest, res:
 
 router.get('/posts', isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
-    let posts = await Utils.GetAllPostsFromBlockchain(25, null, req.session.steemconnect.name);
-    let drafts: IPost[] = await Posts.find({ steem_username: req.session.blogger.steem_username });
-    res.render('dashboard/posts.pug', { blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts });
+    try {
+        let posts = await Utils.GetPostsFromBlockchain(25, null, req.session.steemconnect.name);
+        let drafts: IPost[] = await Posts.find({ steem_username: req.session.blogger.steem_username });
+        res.render('dashboard/posts.pug', { blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts });
+    } catch (error) {
+        res.redirect('/');   
+    }
 
 });
 

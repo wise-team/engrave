@@ -1,3 +1,4 @@
+import { Tier } from './TierEnum';
 import { Document, Schema, Model, model } from "mongoose";
 
 let mongooseInstance = require('mongoose');
@@ -11,7 +12,7 @@ export interface IBlog extends Document {
     is_domain_custom: Boolean,
     ssl: Boolean,
     created: Date,
-    tier: Number,
+    tier: Tier,
     configured: Boolean,
     category: String,
 
@@ -78,7 +79,7 @@ export let BlogSchema = new Schema({
     is_domain_custom: Boolean,
     ssl: Boolean,
     created: Date,
-    tier: Number,
+    tier: [{ type: String }],
     configured: Boolean,
     category: String,
     

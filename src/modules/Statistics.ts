@@ -1,9 +1,8 @@
+import { Blogs } from './../database/BlogsModel';
 import { Statistics } from '../database/StatisticsModel'
 
 let CronJob = require('cron').CronJob;
 let steem = require('steem');
-
-let BlogsModel = require('../database/blogs.js');
 
 export class StatisticsModule {
 
@@ -21,7 +20,7 @@ export class StatisticsModule {
 
         try {
             let properties = await steem.api.getDynamicGlobalPropertiesAsync();
-            let engraveUsers = await BlogsModel.find({}, { steem_username: 1 });
+            let engraveUsers = await Blogs.find({}, { steem_username: 1 });
 
             engraveUsers.forEach((user: any) => {
                 accounts.push(user.steem_username);
