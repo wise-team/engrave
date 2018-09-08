@@ -1,8 +1,8 @@
 {
-  "name": "tiploo",
-  "version": "0.0.1",
+  "name": "engrave",
+  "version": "0.1.0",
   "description": "Steem powered blogging platform",
-  "main": "app.js",
+  "main": "dist/app.js",
   "author": "bgornicki",
   "scripts": {
     "start": "tsc & node dist/app.js"
