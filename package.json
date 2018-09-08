@@ -29,6 +29,7 @@
     "mongoose-sequence": "latest",
     "morgan": "~1.9.0",
     "ncp": "latest",
+    "parse-domain": "^2.1.2",
     "pm2": "latest",
     "pug": "2.0.0-beta11",
     "sc2-sdk": "latest",

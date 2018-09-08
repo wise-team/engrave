@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+
 export interface IStatistics extends Document {
     steem_username: string;
     sbd: [number];

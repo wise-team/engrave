@@ -1,3 +1,4 @@
+import { BlogList } from './../modules/BlogList';
 import { Blogs } from './../database/BlogsModel';
 import { Tier } from '../database/helpers/TierEnum';
 import { IExtendedRequest } from './IExtendedRequest';
@@ -87,10 +88,18 @@ router.get('/tier/cancel', async (req: IExtendedRequest, res: express.Response) 
 router.get('/', async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if(!req.query.access_token) {
         if(req.query.blog) {
-            req.session.blog_redirect = req.query.blog;
+
+            if (await BlogList.IsBlogRegistered(req.query.blog)) {
+                req.session.blog_redirect = req.query.blog;
+                let uri = SteemConnect.getLoginURL();
+                res.redirect(uri);
+            } else {
+                res.redirect('/');
+            }
+        } else {
+            let uri = SteemConnect.getLoginURL();
+            res.redirect(uri);
         }
-        let uri = SteemConnect.getLoginURL();
-        res.redirect(uri);
     } else if (req.session.blog_redirect) {
         let redirect = req.session.blog_redirect;
         req.session.blog_redirect = null;

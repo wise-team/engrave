@@ -56,7 +56,11 @@ app.use('/', main);
 app.locals.moment = require('moment');
 
 mongoose.connection.on('error', function (err: Error) { console.log(err) });
-mongoose.connect(config.database_url);
+mongoose.connect(
+    config.database_url,
+    {
+        useNewUrlParser: true
+    });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
