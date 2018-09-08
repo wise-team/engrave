@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { IExtendedRequest } from './IExtendedRequest';
+import { SteemConnect } from '../modules/steemconnect';
 
-let steem = require('../modules/steemconnect')
 let router = express.Router();
 
 let Blogs = require('../database/blogs.js');
@@ -93,7 +93,7 @@ router.get('/', (req: IExtendedRequest, res: express.Response, next: express.Nex
         if(req.query.blog) {
             req.session.blog_redirect = req.query.blog;
         }
-        let uri = steem.getLoginURL();
+        let uri = SteemConnect.getLoginURL();
         res.redirect(uri);
     } else if (req.session.blog_redirect) {
         let redirect = req.session.blog_redirect;
@@ -101,8 +101,8 @@ router.get('/', (req: IExtendedRequest, res: express.Response, next: express.Nex
         res.redirect('http://' + redirect + '/authorize?access_token=' + req.query.access_token);
     } else {        
         req.session.access_token = req.query.access_token;
-        steem.setAccessToken(req.session.access_token);
-        steem.me((err: Error, steemResponse: any) => {
+        SteemConnect.setAccessToken(req.session.access_token);
+        SteemConnect.me((err: Error, steemResponse: any) => {
             req.session.steemconnect = steemResponse.account;
             console.log("Steemconnect logged in: " + req.session.steemconnect.name);
 

@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { Utils } from '../modules/utils'
 import { IExtendedRequest } from './IExtendedRequest';
+import { SteemConnect } from '../modules/steemconnect';
 
-let steemconnect = require('../modules/steemconnect');
 let steem = require('steem');
 let router = express.Router();
 var getSlug = require('speakingurl');
@@ -142,8 +142,8 @@ router.get('/posts', isLoggedAndConfigured, async function (req: IExtendedReques
 });
 
 router.get('/wallet', isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    steemconnect.setAccessToken(req.session.access_token);
-    steemconnect.me(function(err: Error, user: any) {
+    SteemConnect.setAccessToken(req.session.access_token);
+    SteemConnect.me(function(err: Error, user: any) {
         if(!err && user) {
             steem.api.getDynamicGlobalProperties((err: Error, result: any) => {
                 // var accountValue = steem.formatter.estimateAccountValue(req.session.steemconnect.name);
@@ -162,12 +162,12 @@ router.get('/upgrade', isLoggedAndConfigured, (req: IExtendedRequest, res: expre
 });
 
 router.post('/claim', isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    steemconnect.setAccessToken(req.session.access_token);
-    steemconnect.me(function(err: Error, user: any) { 
+    SteemConnect.setAccessToken(req.session.access_token);
+    SteemConnect.me(function(err: Error, user: any) { 
         if(err) {
             res.json({error: "Error while claiming rewards"})
         } else {
-            steemconnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err: Error, result: any) {
+            SteemConnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err: Error, result: any) {
                 if(err) {
                     res.json({error: "Error while claiming rewards"})
                 } else {
@@ -188,8 +188,8 @@ router.post('/publish', isLoggedAndConfigured, (req: IExtendedRequest, res: expr
         const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
         if(operations) {
-            steemconnect.setAccessToken(req.session.access_token);
-            steemconnect.broadcast(operations, function (err: any, result: any) {
+            SteemConnect.setAccessToken(req.session.access_token);
+            SteemConnect.broadcast(operations, function (err: any, result: any) {
                 if(err) {
                     console.log(err);
                     var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -225,8 +225,8 @@ router.post('/edit', isLoggedAndConfigured, (req: IExtendedRequest, res: express
     if(post) {
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
         if(operations) {
-            steemconnect.setAccessToken(req.session.access_token);
-            steemconnect.broadcast(operations, function (err: any, result: any) {
+            SteemConnect.setAccessToken(req.session.access_token);
+            SteemConnect.broadcast(operations, function (err: any, result: any) {
                 if(err) {
                     console.log(err);
                     var errorstring =  '';
@@ -257,8 +257,8 @@ router.post('/delete', isLoggedAndConfigured, (req: IExtendedRequest, res: expre
             permlink: article.permlink
         }]];
 
-        steemconnect.setAccessToken(req.session.access_token);
-        steemconnect.broadcast(operations, function (err: any, result: any) {
+        SteemConnect.setAccessToken(req.session.access_token);
+        SteemConnect.broadcast(operations, function (err: any, result: any) {
             if(err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -342,8 +342,8 @@ router.post('/draft/publish', isLoggedAndConfigured, (req: IExtendedRequest, res
                     const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
                     if(operations) {
-                        steemconnect.setAccessToken(req.session.access_token);
-                        steemconnect.broadcast(operations, function (err: any, result: any) {
+                        SteemConnect.setAccessToken(req.session.access_token);
+                        SteemConnect.broadcast(operations, function (err: any, result: any) {
                             if(err) {
                                 console.log(err);
                                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];

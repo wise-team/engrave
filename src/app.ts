@@ -1,7 +1,10 @@
 import * as express from 'express';
+import {Config} from './config'
 
 require('dotenv').config();
-let config = require('./config');
+
+let config = Config.GetConfig();
+
 var fs = require('fs');
 let path = require('path');
 let favicon = require('serve-favicon');
@@ -75,7 +78,7 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 
     // render the error page
     res.status((<any>err).status || 500);
-    res.render('main/error', { categories: config.categories });
+    res.render('main/error');
 });
 
 scheduler.initialize();
