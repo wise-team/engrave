@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { Utils } from '../modules/utils'
+import { SSL } from '../modules/ssl'
 import { IExtendedRequest } from './IExtendedRequest';
 import { SteemConnect } from '../modules/steemconnect';
 
@@ -11,7 +12,6 @@ const isImage = require('is-image');
 var config = require('../config');
 let nginx = require('../modules/nginx.js');
 let nodeapps = require('../modules/nodeapps.js');
-let ssl = require('../modules/ssl.js');
 
 let Blogs = require('../database/blogs.js');
 let Posts = require('../database/posts.js');
@@ -517,7 +517,7 @@ router.post('/settings', isLoggedAndConfigured, (req: IExtendedRequest, res: exp
 router.post('/ssl', isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     console.log("Asked for SSl enable on: ", req.session.blogger.domain);
-    ssl.generateCertificatesForDomain(req.session.blogger.domain, (err: Error) => {
+    SSL.generateCertificatesForDomain(req.session.blogger.domain, (err: Error) => {
         if(err) {
             res.json({error: "SSL could not be enabled. Try again or contact admin"});
         } else {

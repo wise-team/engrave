@@ -1,24 +1,21 @@
+require('dotenv').config();
+
 import * as express from 'express';
 import {Config} from './config'
 import { Statistics } from './modules/statistics';
-
-require('dotenv').config();
+import { Scheduler } from './modules/scheduler';
+import { SSL } from './modules/ssl';
 
 let config = Config.GetConfig();
 
-var fs = require('fs');
 let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
+// let favicon = require('serve-favicon');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let expressSanitized = require('express-sanitize-escape');
 var mongoose = require('mongoose');
-let steem = require("steem");
 let moment = require("moment");
-var pm2 = require('pm2');
-var scheduler = require('./modules/scheduler.js');
 var ssl = require('./modules/ssl.js');
 
 console.log("Launched on " + moment().format("LLLL"));
@@ -53,7 +50,6 @@ let main = require('./routes/main');
 let authorize = require('./routes/authorize');
 let dashboard = require('./routes/dashboard');
 
-// app.use('/dashboard', dashboard);
 app.use('/authorize', authorize);
 app.use('/dashboard', dashboard);
 app.use('/', main);
@@ -81,10 +77,9 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
     res.render('main/error');
 });
 
-scheduler.initialize();
-ssl.initialize();
-
-let statistics = new Statistics(); // constructor creates CronJob
+let sslModuleInstance = new SSL(); // constructor creates CronJob
+let schedulerModuleInstance = new Scheduler(); // constructor creates CronJob
+let statisticsModuleInstance = new Statistics(); // constructor creates CronJob
 
 /**
  * Create HTTP server.
