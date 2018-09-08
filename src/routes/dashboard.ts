@@ -1,46 +1,23 @@
-let express = require('express');
-let steemconnect = require('../modules/steemconnect');
+import { PostValidators } from './../validators/PostValidators';
+import { ICategory } from './../database/helpers/ICategory';
+import { IBlog } from './../database/helpers/IBlog';
+import { Blogs } from './../database/BlogsModel';
+import { Utils } from '../modules/Utils'
+import { SSLModule } from '../modules/SSL'
+import { IExtendedRequest } from './IExtendedRequest';
+import { SteemConnect } from '../modules/SteemConnect';
+import { NodeAppsModule } from '../modules/NodeApps';
+import { NginxModule } from '../modules/Nginx';
+import { Posts } from '../database/PostsModel';
+import { IArticle } from "../database/helpers/IArticle";
+import * as express from 'express';
+import { Tier } from '../database/helpers/TierEnum';
+import { GetValidators } from '../validators/GetValidators';
+
 let steem = require('steem');
 let router = express.Router();
-var getSlug = require('speakingurl');
-let getUrls = require('get-urls');
-const isImage = require('is-image');
-var config = require('../config');
-let nginx = require('../modules/nginx.js');
-let nodeapps = require('../modules/nodeapps.js');
-let utils = require('../modules/utils.js');
-let ssl = require('../modules/ssl.js');
 
-let Blogs = require('../database/blogs.js');
-let Posts = require('../database/posts.js');
-
-function isLoggedAndConfigured(req, res, next) {
-
-    if (req.session.steemconnect) {
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function (err, blogger) {
-            if(blogger) {
-                req.session.blogger = blogger;
-                if(!blogger.tier) {
-                    res.redirect('/configure');
-                } else if(!blogger.configured) {
-                    if(req.path == '/configure') {
-                        return next();
-                    } else {
-                        res.redirect('/dashboard/configure');
-                    }                    
-                } else {
-                    return next();
-                }   
-            } else {
-                res.redirect('/');
-            }
-        })
-    } else {
-        res.redirect('/');
-    }
-}
-
-router.get('/configure', isLoggedAndConfigured, (req, res) => {
+router.get('/configure', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.blogger.configured) {
         res.render('dashboard/configure.pug', {blogger: req.session.blogger, url: 'configure'});
@@ -50,36 +27,37 @@ router.get('/configure', isLoggedAndConfigured, (req, res) => {
     
 });
 
-router.get('/', isLoggedAndConfigured, (req, res) => {
+router.get('/', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/main.pug', {blogger: req.session.blogger, url: '/'});
 });
 
-router.get('/profile', isLoggedAndConfigured, (req, res) => {
+router.get('/profile', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/profile.pug', {blogger: req.session.blogger, url: 'profile'}); 
 });
 
-router.get('/settings', isLoggedAndConfigured, (req, res) => {
+router.get('/settings', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/settings.pug', {blogger: req.session.blogger, url: 'settings'}); 
 });
 
-router.get('/write/:id', isLoggedAndConfigured, (req, res) => {
-    Posts.findById(req.params.id, function(err, draft) {
-        if(!err && draft && (draft.steem_username == req.session.blogger.steem_username)) {
-            draft.body = utils.removeWebsiteAdvertsElements(draft.body);
-            res.render('dashboard/write.pug', {blogger: req.session.blogger, draft: draft, url: 'write'}); 
-        } else {
-            res.redirect('/dashboard');
-        }
-    });
-    
+router.get('/write/:id', GetValidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) { 
+
+    try {
+        let draft = await Posts.findById(req.params.id);
+        if (!draft || draft.steem_username != req.session.blogger.steem_username) throw new Error();
+        draft.body = Utils.removeWebsiteAdvertsElements(draft.body);
+        res.render('dashboard/write.pug', { blogger: req.session.blogger, draft: draft, url: 'write' });
+    } catch (error) {
+        res.redirect('/dashboard');
+    }
+
 });
 
-router.get('/write', isLoggedAndConfigured, (req, res) => {
+router.get('/write', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/write.pug', {blogger: req.session.blogger, url: 'write'}); 
 });
 
-router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
-    steem.api.getContent(req.session.steemconnect.name, req.params.permlink, function(err, steem_post){
+router.get('/edit/:permlink', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+    steem.api.getContent(req.session.steemconnect.name, req.params.permlink, function(err: Error, steem_post: any){
         if(!err && steem_post) {
             let category = steem_post.category;
             for(var i=0; i<req.session.blogger.categories.length; i++) {
@@ -95,7 +73,7 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
             if(steem_post.hasOwnProperty('json_metadata') && steem_post.json_metadata != '') {
                 let metadata = JSON.parse(steem_post.json_metadata);
                 if(metadata && metadata.hasOwnProperty('tags')) {
-                    metadata.tags.forEach((tag) =>{
+                    metadata.tags.forEach((tag: string) =>{
                         if(tag != steem_post.category) {
                             tags += tag + ' ';
                         }
@@ -109,7 +87,7 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
             let post = {
                 permlink: steem_post.permlink,
                 title: steem_post.title,
-                body: utils.removeWebsiteAdvertsElements(steem_post.body),
+                body: Utils.removeWebsiteAdvertsElements(steem_post.body),
                 category: category,
                 image: thumbnail,
                 tags: tags
@@ -123,25 +101,27 @@ router.get('/edit/:permlink', isLoggedAndConfigured, (req, res) => {
     
 });
 
-router.get('/notifications', isLoggedAndConfigured, (req, res) => {
+router.get('/notifications', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/notifications.pug', {blogger: req.session.blogger, url: 'notifications'}); 
 });
 
-router.get('/posts', isLoggedAndConfigured, (req, res) => {
+router.get('/posts', GetValidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
-    utils.getAllPosts(25, null, req.session.steemconnect.name, function(err, posts) {
-        Posts.find({steem_username: req.session.blogger.steem_username}, function(err, drafts) {
-            res.render('dashboard/posts.pug', {blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts}); 
-        })
-    });
-    
+    try {
+        let posts = await Utils.GetPostsFromBlockchain(25, null, req.session.steemconnect.name);
+        let drafts = await Posts.find({ steem_username: req.session.blogger.steem_username });
+        res.render('dashboard/posts.pug', { blogger: req.session.blogger, url: 'posts', drafts: drafts, posts: posts });
+    } catch (error) {
+        res.redirect('/');   
+    }
+
 });
 
-router.get('/wallet', isLoggedAndConfigured, (req, res) => {
-    steemconnect.setAccessToken(req.session.access_token);
-    steemconnect.me(function(err, user) {
+router.get('/wallet', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+    SteemConnect.setAccessToken(req.session.access_token);
+    SteemConnect.me(function(err: Error, user: any) {
         if(!err && user) {
-            steem.api.getDynamicGlobalProperties((err, result) => {
+            steem.api.getDynamicGlobalProperties((err: Error, result: any) => {
                 // var accountValue = steem.formatter.estimateAccountValue(req.session.steemconnect.name);
                 var steemPower = steem.formatter.vestToSteem(user.account.vesting_shares, result.total_vesting_shares, result.total_vesting_fund_steem);
                 res.render('dashboard/wallet.pug', {blogger: req.session.blogger, user: user, steemPower: steemPower, url: 'wallet'}); 
@@ -153,17 +133,17 @@ router.get('/wallet', isLoggedAndConfigured, (req, res) => {
     
 });
 
-router.get('/upgrade', isLoggedAndConfigured, (req, res) => {
+router.get('/upgrade', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/upgrade.pug', {blogger: req.session.blogger, url: 'upgrade'}); 
 });
 
-router.post('/claim', isLoggedAndConfigured, (req, res) => {
-    steemconnect.setAccessToken(req.session.access_token);
-    steemconnect.me(function(err, user) { 
+router.post('/claim', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+    SteemConnect.setAccessToken(req.session.access_token);
+    SteemConnect.me(function(err: Error, user: any) { 
         if(err) {
             res.json({error: "Error while claiming rewards"})
         } else {
-            steemconnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err, result) {
+            SteemConnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function(err: Error, result: any) {
                 if(err) {
                     res.json({error: "Error while claiming rewards"})
                 } else {
@@ -176,16 +156,16 @@ router.post('/claim', isLoggedAndConfigured, (req, res) => {
 
 /////// POST REQUESTS
 
-router.post('/publish', isLoggedAndConfigured, (req, res) => {
+router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     
-    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
+    let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
 
     if(post) {
-        const operations = utils.prepareOperations('publish', post, req.session.blogger);
+        const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
         if(operations) {
-            steemconnect.setAccessToken(req.session.access_token);
-            steemconnect.broadcast(operations, function (err, result) {
+            SteemConnect.setAccessToken(req.session.access_token);
+            SteemConnect.broadcast(operations, function (err: any, result: any) {
                 if(err) {
                     console.log(err);
                     var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -198,7 +178,7 @@ router.post('/publish', isLoggedAndConfigured, (req, res) => {
                 } else {
                     console.log("New article has been posted by @" + req.session.steemconnect.name);
                     if(post._id && post._id != '') {
-                        Posts.deleteOne({_id: post._id}, function(err) {
+                        Posts.deleteOne({_id: post._id}, function(err: Error) {
                             if(err) {
                                 console.log(err);
                             }
@@ -216,13 +196,13 @@ router.post('/publish', isLoggedAndConfigured, (req, res) => {
     }
 }); 
 
-router.post('/edit', isLoggedAndConfigured, (req, res) => {
-    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
+router.post('/edit', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+    let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
     if(post) {
-        const operations = utils.prepareOperations('edit', post, req.session.blogger);
+        const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
         if(operations) {
-            steemconnect.setAccessToken(req.session.access_token);
-            steemconnect.broadcast(operations, function (err, result) {
+            SteemConnect.setAccessToken(req.session.access_token);
+            SteemConnect.broadcast(operations, function (err: any, result: any) {
                 if(err) {
                     console.log(err);
                     var errorstring =  '';
@@ -243,7 +223,7 @@ router.post('/edit', isLoggedAndConfigured, (req, res) => {
     }
 }); 
 
-router.post('/delete', isLoggedAndConfigured, (req,res) => {
+router.post('/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let article = req.body;
     if(article && article.permlink != '') {
 
@@ -253,8 +233,8 @@ router.post('/delete', isLoggedAndConfigured, (req,res) => {
             permlink: article.permlink
         }]];
 
-        steemconnect.setAccessToken(req.session.access_token);
-        steemconnect.broadcast(operations, function (err, result) {
+        SteemConnect.setAccessToken(req.session.access_token);
+        SteemConnect.broadcast(operations, function (err: any, result: any) {
             if(err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -273,11 +253,14 @@ router.post('/delete', isLoggedAndConfigured, (req,res) => {
         res.json({error: 'Error while deleting article'});
     }
 })
-router.post('/draft', isLoggedAndConfigured, (req,res) => {
-    let post = utils.prepareBloggerPost(req.body, req.session.blogger);
-    if(post._id && post._id != '') {
-        Posts.findById(post._id, function(err, draft) {
-            if(!err && draft && (draft.steem_username == req.session.blogger.steem_username)) {
+router.post('/draft', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+
+    try {
+        let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
+        if (post._id && post._id != '') {
+            let draft = await Posts.findById(post._id);
+
+            if (draft && (draft.steem_username == req.session.blogger.steem_username)) {
                 draft.title = post.title;
                 draft.body = post.body;
                 draft.category = post.category;
@@ -286,35 +269,31 @@ router.post('/draft', isLoggedAndConfigured, (req,res) => {
                 draft.links = post.links;
                 draft.thumbnail = post.thumbnail;
                 draft.steem_username = req.session.blogger.steem_username;
-                draft.save(function(err){
-                    if(err) {
-                        res.json({error: 'Error while saving draft'});
-                    } else {
-                        res.json({success: 'Draft updated', _id: draft._id});
-                    }
-                });
+                await draft.save();
+                res.json({ success: 'Draft updated', _id: draft._id });
             } else {
-                res.json({error: 'Error while saving draft'});
+                throw new Error("Username missmatch");
             }
-        });
-    } else {
-        delete post["_id"];
-        let draft = new Posts(post);
-        draft.steem_username = req.session.blogger.steem_username;
-        draft.save(function(err){
-            if(err) {
-                res.json({error: 'Error while saving draft'});
-            } else {
-                res.json({success: 'Draft saved', _id: draft._id});
-            }
-        });
+        } else {
+            delete post["_id"];
+            let draft = new Posts(post);
+            draft.steem_username = req.session.blogger.steem_username;
+            await draft.save();
+            res.json({ success: 'Draft saved', _id: draft._id });
+        }  
+    } catch (error) {
+        res.json({ error: 'Error while saving draft' });
     }
+
+
+    
+    
 })
 
-router.post('/draft/delete', isLoggedAndConfigured, (req,res) => {
+router.post('/draft/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let draft = req.body;
     if(draft && draft.id != '') {
-        Posts.deleteOne({_id: draft.id}, function(err) {
+        Posts.deleteOne({_id: draft.id}, function(err: Error) {
             if(err) {
                 res.json({error: 'Error while deleting draft'});  
             } else {
@@ -326,20 +305,20 @@ router.post('/draft/delete', isLoggedAndConfigured, (req,res) => {
     }
 })
 
-router.post('/draft/publish', isLoggedAndConfigured, (req,res) => {
+router.post('/draft/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let draft = req.body;
     if(draft && draft.id != '') {
-        Posts.findById({_id: draft.id}, function(err, draft) {
+        Posts.findById({_id: draft.id}, function(err: Error, draft: any) {
             if(!err && draft) {
-                draft.body = utils.removeWebsiteAdvertsElements(draft.body);
-                let post = utils.prepareBloggerPost(draft, req.session.blogger);
+                draft.body = Utils.removeWebsiteAdvertsElements(draft.body);
+                let post = Utils.prepareBloggerPost(draft, req.session.blogger);
 
                 if(post) {
-                    const operations = utils.prepareOperations('publish', post, req.session.blogger);
+                    const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
                     if(operations) {
-                        steemconnect.setAccessToken(req.session.access_token);
-                        steemconnect.broadcast(operations, function (err, result) {
+                        SteemConnect.setAccessToken(req.session.access_token);
+                        SteemConnect.broadcast(operations, function (err: any, result: any) {
                             if(err) {
                                 console.log(err);
                                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -352,7 +331,7 @@ router.post('/draft/publish', isLoggedAndConfigured, (req,res) => {
                             } else {
                                 console.log("New article has been posted by @" + req.session.steemconnect.name);
                                 if(post._id && post._id != '') {
-                                    Posts.deleteOne({_id: post._id}, function(err) {
+                                    Posts.deleteOne({_id: post._id}, function(err: Error) {
                                         if(err) {
                                             console.log(err);
                                         }
@@ -376,7 +355,7 @@ router.post('/draft/publish', isLoggedAndConfigured, (req,res) => {
     }
 })
 
-router.post('/configure/finish', (req, res) => {
+router.post('/configure/finish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     
     let configuration = req.body;
 
@@ -386,11 +365,11 @@ router.post('/configure/finish', (req, res) => {
         domain = configuration.subdomain + "." + configuration.domain;
     }
 
-    Blogs.findOne({domain: domain}, function(err, result) {
+    Blogs.findOne({domain: domain}, function(err: Error, result: IBlog) {
         if(err || result) {
             res.json({error: "Blog with that domain already exist. Try another one"});
         } else {
-            Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+            Blogs.findOne({ steem_username: req.session.steemconnect.name }, function (err: Error, blog: IBlog) {
                 if(!err && blog) {
                     if(!blog.configured) {
                         blog.configured = true;
@@ -398,34 +377,34 @@ router.post('/configure/finish', (req, res) => {
                         blog.theme = configuration.theme;
                         blog.category = configuration.category;
                         
-                        if(blog.tier == 10) {
+                        if(blog.tier == Tier.BASIC) {
                             blog.domain = domain;
                             blog.is_domain_custom = false;
                             blog.ssl = true;
-                        } else if (blog.tier == 12 || blog.tier == 15) {
+                        } else if (blog.tier == Tier.STANDARD || blog.tier == Tier.EXTENDED) {
                             blog.domain = domain;
                             blog.is_domain_custom = true;
                         }
         
-                        blog.save(function(err) {
+                        blog.save(function(err: Error) {
                             if(err) {
                                 console.log(err);
                                 res.json({ error: "Wystąpił błąd podczas konfiguracji"});
                             } else {
-                                if(blog.tier == 10) {
-                                    nginx.generateSubdomainConfig(blog.domain, blog.port, function (err) {
+                                if(blog.tier == Tier.BASIC) {
+                                    NginxModule.generateSubdomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeAppsModule.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
-                                } else if (blog.tier == 12 || blog.tier == 15) {
-                                    nginx.generateCustomDomainConfig(blog.domain, blog.port, function (err) {
+                                } else if (blog.tier == Tier.STANDARD || blog.tier == Tier.EXTENDED) {
+                                    NginxModule.generateCustomDomainConfig(blog.domain, blog.port, function (err: Error) {
                                         if(err) {
                                             console.log(err);
                                         } else {
-                                            nodeapps.createAndRun(blog.domain, blog.port, blog.steem_username);
+                                            NodeAppsModule.createAndRun(blog.domain, blog.port, blog.steem_username);
                                         }
                                     });
                                 }
@@ -445,7 +424,7 @@ router.post('/configure/finish', (req, res) => {
     })
 }); 
 
-router.post('/settings', isLoggedAndConfigured, (req, res) => {
+router.post('/settings', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     
     let settings = req.body;
 
@@ -457,9 +436,8 @@ router.post('/settings', isLoggedAndConfigured, (req, res) => {
         }
     }
 
-    // const matches = settings.filter( ({name}) => name.match(/(c_)([0-9]*)(_name)+/) );
+    var categories: ICategory[] = [];
 
-    var categories = [];
     matches.forEach(match => {
         let id = match.name.replace('c_', "").replace('_name',"");
         let slug_reg = new RegExp('(c_)(' + id + ')(_slug)', "i");
@@ -492,39 +470,34 @@ router.post('/settings', isLoggedAndConfigured, (req, res) => {
     } else {
         settings.categories = categories;
 
-        Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
-            if(!err && blog) {
-                copySettings(settings, blog);
-                blog.save(function(err){
-                    if(!err) {
-                        req.session.blogger = blog;
-                        res.json({ success: "Ustawienia zapisane poprawnie"});
-                    } else {
-                        res.json({ error: "Wystąpił jakiś błąd..."});
-                    }
-                })
-            } else {
-                res.json({ error: "Wystąpił jakiś błąd..."});
-            }
-        });    
+        try {
+            let blog = await Blogs.findOne({steem_username: req.session.steemconnect.name});
+            Utils.CopySettings(settings, blog);
+            await blog.save();
+            req.session.blogger = blog;
+            res.json({ success: "Ustawienia zapisane poprawnie" });
+
+        } catch (error) {
+                res.json({ error: "Wystąpił jakiś błąd..." });
+        }   
     }
 }); 
 
-router.post('/ssl', isLoggedAndConfigured, (req, res) => {
+router.post('/ssl', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     console.log("Asked for SSl enable on: ", req.session.blogger.domain);
-    ssl.generateCertificatesForDomain(req.session.blogger.domain, (err) => {
+    SSLModule.generateCertificatesForDomain(req.session.blogger.domain, (err: Error) => {
         if(err) {
             res.json({error: "SSL could not be enabled. Try again or contact admin"});
         } else {
-            nginx.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err) {
+            NginxModule.generateCustomDomainConfigWithSSL(req.session.blogger.domain, req.session.blogger.port, function(err: Error) {
                 if(err) {
                     res.json({error: "SSL could not be enabled. Try again or contact admin"});
                 } else {
-                    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
+                    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err: Error, blog: any) {
                         if(!err && blog) {
                             blog.ssl = true;
-                            blog.save(function(err) {
+                            blog.save(function(err: Error) {
                                 if(!err) {
                                     res.json({success: "SSL enabled!"});
                                 } else {
@@ -541,53 +514,26 @@ router.post('/ssl', isLoggedAndConfigured, (req, res) => {
     });
 })
 
-router.post('/profile', isLoggedAndConfigured, (req, res) => {
-    
-    let profile = req.body;
+router.post('/profile', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
-    Blogs.findOne({steem_username: req.session.steemconnect.name}, function(err, blog) {
-        if(!err && blog) {
-            blog.author_name = profile.author_name;
-            blog.author_surname = profile.author_surname;
-            blog.author_bio = profile.author_bio;
-            blog.author_image_url = profile.author_image_url;
-            // blog.email = profile.email
-            blog.save(function(err){
-                if(!err) {
-                    req.session.blogger = blog;
-                    res.json({ success: "Ustawienia zapisane poprawnie"});
-                } else {
-                    res.json({ error: "Wystąpił jakiś błąd..."});
-                }
-            })
-        } else {
-            res.json({ error: "Wystąpił jakiś błąd..."});
-        }
-    });    
+    try {
+        let profile = req.body;
+        let blog: IBlog = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
+        
+        blog.author_name = profile.author_name;
+        blog.author_surname = profile.author_surname;
+        blog.author_bio = profile.author_bio;
+        blog.author_image_url = profile.author_image_url;
+        
+        await blog.save();
+
+        req.session.blogger = blog;
+        res.json({ success: "Ustawienia zapisane poprawnie" });
+    } catch (error) {
+        res.json({ error: "Wystąpił jakiś błąd..." });
+    }
+
 }); 
 
-function copySettings(new_settings, oldsettings) {
-    oldsettings.blog_title = new_settings.blog_title
-    oldsettings.blog_slogan = new_settings.blog_slogan;
-    oldsettings.blog_logo_url = new_settings.blog_logo_url;
-    oldsettings.theme = new_settings.theme;
-    oldsettings.frontpage_language = new_settings.frontpage_language;
-    oldsettings.posts_per_category_page = new_settings.posts_per_category_page;
-    oldsettings.load_more_posts_quantity = new_settings.load_more_posts_quantity;
-    // oldsettings.show_only_categorized_posts = new_settings.show_only_categorized_posts;
-    oldsettings.opengraph_default_description = new_settings.opengraph_default_description;
-    oldsettings.opengraph_default_image_url = new_settings.opengraph_default_image_url;
-    oldsettings.onesignal_app_id = new_settings.onesignal_app_id;
-    oldsettings.onesignal_api_key = new_settings.onesignal_api_key;
-    oldsettings.onesignal_logo_url = new_settings.onesignal_logo_url;
-    oldsettings.onesignal_body_length = new_settings.onesignal_body_length;
-    oldsettings.analytics_gtag = new_settings.analytics_gtag;
-    oldsettings.webmastertools_id = new_settings.webmastertools_id;
-    oldsettings.blog_main_image = new_settings.blog_main_image;
-
-    if(new_settings.categories && new_settings.categories != '') {
-        oldsettings.categories = new_settings.categories;
-    }
-}
 
 module.exports = router;

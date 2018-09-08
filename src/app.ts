@@ -1,21 +1,21 @@
 require('dotenv').config();
-let config = require('./config');
-var fs = require('fs');
-let express = require('express');
+
+import * as express from 'express';
+import { Config } from './config'
+import { StatisticsModule } from './modules/Statistics';
+import { SchedulerModule } from './modules/Scheduler';
+import { SSLModule } from './modules/SSL';
+
+let config = Config.GetConfig();
+
 let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
+// let favicon = require('serve-favicon');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let expressSanitized = require('express-sanitize-escape');
 var mongoose = require('mongoose');
-let steem = require("steem");
 let moment = require("moment");
-var pm2 = require('pm2');
-var scheduler = require('./modules/scheduler.js');
-var statistics = require('./modules/statistics.js');
-var ssl = require('./modules/ssl.js');
 
 console.log("Launched on " + moment().format("LLLL"));
 console.log(config);
@@ -29,10 +29,10 @@ app.use(session({
 }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, "..", 'views'));
 app.set('view engine', 'pug');
 
-app.use((req, res, next) => {
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.locals.config = config;
     next();
 });
@@ -43,43 +43,47 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressSanitized.middleware());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "..", 'public')));
 
 let main = require('./routes/main');
 let authorize = require('./routes/authorize');
 let dashboard = require('./routes/dashboard');
 
-// app.use('/dashboard', dashboard);
 app.use('/authorize', authorize);
 app.use('/dashboard', dashboard);
 app.use('/', main);
 
 app.locals.moment = require('moment');
 
-mongoose.connection.on('error', function (err) { console.log(err) });
-mongoose.connect(config.database_url);
+mongoose.connection.on('error', function (err: Error) { console.log(err) });
+mongoose.connect(
+    config.database_url,
+    {
+        useNewUrlParser: true
+    });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
-    err.status = 404;
+    (<any>err).status = 404;
     next(err);
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
-    res.status(err.status || 500);
-    res.render('main/error', { categories: config.categories });
+    res.status((<any>err).status || 500);
+    res.render('main/error');
 });
 
-scheduler.initialize();
-statistics.initialize();
-ssl.initialize();
+let sslModuleInstance = new SSLModule(); // constructor creates CronJob
+let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
+let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
 
 /**
  * Create HTTP server.
@@ -92,7 +96,7 @@ app.set('port', port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-function normalizePort(val) {
+function normalizePort(val: string) {
     let port = parseInt(val, 10);
 
     if (isNaN(port)) {
@@ -108,8 +112,8 @@ function normalizePort(val) {
     return false;
 }
 
-function onError(error) {
-    if (error.syscall !== 'listen') {
+function onError(error: Error) {
+    if ((<any>error).syscall !== 'listen') {
         throw error;
     }
 
@@ -118,7 +122,7 @@ function onError(error) {
         : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
-    switch (error.code) {
+    switch ((<any>error).code) {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges');
             process.exit(1);

@@ -1,9 +1,10 @@
-let mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+import { Schema, Model, model } from "mongoose";
+import { IBlog } from './helpers/IBlog';
 
-let Schema = mongoose.Schema;
+let mongooseInstance = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongooseInstance);
 
-let blogSchema = new Schema({
+export let BlogSchema = new Schema({
 
     steem_username: String,
     email: String,
@@ -12,7 +13,7 @@ let blogSchema = new Schema({
     is_domain_custom: Boolean,
     ssl: Boolean,
     created: Date,
-    tier: Number,
+    tier: [{ type: String }],
     configured: Boolean,
     category: String,
     
@@ -70,6 +71,6 @@ let blogSchema = new Schema({
     }
 });
 
-blogSchema.plugin(AutoIncrement, { inc_field: 'port' });
+BlogSchema.plugin(AutoIncrement, { inc_field: 'port' });
 
-module.exports = mongoose.model('blogs', blogSchema);
+export let Blogs: Model<IBlog> = model<IBlog>('blogs', BlogSchema);

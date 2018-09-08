@@ -1,10 +1,10 @@
-let steemconnect2 = require('sc2-sdk');
-let config = require('../config');
+import { Config, IConfig } from "../config";
+const sc2 = require('sc2-sdk');
 
-let steem = steemconnect2.Initialize({
+const config: IConfig = Config.GetConfig();
+
+export const SteemConnect = sc2.Initialize({
     app: config.steemconnect_id,
     callbackURL: config.steemconnect_redirect_uri,
     scope: ['login', 'vote', 'comment', 'comment_options', 'claim_reward_balance','delete_comment']
 });
-
-module.exports = steem;
