@@ -1,5 +1,5 @@
-import * as express from 'express';
+import { Request } from 'express';
 
-export interface IExtendedRequest extends express.Request {
+export interface IExtendedRequest extends Request {
     session: any;
 }

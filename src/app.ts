@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 import * as express from 'express';
-import {Config} from './config'
+import { Config } from './config'
 import { StatisticsModule } from './modules/Statistics';
 import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
@@ -16,7 +16,6 @@ let session = require('express-session');
 let expressSanitized = require('express-sanitize-escape');
 var mongoose = require('mongoose');
 let moment = require("moment");
-var ssl = require('./modules/ssl.js');
 
 console.log("Launched on " + moment().format("LLLL"));
 console.log(config);
@@ -68,6 +67,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err: Error, req: express.Request, res: express.Response, next: express.NextFunction) {
+
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
