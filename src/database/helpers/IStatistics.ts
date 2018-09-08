@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 export interface IStatistics extends Document {
-    steem_username: String;
-    sbd: [Number];
-    steem: [Number];
-    steem_power: [Number];
-    savings_sbd: [Number];
-    savings_steem: [Number];
+    steem_username: string;
+    sbd: [number];
+    steem: [number];
+    steem_power: [number];
+    savings_sbd: [number];
+    savings_steem: [number];
 }

@@ -2,14 +2,14 @@ import { ICategory } from './ICategory';
 import { Document } from 'mongoose';
 
 export interface IPost extends Document {
-    steem_username: String;
+    steem_username: string;
     date: Date;
-    scheduled: Boolean;
-    title: String;
-    body: String;
+    scheduled: boolean;
+    title: string;
+    body: string;
     category: ICategory;
-    tags: [String];
-    links: [String];
-    image: [String];
-    thumbnail: String;
+    tags: [string];
+    links: [string];
+    image: [string];
+    thumbnail: string;
 }
