@@ -13,7 +13,7 @@ export let BlogSchema = new Schema({
     is_domain_custom: Boolean,
     ssl: Boolean,
     created: Date,
-    tier: [{ type: String }],
+    tier: { type: String },
     configured: Boolean,
     category: String,
     
