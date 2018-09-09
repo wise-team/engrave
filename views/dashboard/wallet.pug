@@ -1,6 +1,7 @@
 extends website.pug
 
 append scripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js")
     script(src="/js/wallet.js")
 
 block body
@@ -34,20 +35,30 @@ block body
                                     tr
                                         td STEEM
                                             p.small Liquid STEEM tokens are transferable
+                                        td.chart-steem
                                         td= user.account.balance
                                     tr
                                         td STEEM DOLLARS
                                             p.small Liquid SBD tokens are transferable
+                                        td.chart-sbd
                                         td= user.account.sbd_balance
                                     tr
                                         td STEEM POWER
                                             p.small STEEM POWER tokens are freezed and can be withrawed in 13 weeks
+                                        td.chart-sp.graph
                                         td= parseFloat(steemPower).toFixed(3) + ' STEEM'
                                     tr
-                                        td SAVINGS
+                                        td SBD on SAVINGS
                                             p.small Savings can be withdrawed with three days waiting period
+                                        td.chart-savings-sbd
                                         td
-                                            p= user.account.savings_balance + ', ' + user.account.savings_sbd_balance
+                                            p= user.account.savings_sbd_balance
+                                    tr
+                                        td STEEM on SAVINGS
+                                            p.small Savings can be withdrawed with three days waiting period
+                                        td.chart-savings-steem
+                                        td
+                                            p= user.account.savings_balance
                                     //- tr
                                     //-     td Estimated Account Value
                                     //-         p.small Savings can be withdrawed with three days waiting period

@@ -1,3 +1,4 @@
+import { StatisticsModule } from './../modules/Statistics';
 import { PostValidators } from './../validators/PostValidators';
 import { ICategory } from './../database/helpers/ICategory';
 import { IBlog } from './../database/helpers/IBlog';
@@ -543,6 +544,15 @@ router.post('/posts', PostValidators.isLoggedAndConfigured, async (req: IExtende
         res.json({success: "OK", posts: posts});
     } catch (error) {
         res.json({error: "Error while trying to get blockchain posts"})
+    }
+})
+
+router.post('/statistics', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+    try {
+        let statistics = await StatisticsModule.GetStatistics(req.session.blogger);
+        res.json({success: "OK", statistics: statistics});
+    } catch(err) {
+        res.json({error: "Error while gettings statistics"});
     }
 })
 

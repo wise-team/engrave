@@ -1,3 +1,4 @@
+import { IBlog } from './../database/helpers/IBlog';
 import { Blogs } from './../database/BlogsModel';
 import { Statistics } from '../database/StatisticsModel'
 
@@ -50,6 +51,22 @@ export class StatisticsModule {
             });
         } catch(err) {
             console.log("Statistics error: ", err);
+        }
+    }
+
+    static async GetStatistics(blog: IBlog) {
+        try {
+            let stats = await Statistics
+                .find({ steem_username: blog.steem_username })
+                .slice('savings_sbd', -30)
+                .slice('savings_steem', -30)
+                .slice('sbd', -30)
+                .slice('steem', -30)
+                .slice('steem_power', -30)
+                .exec();
+            return stats[0];  
+        } catch (error) {
+            return null;
         }
     }
 
