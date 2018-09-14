@@ -28,7 +28,7 @@ export class BlogListModule {
     /**
      * Get all registerd blogs as domains array
      */
-    static async listAllBlogDomains() {
+    static async listAllBlogDomains(): Promise<string[]> {
         let blogList: string[] = [];
         let blogs = await Blogs.find({}, {domain: 1});
         for(let blog of blogs) {
