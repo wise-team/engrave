@@ -12,7 +12,7 @@ export class PostValidators {
             if (!blogger) throw new Error("Blogger not found");
             req.session.blogger = blogger;
             if (!blogger.tier) res.json({ error: "Not authorized" });
-            if (!blogger.configured) {
+            else if (!blogger.configured) {
                 if (req.path == '/configure') {
                     return next();
                 } else {

@@ -12,7 +12,7 @@ export class GetValidators {
             if (!blogger) throw new Error("Blogger not found");
             req.session.blogger = blogger;
             if (!blogger.tier) res.redirect('/configure');
-            if (!blogger.configured) {
+            else if (!blogger.configured) {
                 if (req.path == '/configure') {
                     return next();
                 } else {
