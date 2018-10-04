@@ -4,6 +4,15 @@ import * as express from 'express';
 
 export class PostValidators {
 
+    static async isLoggedIn(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
+        try {
+            if (!req.session.steemconnect) throw new Error("User not logged in");
+            return next();
+        } catch (error) {
+            res.json({ error: "Not authorized" });
+        }
+    }
+
     static async isLoggedAndConfigured(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
 
         try {
