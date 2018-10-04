@@ -9,7 +9,7 @@ import { Utils } from '../modules/Utils';
 
 let router = express.Router();
 
-router.get('/logout', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/logout', (req: IExtendedRequest, res: express.Response) => {
     var redirectUrl = '/';
     if (req.session.current_url) {
         redirectUrl += req.session.current_url;
@@ -19,7 +19,7 @@ router.get('/logout', GetValidators.isLoggedAndConfigured, (req: IExtendedReques
 
 });
 
-router.get('/tier/basic', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/basic', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -34,7 +34,7 @@ router.get('/tier/basic', GetValidators.isLoggedAndConfigured, async (req: IExte
 
 });
 
-router.get('/tier/standard', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/standard', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
@@ -50,7 +50,7 @@ router.get('/tier/standard', GetValidators.isLoggedAndConfigured, async (req: IE
 
 });
 
-router.get('/tier/extended', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/extended', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');
@@ -66,7 +66,7 @@ router.get('/tier/extended', GetValidators.isLoggedAndConfigured, async (req: IE
 
 });
 
-router.get('/tier/cancel', GetValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/cancel', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if(!req.session.steemconnect) {
         res.redirect('/');
