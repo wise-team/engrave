@@ -29,11 +29,11 @@ export class NodeAppsModule {
             }]
         };
 
-        fs.writeFile(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), JSON.stringify(newAppConfig), (err: Error) => {
+        fs.writeFile(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), JSON.stringify(newAppConfig), (err: Error) => {
             if (!err) {
                 console.log(' * Copying files completed.');
 
-                pm2.start(path.join(__dirname, '../pm2_blogs/' + domain + '/app_config.json'), function (err: Error, apps: any) {
+                pm2.start(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), function (err: Error, apps: any) {
 
                     if (err) {
                         console.log(err);
