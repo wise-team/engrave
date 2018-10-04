@@ -14,7 +14,7 @@ export class NodeAppsModule {
 
         await pm2.connect();
 
-        ncp('./blog_app_template', './pm2_blogs/' + domain, function (err: Error) {
+        ncp(path.join(__dirname, '../../blog_app_template'), path.join(__dirname, '../../pm2_blogs/' + domain), function (err: Error) {
             if (err) {
               console.log("NCP error: ", err);
             } else {
