@@ -18,7 +18,6 @@ var mongoose = require('mongoose');
 let moment = require("moment");
 
 console.log("Launched on " + moment().format("LLLL"));
-console.log(config);
 
 let app = express();
 

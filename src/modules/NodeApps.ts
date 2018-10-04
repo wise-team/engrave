@@ -29,7 +29,7 @@ export class NodeAppsModule {
             }]
         };
 
-        fs.writeFile(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), JSON.stringify(newAppConfig), (err: Error) => {
+        fs.writeFile(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' } , (err: Error) => {
             if (!err) {
                 console.log(' * Copying files completed.');
 
