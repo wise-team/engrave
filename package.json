@@ -32,10 +32,11 @@
     "parse-domain": "^2.1.2",
     "pm2": "latest",
     "pug": "2.0.0-beta11",
-    "sc2-sdk": "latest",
+    "sc2-sdk": "^2.0.0",
     "serve-favicon": "~2.4.5",
     "speakingurl": "latest",
     "steem": "latest",
+    "steemconnect": "2.0.0",
     "typescript": "latest"
   }
 }

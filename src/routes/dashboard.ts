@@ -168,11 +168,15 @@ router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedReq
             SteemConnect.broadcast(operations, function (err: any, result: any) {
                 if(err) {
                     console.log(err);
-                    var errorstring = err.error_description.split('\n')[0].split(': ')[1];
-                    if(errorstring == 'Comment already has beneficiaries specified.') {
-                        res.json({ error: 'There is an article with that title!'});
+                    if (err.hasOwnProperty('error_description')) {
+                        let errorstring = err.error_description.split('\n')[0].split(': ')[1];
+                        if(errorstring == 'Comment already has beneficiaries specified.') {
+                            res.json({ error: 'There is an article with that title!'});
+                        } else {
+                            res.json({ error: errorstring});
+                        }
                     } else {
-                        res.json({ error: errorstring});
+                        res.json({ error: 'Error occured. Try again' });
                     }
                     
                 } else {

@@ -1,5 +1,5 @@
 import { Config, IConfig } from "../config";
-const sc2 = require('sc2-sdk');
+const sc2 = require('steemconnect');
 
 const config: IConfig = Config.GetConfig();
 
