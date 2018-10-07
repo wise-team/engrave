@@ -4,6 +4,15 @@ import * as express from 'express';
 
 export class PostValidators {
 
+    static async isLoggedIn(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
+        try {
+            if (!req.session.steemconnect) throw new Error("User not logged in");
+            return next();
+        } catch (error) {
+            res.json({ error: "Not authorized" });
+        }
+    }
+
     static async isLoggedAndConfigured(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
 
         try {
@@ -12,7 +21,7 @@ export class PostValidators {
             if (!blogger) throw new Error("Blogger not found");
             req.session.blogger = blogger;
             if (!blogger.tier) res.json({ error: "Not authorized" });
-            if (!blogger.configured) {
+            else if (!blogger.configured) {
                 if (req.path == '/configure') {
                     return next();
                 } else {

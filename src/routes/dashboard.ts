@@ -359,7 +359,7 @@ router.post('/draft/publish', PostValidators.isLoggedAndConfigured, (req: IExten
     }
 })
 
-router.post('/configure/finish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/configure/finish', PostValidators.isLoggedIn, (req: IExtendedRequest, res: express.Response) => {
     
     let configuration = req.body;
 
