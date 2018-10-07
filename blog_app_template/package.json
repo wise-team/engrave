@@ -12,7 +12,6 @@
     "express-session": "^1.15.6",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
-    "sc2-sdk": "^1.0.2",
     "serve-favicon": "~2.4.5",
     "steem": "latest",
     "remove-markdown": "latest",
@@ -30,7 +29,8 @@
     "wykop-es6": "latest",
     "dotenv": "latest",
     "sitemap": "latest",
-    "express-dynamic-static": "latest"
+    "express-dynamic-static": "latest",
+    "steemconnect": "2.0.0"
   },
   "devDependencies": {},
   "scripts": {
