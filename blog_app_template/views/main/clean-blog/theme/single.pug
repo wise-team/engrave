@@ -36,6 +36,7 @@ block header
                 span(title= moment.utc(date).local().format('LLL'))= moment.utc(date).local().fromNow()
                 = ', ' + translation.frontpage.comments_count.toLowerCase() + ": "
                 span= comments_quantity
+                span= ', ' + translation.frontpage.reward.toLowerCase() + ': $' + parseFloat(value).toFixed(2)
     article
       .container
         .row

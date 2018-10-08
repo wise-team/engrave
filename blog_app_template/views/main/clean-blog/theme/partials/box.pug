@@ -10,4 +10,5 @@
         span(title= moment.utc(item.date).local().format('LLL'))= moment.utc(item.date).local().fromNow()
         = ', ' + translation.frontpage.comments_count.toLowerCase() + ": "
         span= item.comments_quantity
+        span= ', ' + translation.frontpage.reward.toLowerCase() + ': $' + parseFloat(item.value).toFixed(2)
     hr
