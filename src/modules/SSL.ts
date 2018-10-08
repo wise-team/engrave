@@ -7,7 +7,7 @@ let CronJob = require('cron').CronJob;
 export class SSLModule {
     constructor() {
 
-        console.log("SSL module initialized");
+        console.log(" * SSL module initialized");
 
         new CronJob('*/15 * * * *', this.generateCertificatesForUnsecuredBlogs, null, true, 'America/Los_Angeles');
     }

@@ -44,13 +44,31 @@ app.use(expressSanitized.middleware());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "..", 'public')));
 
-let main = require('./routes/main');
-let authorize = require('./routes/authorize');
-let dashboard = require('./routes/dashboard');
+app.use('/authorize', require('./routes/authorize/logout'));
+app.use('/authorize', require('./routes/authorize/tier'));
+app.use('/authorize', require('./routes/authorize/main'));
 
-app.use('/authorize', authorize);
-app.use('/dashboard', dashboard);
-app.use('/', main);
+app.use('/dashboard', require('./routes/dashboard/configure'));
+app.use('/dashboard', require('./routes/dashboard/draft'));
+app.use('/dashboard', require('./routes/dashboard/edit'));
+app.use('/dashboard', require('./routes/dashboard/main'));
+app.use('/dashboard', require('./routes/dashboard/notifications'));
+app.use('/dashboard', require('./routes/dashboard/posts'));
+app.use('/dashboard', require('./routes/dashboard/profile'));
+app.use('/dashboard', require('./routes/dashboard/publish'));
+app.use('/dashboard', require('./routes/dashboard/settings'));
+app.use('/dashboard', require('./routes/dashboard/ssl'));
+app.use('/dashboard', require('./routes/dashboard/statistics'));
+app.use('/dashboard', require('./routes/dashboard/upgrade'));
+app.use('/dashboard', require('./routes/dashboard/main'));
+app.use('/dashboard', require('./routes/dashboard/wallet'));
+app.use('/dashboard', require('./routes/dashboard/write'));
+
+app.use('/', require('./routes/frontpage/about'));
+app.use('/', require('./routes/frontpage/configure'));
+app.use('/', require('./routes/frontpage/create'));
+app.use('/', require('./routes/frontpage/how-to-earn'));
+app.use('/', require('./routes/frontpage/main'));
 
 app.locals.moment = require('moment');
 

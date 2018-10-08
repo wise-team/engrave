@@ -8,7 +8,7 @@ let steem = require('steem');
 export class StatisticsModule {
 
     constructor () {
-        console.log("Statistics module initialized");
+        console.log(" * Statistics module initialized");
         
         new CronJob('00 00 * * *', this.get_all_accounts_statistics, null, true, 'America/Los_Angeles');
     }
