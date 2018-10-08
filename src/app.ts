@@ -49,20 +49,16 @@ app.use('/authorize', require('./routes/authorize/tier'));
 app.use('/authorize', require('./routes/authorize/main'));
 
 app.use('/dashboard', require('./routes/dashboard/configure'));
-app.use('/dashboard', require('./routes/dashboard/draft'));
-app.use('/dashboard', require('./routes/dashboard/edit'));
 app.use('/dashboard', require('./routes/dashboard/main'));
 app.use('/dashboard', require('./routes/dashboard/notifications'));
 app.use('/dashboard', require('./routes/dashboard/posts'));
 app.use('/dashboard', require('./routes/dashboard/profile'));
-app.use('/dashboard', require('./routes/dashboard/publish'));
 app.use('/dashboard', require('./routes/dashboard/settings'));
-app.use('/dashboard', require('./routes/dashboard/ssl'));
 app.use('/dashboard', require('./routes/dashboard/statistics'));
 app.use('/dashboard', require('./routes/dashboard/upgrade'));
-app.use('/dashboard', require('./routes/dashboard/main'));
 app.use('/dashboard', require('./routes/dashboard/wallet'));
 app.use('/dashboard', require('./routes/dashboard/write'));
+app.use('/dashboard', require('./routes/dashboard/main'));
 
 app.use('/', require('./routes/frontpage/about'));
 app.use('/', require('./routes/frontpage/configure'));

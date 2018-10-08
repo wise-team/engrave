@@ -3,7 +3,6 @@ import { SteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
 import { GetValidators } from '../../validators/GetValidators';
 
-
 let steem = require('steem');
 let router = express.Router();
 

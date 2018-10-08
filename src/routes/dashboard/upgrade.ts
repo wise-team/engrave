@@ -2,8 +2,6 @@ import { IExtendedRequest } from '../IExtendedRequest';
 import * as express from 'express';
 import { GetValidators } from '../../validators/GetValidators';
 
-
-let steem = require('steem');
 let router = express.Router();
 
 router.get('/upgrade', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
