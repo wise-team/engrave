@@ -20,7 +20,6 @@ export class NodeAppsModule {
                     if (err) {
                       console.log("NCP error: ", err);
                     } else {
-                        console.log("NCP copied");
                         let newAppConfig = {
                             apps: [{
                                 name: domain,
