@@ -1,0 +1,24 @@
+if ! user
+    #loggedoutModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title= translation.frontpage.you_are_logged_out
+                .modal-body
+                    = translation.frontpage.steemit_box_content
+                .modal-footer
+                    a(href="/authorize")
+                        button.btn.btn-info(type='button')= translation.frontpage.btn_steemconnect_login
+                    button.btn.btn-default(type='button', data-dismiss='modal')= translation.frontpage.btn_close
+else
+    #loggedinModal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5= translation.frontpage.select_voting_power
+                .modal-body
+                    .slider-container
+                        input(type="text" id="example_id" name="example_name" value="50")
+                .modal-footer
+                    button.btn.btn-success(type='button' id="votingAccept")= translation.frontpage.btn_vote
+                    button(type="button" class="btn btn-link" data-dismiss="modal")= translation.frontpage.btn_close

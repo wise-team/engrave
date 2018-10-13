@@ -1,0 +1,27 @@
+//- Facebook Open Graph Meta Data
+//- meta(property="og:url" content="")
+meta(property="og:type" content="article")
+meta(property="og:locale" content="pl_PL")
+meta(property="og:site_name" content= config.blog_title)
+meta(property="og:title" content= article_title)
+if body_abbr
+    meta(property="og:description" content= body_abbr)
+else
+    meta(property="og:description" content= config.opengraph_default_description)
+if image
+    meta(property="og:image" content= image)
+else 
+    meta(property="og:image" content= config.opengraph_default_image)
+
+//- Twitter Meta Data
+meta(name="twitter:card" content="summary_large_image")
+meta(name="twitter:site" content= config.blog_title)
+meta(name="twitter:title" content= article_title)
+if body_abbr
+    meta(name="twitter:description" content= body_abbr)
+else 
+    meta(name="twitter:description" content= config.opengraph_default_description)
+if image
+    meta(name="twitter:image" content= image)
+else 
+    meta(name="twitter:image" content= config.opengraph_default_image)

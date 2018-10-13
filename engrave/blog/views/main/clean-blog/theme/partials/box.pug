@@ -1,0 +1,14 @@
+.post-preview
+    a(href='/' + item.permlink)
+        h2.post-title= item.title
+        h3.post-subtitle= item.body_abbr
+    p.post-meta
+        if config.author_name
+            = translation.frontpage.posted_by + ' '
+            a()= config.author_name
+            | , 
+        span(title= moment.utc(item.date).local().format('LLL'))= moment.utc(item.date).local().fromNow()
+        = ', ' + translation.frontpage.comments_count.toLowerCase() + ": "
+        span= item.comments_quantity
+        span= ', ' + translation.frontpage.reward.toLowerCase() + ': $' + parseFloat(item.value).toFixed(2)
+    hr
