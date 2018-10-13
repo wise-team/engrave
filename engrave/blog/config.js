@@ -15,9 +15,6 @@ let config = {
 }
 
 module.exports.get_config = () => {
-
-    \assert.deepEqual(
-        , expected, "[message]");
     return config;
 }
 
