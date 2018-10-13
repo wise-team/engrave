@@ -16,47 +16,44 @@ export class NodeAppsModule {
             if(err) console.log(err);
             else {
                 
-                const sourceBlogPath = path.join(__dirname, '../../blog');
-                const destinationBlogPath = path.join(__dirname, '../../instances/' + domain);
-                const instancesPath = path.join(__dirname, '../../instances');
+                const instancesDirectoryPath = path.join(__dirname, '../../instances');
+                const blogPath = path.join(instancesDirectoryPath, domain);
                 
-                if (!fs.existsSync(instancesPath)) {
-                    fs.mkdirSync(instancesPath);
+                if (!fs.existsSync(instancesDirectoryPath)) {
+                    fs.mkdirSync(instancesDirectoryPath);
+                }
+                if (!fs.existsSync(blogPath)) {
+                    fs.mkdirSync(blogPath);
                 }
 
-                ncp(sourceBlogPath, destinationBlogPath, function (err: Error) {
-                    if (err) console.log("NCP error: ", err);
-                    else {
-                        let newAppConfig = {
-                            apps: [{
-                                name: domain,
-                                script: './instances/' + domain + '/app.js',
-                                watch: false,
-                                env: {
-                                    PORT: port,
-                                    STEEM_USERNAME: steem_username,
-                                    DATABASE_URL: config.database_url,
-                                    NODE_ENV: "development"
-                                },
-                            }]
-                        };
-                
-                        fs.writeFile(path.join(instancesPath, domain, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' } , (err: Error) => {
-                            if (!err) {
-                                console.log(' * Copying files completed.');
-                
-                                pm2.start(path.join(__dirname, '../../instances/' + domain + '/app_config.json'), function (err: Error, apps: any) {
-                
-                                    if (err) console.log(err);
-                
-                                    pm2.disconnect();   // Disconnects from PM2
-                                    console.log(' * New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
-                                });
-                
-                            } else {
-                                console.log(" * Copying files error:", err);
-                            }
+                let newAppConfig = {
+                    apps: [{
+                        name: domain,
+                        script: './blog/app.js',
+                        watch: false,
+                        env: {
+                            PORT: port,
+                            STEEM_USERNAME: steem_username,
+                            DATABASE_URL: config.database_url,
+                            NODE_ENV: "development"
+                        },
+                    }]
+                };
+
+                fs.writeFile(path.join(blogPath, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' }, (err: Error) => {
+                    if (!err) {
+                        console.log(' * Copying files completed.');
+
+                        pm2.start(path.join(blogPath, 'app_config.json'), function (err: Error, apps: any) {
+
+                            if (err) console.log(err);
+
+                            pm2.disconnect();   // Disconnects from PM2
+                            console.log(' * New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
                         });
+
+                    } else {
+                        console.log(" * Copying files error:", err);
                     }
                 });
             }
