@@ -1,5 +1,4 @@
-node_modules/
-.env
-.vscode/
-encryption/
-dist
+**/node_modules/
+**/.env
+**/.vscode/
+**/dist
