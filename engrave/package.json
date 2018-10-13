@@ -14,7 +14,6 @@
     "@types/node": "^10.9.4",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
     "dotenv": "latest",
     "express": "latest",
     "express-sanitize-escape": "^1.1.0",
@@ -26,19 +25,16 @@
     "le-store-certbot": "latest",
     "moment": "latest",
     "mongoose": "latest",
-    "mongoose-auto-increment-reworked": "^1.2.1",
-    "mongoose-sequence": "latest",
-    "mongoose-sequence-plugin": "^1.0.5",
-    "morgan": "~1.9.0",
+    "mongoose-auto-increment-reworked": "1.2.1",
     "ncp": "latest",
     "parse-domain": "^2.1.2",
     "pm2": "latest",
     "pug": "2.0.0-beta11",
-    "sc2-sdk": "^2.0.0",
     "serve-favicon": "~2.4.5",
     "speakingurl": "latest",
     "steem": "latest",
     "steemconnect": "2.0.0",
-    "typescript": "latest"
+    "typescript": "latest",
+    "cron": "1.4.1"
   }
 }
