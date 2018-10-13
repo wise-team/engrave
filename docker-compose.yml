@@ -9,6 +9,8 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
+    depends_on:
+      - engrave
 
   engrave:
     image: bgornicki/engrave

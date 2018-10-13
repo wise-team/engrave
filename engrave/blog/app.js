@@ -9,7 +9,7 @@ mongoose.connection.on('error', function (err) { console.log(err) });
 mongoose.connect(cfg.get_config().database_url);
 
 cfg.refresh_config(function() {
-    let express = require('exp ress');
+    let express = require('express');
 let path = require('path');
 let favicon = require('serve-favicon');
 let logger = require('morgan');
