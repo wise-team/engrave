@@ -13,17 +13,24 @@ export class NodeAppsModule {
     static async createAndRun(domain: string, port: any, steem_username: string) {
 
         pm2.connect((err: Error) => {
-            if(err) {
-                console.log(err);
-            } else {
-                ncp(path.join(__dirname, '../../blog_app_template'), path.join(__dirname, '../../pm2_blogs/' + domain), function (err: Error) {
-                    if (err) {
-                      console.log("NCP error: ", err);
-                    } else {
+            if(err) console.log(err);
+            else {
+                
+                const sourceBlogPath = path.join(__dirname, '../../blog');
+                const destinationBlogPath = path.join(__dirname, '../../instances/' + domain);
+                const instancesPath = path.join(__dirname, '../../instances');
+                
+                if (!fs.existsSync(instancesPath)) {
+                    fs.mkdirSync(instancesPath);
+                }
+
+                ncp(sourceBlogPath, destinationBlogPath, function (err: Error) {
+                    if (err) console.log("NCP error: ", err);
+                    else {
                         let newAppConfig = {
                             apps: [{
                                 name: domain,
-                                script: './pm2_blogs/' + domain + '/app.js',
+                                script: './instances/' + domain + '/app.js',
                                 watch: false,
                                 env: {
                                     PORT: port,
@@ -34,15 +41,13 @@ export class NodeAppsModule {
                             }]
                         };
                 
-                        fs.writeFile(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' } , (err: Error) => {
+                        fs.writeFile(path.join(instancesPath, domain, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' } , (err: Error) => {
                             if (!err) {
                                 console.log(' * Copying files completed.');
                 
-                                pm2.start(path.join(__dirname, '../../pm2_blogs/' + domain + '/app_config.json'), function (err: Error, apps: any) {
+                                pm2.start(path.join(__dirname, '../../instances/' + domain + '/app_config.json'), function (err: Error, apps: any) {
                 
-                                    if (err) {
-                                        console.log(err);
-                                    }
+                                    if (err) console.log(err);
                 
                                     pm2.disconnect();   // Disconnects from PM2
                                     console.log(' * New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");

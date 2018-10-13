@@ -26,7 +26,7 @@ export class SSLModule {
 
                 , logsDir: process.env.SSL_CERTIFICATES_DIR + '/engrave-logs'
 
-                , webrootPath: path.join(__dirname, '../pm2_blogs/:hostname/public/.well-known/acme-challenge')
+                , webrootPath: path.join(__dirname, '../instances/:hostname/public/.well-known/acme-challenge')
 
                 , debug: false
             });

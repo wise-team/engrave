@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 
 # Install blog template app
-WORKDIR /app/blog_app_template
+WORKDIR /app/blog
 RUN npm install
 
 # Compile ENGRAVE app
