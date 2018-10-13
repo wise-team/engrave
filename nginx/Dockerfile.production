@@ -2,6 +2,7 @@ FROM nginx
 
 COPY nginx-watch.sh /etc/nginx/
 
+COPY conf/_production.conf /etc/nginx/conf.d/80_engrav.website.conf
 COPY conf/default.conf /etc/nginx/conf.d/
 
 #COPY ./conf/* /etc/nginx/conf.d/

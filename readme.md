@@ -6,7 +6,7 @@ Aren't you bored by investing your work and time in creating non-returning blog 
 
 ## Requesting wildcard SSL certificate
 
-Befor running ENGRAVE system you need to request wildcard certificate. Otherwise nginx deamon wouldn't start because he's serving SSL files for default. Requesting that kind of certificate requires DNS records to be changes during process. You need to do it manually because it's depends on your domain registrar. We prepared interactive script to do it with your help:
+Befor running ENGRAVE system on production you need to request wildcard certificate. Otherwise nginx deamon wouldn't start because he's serving SSL files for default. Requesting that kind of certificate requires DNS records to be changes during process. You need to do it manually because it's depends on your domain registrar. We prepared interactive script to do it with your help:
 
 `./request_wildcard_certificate.sh`
 
@@ -16,6 +16,10 @@ It will ask you for some questions and if everything is ok, wildcard certificate
 
 If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-compose.yml` file for environmental variables and then just type:
 
-`./deploy.sh`
+`./development-deploy.sh`
 
-It will create docker stack with engrave and nginx on top. It should just work out of the box.
+It will create docker stack with engrave and nginx on top. It should just work out of the box. If you want to deploy production setup you can use:
+
+`./production-deploy.sh`
+
+But be very very carefully! It will really deploy production setup!
