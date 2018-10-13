@@ -7,21 +7,22 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - nginx_volume:/etc/nginx/conf.d
+      - nginx_conf:/etc/nginx/conf.d
+      - nginx_certs:/etc/letsencrypt
 
   engrave:
     image: bgornicki/engrave
     environment:
-      - DATABASE_URL=mongodb://mongo:27017/engrave
-      - PORT=81
-      - STEEMCONNECT_REDIRECT_URI=http://localhost:8080/authorize/
+      # - DATABASE_URL=mongodb://mongo:27017/engrave
+      # - STEEMCONNECT_REDIRECT_URI=http://localhost:8080/authorize/
       - DOMAIN=engrave.website
       - SSL_EMAIL=test@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - BLOGS_DOMAINS=["localhost", "localhost2"]
       - BLOGS_CATEGORIES=["Other"]
     volumes:
-      - nginx_volume:/etc/nginx/conf.d
+      - nginx_conf:/etc/nginx/conf.d
+      - nginx_certs:/etc/letsencrypt
     depends_on:
       - mongo
 
@@ -32,4 +33,5 @@ services:
 
 volumes:
   db-data:
-  nginx_volume:
+  nginx_certs:
+  nginx_conf:

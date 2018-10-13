@@ -1,8 +1,6 @@
+import { MongooseAutoIncrementID } from 'mongoose-auto-increment-reworked';
 import { Schema, Model, model } from "mongoose";
 import { IBlog } from './helpers/IBlog';
-
-let mongooseInstance = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongooseInstance);
 
 export let BlogSchema = new Schema({
 
@@ -71,6 +69,5 @@ export let BlogSchema = new Schema({
     }
 });
 
-BlogSchema.plugin(AutoIncrement, { inc_field: 'port' });
-
+BlogSchema.plugin(MongooseAutoIncrementID.plugin, { field: 'port', startAt: 81, modelName: 'Blogs' });
 export let Blogs: Model<IBlog> = model<IBlog>('blogs', BlogSchema);

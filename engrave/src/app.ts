@@ -5,6 +5,7 @@ import { Config } from './config'
 import { StatisticsModule } from './modules/Statistics';
 import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
+import { BlogListModule } from './modules/BlogList';
 
 let config = Config.GetConfig();
 

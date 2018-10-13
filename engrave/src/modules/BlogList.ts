@@ -36,5 +36,4 @@ export class BlogListModule {
         }
         return blogList;
     }
-
 }

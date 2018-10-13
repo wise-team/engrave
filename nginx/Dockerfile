@@ -2,7 +2,9 @@ FROM nginx
 
 COPY nginx-watch.sh /etc/nginx/
 
-COPY ./conf/* /etc/nginx/conf.d/
+COPY conf/default.conf /etc/nginx/conf.d/
+
+#COPY ./conf/* /etc/nginx/conf.d/
 
 # Watch will restart nginx on every change in configuration files caused by ENGRAVE app
 WORKDIR /etc/nginx

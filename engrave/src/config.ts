@@ -16,8 +16,8 @@ export class Config {
     
     private constructor() {
         Config.config = {
-            port: process.env.PORT || "80",
-            session_secret: process.env.SESSION_SECRET || 'PcxgE3gU3uyhed9LdfIRMHTpF9UXI7glEO1AYlKO',
+            port: process.env.PORT || "8080",
+            session_secret: process.env.SESSION_SECRET || Config.GenerateRandomString(),
             database_url: process.env.DATABASE_URL || "mongodb://mongo:27017/engrave",
             steemconnect_id: process.env.STEEMCONNECT_ID || 'engrave.app',
             steemconnect_redirect_uri: process.env.STEEMCONNECT_REDIRECT_URI || 'http://localhost:8080/authorize/',
@@ -30,9 +30,14 @@ export class Config {
 
     static GetConfig () {
         if (!Config.instance) {
+            require('dotenv').config();
             Config.instance = new Config();
         }
 
         return Config.config;
+    }
+
+    static GenerateRandomString(): string {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 }
