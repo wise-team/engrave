@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
     if(!req.query.access_token) {
         var host = req.get('host');
         console.log(host);
-        res.redirect('https://engrave.website/authorize?blog=' + host);
+        res.redirect(`https://${ process.env.DOMAIN }/authorize?blog=` + host);
     } else {
         req.session.access_token = req.query.access_token;
         steem.setAccessToken(req.session.access_token);

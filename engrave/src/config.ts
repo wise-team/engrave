@@ -20,7 +20,7 @@ export class Config {
             session_secret: process.env.SESSION_SECRET || Config.GenerateRandomString(),
             database_url: process.env.DATABASE_URL || "mongodb://mongo:27017/engrave",
             steemconnect_id: process.env.STEEMCONNECT_ID || 'engrave.app',
-            steemconnect_redirect_uri: process.env.STEEMCONNECT_REDIRECT_URI || 'http://localhost:8080/authorize/',
+            steemconnect_redirect_uri: process.env.STEEMCONNECT_REDIRECT_URI || `https://${ process.env.DOMAIN }/authorize/`,
             beneficiary: process.env.BENEFICIARY || "engrave",
             domain: process.env.DOMAIN || 'localhost',
             blogs_domains: (process.env.BLOGS_DOMAINS) ? (JSON.parse(process.env.BLOGS_DOMAINS)) : [process.env.DOMAIN],
