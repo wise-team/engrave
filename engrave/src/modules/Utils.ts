@@ -1,3 +1,4 @@
+import { Config } from './../config';
 import { Tier } from "../database/helpers/TierEnum";
 import { Blogs } from "../database/BlogsModel";
 import { IBlog } from "../database/helpers/IBlog";
@@ -10,6 +11,8 @@ const isImage = require('is-image');
 export class Utils {
 
     static async GetPostsFromBlockchain(limit: number, start_permlink: string, username: string) {
+
+        let blogger = await Blogs.findOne({ steem_username: username });
 
         let cnt: number = 0;
         let posts: object[] = [];
@@ -36,7 +39,7 @@ export class Utils {
                 var resteemed = (element.author != username);
 
                 if (cnt < limit && !resteemed) {
-                    if (element.beneficiaries.length && (element.beneficiaries[0].account == 'nicniezgrublem' || element.beneficiaries[0].account == 'engrave')) {
+                    if ( blogger.show_everything || element.beneficiaries.length && (element.beneficiaries[0].account == 'nicniezgrublem' || element.beneficiaries[0].account == 'engrave')) {
                         if (element.json_metadata && element.json_metadata != '') {
                             let metadata = JSON.parse(element.json_metadata);
                             if (metadata.image && metadata.image.length) {
@@ -121,7 +124,9 @@ export class Utils {
 
         if (article.body != '' && article.title != '') {
 
-            article.permlink = getSlug(article.title);
+            if (!article.permlink) {
+                article.permlink = getSlug(article.title);
+            }
 
             var urls: string[] = getUrls(article.body);
             var links: string[] = [];
