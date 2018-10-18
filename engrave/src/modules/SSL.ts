@@ -34,7 +34,7 @@ export class SSLModule {
             var opts = {
                 domains:
                     [domain,
-                        'www.' + domain],
+                     'www.' + domain],
                 email: process.env.SSL_EMAIL,
                 agreeTos: true,
                 communityMember: false

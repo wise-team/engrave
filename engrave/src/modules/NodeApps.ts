@@ -1,63 +1,117 @@
+import { Blogs } from './../database/BlogsModel';
+import { IBlog } from './../database/helpers/IBlog';
 import { Config } from "../config";
+import * as pm2 from 'pm2'
+import { NginxModule } from './Nginx';
+import { resolveCname } from 'dns';
 
 let fs = require('fs');
-var ncp = require('ncp').ncp;
 let path = require('path');
-
-var pm2 = require('pm2');
 
 let config = Config.GetConfig();
 
 export class NodeAppsModule {
 
-    static async createAndRun(domain: string, port: any, steem_username: string) {
+    /**
+     * Create NGINX configuration and run blog instance app
+     * @param blog IBlog interface blog instance
+     */
+    static async createAndRun(blog: IBlog) {
+        try {
+            const instancesDirectoryPath = path.join(__dirname, '../../instances');
+            const blogPath = path.join(instancesDirectoryPath, blog.domain);
+            
+            this.validateInstancesDirectory(instancesDirectoryPath, blogPath);
 
-        pm2.connect((err: Error) => {
-            if(err) console.log(err);
-            else {
-                
-                const instancesDirectoryPath = path.join(__dirname, '../../instances');
-                const blogPath = path.join(instancesDirectoryPath, domain);
-                
-                if (!fs.existsSync(instancesDirectoryPath)) {
-                    fs.mkdirSync(instancesDirectoryPath);
-                }
-                if (!fs.existsSync(blogPath)) {
-                    fs.mkdirSync(blogPath);
-                }
+            const newAppConfig = {
+                apps: [{
+                    name: blog.domain,
+                    script: './blog/app.js',
+                    watch: false,
+                    env: {
+                        PORT: blog.port,
+                        STEEM_USERNAME: blog.steem_username,
+                        DATABASE_URL: config.database_url,
+                        NODE_ENV: "development"
+                    },
+                }]
+            };
 
-                let newAppConfig = {
-                    apps: [{
-                        name: domain,
-                        script: './blog/app.js',
-                        watch: false,
-                        env: {
-                            PORT: port,
-                            STEEM_USERNAME: steem_username,
-                            DATABASE_URL: config.database_url,
-                            NODE_ENV: "development"
-                        },
-                    }]
-                };
+            await NginxModule.generateNginxSettings(blog);
 
-                fs.writeFile(path.join(blogPath, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' }, (err: Error) => {
-                    if (!err) {
-                        console.log(' * Copying files completed.');
+            await this.pm2Connect();
+            fs.writeFileSync(path.join(blogPath, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' });
+            await this.pm2Start(path.join(blogPath, 'app_config.json'));
+            pm2.disconnect();
 
-                        pm2.start(path.join(blogPath, 'app_config.json'), function (err: Error, apps: any) {
+            console.log(' * Copying files completed.');
+            console.log(' * New blog with domain: ' + blog.domain + ' for: @' + blog.steem_username + " is ready!");
 
-                            if (err) console.log(err);
+        } catch (error) {
+            console.log(" * Copying files error:", error);
+        }
+    }
 
-                            pm2.disconnect();   // Disconnects from PM2
-                            console.log(' * New blog with domain: ' + domain + ' for: @' + steem_username + " is ready!");
-                        });
-
-                    } else {
-                        console.log(" * Copying files error:", err);
-                    }
-                });
+    /**
+     * Configure NGINX and create PM2 instance for every configured blog
+     */
+    static async ConfigureAndStartConfiguredBlogs() {
+        try {
+            const blogs = await Blogs.find({configured: true});
+            
+            for(let blog of blogs) {
+                await this.createAndRun(blog);
+                console.log("Created instance for: ", blog.domain);
             }
-        });
-        
-    };
+        } catch (error) {
+            console.log('Error while reading blogs from database');
+            throw error;
+        }
+    }
+
+    /**
+     * Check if instances directory exists and create new one if not
+     * @param instancesDirectoryPath absolue path to directory when blog instances are stored
+     * @param blogPath absolute path to blog instance (should include instancesDirectoryPath)
+     */
+    private static validateInstancesDirectory(instancesDirectoryPath: string, blogPath: string) {
+        if (!fs.existsSync(instancesDirectoryPath)) {
+            fs.mkdirSync(instancesDirectoryPath);
+        }
+        if (!fs.existsSync(blogPath)) {
+            fs.mkdirSync(blogPath);
+        }
+    }
+
+    /**
+     * Promisified version of pm2.connect() method. Can be awaited.
+     */
+    private static async pm2Connect() {
+
+        return new Promise(
+            (resolve, reject) => {
+                pm2.connect((err) => {
+                    if (err) reject(err);
+                    else resolve();
+                })
+            }
+        );
+    }
+
+    /**
+     * Promisified version of pm2.start() method. Can be awaited.
+     */
+    private static async pm2Start(path: string) {
+
+        return new Promise (
+            (resolve, reject) => {
+                pm2.start(path, (err, proc) => {
+                    if(err) reject(err);
+                    else resolve(proc);
+                })
+            }
+        );
+
+    }
+
 }

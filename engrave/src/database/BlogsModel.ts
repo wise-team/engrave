@@ -8,8 +8,14 @@ export let BlogSchema = new Schema({
     email: String,
     port: Number,
     domain: String,
-    is_domain_custom: Boolean,
-    ssl: Boolean,
+    is_domain_custom: {
+        type: Boolean,
+        default: false
+    },
+    ssl: {
+        type: Boolean,
+        default: false
+    },
     created: Date,
     tier: { type: String },
     configured: Boolean,
