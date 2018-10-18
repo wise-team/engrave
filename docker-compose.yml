@@ -15,7 +15,7 @@ services:
   engrave:
     image: bgornicki/engrave
     environment:
-      - #STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
+      # - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
       - DOMAIN=engrave.website
       - SSL_EMAIL=test@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
