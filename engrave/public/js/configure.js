@@ -32,7 +32,6 @@ $(document).ready(function () {
                     setTimeout(function(){
                         location.reload(true);
                     }, 1500);
-                    // location.reload(true);
 
                 } else if (data.error) {
                     $.notify({
@@ -52,7 +51,7 @@ $(document).ready(function () {
             error: function (data) {
                 $.notify({
                     icon: "nc-icon nc-fav-remove",
-                    message: "Coś poszło nie tak..."        
+                    message: "Error occured. Please try again"
                 }, {
                     type: 'danger',
                     timer: 8000,

@@ -10,7 +10,7 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
     if (!req.query.access_token) {
         if (req.query.blog) {
 
-            if (await BlogListModule.IsBlogRegistered(req.query.blog)) {
+            if (await BlogListModule.isBlogRegistered(req.query.blog)) {
                 req.session.blog_redirect = req.query.blog;
                 let uri = SteemConnect.getLoginURL();
                 res.redirect(uri);

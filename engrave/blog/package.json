@@ -30,7 +30,8 @@
     "dotenv": "latest",
     "sitemap": "latest",
     "express-dynamic-static": "latest",
-    "steemconnect": "2.0.0"
+    "steemconnect": "2.0.0",
+    "lodash": "4.17.11"
   },
   "devDependencies": {},
   "scripts": {

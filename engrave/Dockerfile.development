@@ -1,0 +1,29 @@
+FROM node:alpine
+
+# Copy ENGRAVE
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+# Install blog template app
+WORKDIR /app/blog
+RUN npm install
+
+# Compile ENGRAVE app
+WORKDIR /app
+
+RUN npm install -g pm2
+RUN npm install -g typescript
+
+RUN tsc
+
+EXPOSE 80
+EXPOSE 9229
+
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.4.0/wait /wait
+RUN chmod +x /wait
+
+## Launch the wait tool and then your application
+CMD /wait && npm run debug

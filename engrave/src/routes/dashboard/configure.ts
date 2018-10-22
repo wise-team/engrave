@@ -1,3 +1,4 @@
+import { BlogListModule } from './../../modules/BlogList';
 import { PostValidators } from './../../validators/PostValidators';
 import { Blogs } from './../../database/BlogsModel';
 import { IExtendedRequest } from '../IExtendedRequest';
@@ -26,9 +27,11 @@ router.post('/configure/finish', PostValidators.isLoggedIn, async (req: IExtende
         if (configuration.subdomain) {
             domain = configuration.subdomain + "." + configuration.domain;
         }
-        let blog = await Blogs.findOne({domain: domain});
-        if (blog) throw new Error('Blog with that domain already exist. Try another one');
-        blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
+        
+        let available = await BlogListModule.isBlogDomainAvailable(domain);
+        if (!available) throw new Error('Blog with that address already exist');
+
+        let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
         if(blog.configured) throw new Error('You already configured your blog!');
 
         if (!blog.configured) {
@@ -51,7 +54,7 @@ router.post('/configure/finish', PostValidators.isLoggedIn, async (req: IExtende
             res.json({ success: "Configured successfully!" });
         }
     } catch (error) {
-        res.json({ error: "Error occured. Try again" });
+        res.json({ error: error.message });
     }
 
 });

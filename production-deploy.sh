@@ -1,6 +1,6 @@
 docker stack rm engrave
 
 docker build ./nginx/ -f ./nginx/Dockerfile.production -t bgornicki/nginx
-docker build ./engrave/ -t bgornicki/engrave
+docker build ./engrave/ -f ./engrave/Dockerfile.production -t bgornicki/engrave
 
-docker stack deploy -c docker-compose.yml engrave
+docker stack deploy -c docker-compose.production.yml engrave
