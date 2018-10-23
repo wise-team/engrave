@@ -51,8 +51,8 @@ block body
                       .form-group
                           label Theme
                           select.form-control(name='theme')
-                              option(value='clean-blog', selected=blogger.theme=='clean-blog') Clean blog
-                              option(value='default', selected=blogger.theme=='default') Magazine
+                            each theme in themes
+                              option(value= theme.slug, selected=blogger.theme==theme.slug)= theme.name
                     .col-md-6
                       .form-group
                           label Frontpage language

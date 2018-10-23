@@ -1,3 +1,4 @@
+import { Themes } from './../../modules/Themes';
 import { PostValidators } from './../../validators/PostValidators';
 import { ICategory } from './../../database/helpers/ICategory';
 import { Blogs } from './../../database/BlogsModel';
@@ -11,7 +12,11 @@ import { NginxModule } from '../../modules/Nginx';
 let router = express.Router();
 
 router.get('/settings', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    res.render('dashboard/settings.pug', { blogger: req.session.blogger, url: 'settings' });
+    res.render('dashboard/settings.pug', { 
+        themes: Themes.getInstalledThemes(),
+        blogger: req.session.blogger, 
+        url: 'settings' 
+    });
 });
 
 router.post('/settings', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {

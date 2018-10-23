@@ -8,6 +8,7 @@ import { SSLModule } from './modules/SSL';
 import { NginxModule } from './modules/Nginx';
 import { BlogListModule } from './modules/BlogList';
 import { NodeAppsModule } from './modules/NodeApps';
+import { Themes } from './modules/Themes';
 
 let config = Config.GetConfig();
 
@@ -102,6 +103,8 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 let sslModuleInstance = new SSLModule(); // constructor creates CronJob
 let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
 let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
+
+Themes.Initialize();
 
 (async ()=>{
     await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
