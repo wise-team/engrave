@@ -307,7 +307,7 @@ module.exports.prepareSinglePostTags = (steem_post) => {
     var tags = [];
     if (steem_post.json_metadata) {
         let steem_tags = JSON.parse(steem_post.json_metadata).tags;
-        if(steem_tags) {
+        if (steem_tags && Array.isArray(steem_tags)) {
             steem_tags.forEach(tag => {
                 tags.push(tag.replace("pl-", ""));
             })

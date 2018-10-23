@@ -1,0 +1,10 @@
+nav#nav
+    ul
+        each nav in config.categories
+            li
+                a.active(href="/kategoria/" + nav.slug)= nav.name
+        li
+            if !user
+                a.active(href='/authorize') Login
+            else
+                a.active(href='/authorize/logout')= 'Logout, @' + user.name
