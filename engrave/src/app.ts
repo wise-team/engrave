@@ -79,8 +79,6 @@ mongoose.connect(
         useNewUrlParser: true
     });
 
-console.log(config);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
@@ -106,9 +104,11 @@ let statisticsModuleInstance = new StatisticsModule(); // constructor creates Cr
 
 Themes.Initialize();
 
-(async ()=>{
-    await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
-})();
+if (process.env.NODE_ENV != "test") {
+    (async ()=>{
+        await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
+    })();
+}
 
 /**
  * Create HTTP server.
@@ -167,3 +167,6 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
 }
+
+export default app;
+export {mongoose};

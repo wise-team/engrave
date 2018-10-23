@@ -6,7 +6,7 @@ let parseDomain = require('parse-domain');
 export class BlogListModule {
 
     private static prohibitedSubdomains = ['www', 'blog'];
-    private static prohibitedDomains = ['example.com'].concat(JSON.parse(process.env.BLOGS_DOMAINS));
+    private static prohibitedDomains = ['example.com'].concat(JSON.parse(process.env.BLOGS_DOMAINS ? process.env.BLOGS_DOMAINS : "[]"));
 
     /**
      * Check if blog is registerd on Engrave system to prevent from using Engrave Steemconnect App to get SC2 token without registering own app
@@ -30,15 +30,20 @@ export class BlogListModule {
      * @param domain string containing domain that should be check if can be configured
      */
     static async isBlogDomainAvailable(domain: string) {
+        try {
+            const searchDomain = this.buildSearchableDomain(domain);
+            
+            if (_.includes(this.prohibitedSubdomains, parseDomain(searchDomain).subdomain)) return false;
+            if (_.includes(this.prohibitedDomains, searchDomain)) return false;
+            
+            if(await this.isBlogRegistered(searchDomain)) return false; 
+    
+            return true;
+            
+        } catch (error) {
+            return false;
+        }
 
-        const searchDomain = this.buildSearchableDomain(domain);
-        
-        if (_.includes(this.prohibitedSubdomains, parseDomain(searchDomain).subdomain)) return false;
-        if (_.includes(this.prohibitedDomains, searchDomain)) return false;
-        
-        if(await this.isBlogRegistered(searchDomain)) return false; 
-
-        return true;
     }
 
     /**
@@ -57,7 +62,7 @@ export class BlogListModule {
      * Create domain that can be used to search with Blogs model. It should remove 'http://' and 'https://'
      * @param domain string to build searchable domain from. Can include 'http://' prefix
      */
-    private static buildSearchableDomain(domain: string): string {
+    static buildSearchableDomain(domain: string): string {
         let parsedUrl = parseDomain(domain);
 
         if (parsedUrl.subdomain != "") {
