@@ -1,7 +1,7 @@
 import { BlogListModule } from './../../modules/BlogList';
 import { Blogs } from './../../database/BlogsModel';
 import { IExtendedRequest } from '../IExtendedRequest';
-import { AdminSteemConnect, UserSteemConnect } from '../../modules/SteemConnect';
+import { DashboardSteemConnect, ReaderSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
 
 const router = express.Router();
@@ -11,13 +11,13 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
         if (req.query.blog) {
             if (await BlogListModule.isBlogRegistered(req.query.blog)) {
                 req.session.blog_redirect = req.query.blog;
-                const uri = UserSteemConnect.getLoginURL();
+                const uri = ReaderSteemConnect.getLoginURL();
                 res.redirect(uri);
             } else {
                 res.redirect('/');
             }
         } else {
-            const uri = AdminSteemConnect.getLoginURL();
+            const uri = DashboardSteemConnect.getLoginURL();
             res.redirect(uri);
         }
     } else if (req.session.blog_redirect) {
@@ -28,8 +28,8 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
         req.session.access_token = req.query.access_token;
 
         try {
-            AdminSteemConnect.setAccessToken(req.session.access_token);
-            const loggedUser = await AdminSteemConnect.me();
+            DashboardSteemConnect.setAccessToken(req.session.access_token);
+            const loggedUser = await DashboardSteemConnect.me();
             req.session.steemconnect = loggedUser.account;
 
             console.log("Steemconnect logged in: " + req.session.steemconnect.name);
