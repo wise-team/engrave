@@ -22,6 +22,7 @@
     "express": "4.16.4",
     "express-sanitize-escape": "^1.1.0",
     "express-session": "1.15.6",
+    "fs-extra": "^7.0.0",
     "get-urls": "8.0.0",
     "greenlock": "2.4.2",
     "homedir": "0.6.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/chai": "4.1.6",
+    "@types/fs-extra": "^5.0.4",
     "@types/mocha": "5.2.5",
     "ts-node": "7.0.1"
   }

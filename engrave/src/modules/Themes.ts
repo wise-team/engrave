@@ -40,6 +40,7 @@ export class Themes {
 
             if (Themes.searchForPublicDirectory(themeDirectoryContent)) {
                 if (Themes.searchForThemeDirectory(themeDirectoryContent)) {
+                    if (!this.verifyThemeManifest(themeName)) throw new Error("Manifest incorrect");
                     return true;
                 }
             }
@@ -54,7 +55,8 @@ export class Themes {
     private static SearchForAllThemes() {
 
         const themesDirectoryContent = fs.readdirSync(this.themesRootDirectory);
-
+        
+        Themes.themes = [];
         themesDirectoryContent.forEach( (dir) => {
             try {
                 if (Themes.verifyTheme(dir)) {
@@ -67,11 +69,10 @@ export class Themes {
     }
 
     private static getTheme(dirname: string) {
-        const themeManifestContent = fs.readFileSync(path.join(this.themesRootDirectory, dirname, 'manifest.json'), 'utf8');
         
-        if(!this.verifyThemeManifest(themeManifestContent)) throw new Error("Manifest incorrect");
+        if (!this.verifyThemeManifest(dirname)) throw new Error("Manifest incorrect");
         
-        const manifest = JSON.parse(themeManifestContent);
+        const manifest = this.getThemeManifestContent(dirname);
         const theme: ITheme = {
             name: manifest.name,
             slug: dirname
@@ -87,15 +88,19 @@ export class Themes {
         Themes.SearchForAllThemes();
     }
 
-    private static verifyThemeManifest(manifestContent: string) {
+    private static verifyThemeManifest(dirname: string) {
         try {
-            const manifest = JSON.parse(manifestContent);
+            const manifest = this.getThemeManifestContent(dirname);
             if(!manifest.name) return false;
             return true;
-            
         } catch (error) {
             return false;
         }
+    }
+
+    private static getThemeManifestContent(dirname: string) {
+        const themeManifestContent = fs.readFileSync(path.join(this.themesRootDirectory, dirname, 'manifest.json'), 'utf8');
+        return JSON.parse(themeManifestContent);
     }
 }
 

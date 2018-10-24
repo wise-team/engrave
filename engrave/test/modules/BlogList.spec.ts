@@ -1,6 +1,5 @@
-import { exit } from 'process';
-import { BlogListModule } from './../../src/modules/BlogList';
-import { describe, Suite } from "mocha";
+import { BlogListModule } from '../../src/modules/BlogList';
+import { describe } from "mocha";
 import { expect } from 'chai';
 import { TestUtils } from '../TestUtils';
 
@@ -69,7 +68,7 @@ describe("BlogList", function () {
         })
 
         it("Should return true on already created blog'", async () => {
-            expect(await BlogListModule.isBlogRegistered('acronyms.engrave.website')).to.be.true;
+            expect(await BlogListModule.isBlogRegistered('engrave.engrave.website')).to.be.true;
         });
 
         it("Should return false on available blog'", async () => {
