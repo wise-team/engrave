@@ -1,5 +1,5 @@
 import { IExtendedRequest } from '../IExtendedRequest';
-import { SteemConnect } from '../../modules/SteemConnect';
+import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
 import { GetValidators } from '../../validators/GetValidators';
 
@@ -7,8 +7,8 @@ let steem = require('steem');
 let router = express.Router();
 
 router.get('/wallet', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    SteemConnect.setAccessToken(req.session.access_token);
-    SteemConnect.me(function (err: Error, user: any) {
+    DashboardSteemConnect.setAccessToken(req.session.access_token);
+    DashboardSteemConnect.me(function (err: Error, user: any) {
         if (!err && user) {
             steem.api.getDynamicGlobalProperties((err: Error, result: any) => {
                 // var accountValue = steem.formatter.estimateAccountValue(req.session.steemconnect.name);
@@ -23,12 +23,12 @@ router.get('/wallet', GetValidators.isLoggedAndConfigured, (req: IExtendedReques
 });
 
 router.post('/claim', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    SteemConnect.setAccessToken(req.session.access_token);
-    SteemConnect.me(function (err: Error, user: any) {
+    DashboardSteemConnect.setAccessToken(req.session.access_token);
+    DashboardSteemConnect.me(function (err: Error, user: any) {
         if (err) {
             res.json({ error: "Error while claiming rewards" })
         } else {
-            SteemConnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function (err: Error) {
+            DashboardSteemConnect.claimRewardBalance(user.name, user.account.reward_steem_balance, user.account.reward_sbd_balance, user.account.reward_vesting_balance, function (err: Error) {
                 if (err) {
                     res.json({ error: "Error while claiming rewards" })
                 } else {
