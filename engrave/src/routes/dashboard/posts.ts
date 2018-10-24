@@ -4,7 +4,7 @@ import { IExtendedRequest } from '../IExtendedRequest';
 import { Posts } from '../../database/PostsModel';
 import * as express from 'express';
 import { GetValidators } from '../../validators/GetValidators';
-import { AdminSteemConnect } from '../../modules/SteemConnect';
+import { DashboardSteemConnect } from '../../modules/SteemConnect';
 
 let steem = require('steem');
 let router = express.Router();
@@ -82,8 +82,8 @@ router.post('/edit', PostValidators.isLoggedAndConfigured, (req: IExtendedReques
     if (post) {
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
         if (operations) {
-            AdminSteemConnect.setAccessToken(req.session.access_token);
-            AdminSteemConnect.broadcast(operations, function (err: any, result: any) {
+            DashboardSteemConnect.setAccessToken(req.session.access_token);
+            DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
                 if (err) {
                     console.log(err);
                     var errorstring = '';
@@ -114,8 +114,8 @@ router.post('/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequ
                 permlink: article.permlink
             }]];
 
-        AdminSteemConnect.setAccessToken(req.session.access_token);
-        AdminSteemConnect.broadcast(operations, function (err: any, result: any) {
+        DashboardSteemConnect.setAccessToken(req.session.access_token);
+        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
             if (err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -143,8 +143,8 @@ router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedReq
         const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
         if (operations) {
-            AdminSteemConnect.setAccessToken(req.session.access_token);
-            AdminSteemConnect.broadcast(operations, function (err: any, result: any) {
+            DashboardSteemConnect.setAccessToken(req.session.access_token);
+            DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
                 if (err) {
                     console.log(err);
                     if (err.hasOwnProperty('error_description')) {
@@ -241,8 +241,8 @@ router.post('/draft/publish', PostValidators.isLoggedAndConfigured, (req: IExten
                     const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
 
                     if (operations) {
-                        AdminSteemConnect.setAccessToken(req.session.access_token);
-                        AdminSteemConnect.broadcast(operations, function (err: any, result: any) {
+                        DashboardSteemConnect.setAccessToken(req.session.access_token);
+                        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
                             if (err) {
                                 console.log(err);
                                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
