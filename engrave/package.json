@@ -7,7 +7,7 @@
   "scripts": {
     "start": "tsc & node dist/app.js",
     "debug": "node --inspect=0.0.0.0:9229 --nolazy dist/app.js",
-    "test": "NODE_ENV=test mocha --recursive --require ts-node/register \"test/**/*.ts\""
+    "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\""
   },
   "dependencies": {
     "@types/express": "4.16.0",
