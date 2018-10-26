@@ -1,4 +1,4 @@
-import { IExtendedRequest } from "../IExtendedRequest";
+import { IExtendedRequest } from "../../helpers/IExtendedRequest";
 import { Response, NextFunction } from "express";
 import * as express from 'express';
 

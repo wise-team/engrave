@@ -1,5 +1,5 @@
 import { Blogs } from './../database/BlogsModel';
-import { IBlog } from './../database/helpers/IBlog';
+import { IBlog } from '../helpers/IBlog';
 import { Config } from "../config";
 import * as pm2 from 'pm2'
 import { NginxModule } from './Nginx';

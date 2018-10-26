@@ -5,7 +5,7 @@ import { TestUtils } from '../TestUtils';
 
 describe('Nginx', function () {
 
-    describe('getDomainFromString', function () {
+    describe('getDomainFromSubdomainString', function () {
         this.timeout(5000);
 
         beforeEach(async () => {

@@ -1,13 +1,13 @@
-import { GetValidators } from './../../validators/GetValidators';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { Blogs } from './../../database/BlogsModel';
-import { Tier } from '../../database/helpers/TierEnum';
-import { IExtendedRequest } from '../IExtendedRequest';
+import { Tier } from '../../helpers/TierEnum';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 import { Utils } from '../../modules/Utils';
 
 let router = express.Router();
 
-router.get('/tier/basic', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/basic', RoutesVlidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');
@@ -22,7 +22,7 @@ router.get('/tier/basic', GetValidators.isLoggedIn, async (req: IExtendedRequest
 
 });
 
-router.get('/tier/standard', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/standard', RoutesVlidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');
@@ -38,7 +38,7 @@ router.get('/tier/standard', GetValidators.isLoggedIn, async (req: IExtendedRequ
 
 });
 
-router.get('/tier/extended', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/extended', RoutesVlidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');
@@ -54,7 +54,7 @@ router.get('/tier/extended', GetValidators.isLoggedIn, async (req: IExtendedRequ
 
 });
 
-router.get('/tier/cancel', GetValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
+router.get('/tier/cancel', RoutesVlidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.steemconnect) {
         res.redirect('/');

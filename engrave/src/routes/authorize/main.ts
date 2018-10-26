@@ -1,6 +1,6 @@
 import { BlogListModule } from './../../modules/BlogList';
 import { Blogs } from './../../database/BlogsModel';
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { DashboardSteemConnect, ReaderSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
 
@@ -32,12 +32,9 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
             const loggedUser = await DashboardSteemConnect.me();
             req.session.steemconnect = loggedUser.account;
 
-            console.log("Steemconnect logged in: " + req.session.steemconnect.name);
-
             let user = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
             if (user) {
                 req.session.blogger = user;
-                console.log("Witamy ponownie: ", user.steem_username);
                 if (user.tier) {
                     res.redirect('/dashboard');
                 } else {
@@ -59,7 +56,7 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
                 });
                 req.session.blogger = user;
                 await user.save();
-                console.log(" * Dodano nowego użytkownika do bazy: " + user.steem_username)
+                console.log(" * New user logged it with steemconnect: @" + user.steem_username)
                 res.redirect('/configure');
             }
         } catch (error) {
