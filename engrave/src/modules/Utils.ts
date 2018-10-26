@@ -208,6 +208,13 @@ export class Utils {
         return blogger.save();
     }
 
+    static async cancelBloggerTier(steemUsername: string) {
+        let blogger = await Blogs.findOne({ steem_username: steemUsername });
+        if (!blogger || blogger.configured) throw new Error("Can't change tier");
+        blogger.tier = null;
+        return blogger.save();
+    }
+
     static CopySettings(new_settings: any, oldsettings: IBlog) {
         oldsettings.blog_title = new_settings.blog_title
         oldsettings.blog_slogan = new_settings.blog_slogan;

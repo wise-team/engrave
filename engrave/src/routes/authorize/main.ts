@@ -32,34 +32,17 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
             const loggedUser = await DashboardSteemConnect.me();
             req.session.steemconnect = loggedUser.account;
 
-            console.log("Steemconnect logged in: " + req.session.steemconnect.name);
-
             let user = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
             if (user) {
                 req.session.blogger = user;
-                console.log("Witamy ponownie: ", user.steem_username);
                 if (user.tier) {
                     res.redirect('/dashboard');
                 } else {
                     res.redirect('/configure');
                 }
             } else {
-                user = new Blogs({
-                    steem_username: req.session.steemconnect.name,
-                    created: Date(),
-                    configured: false,
-                    posts_per_category_page: 15,
-                    load_more_posts_quantity: 9,
-                    author_image_url: "",
-                    theme: 'clean-blog',
-                    blog_title: 'Steem Blog',
-                    blog_slogan: 'Personal Steem Powered Blog',
-                    frontpage_language: 'en',
-                    categories: [{ steem_tag: 'engrave', slug: 'blog', name: 'Default category' }]
-                });
-                req.session.blogger = user;
-                await user.save();
-                console.log(" * Dodano nowego użytkownika do bazy: " + user.steem_username)
+                req.session.blogger = await BlogListModule.addNewUnconfiguredBlog(req.session.steemconnect.name);
+                console.log(" * Dodano nowego użytkownika do bazy: " + req.session.steemconnect.name)
                 res.redirect('/configure');
             }
         } catch (error) {
