@@ -121,8 +121,10 @@ router.post('/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequ
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
                 if (errorstring == 'Comment already has beneficiaries specified.') {
                     res.json({ error: 'There is an article with that title!' });
-                } else {
+                } else if (errorstring != '') {
                     res.json({ error: errorstring });
+                } else {
+                    res.json({ error: 'Error occured. Try again' });
                 }
             } else {
                 console.log("Post deleted");
@@ -151,8 +153,10 @@ router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedReq
                         let errorstring = err.error_description.split('\n')[0].split(': ')[1];
                         if (errorstring == 'Comment already has beneficiaries specified.') {
                             res.json({ error: 'There is an article with that title!' });
-                        } else {
+                        } else if(errorstring != '') {
                             res.json({ error: errorstring });
+                        } else {
+                            res.json({ error: 'Error occured. Try again' });
                         }
                     } else {
                         res.json({ error: 'Error occured. Try again' });
@@ -248,8 +252,10 @@ router.post('/draft/publish', PostValidators.isLoggedAndConfigured, (req: IExten
                                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
                                 if (errorstring == 'Comment already has beneficiaries specified.') {
                                     res.json({ error: 'There is an article with that title!' });
-                                } else {
+                                } else if (errorstring != '') {
                                     res.json({ error: errorstring });
+                                } else {
+                                    res.json({ error: 'Error occured. Try again' });
                                 }
 
                             } else {

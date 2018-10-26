@@ -26,19 +26,14 @@ export class SSLModule {
     }
 
     static async generateCertificatesForDomain(domain: string) {
-        try {
-            console.log(' * Trying to generate certificates');
-            
-            const opts = { domains: [domain, 'www.' + domain], email: process.env.SSL_EMAIL, agreeTos: true, communityMember: false };
-            const greenlock = require('greenlock').create({ version: 'draft-12', server: 'https://acme-v02.api.letsencrypt.org/directory', store: this.leStore });
-            
-            await greenlock.register(opts);
-            
-            console.log(" * SSL certificates generated sucessfully!");
-        } catch (error) {
-            console.log(" * Error on generating SSL certificates!");
-        }
+        console.log(' * Trying to generate certificates');
 
+        const opts = { domains: [domain, 'www.' + domain], email: process.env.SSL_EMAIL, agreeTos: true, communityMember: false };
+        const greenlock = require('greenlock').create({ version: 'draft-12', server: 'https://acme-v02.api.letsencrypt.org/directory', store: this.leStore });
+
+        await greenlock.register(opts);
+
+        console.log(" * SSL certificates generated sucessfully!");
     }
 
     private async generateCertificatesForUnsecuredBlogs() {
@@ -50,7 +45,7 @@ export class SSLModule {
                 await SSLModule.generateCertificatesForDomain(blog.domain);
                 console.log(" * SSL generated for ", blog.domain);
                 NginxModule.generateNginxSettings(blog);
-                console.log(" * NGINX with SSL generated for ", blog.domain);
+                console.log(" * NGINX with SSL generated for: ", blog.domain);
                 blog.ssl = true;
                 await blog.save();
                 console.log(" * Database entry saved for blog");

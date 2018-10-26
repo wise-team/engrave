@@ -16,15 +16,10 @@ export class NginxModule {
     private static ssl_domain_template = 'server {\n\tserver_name www.EXAMPLE EXAMPLE;\n\treturn 301 https://EXAMPLE$request_uri;\n}\n\nserver {\n\tlisten 443 ssl;\n\tserver_name www.EXAMPLE;\n\n\tssl_certificate /etc/letsencrypt/live/EXAMPLE/fullchain.pem;\n\tssl_certificate_key /etc/letsencrypt/live/EXAMPLE/privkey.pem;\n\t\n\treturn 301 https://EXAMPLE$request_uri;\n}\n\nserver {\n\tlisten 443 ssl;\n\tserver_name EXAMPLE;\n\n\tssl_certificate /etc/letsencrypt/live/EXAMPLE/fullchain.pem;\n\tssl_certificate_key /etc/letsencrypt/live/EXAMPLE/privkey.pem;\n\n\tlocation / {\n\tproxy_pass http://engrave:PORT;\n\tproxy_http_version 1.1;\n\tproxy_set_header Upgrade $http_upgrade;\n\tproxy_set_header Connection \'upgrade\';\n\tproxy_set_header Host $host;\n\tproxy_cache_bypass $http_upgrade;\n\t}\n}\n';
 
     static async generateNginxSettings(blog: IBlog) {
-        try {
-            let configFilename = blog.port.toString() + '_' + blog.domain+ '.conf';
-            let configFilePath = path.join(this.nginxConfDirectory, configFilename);
-            let configContent = this.generateConfigFileContent(blog);
-            fs.writeFileSync(configFilePath, configContent);
-        } catch (error) {
-            console.log(' *** Error while configuring NGINX for custom domain');
-        }
-
+        let configFilename = blog.port.toString() + '_' + blog.domain + '.conf';
+        let configFilePath = path.join(this.nginxConfDirectory, configFilename);
+        let configContent = this.generateConfigFileContent(blog);
+        fs.writeFileSync(configFilePath, configContent);
     }
 
     static generateCustomDomainConfigWithSSL(domain: string, port: any, cb: any) {
