@@ -63,6 +63,8 @@ app.use('/dashboard', require('./routes/dashboard/upgrade'));
 app.use('/dashboard', require('./routes/dashboard/wallet'));
 app.use('/dashboard', require('./routes/dashboard/write'));
 app.use('/dashboard', require('./routes/dashboard/main'));
+app.use('/dashboard', require('./routes/dashboard/themes'));
+app.use('/dashboard', require('./routes/dashboard/market'));
 
 app.use('/', require('./routes/frontpage/about'));
 app.use('/', require('./routes/frontpage/configure'));
