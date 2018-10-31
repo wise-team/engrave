@@ -37,6 +37,7 @@ app.set('view engine', 'pug');
 
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.locals.config = config;
+    app.locals.server_ip = process.env.SERVER_IP;
     next();
 });
 

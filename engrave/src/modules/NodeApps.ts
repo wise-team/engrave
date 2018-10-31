@@ -3,7 +3,6 @@ import { IBlog } from './../database/helpers/IBlog';
 import { Config } from "../config";
 import * as pm2 from 'pm2'
 import { NginxModule } from './Nginx';
-import { resolveCname } from 'dns';
 
 let fs = require('fs');
 let path = require('path');

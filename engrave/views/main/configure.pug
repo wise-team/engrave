@@ -3,80 +3,47 @@ extends website.pug
 block body
   main.mt-5.pt-4
     .container
-      h3.my-5.h3.text-center Choose your tier
+      h3.my-5.h3.text-center You are about to create your own blog
       .row.d-flex.justify-content-center
         .col-md-8.text-center
           p.mb-5
-            | You can choose from three options. Each of them have different features but the best one will take more percentage from your posts' rewards.
+            | You can choose from three options. Each of them have different features.
       .row.text-center.wow.fadeIn
         .col-lg-4.col-md-12.mb-4
           .card
             .card-header
               h4
-                strong Basic
+                strong Blog on subdomain
             .card-body
-              h3.card-title.pricing-card-title.mb-4
-                | 10%
-                small.text-muted  of your rewards
+             
               ol.list-unstyled.mb-4
                 li
-                  | No deposit
-                  i.fa.fa-check.green-text.ml-1
-                hr
-                li
-                  | Blog on your own domain
-                  i.fa.fa-close.red-text.ml-1
-                hr
-                li
-                  | Free domain for one year
-                  i.fa.fa-close.red-text.ml-1
-              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/basic') Get started
+                  | If you are a hobbyist blogger you can use our domain to create blog. You may choose your blog address and it may looks like <strong>youraddress.engrave.website</strong>
+                
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/basic') Create blog
 
         .col-lg-4.col-md-6.mb-4
           .card
             .card-header
               h4
-                strong Standard
+                strong I own a domain
             .card-body
-              h3.card-title.pricing-card-title.mb-4
-                | 12%
-                small.text-muted  of your rewards
+
               ol.list-unstyled.mb-4
                 li
-                  | No deposit
-                  i.fa.fa-check.green-text.ml-1
-                hr
-                li
-                  | Blog on your own domain
-                  i.fa.fa-check.green-text.ml-1
-                hr
-                li
-                  | Free domain for one year
-                  i.fa.fa-close.red-text.ml-1
-              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/standard') Get started
+                  | If you own a domain, you can use it to create blog with ENGRAVE platform. You just need to change your DNS settings which takes up to a minute at max
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/standard') Create blog
         .col-lg-4.col-md-6.mb-4
           .card
             .card-header
               h4
-                strong Extended
+                strong I want to buy a domain
             .card-body
-              h3.card-title.pricing-card-title.mb-4
-                | 15%
-                small.text-muted  of your rewards
+
               ol.list-unstyled.mb-4
                 li
-                  | No deposit
-                  i.fa.fa-check.green-text.ml-1
-                hr
-                li
-                  | Blog on your own domain
-                  i.fa.fa-check.green-text.ml-1
-                hr
-                li
-                  | Free domain for one year
-                  i.fa.fa-check.green-text.ml-1
-              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/extended') Get started
+                  | If you want to start a professional blog, you can buy a new domain easily with ENGRAVE. Just pay using STEEM or SBD with Steemconnect authorization
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/extended') Create blog
       .row.d-flex.justify-content-center
         .col-md-8.text-center
-          p.mb-5
-            | You can upgrade your tier in any time. Just contact us.
+          p.mb-5 You can upgrade your tier in any time. ENGRAVE will take 15% commision on every post added through this platform.
