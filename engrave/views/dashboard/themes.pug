@@ -2,7 +2,7 @@ extends website.pug
 
 append scripts
   script(src="/js/parsley.min.js")
-  script(src="/js/configure.js")
+  script(src="/js/themes.js")
   script(src="/js/image-picker.min.js")
   link(href='/css/image-picker.css', rel='stylesheet')
 
@@ -16,13 +16,13 @@ block body
               h4.card-title Default Themes
               p.card-category You can choose one of our default blog templates
             .card-body
-              form#configure
+              form#themes
                 .row.justify-content-md-center
                   .col-md-12
                     .form-group
-                      select.form-control.image-picker(name="theme")#category-select
+                      select.form-control.image-picker(name="theme")#theme-select
                         each theme, index in themes
-                          option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
+                          option(value=theme.slug, selected=(blogger.theme==theme.slug) ? true: false data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
                 
                 button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Save settings
                   
@@ -32,29 +32,5 @@ block body
           .card
             .card-header
               h4.card-title Custom themes
-              p.card-category You can upload your own theme packed into ZIP file
+              p.card-category Soon you will be able to upload and edit custom themes
             .card-body
-              .input-group.mb-3
-                .input-group-prepend
-                  span.input-group-text Upload
-                .custom-file
-                  input#inputGroupFile01.custom-file-input(type='file')
-                  label.custom-file-label(for='inputGroupFile01') Choose file
-              .input-group.mb-3
-                .custom-file
-                  input#inputGroupFile02.custom-file-input(type='file')
-                  label.custom-file-label(for='inputGroupFile02') Choose file
-                .input-group-append
-                  span.input-group-text(id='') Upload
-              .input-group.mb-3
-                .input-group-prepend
-                  button.btn.btn-outline-secondary(type='button') Button
-                .custom-file
-                  input#inputGroupFile03.custom-file-input(type='file')
-                  label.custom-file-label(for='inputGroupFile03') Choose file
-              .input-group
-                .custom-file
-                  input#inputGroupFile04.custom-file-input(type='file')
-                  label.custom-file-label(for='inputGroupFile04') Choose file
-                .input-group-append
-                  button.btn.btn-outline-secondary(type='button') Button
