@@ -1,9 +1,10 @@
-import { ProfileValidator } from './../../validators/ProfileValidator';
-import { IBlog } from '../../helpers/IBlog';
+
 import { Blogs } from './../../database/BlogsModel';
-import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
+import { ProfileValidator } from '../../validators/ProfileValidator';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
+import { IBlog } from '../../helpers/IBlog';
 
 let router = express.Router();
 

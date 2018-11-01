@@ -1,8 +1,8 @@
 import { BlogListModule } from './../../modules/BlogList';
-import { IExtendedRequest } from "../IExtendedRequest";
 import { Response, NextFunction } from "express";
 import * as express from "express";
 import { validationResult, check } from 'express-validator/check';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 
 let router = express.Router();
 

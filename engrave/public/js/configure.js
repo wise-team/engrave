@@ -51,7 +51,7 @@ $(document).ready(function () {
             error: function (data) {
                 $.notify({
                     icon: "nc-icon nc-fav-remove",
-                    message: "Error occured. Please try again"
+                    message: data.responseJSON.error
                 }, {
                     type: 'danger',
                     timer: 8000,

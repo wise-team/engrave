@@ -1,12 +1,12 @@
 import { Themes } from './../../modules/Themes';
-import { ICategory } from '../../helpers/ICategory';
 import { Blogs } from './../../database/BlogsModel';
 import { Utils } from '../../modules/Utils'
-import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
-import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { SSLModule } from '../../modules/SSL';
 import { NginxModule } from '../../modules/Nginx';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
+import { ICategory } from '../../helpers/ICategory';
 
 let router = express.Router();
 
@@ -77,7 +77,7 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
     }
 });
 
-router.post('/ssl', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/ssl', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     try {
         console.log("Asked for SSl enable on: ", req.session.blogger.domain);
         await SSLModule.generateCertificatesForDomain(req.session.blogger.domain);
