@@ -1,4 +1,4 @@
-import { IBlog } from './../database/helpers/IBlog';
+import { IBlog } from '../helpers/IBlog';
 import { Config } from "../config";
 import * as path from 'path';
 

@@ -1,5 +1,5 @@
 import { Schema, Model, model } from 'mongoose';
-import { IStatistics } from './helpers/IStatistics';
+import { IStatistics } from '../helpers/IStatistics';
 
 export let StatisticsSchema = new Schema({
     steem_username: String,

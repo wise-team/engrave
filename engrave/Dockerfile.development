@@ -14,6 +14,8 @@ RUN npm install
 WORKDIR /app
 
 RUN npm install -g pm2
+RUN npm install -g ts-node
+RUN npm install -g nodemon
 RUN npm install -g typescript
 
 RUN tsc
@@ -26,4 +28,4 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.4.0/wait
 RUN chmod +x /wait
 
 ## Launch the wait tool and then your application
-CMD /wait && npm run debug
+CMD /wait && npm run watch

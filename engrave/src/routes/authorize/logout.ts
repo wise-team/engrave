@@ -1,4 +1,4 @@
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 
 let router = express.Router();

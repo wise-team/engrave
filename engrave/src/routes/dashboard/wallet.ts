@@ -1,12 +1,12 @@
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
-import { GetValidators } from '../../validators/GetValidators';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 
 let steem = require('steem');
 let router = express.Router();
 
-router.get('/wallet', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/wallet', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     DashboardSteemConnect.setAccessToken(req.session.access_token);
     DashboardSteemConnect.me(function (err: Error, user: any) {
         if (!err && user) {
@@ -22,7 +22,7 @@ router.get('/wallet', GetValidators.isLoggedAndConfigured, (req: IExtendedReques
 
 });
 
-router.post('/claim', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/claim', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     DashboardSteemConnect.setAccessToken(req.session.access_token);
     DashboardSteemConnect.me(function (err: Error, user: any) {
         if (err) {

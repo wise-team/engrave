@@ -5,9 +5,11 @@
   "main": "dist/app.js",
   "author": "Bartłomiej Górnicki <bartlomiej@wise-team.io> (https://wise-team.io)",
   "scripts": {
-    "start": "tsc & node dist/app.js",
-    "debug": "node --inspect=0.0.0.0:9229 --nolazy dist/app.js",
-    "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\""
+    "start": "tsc & NODE_ENV=production node dist/app.js",
+    "debug": "ts-node --inspect=0.0.0.0:9229 --nolazy src/app.ts",
+    "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\"",
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node --inspect src/app.ts"
   },
   "dependencies": {
     "@types/express": "4.16.0",
@@ -22,6 +24,7 @@
     "express": "4.16.4",
     "express-sanitize-escape": "^1.1.0",
     "express-session": "1.15.6",
+    "express-validator": "^5.3.0",
     "fs-extra": "^7.0.0",
     "get-urls": "8.0.0",
     "greenlock": "2.4.2",
@@ -49,8 +52,12 @@
   },
   "devDependencies": {
     "@types/chai": "4.1.6",
-    "@types/fs-extra": "^5.0.4",
+    "@types/fs-extra": "5.0.4",
     "@types/mocha": "5.2.5",
+    "@types/nock": "^9.3.0",
+    "@types/supertest": "2.0.6",
+    "nock": "10.0.1",
+    "supertest": "3.3.0",
     "ts-node": "7.0.1"
   }
 }

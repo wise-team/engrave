@@ -5,8 +5,6 @@ import { Config } from './config'
 import { StatisticsModule } from './modules/Statistics';
 import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
-import { NginxModule } from './modules/Nginx';
-import { BlogListModule } from './modules/BlogList';
 import { NodeAppsModule } from './modules/NodeApps';
 import { Themes } from './modules/Themes';
 
@@ -70,6 +68,7 @@ app.use('/dashboard', require('./routes/dashboard/market'));
 app.use('/', require('./routes/frontpage/about'));
 app.use('/', require('./routes/frontpage/configure'));
 app.use('/', require('./routes/frontpage/create'));
+app.use('/', require('./routes/frontpage/explore'));
 app.use('/', require('./routes/frontpage/how-to-earn'));
 app.use('/', require('./routes/frontpage/main'));
 
@@ -107,8 +106,8 @@ let statisticsModuleInstance = new StatisticsModule(); // constructor creates Cr
 
 Themes.Initialize();
 
-if (process.env.NODE_ENV != "test") {
-    (async ()=>{
+if (process.env.NODE_ENV == "production") {
+    (async () => {
         await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
     })();
 }
@@ -172,4 +171,5 @@ function onListening() {
 }
 
 export default app;
-export {mongoose};
+export { server};
+export { mongoose };

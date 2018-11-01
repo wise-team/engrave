@@ -4,23 +4,21 @@ $(document).ready(function () {
         show_label: true
     });
 
-    $('#configure').submit(function (e) {
+    $('#themes').submit(function (e) {
         e.preventDefault();
 
-        var article = $(this).serialize();
-        
-        console.log(article);
+        var themesSettings = $(this).serialize();
 
         $.ajax({
             type: "POST",
-            url: "/dashboard/configure/finish",
-            data: article,
+            url: "/dashboard/themes",
+            data: themesSettings,
             success: function (data) {
                 if (data.success) {
-                    
+
                     $.notify({
                         icon: "nc-icon nc-send",
-                        message: data.success            
+                        message: data.success
                     }, {
                         type: 'success',
                         timer: 8000,
@@ -31,14 +29,10 @@ $(document).ready(function () {
                         }
                     });
 
-                    setTimeout(function(){
-                        location.reload(true);
-                    }, 1500);
-
                 } else if (data.error) {
                     $.notify({
                         icon: "nc-icon nc-fav-remove",
-                        message: data.error            
+                        message: data.error
                     }, {
                         type: 'danger',
                         timer: 8000,
@@ -67,4 +61,3 @@ $(document).ready(function () {
         });
     });
 });
-

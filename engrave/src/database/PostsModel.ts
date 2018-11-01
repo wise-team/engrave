@@ -1,5 +1,5 @@
 import { Schema, Model, model } from 'mongoose';
-import { IArticle } from './helpers/IArticle';
+import { IArticle } from '../helpers/IArticle';
 
 export let PostSchema: Schema = new Schema({
     steem_username: String,

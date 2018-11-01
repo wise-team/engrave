@@ -1,11 +1,36 @@
 extends website.pug
 
+append scripts
+  script(src="/js/parsley.min.js")
+  script(src="/js/themes.js")
+  script(src="/js/image-picker.min.js")
+  link(href='/css/image-picker.css', rel='stylesheet')
+
 block body
-    .content
-        .container-fluid
-            .row
-                .col-md-8
-                    .card
-                        .card-header
-                            h4.card-title COMING SOON
-                        .card-body
+  .content
+    .container-fluid
+      .row
+        .col-md-8
+          .card
+            .card-header
+              h4.card-title Default Themes
+              p.card-category You can choose one of our default blog templates
+            .card-body
+              form#themes
+                .row.justify-content-md-center
+                  .col-md-12
+                    .form-group
+                      select.form-control.image-picker(name="theme")#theme-select
+                        each theme, index in themes
+                          option(value=theme.slug, selected=(blogger.theme==theme.slug) ? true: false data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
+                
+                button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Save settings
+                  
+                .clearfix
+      .row
+        .col-md-8
+          .card
+            .card-header
+              h4.card-title Custom themes
+              p.card-category Soon you will be able to upload and edit custom themes
+            .card-body
