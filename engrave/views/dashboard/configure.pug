@@ -19,6 +19,11 @@ block body
             .card-body
               form#configure
                 .row
+
+                  if blogger.tier == 12
+                    .col-md-12
+                      .alert.alert-danger(role='alert') Use your registrar's DNS servers and change <strong>record A</strong> to <strong>#{server_ip}</strong>. If you don't know what to do, please <a href="https://discord.gg/dn8ZxWJ">contact us on Discord.</a>
+                
                   .col-md-6
                     .form-group
                       
@@ -29,8 +34,7 @@ block body
                         a(href='https://steemit.com/pl-projekty/@nicniezgrublem/engrave-pierwsza-platforma-blogowa-oparta-na-sieci-steem') ENAGRAVE at Steemit.com
                       
                       else if blogger.tier == 12
-                        label Information
-                        p Use your registrar's DNS servers and change <strong>A</strong> record to <strong>23.92.24.30</strong>.
+                        
                         label Domain
                         input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
                       

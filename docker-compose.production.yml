@@ -21,6 +21,7 @@ services:
       - BLOGS_DOMAINS=["engrave.website", "engrave.site"]
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
       - WAIT_HOSTS=mongo:27017
+      - SERVER_IP=139.162.185.235
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt

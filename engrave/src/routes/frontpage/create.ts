@@ -10,7 +10,7 @@ router.get('/create', (req: IExtendedRequest, res: Response, next: NextFunction)
     } else if (!req.session.blogger.tier) {
         res.redirect('/configure');
     } else {
-        res.redirect('/');
+        res.redirect('/dashboard');
     }
 });
 

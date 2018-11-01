@@ -106,8 +106,7 @@ export class Utils {
                     extensions: [
                         [0, {
                             beneficiaries: [
-                                { account: 'nicniezgrublem', weight: 5 * 100 },
-                                { account: 'engrave', weight: (parseInt(blogger.tier) - 5) * 100 }
+                                { account: 'engrave', weight: 15 * 100 }
                             ]
                         }]
                     ]
