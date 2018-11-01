@@ -57,7 +57,7 @@ describe('Dashboard: /posts (unauthorized)', () => {
 
 describe('Dashboard: /posts (authorized)', async () => {
     
-    let cookie = null;
+    let cookie: string = null;
 
     before(async () => {
         cookie = await TestUtils.login();
