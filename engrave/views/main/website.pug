@@ -39,7 +39,10 @@ html(lang='en')
       }
       }
   body
-  
+
+    block link
+      -var selected = 'home'; //used for menu, default
+
     include partials/menu.pug
    
     block body

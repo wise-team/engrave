@@ -9,15 +9,15 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
         #navbarSupportedContent.collapse.navbar-collapse
         
           ul.navbar-nav.mr-auto
-            li.nav-item.active
+            li.nav-item(class= (selected=='home') ? 'active' : '')
               a.nav-link(href='/')
                 | Home
                 span.sr-only (current)
-            li.nav-item
+            li.nav-item(class= (selected=='explore') ? 'active' : '')
               a.nav-link(href='/explore') Explore
               
             if !blogger    
-              li.nav-item
+              li.nav-item(class= (selected=='create') ? 'active' : '')
                 a.nav-link(href='/create') Create Blog
                 
           ul.navbar-nav.nav-flex-icons
