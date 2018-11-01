@@ -1,12 +1,12 @@
 import { Utils } from '../../modules/Utils'
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { Posts } from '../../database/PostsModel';
 import * as express from 'express';
-import { GetValidators } from '../../validators/GetValidators';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 
 let router = express.Router();
 
-router.get('/write/:id', GetValidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
+router.get('/write/:id', RoutesVlidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
     try {
         let draft = await Posts.findById(req.params.id);
@@ -19,7 +19,7 @@ router.get('/write/:id', GetValidators.isLoggedAndConfigured, async function (re
 
 });
 
-router.get('/write', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/write', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/write.pug', { blogger: req.session.blogger, url: 'write' });
 });
 

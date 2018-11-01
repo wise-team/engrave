@@ -1,4 +1,4 @@
-import { IBlog } from './../database/helpers/IBlog';
+import { IBlog } from './IBlog';
 import { Request } from 'express';
 
 export interface ISession extends Request {

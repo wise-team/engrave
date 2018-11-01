@@ -5,8 +5,6 @@ import { Config } from './config'
 import { StatisticsModule } from './modules/Statistics';
 import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
-import { NginxModule } from './modules/Nginx';
-import { BlogListModule } from './modules/BlogList';
 import { NodeAppsModule } from './modules/NodeApps';
 import { Themes } from './modules/Themes';
 
@@ -172,4 +170,5 @@ function onListening() {
 }
 
 export default app;
-export {mongoose};
+export { server};
+export { mongoose };

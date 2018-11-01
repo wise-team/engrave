@@ -1,6 +1,6 @@
 import { BlogListModule } from './../../modules/BlogList';
 import { Blogs } from './../../database/BlogsModel';
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { DashboardSteemConnect, ReaderSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
 

@@ -1,16 +1,15 @@
 import { BlogListModule } from './../../modules/BlogList';
-import { PostValidators } from './../../validators/PostValidators';
 import { Blogs } from './../../database/BlogsModel';
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { NodeAppsModule } from '../../modules/NodeApps';
-import { Tier } from '../../database/helpers/TierEnum';
-import { GetValidators } from '../../validators/GetValidators';
+import { Tier } from '../../helpers/TierEnum';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 import * as express from 'express';
 import { Themes } from '../../modules/Themes';
 
 let router = express.Router();
 
-router.get('/configure', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/configure', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.blogger.configured) {
         res.render('dashboard/configure.pug', { 
@@ -23,7 +22,7 @@ router.get('/configure', GetValidators.isLoggedAndConfigured, (req: IExtendedReq
 
 });
 
-router.post('/configure/finish', PostValidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
+router.post('/configure/finish', RoutesVlidators.isLoggedIn, async (req: IExtendedRequest, res: express.Response) => {
 
     try {
         let configuration = req.body;
@@ -58,7 +57,7 @@ router.post('/configure/finish', PostValidators.isLoggedIn, async (req: IExtende
             res.json({ success: "Configured successfully!" });
         }
     } catch (error) {
-        res.json({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
 
 });

@@ -1,17 +1,16 @@
 import { Themes } from './../../modules/Themes';
-import { PostValidators } from './../../validators/PostValidators';
-import { ICategory } from './../../database/helpers/ICategory';
+import { ICategory } from '../../helpers/ICategory';
 import { Blogs } from './../../database/BlogsModel';
 import { Utils } from '../../modules/Utils'
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
-import { GetValidators } from '../../validators/GetValidators';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { SSLModule } from '../../modules/SSL';
 import { NginxModule } from '../../modules/Nginx';
 
 let router = express.Router();
 
-router.get('/settings', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/settings', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     res.render('dashboard/settings.pug', { 
         themes: Themes.getInstalledThemes(),
         blogger: req.session.blogger, 
@@ -19,7 +18,7 @@ router.get('/settings', GetValidators.isLoggedAndConfigured, (req: IExtendedRequ
     });
 });
 
-router.post('/settings', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     try {
         let newSettings = req.body;
@@ -78,9 +77,7 @@ router.post('/settings', PostValidators.isLoggedAndConfigured, async (req: IExte
     }
 });
 
-
-router.post('/ssl', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
-
+router.post('/ssl', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     try {
         console.log("Asked for SSl enable on: ", req.session.blogger.domain);
         await SSLModule.generateCertificatesForDomain(req.session.blogger.domain);

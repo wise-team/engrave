@@ -1,15 +1,14 @@
-import { PostValidators } from './../../validators/PostValidators';
 import { Utils } from '../../modules/Utils'
-import { IExtendedRequest } from '../IExtendedRequest';
+import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { Posts } from '../../database/PostsModel';
 import * as express from 'express';
-import { GetValidators } from '../../validators/GetValidators';
+import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 
 let steem = require('steem');
 let router = express.Router();
 
-router.get('/posts', GetValidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
+router.get('/posts', RoutesVlidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
     try {
         let posts = await Utils.GetPostsFromBlockchain(10, null, req.session.steemconnect.name);
@@ -21,7 +20,7 @@ router.get('/posts', GetValidators.isLoggedAndConfigured, async function (req: I
 
 });
 
-router.post('/posts', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.post('/posts', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     try {
         let start_permlink = req.body.start_permlink;
         let posts = await Utils.GetPostsFromBlockchain(10, start_permlink, req.session.steemconnect.name);
@@ -32,7 +31,7 @@ router.post('/posts', PostValidators.isLoggedAndConfigured, async (req: IExtende
 })
 
 
-router.get('/edit/:permlink', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.get('/edit/:permlink', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     steem.api.getContent(req.session.steemconnect.name, req.params.permlink, function (err: Error, steem_post: any) {
         if (!err && steem_post) {
             let category = steem_post.category;
@@ -77,7 +76,7 @@ router.get('/edit/:permlink', GetValidators.isLoggedAndConfigured, (req: IExtend
 
 });
 
-router.post('/edit', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/edit', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
     if (post) {
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
@@ -104,7 +103,7 @@ router.post('/edit', PostValidators.isLoggedAndConfigured, (req: IExtendedReques
     }
 });
 
-router.post('/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let article = req.body;
     if (article && article.permlink != '') {
 
@@ -137,7 +136,7 @@ router.post('/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequ
     }
 })
 
-router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
 
@@ -184,7 +183,7 @@ router.post('/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedReq
 });
 
 
-router.post('/draft', PostValidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+router.post('/draft', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     try {
         let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
@@ -218,7 +217,7 @@ router.post('/draft', PostValidators.isLoggedAndConfigured, async (req: IExtende
 
 })
 
-router.post('/draft/delete', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/draft/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let draft = req.body;
     if (draft && draft.id != '') {
         Posts.deleteOne({ _id: draft.id }, function (err: Error) {
@@ -233,7 +232,7 @@ router.post('/draft/delete', PostValidators.isLoggedAndConfigured, (req: IExtend
     }
 })
 
-router.post('/draft/publish', PostValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
     let draft = req.body;
     if (draft && draft.id != '') {
         Posts.findById({ _id: draft.id }, function (err: Error, draft: any) {
