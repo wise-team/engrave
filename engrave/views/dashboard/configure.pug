@@ -36,7 +36,7 @@ block body
                       
                       else
                         label Blog address
-                        input.form-control.text-right(name='subdomain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='Blog address', value= blogger.steem_username)
+                        input.form-control.text-right(name='subdomain', required, pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='yourblogaddress')
                   
                   .col-md-6
                     .form-group
@@ -45,13 +45,16 @@ block body
                         select.form-control(name="domain")
                           each domain in config.blogs_domains
                             option(value=domain )= "." + domain
-                .row.justify-content-md-center
-                  .col-md-12
+                .row
+                  .col-md-6
                     .form-group
-                      label Theme (can be changed later)
-                      select.form-control.image-picker(name="theme")#category-select
-                        each theme, index in themes
-                          option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
+                      label Blog title
+                      input.form-control.text-right(name='blog_title', required, pattern=".{3,100}", title="Allowed length: 3-100 characters", type='text', placeholder='Blog title')
+                  .col-md-6
+                    .form-group
+                      label Blog slogan
+                      input.form-control.text-right(name='blog_slogan', pattern=".{3,100}", title="Allowed length: 3-100 characters", placeholder='Blog slogan')
+                
                 .row
                   .col-md-12
                     .form-group
@@ -59,6 +62,14 @@ block body
                       select.form-control(name="category")
                         each category in config.blogs_categories
                           option(value=category )= category
+
+                .row.justify-content-md-center
+                  .col-md-12
+                    .form-group
+                      label Theme (can be changed later)
+                      select.form-control.image-picker(name="theme")#theme-select
+                        each theme, index in themes
+                          option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
 
                 a(href='/authorize/tier/cancel').btn.btn-link Change your tier
                 if blogger.tier != 15
