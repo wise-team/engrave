@@ -91,4 +91,22 @@ export class BlogListModule {
             categories: [{ steem_tag: 'engrave', slug: 'blog', name: 'Default category' }]
         });
     }
+
+    /**
+     * Return array of registered and configured blogs
+     * @param skip how many blogs to skip (used for pagination)
+     */
+    static async getRegisteredBlogs(skip: number) {
+        try {
+            const blogs = await Blogs.find({ configured: true })
+              .skip(skip)
+              .limit(12)
+              .sort("-created")
+              .select('blog_title blog_slogan domain')
+              .exec();
+            return blogs;
+        } catch (error) {
+            return [];
+        }
+    }
 }
