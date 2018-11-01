@@ -40,16 +40,16 @@ export class SSLModule {
 
         try {
             let blogs = await Blogs.find({ ssl: { $ne: true }, configured: true, is_domain_custom: true });
-            blogs.map(async (blog) => {
-                console.log("Unsecured blog: ", blog.domain);
-                await SSLModule.generateCertificatesForDomain(blog.domain);
-                console.log(" * SSL generated for ", blog.domain);
-                NginxModule.generateNginxSettings(blog);
-                console.log(" * NGINX with SSL generated for: ", blog.domain);
-                blog.ssl = true;
-                await blog.save();
-                console.log(" * Database entry saved for blog");
-            });
+            await Promise.all(blogs.map(async blog => {
+              console.log("Unsecured blog: ", blog.domain);
+              await SSLModule.generateCertificatesForDomain(blog.domain);
+              console.log(" * SSL generated for ", blog.domain);
+              NginxModule.generateNginxSettings(blog);
+              console.log(" * NGINX with SSL generated for: ", blog.domain);
+              blog.ssl = true;
+              await blog.save();
+              console.log(" * Database entry saved for blog");
+            }));
         } catch (error) {
             console.log("Generating SSL error:", error);
         }
@@ -59,10 +59,10 @@ export class SSLModule {
 
         try {
             let blogs = await Blogs.find({ ssl: true, configured: true, is_domain_custom: true });
-            blogs.map(async (blog) => {
+            await Promise.all(blogs.map(async (blog) => {
                 console.log(" * Regenerating SSL certificates for: ", blog.domain);
                 await SSLModule.generateCertificatesForDomain(blog.domain);
-            });
+            }));
         } catch (error) {
             console.log(" * Regenerating SSL error:", error);
         }
