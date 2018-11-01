@@ -41,22 +41,8 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
                     res.redirect('/configure');
                 }
             } else {
-                user = new Blogs({
-                    steem_username: req.session.steemconnect.name,
-                    created: Date(),
-                    configured: false,
-                    posts_per_category_page: 15,
-                    load_more_posts_quantity: 9,
-                    author_image_url: "",
-                    theme: 'clean-blog',
-                    blog_title: 'Steem Blog',
-                    blog_slogan: 'Personal Steem Powered Blog',
-                    frontpage_language: 'en',
-                    categories: [{ steem_tag: 'engrave', slug: 'blog', name: 'Default category' }]
-                });
-                req.session.blogger = user;
-                await user.save();
-                console.log(" * New user logged it with steemconnect: @" + user.steem_username)
+                req.session.blogger = await BlogListModule.addNewUnconfiguredBlog(req.session.steemconnect.name);
+                console.log(" * Dodano nowego użytkownika do bazy: " + req.session.steemconnect.name)
                 res.redirect('/configure');
             }
         } catch (error) {
