@@ -8,15 +8,16 @@ block body
                     .card
                         .card-header
                             h4.card-title Welcome back, @#{blogger.steem_username}
-                            p Your personal Steem blog is ready
+                            p Your personal Steem blog is ready and available at 
+                                a(href= '//' + blogger.domain)= blogger.domain
                         .card-body
                             p You can now:
                             ul
                                 li
-                                    a(href='/dashboard/write') Write new post
-                                li
-                                    a(href='/dashboard/posts') See your blog posts
+                                    a(href='/dashboard/settings') Manage blog settings
                                 li
                                     a(href='/dashboard/profile') Tell something about you
                                 li
-                                    a(href='/dashboard/settings') Manage blog settings
+                                    a(href='/dashboard/write') Write new post
+                                li
+                                    a(href='/dashboard/posts') See your blog posts
