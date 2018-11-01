@@ -11,7 +11,7 @@ export class ThemeValidator {
             
             next();
         } catch (error) {
-            res.status(400).json(error.message);
+            res.status(400).json({error: error.message});
         }
     }
 }
