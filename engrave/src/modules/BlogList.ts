@@ -51,7 +51,7 @@ export class BlogListModule {
      */
     static async listAllBlogDomains(): Promise<string[]> {
         let blogList: string[] = [];
-        let blogs = await Blogs.find({}, {domain: 1});
+        let blogs = await Blogs.find({configured: true}, {domain: 1});
         for(let blog of blogs) {
             blogList.push(blog.domain);
         }
