@@ -49,9 +49,10 @@ html(lang='en')
     
     include partials/footer.pug
     
-    script(type='text/javascript', src='js/jquery-3.2.1.min.js')
-    script(type='text/javascript', src='js/popper.min.js')
-    script(type='text/javascript', src='js/bootstrap.min.js')
-    script(type='text/javascript', src='js/mdb.min.js')
-    script(type='text/javascript').
-      new WOW().init();
+    block scripts
+      script(type='text/javascript', src='js/jquery-3.2.1.min.js')
+      script(type='text/javascript', src='js/popper.min.js')
+      script(type='text/javascript', src='js/bootstrap.min.js')
+      script(type='text/javascript', src='js/mdb.min.js')
+      script(type='text/javascript').
+        new WOW().init();
