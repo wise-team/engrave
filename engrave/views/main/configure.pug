@@ -5,10 +5,9 @@ block body
     .container
       h3.my-5.h3.text-center You are about to create your own blog
       .row.d-flex.justify-content-center
-        .col-md-8.text-center
-          p.mb-5
-            | You can choose from three options. Each of them have different features.
-      .row.text-center.wow.fadeIn
+
+      .row.text-center.wow.fadeIn.justify-content-md-center
+        
         .col-lg-4.col-md-12.mb-4
           .card
             .card-header
@@ -33,17 +32,18 @@ block body
                 li
                   | If you own a domain, you can use it to create blog with ENGRAVE platform. You just need to change your DNS settings which takes up to a minute at max
               a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/standard') Create blog
-        .col-lg-4.col-md-6.mb-4
-          .card
-            .card-header
-              h4
-                strong I want to buy a domain
-            .card-body
+        
+        //- .col-lg-4.col-md-6.mb-4
+        //-   .card
+        //-     .card-header
+        //-       h4
+        //-         strong I want to buy a domain
+        //-     .card-body
 
-              ol.list-unstyled.mb-4
-                li
-                  | If you want to start a professional blog, you can buy a new domain easily with ENGRAVE. Just pay using STEEM or SBD with Steemconnect authorization
-              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/extended') Create blog
+        //-       ol.list-unstyled.mb-4
+        //-         li
+        //-           | If you want to start a professional blog, you can buy a new domain easily with ENGRAVE. Just pay using STEEM or SBD with Steemconnect authorization
+        //-       a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/extended') Create blog
       .row.d-flex.justify-content-center
         .col-md-8.text-center
           p.mb-5 You can upgrade your tier in any time. ENGRAVE will take 15% commision on every post added through this platform.
