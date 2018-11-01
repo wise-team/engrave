@@ -69,6 +69,7 @@ app.use('/dashboard', require('./routes/dashboard/market'));
 app.use('/', require('./routes/frontpage/about'));
 app.use('/', require('./routes/frontpage/configure'));
 app.use('/', require('./routes/frontpage/create'));
+app.use('/', require('./routes/frontpage/explore'));
 app.use('/', require('./routes/frontpage/how-to-earn'));
 app.use('/', require('./routes/frontpage/main'));
 
@@ -106,8 +107,8 @@ let statisticsModuleInstance = new StatisticsModule(); // constructor creates Cr
 
 Themes.Initialize();
 
-if (process.env.NODE_ENV != "test") {
-    (async ()=>{
+if (process.env.NODE_ENV == "production") {
+    (async () => {
         await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
     })();
 }
