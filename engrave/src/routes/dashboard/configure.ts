@@ -6,13 +6,17 @@ import { NodeAppsModule } from '../../modules/NodeApps';
 import { Tier } from '../../database/helpers/TierEnum';
 import { GetValidators } from '../../validators/GetValidators';
 import * as express from 'express';
+import { Themes } from '../../modules/Themes';
 
 let router = express.Router();
 
 router.get('/configure', GetValidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
 
     if (!req.session.blogger.configured) {
-        res.render('dashboard/configure.pug', { blogger: req.session.blogger, url: 'configure' });
+        res.render('dashboard/configure.pug', { 
+            themes: Themes.getInstalledThemes(),
+            blogger: req.session.blogger, 
+            url: 'configure' });
     } else {
         res.redirect('/dashboard');
     }

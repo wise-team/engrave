@@ -46,12 +46,12 @@ block body
                           each domain in config.blogs_domains
                             option(value=domain )= "." + domain
                 .row.justify-content-md-center
-                  .col-md-7
+                  .col-md-12
                     .form-group
-                      label Theme
+                      label Theme (can be changed later)
                       select.form-control.image-picker(name="theme")#category-select
-                          option(value='clean-blog', data-img-src='/img/clean-blog-theme.png', data-img-class="first")  Clean Blog
-                          option(value='default', data-img-src='/img/magazine-theme.png', data-img-class="last") Magazine
+                        each theme, index in themes
+                          option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
                 .row
                   .col-md-12
                     .form-group
