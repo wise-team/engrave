@@ -1,4 +1,4 @@
-import { IBlog } from './../database/helpers/IBlog';
+import { IBlog } from '../helpers/IBlog';
 import { Blogs } from './../database/BlogsModel';
 import { Statistics } from '../database/StatisticsModel'
 

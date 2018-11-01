@@ -1,27 +1,25 @@
 nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
       .container
-        // Brand
         a.navbar-brand(href='/')
           img(src='/img/logo.png').navbar-left
-        // Collapse
+          
         button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
           span.navbar-toggler-icon
-        // Links
+          
         #navbarSupportedContent.collapse.navbar-collapse
-          // Left
+        
           ul.navbar-nav.mr-auto
-            li.nav-item.active
+            li.nav-item(class= (selected=='home') ? 'active' : '')
               a.nav-link(href='/')
                 | Home
                 span.sr-only (current)
-            //- li.nav-item
-            //-   a.nav-link(href='/about') About ENGRAVE
-            //- li.nav-item
-            //-   a.nav-link(href='/how-to-earn') How to earn
+            li.nav-item(class= (selected=='explore') ? 'active' : '')
+              a.nav-link(href='/explore') Explore
+              
             if !blogger    
-              li.nav-item
+              li.nav-item(class= (selected=='create') ? 'active' : '')
                 a.nav-link(href='/create') Create Blog
-          // Right
+                
           ul.navbar-nav.nav-flex-icons
 
             li.nav-item

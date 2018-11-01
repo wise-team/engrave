@@ -1,7 +1,7 @@
 import { Config } from './../config';
-import { Tier } from "../database/helpers/TierEnum";
+import { Tier } from "../helpers/TierEnum";
 import { Blogs } from "../database/BlogsModel";
-import { IBlog } from "../database/helpers/IBlog";
+import { IBlog } from "../helpers/IBlog";
 
 let steem = require('steem');
 var getSlug = require('speakingurl');

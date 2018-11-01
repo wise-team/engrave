@@ -1,6 +1,6 @@
 import { MongooseAutoIncrementID } from 'mongoose-auto-increment-reworked';
 import { Schema, Model, model } from "mongoose";
-import { IBlog } from './helpers/IBlog';
+import { IBlog } from '../helpers/IBlog';
 
 export let BlogSchema = new Schema({
 
