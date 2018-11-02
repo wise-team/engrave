@@ -33,7 +33,8 @@ export class SSLModule {
             console.log(' * Trying to generate certificates');
     
             const opts = { domains: [domain, 'www.' + domain], email: process.env.SSL_EMAIL, agreeTos: true, communityMember: false };
-            const greenlock = require('greenlock').create({ version: 'draft-12', server: 'https://acme-v02.api.letsencrypt.org/directory', store: this.leStore });
+            const greenlock = require('greenlock').create({
+                version: 'draft-12', server: 'https://acme-staging.api.letsencrypt.org/directory', store: this.leStore });
     
             await greenlock.register(opts);
     
