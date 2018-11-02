@@ -61,11 +61,14 @@ export class NodeAppsModule {
             
             for(let blog of blogs) {
                 try {
-                    if (blog.ssl && !SSLModule.validateDomainCertificates(blog.domain)) {
-                        SSLModule.generateCertificatesForDomain(blog.domain);
-                        await this.createAndRun(blog);
-                        console.log("Created instance for: ", blog.domain);
+                    if (blog.is_domain_custom) {
+                        if (!SSLModule.validateDomainCertificates(blog.domain)) {
+                            blog.ssl = false;
+                            await blog.save();
+                        }
                     }
+                    await this.createAndRun(blog);
+                    console.log("Created instance for: ", blog.domain);
                 } catch (error) {
                     console.log("Couldn't generate certificates on running for: ", blog.domain, error);
                 }
