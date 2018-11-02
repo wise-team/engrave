@@ -48,7 +48,8 @@ export class SSLModule {
 
         try {
             let blogs = await Blogs.find({ ssl: { $ne: true }, configured: true, is_domain_custom: true });
-            blogs.map(async blog => {
+
+            for(const blog of blogs) {
                 try {
                     console.log("Unsecured blog: ", blog.domain);
                     await SSLModule.generateCertificatesForDomain(blog.domain);
@@ -61,7 +62,8 @@ export class SSLModule {
                 } catch (error) {
                     console.log("Generating SSL error:", error);
                 }
-            });
+            }
+            
         } catch (error) {
             console.log("Generating SSL error:", error);
         }
