@@ -17,7 +17,7 @@ export class SSLModule {
         chainPath: ':configDir/live/:hostname/chain.pem',              //       greenlock.js
         logsDir: process.env.SSL_CERTIFICATES_DIR + '/engrave-logs',
         webrootPath: path.join(__dirname, '../instances/:hostname/public/.well-known/acme-challenge'),
-        debug: false
+        debug: true
     });
 
     constructor() {
