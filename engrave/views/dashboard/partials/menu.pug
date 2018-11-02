@@ -33,6 +33,10 @@
                 a.nav-link(href='/dashboard/settings')
                     i.nc-icon.nc-settings-gear-64
                     p Blog Settings
+            li.nav-item(class= (url == 'statistics') ? 'active' : '' )
+                a.nav-link(href='/dashboard/statistics')
+                    i.nc-icon.nc-chart-bar-32
+                    p Statistics
             li.nav-item(class= (url == 'themes') ? 'active' : '' )
                 a.nav-link(href='/dashboard/themes')
                     i.nc-icon.nc-palette

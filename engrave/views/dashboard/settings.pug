@@ -151,25 +151,10 @@ block body
                     .col-md-12
                       .form-group
                         label Notification body length (characters)
-                        input.form-control(name='onesignal_body_length', type='number', min='1', max='250', placeholder='Characters', value=blogger.onesignal_body_length)  
+                        input.form-control(name='onesignal_body_length', type='number', min='1', max='250', placeholder='Characters', value=blogger.onesignal_body_length)
 
-            .card
-              .card-header
-                  h4.card-title Statistics and analytics
-              .card-body
-                .row
-                  .col-md-12
-                      .form-group
-                          label Google Analytics Tracking ID
-                          input.form-control(name='analytics_gtag', type='text', placeholder='UA-xxxxxxxxx-x', value=blogger.analytics_gtag)                                    
-                .row
-                  .col-md-12
-                      .form-group
-                          label Google Webmaster tools Tag Verification code content
-                          input.form-control(name='webmastertools_id', type='text', placeholder='', value=blogger.webmastertools_id) 
-
-                button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save blog settings
-                .clearfix
+            button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save blog settings
+            .clearfix
                 
           .col-md-4
               .card

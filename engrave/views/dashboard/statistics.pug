@@ -1,0 +1,44 @@
+extends website.pug
+
+append scripts
+    script(src="/js/parsley.min.js")
+    script(src="/js/statistics.js")
+
+block body
+  .content
+    .container-fluid
+      form#settings
+        .row
+          .col-md-8.sm-12
+ 
+            .card
+              .card-header
+                  h4.card-title Statistics and analytics
+              .card-body
+                .row
+                  .col-md-12
+                      .form-group
+                          label Google Analytics Tracking ID
+                          input.form-control(name='analytics_gtag', type='text', placeholder='UA-xxxxxxxxx-x', pattern="/ua-\\d{4,9}-\\d{1,4}$/i", value=blogger.analytics_gtag)                                    
+                .row
+                  .col-md-12
+                      .form-group
+                          label Google Webmaster tools Tag Verification code content
+                          input.form-control(name='webmastertools_id', type='text', placeholder='', value=blogger.webmastertools_id) 
+
+                button.btn.btn-success.btn-fill.pull-right#btn-save(type='submit') Save
+                .clearfix
+                
+          .col-md-4
+              .card
+                  .card-header
+                      h4.card-title Google Analytics
+                  .card-body
+                      ul
+                          li Add your blog domain to Google Analytics
+                          li Get into settings and copy/paste tracking ID
+                      h4 Google Webmaster Tools
+                      ul
+                        li Add you blog domain to Google Webmaster Tools
+                        li Try to verify and select "Alternative methods"
+                        li Choose "HTML Tag" and copy it's content. Do not copy entire HTML code.
