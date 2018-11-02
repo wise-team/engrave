@@ -24,7 +24,7 @@ export class SSLModule {
 
         console.log(" * SSL module initialized");
 
-        // new CronJob('*/2 * * * *', this.generateCertificatesForUnsecuredBlogs, null, true, 'America/Los_Angeles');
+        new CronJob('*/2 * * * *', this.generateCertificatesForUnsecuredBlogs, null, true, 'America/Los_Angeles');
         new CronJob('00 00 * * *', this.regenerateCertificates, null, true, 'America/Los_Angeles');
     }
 
