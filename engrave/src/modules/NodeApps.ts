@@ -1,3 +1,4 @@
+import { SSLModule } from './SSL';
 import { Blogs } from './../database/BlogsModel';
 import { IBlog } from '../helpers/IBlog';
 import { Config } from "../config";
@@ -59,8 +60,15 @@ export class NodeAppsModule {
             const blogs = await Blogs.find({configured: true});
             
             for(let blog of blogs) {
-                await this.createAndRun(blog);
-                console.log("Created instance for: ", blog.domain);
+                try {
+                    if (blog.ssl && !SSLModule.validateDomainCertificates(blog.domain)) {
+                        SSLModule.generateCertificatesForDomain(blog.domain);
+                        await this.createAndRun(blog);
+                        console.log("Created instance for: ", blog.domain);
+                    }
+                } catch (error) {
+                    console.log("Couldn't generate certificates on running for: ", blog.domain, error);
+                }
             }
         } catch (error) {
             console.log('Error while reading blogs from database');

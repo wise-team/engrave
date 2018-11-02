@@ -1,3 +1,4 @@
+import { SSLModule } from './SSL';
 import { IBlog } from '../helpers/IBlog';
 import { Config } from "../config";
 import * as path from 'path';
@@ -9,7 +10,6 @@ let config = Config.GetConfig();
 export class NginxModule {
 
     private static nginxConfDirectory = '/etc/nginx/conf.d/';
-    private static sslCertificatesDirectory = '/etc/letsencrypt/live';
 
     private static subdomain_template = 'server {\r\n\tserver_name SUBDOMAIN;\r\n\treturn 301 https://SUBDOMAIN$request_uri;\r\n}\r\n\r\nserver {\r\n\tlisten 443 ssl;\r\n\tserver_name SUBDOMAIN;\r\n\r\n\tssl_certificate \/etc\/letsencrypt\/live\/DOMAIN\/fullchain.pem;\r\n\tssl_certificate_key \/etc\/letsencrypt\/live\/DOMAIN\/privkey.pem;\r\n\t\r\nlocation \/ {\r\n\tproxy_pass http:\/\/engrave:PORT;\r\n\tproxy_http_version 1.1;\r\n\tproxy_set_header Upgrade $http_upgrade;\r\n\tproxy_set_header Connection \'upgrade\';\r\n\tproxy_set_header Host $host;\r\n\tproxy_cache_bypass $http_upgrade;\r\n\t}\r\n}';
     private static domain_template = 'server {\n\tlisten 80;\n\n\tserver_name EXAMPLE www.EXAMPLE;\n\nlocation \/ {\n\tproxy_pass http:\/\/engrave:PORT;\n\tproxy_http_version 1.1;\n\tproxy_set_header Upgrade $http_upgrade;\n\tproxy_set_header Connection \'upgrade\';\n\tproxy_set_header Host $host;\n\tproxy_cache_bypass $http_upgrade;\n   }\n}\n\n';
@@ -64,7 +64,7 @@ export class NginxModule {
     }
 
     private static generateConfigForSubdomain(blog: IBlog) {
-        if (this.validateDomainCertificates(this.getDomainFromSubdomainString(blog.domain))){
+        if (SSLModule.validateDomainCertificates(this.getDomainFromSubdomainString(blog.domain))){
             let tmp1 = this.subdomain_template.replace(/SUBDOMAIN/g, blog.domain);
             let tmp2 = tmp1.replace(/DOMAIN/g, NginxModule.getDomainFromSubdomainString(blog.domain));
             return tmp2.replace(/PORT/g, blog.port.toString());
@@ -77,20 +77,11 @@ export class NginxModule {
 
     private static generateConfigForCustomDomain(blog: IBlog) {
         let template = this.domain_template;
-        if(this.validateDomainCertificates(blog.domain)) {
+        if (SSLModule.validateDomainCertificates(blog.domain)) {
             template = this.ssl_domain_template;
         }
         let tmp1 = template.replace(/EXAMPLE/g, blog.domain);
         return tmp1.replace(/PORT/g, blog.port.toString());
-    }
-
-    private static validateDomainCertificates(domain: string) {
-        const certificatesPath = path.join(this.sslCertificatesDirectory, domain);
-        const fullchainPath = path.join(certificatesPath, 'fullchain.pem');
-        const privkeyPath = path.join(certificatesPath, 'privkey.pem');
-
-        if (fs.existsSync(fullchainPath) && fs.existsSync(privkeyPath)) return true;
-        else return false;
     }
 
 }

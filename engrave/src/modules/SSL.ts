@@ -1,10 +1,13 @@
 import { Blogs } from './../database/BlogsModel';
 import { NginxModule } from "./Nginx";
 
+let fs = require("fs");
 let path = require('path');
 let CronJob = require('cron').CronJob;
 
 export class SSLModule {
+
+    private static sslCertificatesDirectory = '/etc/letsencrypt/live';
 
     private static leStore = require('le-store-certbot').create({
         configDir: process.env.SSL_CERTIFICATES_DIR,          // or /etc/acme or wherever
@@ -74,5 +77,14 @@ export class SSLModule {
         } catch (error) {
             console.log(" * Regenerating SSL error:", error);
         }
+    }
+
+    static validateDomainCertificates(domain: string) {
+        const certificatesPath = path.join(this.sslCertificatesDirectory, domain);
+        const fullchainPath = path.join(certificatesPath, 'fullchain.pem');
+        const privkeyPath = path.join(certificatesPath, 'privkey.pem');
+
+        if (fs.existsSync(fullchainPath) && fs.existsSync(privkeyPath)) return true;
+        else return false;
     }
 }
