@@ -20,7 +20,7 @@ export class RoutesVlidators {
             let blogger = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
             if (!blogger) throw new Error("Blogger not found");
             req.session.blogger = blogger;
-            if (!blogger.tier) res.redirect('/configure');
+            if (!blogger.tier) res.redirect('/tiers');
             else if (!blogger.configured) {
                 if (req.path == '/configure') {
                     return next();

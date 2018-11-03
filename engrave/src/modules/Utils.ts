@@ -1,4 +1,4 @@
-import { Config } from './../config';
+import { DashboardSteemConnect } from './SteemConnect';
 import { Tier } from "../helpers/TierEnum";
 import { Blogs } from "../database/BlogsModel";
 import { IBlog } from "../helpers/IBlog";
@@ -236,5 +236,22 @@ export class Utils {
             oldsettings.categories = new_settings.categories;
         }
     }
+
+    static validateCustomDomain(domain: string) {
+        const regex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/g;
+
+        if (!regex.test(domain)) throw new Error("Invalid domain name")        
+    }
+
+    static generatePaymentLink(currency: string) {
+        return DashboardSteemConnect.sign('transfer', {
+            to: 'acronyms',
+            amount: '0.100 ' + currency.toUpperCase(),
+            // memo: 'Domain request',
+        }, process.env.PAYMENT_REDIRECT_URI);
+
+        // return `https://steemconnect.com/sign/transfer?to=acronyms&amount=0.100%20${currency.toUpperCase()}&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdashboard%2Fconfigure`
+    }
+
 }
 

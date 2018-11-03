@@ -17,65 +17,9 @@ block body
               span We just need few more informations
               hr
             .card-body
-              form#configure
-                .row
-
-                  if blogger.tier == 12
-                    .col-md-12
-                      .alert.alert-danger(role='alert') Use your registrar's DNS servers and change <strong>record A</strong> to <strong>#{server_ip}</strong>. If you don't know what to do, please <a href="https://discord.gg/dn8ZxWJ">contact us on Discord.</a>
-                
-                  .col-md-6
-                    .form-group
-                      
-                      if blogger.tier == 15
-                        //- label Add your domain
-                        p Please leave comment in this topic:
-
-                        a(href='https://steemit.com/pl-projekty/@nicniezgrublem/engrave-pierwsza-platforma-blogowa-oparta-na-sieci-steem') ENAGRAVE at Steemit.com
-                      
-                      else if blogger.tier == 12
-                        
-                        label Domain
-                        input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
-                      
-                      else
-                        label Blog address
-                        input.form-control.text-right(name='subdomain', required, pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='yourblogaddress')
-                  
-                  .col-md-6
-                    .form-group
-                      if blogger.tier == 10
-                        label Domain
-                        select.form-control(name="domain")
-                          each domain in config.blogs_domains
-                            option(value=domain )= "." + domain
-                .row
-                  .col-md-6
-                    .form-group
-                      label Blog title
-                      input.form-control.text-right(name='blog_title', required, pattern=".{3,100}", title="Allowed length: 3-100 characters", type='text', placeholder='Blog title')
-                  .col-md-6
-                    .form-group
-                      label Blog slogan
-                      input.form-control.text-right(name='blog_slogan', pattern=".{3,100}", title="Allowed length: 3-100 characters", placeholder='Blog slogan')
-                
-                .row
-                  .col-md-12
-                    .form-group
-                      label Category
-                      select.form-control(name="category")
-                        each category in config.blogs_categories
-                          option(value=category )= category
-
-                .row.justify-content-md-center
-                  .col-md-12
-                    .form-group
-                      label Theme (can be changed later)
-                      select.form-control.image-picker(name="theme")#theme-select
-                        each theme, index in themes
-                          option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
-
-                a(href='/authorize/tier/cancel').btn.btn-link Change your tier
-                if blogger.tier != 15
-                  button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
-                .clearfix
+              if blogger.tier == 10
+                include configuration-pages/basic.pug
+              else if blogger.tier == 12
+                include configuration-pages/standard.pug
+              else
+                include configuration-pages/extended.pug

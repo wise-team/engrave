@@ -18,6 +18,7 @@ services:
       - 127.0.0.1:9229:9229
     environment:
       - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
+      - PAYMENT_REDIRECT_URI=http://127.0.0.1/dashboard/configure/
       - DOMAIN=engrave.website
       - SSL_EMAIL=test@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt

@@ -1,0 +1,36 @@
+form#configure
+    .row
+        .col-md-12
+            .form-group
+                label Domain (already paid)
+                input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value=blogger.domain, readonly, parsley-trigger="change" required)
+
+    .row
+        .col-md-6
+            .form-group
+                label Blog title
+                input.form-control(name='blog_title', required, pattern=".{3,100}", title="Allowed length: 3-100 characters", type='text', placeholder='Blog title')
+        .col-md-6
+            .form-group
+                label Blog slogan
+                input.form-control(name='blog_slogan', pattern=".{3,100}", title="Allowed length: 3-100 characters", placeholder='Blog slogan')
+    
+    .row
+        .col-md-12
+            .form-group
+                label Category
+                select.form-control(name="category")
+                    each category in config.blogs_categories
+                        option(value=category )= category
+
+    .row.justify-content-md-center
+        .col-md-12
+            .form-group
+                label Theme (can be changed later)
+                select.form-control.image-picker(name="theme")#theme-select
+                    each theme, index in themes
+                        option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
+
+    a(href='/authorize/tier/cancel').btn.btn-link Change your tier
+    button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
+    .clearfix

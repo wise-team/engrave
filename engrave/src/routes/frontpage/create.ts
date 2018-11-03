@@ -8,7 +8,7 @@ router.get('/create', (req: IExtendedRequest, res: Response, next: NextFunction)
     if (!req.session.blogger) {
         res.render('main/create.pug', { blogger: req.session.blogger });
     } else if (!req.session.blogger.tier) {
-        res.redirect('/configure');
+        res.redirect('/tiers');
     } else {
         res.redirect('/dashboard');
     }

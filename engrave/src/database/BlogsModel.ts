@@ -72,7 +72,11 @@ export let BlogSchema = new Schema({
     sidebar: {
         show_latest: Boolean,
         show_featured: Boolean
-    }
+    },
+    paid: {
+        type: Boolean,
+        default: false
+    },
 });
 
 BlogSchema.plugin(MongooseAutoIncrementID.plugin, { field: 'port', startAt: 81, modelName: 'Blogs' });

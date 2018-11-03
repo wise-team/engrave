@@ -1,0 +1,20 @@
+if !blogger.domain || blogger.domain == ''
+    .row
+        .col-md-12
+            .form-group
+                p Type your preffered domain and if it's free you can pay for using it. You will be redirected to Steemconnect website to approve transfer. Domain will be registered for 1 year.
+                label Domain
+                input.form-control#custom-domain(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
+
+    a(href='/authorize/tier/cancel').btn.btn-link Change your tier
+    button.btn.btn-success.btn-fill.pull-right#pay-steem(type='submit') Pay 10 STEEM
+    button.btn.btn-info.btn-space.btn-fill.pull-right#pay-sbd(type='submit') Pay 10 SBD
+    .clearfix
+else
+    .row
+        .col-md-12
+            .alert.alert-info(role='alert') We are processing you request. If you paid successfully it will be available soon. It may take up to 3 minutes. Please refresh page soon.
+    .row
+        .col-md-12
+            .form-group
+                p Your requested domain: #{blogger.domain}
