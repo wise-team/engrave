@@ -17,15 +17,15 @@ export class SSLModule {
         chainPath: ':configDir/live/:hostname/chain.pem',              //       greenlock.js
         logsDir: process.env.SSL_CERTIFICATES_DIR + '/engrave-logs',
         webrootPath: path.join(__dirname, '../../instances/:hostname/public/.well-known/acme-challenge'),
-        debug: true
+        debug: false
     });
 
     constructor() {
 
         console.log(" * SSL module initialized");
 
-        new CronJob('00 * * * *', this.generateCertificatesForUnsecuredBlogs, null, true, 'America/Los_Angeles');
-        new CronJob('00 00 * * *', this.regenerateCertificates, null, true, 'America/Los_Angeles');
+        new CronJob('*/15 * * * *', this.generateCertificatesForUnsecuredBlogs, null, true, 'America/Los_Angeles');
+        new CronJob('00 00 * * *', this.regenerateAllCertificates, null, true, 'America/Los_Angeles');
     }
 
     static async generateCertificatesForDomain(domain: string) {
@@ -69,18 +69,18 @@ export class SSLModule {
         }
     }
 
-    private async regenerateCertificates() {
+    private async regenerateAllCertificates() {
 
         try {
             let blogs = await Blogs.find({ ssl: true, configured: true, is_domain_custom: true });
-            blogs.map(async (blog) => {
+            for(const blog of blogs) {
                 try {
                     console.log(" * Regenerating SSL certificates for: ", blog.domain);
                     await SSLModule.generateCertificatesForDomain(blog.domain);
                 } catch (error) {
                     console.log("Generating SSL error:", error);
                 }
-            });
+            }
         } catch (error) {
             console.log(" * Regenerating SSL error:", error);
         }
