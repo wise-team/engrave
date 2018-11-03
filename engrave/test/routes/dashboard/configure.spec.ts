@@ -30,7 +30,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -58,7 +59,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(200);
@@ -88,7 +90,8 @@ describe("Dashboard: /configure", () => {
               domain: "engrave.website",
               blog_title: "Test Title",
               blog_slogan: "Test Slogan",
-              theme: "clean-blog"
+              theme: "clean-blog",
+              category: 'Other'
             })
             .set("cookie", cookie)
             .expect(400);
@@ -107,7 +110,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -126,7 +130,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -143,7 +148,8 @@ describe("Dashboard: /configure", () => {
                     domain: "example.com",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -161,7 +167,8 @@ describe("Dashboard: /configure", () => {
                     subdomain: "test",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -179,7 +186,8 @@ describe("Dashboard: /configure", () => {
                     subdomain: "test",
                     domain: "engrave.website",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -198,7 +206,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -217,7 +226,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "T",
                     blog_slogan: "Test Slogan",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -236,7 +246,8 @@ describe("Dashboard: /configure", () => {
                 domain: "engrave.website",
                 blog_title: "918880171673906683945128712036139106100407898467713952567335304418360920605782427793234625553803924811379469707519161765",
                 blog_slogan: "Test Slogan",
-                theme: "clean-blog"
+                theme: "clean-blog",
+                category: 'Other'
               })
               .set("cookie", cookie)
               .expect(400);
@@ -254,7 +265,8 @@ describe("Dashboard: /configure", () => {
                     subdomain: "test",
                     domain: "engrave.website",
                     blog_title: "Test Title",
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -273,7 +285,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: '918880171673906683945128712036139106100407898467713952567335304418360920605782427793234625553803924811379469707519161765',
-                    theme: "clean-blog"
+                    theme: "clean-blog",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -291,7 +304,8 @@ describe("Dashboard: /configure", () => {
                     subdomain: "test",
                     domain: "engrave.website",
                     blog_title: "Test Title",
-                    blog_slogan: "Test Slogan"
+                    blog_slogan: "Test Slogan",
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -310,7 +324,8 @@ describe("Dashboard: /configure", () => {
                     domain: "engrave.website",
                     blog_title: "Test Title",
                     blog_slogan: "Test Slogan",
-                    theme: 'invalid-theme'
+                    theme: 'invalid-theme',
+                    category: 'Other'
                 })
                 .set("cookie", cookie)
                 .expect(400);
@@ -321,6 +336,44 @@ describe("Dashboard: /configure", () => {
             expect(result.body.error).to.be.equal("Invalid theme provided");
         });
 
+        it("Should not configure without category", async () => {
+          const result: any = await agent
+            .post("/dashboard/configure/finish")
+            .send({
+              subdomain: "test",
+              domain: "engrave.website",
+              blog_title: "Test Title",
+              blog_slogan: "Test Slogan",
+              theme: 'clean-blog'
+            })
+            .set("cookie", cookie)
+            .expect(400);
+
+          expect(result.type).to.be.equal("application/json");
+          expect(result.body).to.be.a("object");
+          expect(result.body).to.have.property("error");
+          expect(result.body.error).to.be.equal("Category not provided");
+        });
+
+        it("Should not configure with invalid category", async () => {
+          const result: any = await agent
+            .post("/dashboard/configure/finish")
+            .send({
+              subdomain: "test",
+              domain: "engrave.website",
+              blog_title: "Test Title",
+              blog_slogan: "Test Slogan",
+              theme: 'clean-blog',
+              category: 'invalid-category'
+            })
+            .set("cookie", cookie)
+            .expect(400);
+
+          expect(result.type).to.be.equal("application/json");
+          expect(result.body).to.be.a("object");
+          expect(result.body).to.have.property("error");
+          expect(result.body.error).to.be.equal("Invalid category provided");
+        });
     });
 
 });

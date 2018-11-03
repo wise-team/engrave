@@ -1,7 +1,9 @@
+import { Config } from './../config';
 import { IExtendedRequest } from "../helpers/IExtendedRequest";
 import * as express from 'express';
 import { ValidatorUtils } from "./ValidatorUtils";
 import { Themes } from "../modules/Themes";
+import * as _ from 'lodash';
 
 export class ConfigureValidator {
     static async ValidateInput(req: IExtendedRequest, res: express.Response, next: express.NextFunction) {
@@ -12,6 +14,7 @@ export class ConfigureValidator {
             if (!ValidatorUtils.isExist(configuration.blog_title)) throw new Error("Title not provided");
             if (!ValidatorUtils.isExist(configuration.blog_slogan)) throw new Error("Slogan not provided");
             if (!ValidatorUtils.isExist(configuration.theme)) throw new Error("Theme not provided");
+            if (!ValidatorUtils.isExist(configuration.category)) throw new Error("Category not provided");
             
             if (ValidatorUtils.isEmpty(configuration.blog_title)) throw new Error("Title cannot be empty");
 
@@ -21,6 +24,8 @@ export class ConfigureValidator {
             if (configuration.blog_slogan.length > 100) throw new Error("Slogan too long");
 
             if(!Themes.verifyTheme(configuration.theme)) throw new Error('Invalid theme provided');
+
+            if (!_.includes(Config.GetConfig().blogs_categories, configuration.category)) throw new Error('Invalid category provided');
 
             next();
 
