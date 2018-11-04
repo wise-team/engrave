@@ -1,5 +1,6 @@
 import { Blogs } from './../database/BlogsModel';
 import { NginxModule } from "./Nginx";
+import * as dns from 'dns';
 
 let fs = require("fs");
 let path = require('path');
@@ -51,14 +52,18 @@ export class SSLModule {
 
             for(const blog of blogs) {
                 try {
-                    console.log("Unsecured blog: ", blog.domain);
-                    await SSLModule.generateCertificatesForDomain(blog.domain);
-                    console.log(" * SSL generated for ", blog.domain);
-                    NginxModule.generateNginxSettings(blog);
-                    console.log(" * NGINX with SSL generated for: ", blog.domain);
-                    blog.ssl = true;
-                    await blog.save();
-                    console.log(" * Database entry saved for blog");
+                    if (await SSLModule.checkIfDomainPointsEngraveServer(blog.domain)) {
+                        console.log("Unsecured blog: ", blog.domain);
+                        await SSLModule.generateCertificatesForDomain(blog.domain);
+                        console.log(" * SSL generated for ", blog.domain);
+                        NginxModule.generateNginxSettings(blog);
+                        console.log(" * NGINX with SSL generated for: ", blog.domain);
+                        blog.ssl = true;
+                        await blog.save();
+                        console.log(" * Database entry saved for blog");
+                    } else {
+                        console.log("Unsecured blog: ", blog.domain, " but domain not points to ENGRAVE server");
+                    }
                 } catch (error) {
                     console.log("Generating SSL error:", error);
                 }
@@ -93,5 +98,16 @@ export class SSLModule {
 
         if (fs.existsSync(fullchainPath) && fs.existsSync(privkeyPath)) return true;
         else return false;
+    }
+
+    private static async checkIfDomainPointsEngraveServer(domain: string) {
+        return new Promise ( (resolve, reject) => {
+            dns.lookup(domain, null, (error, address, family) => {
+                if(error) reject(error);
+                else {
+                    resolve(address == process.env.SERVER_IP);
+                }
+            });
+        })
     }
 }
