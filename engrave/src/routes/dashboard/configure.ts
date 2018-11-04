@@ -51,6 +51,7 @@ router.post(
                 blog.blog_slogan = configuration.blog_slogan;
                 blog.category = configuration.category;
                 blog.domain = domain;
+                blog.ssl = false;
 
                 if (blog.tier == Tier.BASIC) {
                     blog.ssl = true;
