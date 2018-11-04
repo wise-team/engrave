@@ -154,7 +154,7 @@ export class Domains {
     }
 
     private static async updateDomainRecordForEngrave(record: any, domain: string) {
-        await superagent
+        const answer = await superagent
             .put(this.apiAuthorizedAddress + `/${domain}/records/${record.id}`)
             .accept('json')
             .send({
@@ -163,10 +163,13 @@ export class Domains {
                 answer: process.env.SERVER_IP,
                 ttl: 300
             });
+
+        console.log(answer);
+            
     }
 
     private static async createDomainRecordsForEngrave(domain: string) {
-        await superagent
+        let record = await superagent
             .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
             .send({
@@ -175,8 +178,10 @@ export class Domains {
                 answer: process.env.SERVER_IP, 
                 ttl: 300
             });
-
-        await superagent
+        
+        console.log(record);
+            
+        record = await superagent
             .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
             .send({
@@ -185,6 +190,20 @@ export class Domains {
                 answer: process.env.SERVER_IP, 
                 ttl: 300
             });
+
+        console.log(record);
+
+        record = await superagent
+            .post(this.apiAuthorizedAddress + `/${domain}/records`)
+            .accept('json')
+            .send({
+                host: '*', 
+                type: 'A', 
+                answer: process.env.SERVER_IP, 
+                ttl: 300
+            });
+
+        console.log(record);
     }
   
     static async getDomainPrice(domain: string): Promise<number> {
