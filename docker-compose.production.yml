@@ -16,7 +16,7 @@ services:
     image: bgornicki/engrave
     environment:
       - DOMAIN=engrave.website
-      - SSL_EMAIL=test@niepodam.pl
+      - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - BLOGS_DOMAINS=["engrave.website", "engrave.site"]
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
