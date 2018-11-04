@@ -52,4 +52,5 @@ export interface IBlog extends Document {
         show_latest: boolean;
         show_featured: boolean;
     };
+    paid: boolean;
 }

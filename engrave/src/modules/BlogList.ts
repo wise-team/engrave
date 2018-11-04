@@ -15,7 +15,7 @@ export class BlogListModule {
     static async isBlogRegistered(domain: string) {
         try {
             let searchDomain = this.buildSearchableDomain(domain);
-            let blog = await Blogs.findOne({ domain: searchDomain });
+            let blog = await Blogs.findOne({ domain: searchDomain, configured: true});
 
             if (blog) return true;
             else return false;

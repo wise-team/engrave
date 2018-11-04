@@ -6,3 +6,19 @@
 .logo img {
     max-width: 80%;
   }
+
+
+.btn-space {
+  margin-right: 5px;
+}
+
+.parsley-success {
+  border-width: 3px;
+  border: 5px solid #ddffdd;
+  background-color: #ddffdd;
+}
+
+.parsley-success:focus {
+  border: 5px solid #ddffdd;
+  background-color: #ddffdd;
+}

@@ -7,6 +7,7 @@ import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
 import { NodeAppsModule } from './modules/NodeApps';
 import { Themes } from './modules/Themes';
+import { Domains } from './modules/Domains';
 
 let config = Config.GetConfig();
 
@@ -51,6 +52,8 @@ app.use('/authorize', require('./routes/authorize/logout'));
 app.use('/authorize', require('./routes/authorize/tier'));
 app.use('/authorize', require('./routes/authorize/main'));
 
+app.use('/domains', require('./routes/dashboard/domains'));
+
 app.use('/dashboard', require('./routes/dashboard/configure'));
 app.use('/dashboard', require('./routes/dashboard/main'));
 app.use('/dashboard', require('./routes/dashboard/notifications'));
@@ -66,7 +69,7 @@ app.use('/dashboard', require('./routes/dashboard/themes'));
 app.use('/dashboard', require('./routes/dashboard/market'));
 
 app.use('/', require('./routes/frontpage/about'));
-app.use('/', require('./routes/frontpage/configure'));
+app.use('/', require('./routes/frontpage/tiers'));
 app.use('/', require('./routes/frontpage/create'));
 app.use('/', require('./routes/frontpage/explore'));
 app.use('/', require('./routes/frontpage/how-to-earn'));
@@ -103,6 +106,7 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 let sslModuleInstance = new SSLModule(); // constructor creates CronJob
 let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
 let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
+let domainsModuleInstance = new Domains(); // constructor creates CronJob
 
 Themes.Initialize();
 

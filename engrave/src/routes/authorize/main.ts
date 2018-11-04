@@ -38,12 +38,12 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
                 if (user.tier) {
                     res.redirect('/dashboard');
                 } else {
-                    res.redirect('/configure');
+                    res.redirect('/tiers');
                 }
             } else {
                 req.session.blogger = await BlogListModule.addNewUnconfiguredBlog(req.session.steemconnect.name);
                 console.log(" * Dodano nowego użytkownika do bazy: " + req.session.steemconnect.name)
-                res.redirect('/configure');
+                res.redirect('/tiers');
             }
         } catch (error) {
             console.log(error);

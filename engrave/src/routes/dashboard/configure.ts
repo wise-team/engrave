@@ -1,6 +1,6 @@
-import { ConfigureValidator } from './../../validators/ConfigureValidator';
-import { BlogListModule } from './../../modules/BlogList';
-import { Blogs } from './../../database/BlogsModel';
+import { ConfigureValidator } from '../../validators/ConfigureValidator';
+import { BlogListModule } from '../../modules/BlogList';
+import { Blogs } from '../../database/BlogsModel';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { NodeAppsModule } from '../../modules/NodeApps';
 import { Tier } from '../../helpers/TierEnum';

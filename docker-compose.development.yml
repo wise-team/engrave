@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 services:
   
   nginx:
@@ -18,6 +18,7 @@ services:
       - 127.0.0.1:9229:9229
     environment:
       - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
+      - PAYMENT_REDIRECT_URI=http://127.0.0.1/dashboard/configure/
       - DOMAIN=engrave.website
       - SSL_EMAIL=test@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
@@ -25,12 +26,16 @@ services:
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
       - WAIT_HOSTS=mongo:27017
       - SERVER_IP=139.162.185.235
+      - NAMECOM_API=api.dev.name.com
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
     depends_on:
       - mongo
-
+    secrets:
+      - NAMECOM_TOKEN
+      - NAMECOM_USERNAME
+      
   mongo:
     image: mongo
     volumes:
@@ -40,3 +45,9 @@ volumes:
   db-data:
   nginx_certs:
   nginx_conf:
+ 
+secrets:
+  NAMECOM_TOKEN:
+    external: true
+  NAMECOM_USERNAME:
+    external: true

@@ -10,11 +10,18 @@ Aren't you bored by investing your work and time in creating non-returning blog 
 
 Befor running ENGRAVE system on production you need to request wildcard certificate. Otherwise nginx deamon wouldn't start because he's serving SSL files for default. Requesting that kind of certificate requires DNS records to be changes during process. You need to do it manually because it's depends on your domain registrar. We prepared interactive script to do it with your help:
 
-`./request_wildcard_certificate.sh`
+`./request_wildcard_certificate.sh engrave.website`
 
 It will ask you for some questions and if everything is ok, wildcard certificate for `engrave.website` certificate will be generated.
 
 ## Running ENGRAVE
+
+In order to enable domain buying with STEEM or SBD, you need to add some sensitive informations as docker secrets. You can find all necessary data [here](https://www.name.com/account/settings/api).
+
+```
+echo "<name.com api username>" | sudo docker secret create NAMECOM_USERNAME -
+echo "<name.com api token>" | sudo docker secret create NAMECOM_TOKEN -
+```
 
 If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-compose.yml` file for environmental variables and then just type:
 

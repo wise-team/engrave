@@ -1,4 +1,4 @@
-import { Config } from './../config';
+import { DashboardSteemConnect } from './SteemConnect';
 import { Tier } from "../helpers/TierEnum";
 import { Blogs } from "../database/BlogsModel";
 import { IBlog } from "../helpers/IBlog";
@@ -236,5 +236,14 @@ export class Utils {
             oldsettings.categories = new_settings.categories;
         }
     }
+
+    static generatePaymentLink(currency: string) {
+        return DashboardSteemConnect.sign('transfer', {
+            to: 'engrave',
+            amount: '10.000 ' + currency.toUpperCase(),
+            memo: 'Domain request',
+        }, process.env.PAYMENT_REDIRECT_URI);
+    }
+
 }
 
