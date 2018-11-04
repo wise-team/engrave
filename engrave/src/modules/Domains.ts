@@ -31,7 +31,7 @@ export class Domains {
 
         try {
 
-            const operations = await steem.api.getAccountHistoryAsync('acronyms', -1, 25);
+            const operations = await steem.api.getAccountHistoryAsync('engrave', -1, 25);
             const transfers = operations.filter((tx: any) => (tx[1].op[0] == 'transfer') && (tx[1].op[1].amount == '10.000 SBD' || tx[1].op[1].amount == '10.000 STEEM'));
 
             for (const transfer of transfers) {
