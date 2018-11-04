@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 services:
   
   nginx:
@@ -23,11 +23,15 @@ services:
       - WAIT_HOSTS=mongo:27017
       - SERVER_IP=139.162.185.235
       - PAYMENT_REDIRECT_URI=https://engrave.website/dashboard/configure/
+      - NAMECOM_API=api.name.com
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
     depends_on:
       - mongo
+    secrets:
+      - NAMECOM_TOKEN
+      - NAMECOM_USERNAME
 
   mongo:
     image: mongo
@@ -38,3 +42,9 @@ volumes:
   db-data:
   nginx_certs:
   nginx_conf:
+
+secrets:
+  NAMECOM_TOKEN:
+    external: true
+  NAMECOM_USERNAME:
+    external: true

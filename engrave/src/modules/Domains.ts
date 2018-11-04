@@ -1,7 +1,59 @@
 import * as superagent from 'superagent';
+import { Blogs } from "../database/BlogsModel";
+import * as _ from 'lodash';
 
+let CronJob = require('cron').CronJob;
+let steem = require('steem');
+let parseDomain = require('parse-domain');
+const secrets = require('@cloudreach/docker-secrets');
 
 export class Domains {
+
+    private static token = secrets.NAMECOM_TOKEN ? secrets.NAMECOM_TOKEN : process.env.NAMECOM_TOKEN;
+    private static username = secrets.NAMECOM_USERNAME ? secrets.NAMECOM_USERNAME : process.env.NAMECOM_USERNAME;
+    private static apiAuthorizedAddress = `https://${Domains.username}:${Domains.token}@${process.env.NAMECOM_API}/v4/domains`;
+    private static domainMaxPrice = 11;
+
+    private static availableTlds = ['rocks', 'xyz', 'world', 'space', 'site', 'website', 'me', 'eu', 'com', 'org', 'buzz', 'net'];
+    
+    constructor() {
+
+        if(Domains.token && Domains.username) {
+            console.log(" * Domains processing module initialized");
+            new CronJob('*/1 * * * *', Domains.checkSteemHistory, null, true, 'America/Los_Angeles');
+        } else {
+            console.log(" * Domains processing module not initialized (athorization not provided)");
+        }
+
+    }
+
+    private static async checkSteemHistory() {
+
+        try {
+
+            const operations = await steem.api.getAccountHistoryAsync('acronyms', -1, 25);
+            const transfers = operations.filter((tx: any) => (tx[1].op[0] == 'transfer') && (tx[1].op[1].amount == '10.000 SBD' || tx[1].op[1].amount == '10.000 STEEM'));
+
+            for (const transfer of transfers) {
+                try {
+                    const from = transfer[1].op[1].from;
+                    let blogger = await Blogs.findOne({ steem_username: from });
+
+                    if (blogger && !blogger.paid && !blogger.configured && blogger.domain) {
+                        console.log(` * Trying to buy ${blogger.domain} for ${blogger.steem_username}`);
+                        await Domains.processDomainOrder(blogger.domain);
+                        blogger.paid = true;
+                        await blogger.save();
+                    }
+                } catch (error) {
+                    console.log(" * Registering domain error: ", error);
+                }
+            }
+
+        } catch (err) {
+            console.log("Domain order watcher error", err);
+        }
+    }
 
     static async processDomainOrder(domain: string) {
         try { 
@@ -19,7 +71,7 @@ export class Domains {
         try {
             const orderRequest = await this.prepareOrderRequest(domain)
             const result = await superagent
-                .post('https://<username>:<token>@api.dev.name.com/v4/domains')
+                .post(this.apiAuthorizedAddress)
                 .accept('json')
                 .send(orderRequest)
 
@@ -35,7 +87,7 @@ export class Domains {
 
     static async validateDomainAvailability(domain: string) {
         const result = await superagent
-            .post('https://<username>:<token>@api.dev.name.com/v4/domains:checkAvailability')
+            .post(this.apiAuthorizedAddress + ':checkAvailability')
             .accept('json')
             .send({ "domainNames": [domain] })
 
@@ -43,20 +95,23 @@ export class Domains {
 
         if (!response.results[0].purchasable) throw new Error('Domain not available');
         if (response.results[0].purchaseType != 'registration') throw new Error("Domain already taken");
+        if (response.results[0].purchasePrice > Domains.domainMaxPrice) throw new Error("Domain not available");
     }
 
-    static async isDomainAvailble(domain: string) {
+    static async isDomainAvailable(domain: string) {
         
         try {
 
             const result = await superagent
-                .post('https://<username>:<token>@api.dev.name.com/v4/domains:checkAvailability')
+                .post(this.apiAuthorizedAddress + ':checkAvailability')
                 .accept('json')
                 .send({ "domainNames": [domain] })
 
             const response = JSON.parse(result.text);
             
+            if (response.results[0].premium) throw new Error('Domain not available');
             if (!response.results[0].purchasable) throw new Error('Domain not available');
+            if (response.results[0].purchasePrice > Domains.domainMaxPrice) throw new Error("Domain not available");
             if (response.results[0].purchaseType != 'registration') throw new Error("Domain already taken");
             
             return true;
@@ -70,7 +125,7 @@ export class Domains {
     static async getDomainInformation(domain: string) {
         try {
             const result = await superagent
-                .post('https://<username>:<token>@api.dev.name.com/v4/domains:checkAvailability')
+                .post(this.apiAuthorizedAddress + ':checkAvailability')
                 .accept('json')
                 .send({ "domainNames": [domain] })
 
@@ -86,7 +141,7 @@ export class Domains {
 
         try {
             const result = await superagent
-                .get(`https://<username>:<token>@api.dev.name.com/v4/domains/${domain}/records`)
+                .get(this.apiAuthorizedAddress + `/${domain}/records`)
                 .accept('json')
 
             const response = JSON.parse(result.text);
@@ -98,9 +153,9 @@ export class Domains {
         }
     }
 
-    private static async setDomainRecordForEngrave(record: any, domain: string) {
+    private static async updateDomainRecordForEngrave(record: any, domain: string) {
         await superagent
-            .put(`https://<username>:<token>@api.dev.name.com/v4/domains/${domain}/records/${record.id}`)
+            .put(this.apiAuthorizedAddress + `/${domain}/records/${record.id}`)
             .accept('json')
             .send({
                 host: record.host,
@@ -112,7 +167,7 @@ export class Domains {
 
     private static async createDomainRecordsForEngrave(domain: string) {
         await superagent
-            .post(`https://<username>:<token>@api.dev.name.com/v4/domains/${domain}/records`)
+            .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
             .send({
                 host: '@', 
@@ -122,7 +177,7 @@ export class Domains {
             });
 
         await superagent
-            .post(`https://<username>:<token>@api.dev.name.com/v4/domains/${domain}/records`)
+            .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
             .send({
                 host: 'www', 
@@ -132,9 +187,9 @@ export class Domains {
             });
     }
   
-    private static async getDomainPrice(domain: string): Promise<number> {
+    static async getDomainPrice(domain: string): Promise<number> {
         const result = await superagent
-            .post('https://<username>:<token>@api.dev.name.com/v4/domains:checkAvailability')
+            .post(this.apiAuthorizedAddress + ':checkAvailability')
             .accept('json')
             .send({ "domainNames": [domain] })
 
@@ -148,7 +203,7 @@ export class Domains {
 
             if (filteredARecords.length) {
                 for (const record of filteredARecords) {
-                    await this.setDomainRecordForEngrave(record, domain);
+                    await this.updateDomainRecordForEngrave(record, domain);
                 }
             } else {
                 await this.createDomainRecordsForEngrave(domain)
@@ -164,11 +219,26 @@ export class Domains {
     }
 
     private static async prepareOrderRequest(domain: string) {
+        const price = await this.getDomainPrice(domain);
+        
+        if(price > Domains.domainMaxPrice) throw new Error('Domain price is too high!');
+        
         return {
             domain: {
                 domainName: domain
             },
-            purchasePrice: await this.getDomainPrice(domain)
+            purchasePrice: price
         }; 
+    }
+
+    static validateCustomDomain(domain: string) {
+        try {
+            const domainObject = parseDomain(domain);
+            const regex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/g;
+            if (!_.includes(this.availableTlds, domainObject.tld)) throw new Error("Unsupported TLD");
+            if (!regex.test(domain)) throw new Error("Invalid domain name")       
+        } catch (error) {
+            throw new Error("Invalid domain name");
+        }
     }
 }

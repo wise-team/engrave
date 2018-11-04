@@ -16,14 +16,14 @@ router.post('/check', async (req: IExtendedRequest, res: express.Response, next:
     try {
         const domain = req.body.domain;
 
-        Utils.validateCustomDomain(domain);
+        Domains.validateCustomDomain(domain);
 
-        let available = await Domains.isDomainAvailble(domain);
+        let available = await Domains.isDomainAvailable(domain);
 
         if (available) {
-            res.json({ status: "free" })
+            res.json({ domain: domain, status: "free", price: await Domains.getDomainPrice(domain) })
         } else {
-            res.json({ status: "taken" });
+            res.json({ domain: domain, status: "taken" });
         }
 
     } catch (error) {
@@ -38,9 +38,12 @@ router.post('/choose', async (req: IExtendedRequest, res: express.Response, next
         const domain = req.body.domain;
         const currency = req.body.currency;
 
-        Utils.validateCustomDomain(domain);
+        Domains.validateCustomDomain(domain);
+        if( ! await Domains.isDomainAvailable(domain)) throw new Error("Domain is not available");
 
         await Blogs.findOneAndUpdate({ steem_username: req.session.steemconnect.name }, { $set: { domain: domain } });
+
+        console.log(`User @${req.session.steemconnect.name} chose domain ${domain}`);
 
         res.json({ url: Utils.generatePaymentLink(currency) });
 

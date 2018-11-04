@@ -7,7 +7,7 @@ import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
 import { NodeAppsModule } from './modules/NodeApps';
 import { Themes } from './modules/Themes';
-import { SteemWatcher } from './modules/SteemWatcher';
+import { Domains } from './modules/Domains';
 
 let config = Config.GetConfig();
 
@@ -106,7 +106,7 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 let sslModuleInstance = new SSLModule(); // constructor creates CronJob
 let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
 let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
-let steemWatcherModuleInstance = new SteemWatcher(); // constructor creates CronJob
+let domainsModuleInstance = new Domains(); // constructor creates CronJob
 
 Themes.Initialize();
 
