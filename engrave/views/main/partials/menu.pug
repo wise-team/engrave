@@ -15,11 +15,15 @@ nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
                 span.sr-only (current)
             li.nav-item(class= (selected=='explore') ? 'active' : '')
               a.nav-link(href='/explore') Explore
+            
               
             if !blogger    
               li.nav-item(class= (selected=='create') ? 'active' : '')
                 a.nav-link(href='/create') Create Blog
                 
+            li.nav-item
+              a.nav-link(href='https://discord.gg/8NktdFh') Our Discord
+
           ul.navbar-nav.nav-flex-icons
 
             li.nav-item
