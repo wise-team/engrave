@@ -11,8 +11,13 @@ block content
             .title-section
                 h1= translation.frontpage.new_articles
             .row#posts
-                each item in latest
-                    include partials/box.pug
+                if latest.length == 0
+                    .news-post.standart-post
+                        h3= translation.frontpage.category_no_posts_found
+                else
+                    each item in latest
+                        include partials/box.pug
         
-            .center-button
-                a(href="#").load-more= translation.frontpage.loadmore_text
+            if latest.length
+                .center-button
+                    a(href="#").load-more= translation.frontpage.loadmore_text

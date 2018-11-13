@@ -10,11 +10,12 @@ block content
         .title-section
             h1= category_fullname
         .row#posts
-            if latest
+            if latest.length
                 each item in latest
                     include partials/box.pug            
             else
-                h1= translation.frontpage.no_posts_in_category
+                h3= translation.frontpage.no_posts_in_category
     
-        .center-button
-            a(href="#").load-more= translation.frontpage.loadmore_text
+        if latest.length
+            .center-button
+                a(href="#").load-more= translation.frontpage.loadmore_text

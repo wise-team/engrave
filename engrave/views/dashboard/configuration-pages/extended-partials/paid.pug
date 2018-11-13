@@ -1,6 +1,10 @@
 form#configure
     .row
         .col-md-12
+            .alert.alert-success(role='alert') Your order has been processed successfully. You can now configure your new blog!
+    
+    .row
+        .col-md-12
             .form-group
                 label Domain (already paid)
                 input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value=blogger.domain, readonly, parsley-trigger="change" required)
@@ -31,6 +35,5 @@ form#configure
                     each theme, index in themes
                         option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
 
-    a(href='/authorize/tier/cancel').btn.btn-link Change your tier
     button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
     .clearfix

@@ -24,13 +24,14 @@
         "category_no_posts_found": "No posts in category",
         "powered_by": "Powered by",
         "no_comments": "Nobody commented yet",
-        "steemit_box_content": "You can login with your Steem account using secure Steemconnect and interact with Engrave blogs easily. Can you comment and vote on article and other comments.",
+        "steemit_box_content": "You can login with your Steem account using secure Steemconnect and interact with this blog. You would be able to comment and vote on this article and other comments.",
         "btn_steemconnect_login": "Login with Steemconnect",
         "btn_vote": "Send vote",
         "btn_close": "Close",
         "btn_cancel": "Cancel",
         "select_voting_power": "Select voting power",
         "you_are_logged_out": "You are logged out",
-        "comment_hidden": "Comment hidden due to low ratings."
+        "comment_hidden": "Comment hidden due to low ratings.",
+        "home": "Home"
     }
 }

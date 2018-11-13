@@ -61,8 +61,6 @@ export class SSLModule {
                         blog.ssl = true;
                         await blog.save();
                         console.log(" * Database entry saved for blog");
-                    } else {
-                        console.log("Unsecured blog: ", blog.domain, " but domain not points to ENGRAVE server");
                     }
                 } catch (error) {
                     console.log("Generating SSL error:", error);
@@ -70,7 +68,7 @@ export class SSLModule {
             }
             
         } catch (error) {
-            console.log("Generating SSL error:", error);
+            // just ignore
         }
     }
 

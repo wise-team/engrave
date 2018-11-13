@@ -31,6 +31,7 @@
         "btn_cancel": "Anuluj",
         "select_voting_power": "Wybierz siłę głosu",
         "you_are_logged_out": "Jesteś wylogowany",
-        "comment_hidden": "Komentarz ukryty ze względu na niską ocenę"
+        "comment_hidden": "Komentarz ukryty ze względu na niską ocenę",
+        "home": "Główna"
     }
 }
