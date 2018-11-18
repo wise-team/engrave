@@ -4,6 +4,7 @@ import { Posts } from '../../database/PostsModel';
 import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
+import { Onesignal } from '../../modules/Onesignal';
 
 let steem = require('steem');
 let router = express.Router();
@@ -163,12 +164,16 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRe
 
                 } else {
                     console.log("New article has been posted by @" + req.session.steemconnect.name);
+                    
+                    Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
+
                     if (post._id && post._id != '') {
                         Posts.deleteOne({ _id: post._id }, function (err: Error) {
                             if (err) {
                                 console.log(err);
                             }
                         });
+                        
                         res.json({ success: "Article published", draft: true });
                     } else {
                         res.json({ success: "Article published" });
