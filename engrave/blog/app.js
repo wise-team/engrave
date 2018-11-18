@@ -22,7 +22,6 @@ let steem = require("steem");
 let moment = require("moment");
 
 let featured_posts = require('./modules/featured.js');
-let reward_tools = require('./modules/reward-tools');
 let authors = require('./modules/authors');
 let sitemap = require('./modules/sitemap');
 let articles = require('./modules/articles');
@@ -134,7 +133,6 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 featured_posts.initialize();
-reward_tools.initialize();
 authors.initialize();
 sitemap.initialize();
 articles.initialize();
