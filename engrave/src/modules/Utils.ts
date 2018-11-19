@@ -238,9 +238,19 @@ export class Utils {
     }
 
     static generatePaymentLink(currency: string) {
+        let amount = '';
+        switch(currency.toUpperCase()) {
+            case 'STEEM':           
+                amount = process.env.DOMAIN_PRICE_STEEM + '.000 ' + currency.toUpperCase();
+                break;
+            case 'SBD':
+            default:
+                amount = process.env.DOMAIN_PRICE_SBD + '.000 ' + currency.toUpperCase();
+                break;
+        }
         return DashboardSteemConnect.sign('transfer', {
             to: 'engrave',
-            amount: '10.000 ' + currency.toUpperCase(),
+            amount: amount,
             memo: 'Domain request',
         }, process.env.PAYMENT_REDIRECT_URI);
     }

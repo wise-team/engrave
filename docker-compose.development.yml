@@ -27,6 +27,8 @@ services:
       - WAIT_HOSTS=mongo:27017
       - SERVER_IP=139.162.185.235
       - NAMECOM_API=api.dev.name.com
+      - DOMAIN_PRICE_SBD=10
+      - DOMAIN_PRICE_STEEM=20
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt

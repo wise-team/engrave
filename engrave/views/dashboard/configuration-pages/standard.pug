@@ -1,6 +1,9 @@
 form#configure
     .row
         .col-md-12
+            .alert.alert-danger(role='alert') This is only for people who already own a domain. If you wan't to buy a new one, please <a href="/authorize/tier/cancel">change tier</a> and select last one.
+    .row
+        .col-md-12
             .alert.alert-danger(role='alert') Use your registrar's DNS servers and change <strong>record A</strong> to <strong>#{server_ip}</strong>. If you don't know what to do, please <a href="https://discord.gg/dn8ZxWJ">contact us on Discord.</a>
     .row
         .col-md-12

@@ -24,6 +24,8 @@ services:
       - SERVER_IP=139.162.185.235
       - PAYMENT_REDIRECT_URI=https://engrave.website/dashboard/configure/
       - NAMECOM_API=api.name.com
+      - DOMAIN_PRICE_SBD=10
+      - DOMAIN_PRICE_STEEM=20
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt

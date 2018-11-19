@@ -16,7 +16,12 @@ router.get('/configure', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedR
         res.render('dashboard/configure.pug', { 
             themes: Themes.getInstalledThemes(),
             blogger: req.session.blogger, 
-            url: 'configure' });
+            url: 'configure',
+            domainPrice: {
+                steem: process.env.DOMAIN_PRICE_STEEM,
+                sbd: process.env.DOMAIN_PRICE_SBD,
+            }
+        });
     } else {
         res.redirect('/dashboard');
     }
