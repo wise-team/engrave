@@ -181,7 +181,7 @@ export class Utils {
             if (blogger.frontpage_language == 'pl') {
                 article.body += '\n\n***\n<center>\n### Pierwotnie opublikowano na [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [ENGRAVE](https://engrave.website).\n</center>';
             } else {
-                article.body += '\n\n***\n<center>\n### Oryginally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
+                article.body += '\n\n***\n<center>\n### Originally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [ENGRAVE](https://engrave.website).\n</center>';
             }
             article.links = links;
             article.tags = tags;
@@ -195,7 +195,7 @@ export class Utils {
     }
 
     static removeWebsiteAdvertsElements(body: string) {
-        let newBody = body.replace(/(\n\*\*\*\n<center>\s###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
+        let newBody = body.replace(/(\n\*\*\*\n<center>\s###\sOriginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
         newBody = newBody.replace(/(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/g, "")
         return newBody;
     }
