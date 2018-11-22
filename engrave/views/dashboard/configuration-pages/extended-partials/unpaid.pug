@@ -19,3 +19,9 @@ else
         .col-md-12
             .form-group
                 p Your requested domain: #{blogger.domain}
+   .row
+        .col-md-12
+            .alert.alert-info(role='alert') If you interrupted payment process, you can use those buttons again. You won't be charged until you confirm transaction.
+
+    button.btn.btn-success.btn-fill.pull-right#pay-steem(type='submit')= 'Pay ' + domainPrice.steem + ' STEEM'
+    button.btn.btn-info.btn-space.btn-fill.pull-right#pay-sbd(type='submit')= 'Pay ' + domainPrice.sbd + ' SBD'
