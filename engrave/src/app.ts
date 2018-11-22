@@ -112,7 +112,7 @@ Themes.Initialize();
 
 if (process.env.NODE_ENV == "production") {
     (async () => {
-        await NodeAppsModule.ConfigureAndStartConfiguredBlogs();
+        NodeAppsModule.ConfigureAndStartConfiguredBlogs();
     })();
 }
 

@@ -51,7 +51,7 @@ module.exports.initialize = () => {
 
     cacheAllArticles();
 
-    new CronJob('* * * * *', function () { cacheAllArticles() }, null, true, 'America/Los_Angeles');
+    new CronJob('/10 * * * *', function () { cacheAllArticles() }, null, true, 'America/Los_Angeles');
 
 }
 

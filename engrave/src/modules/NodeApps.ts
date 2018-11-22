@@ -68,6 +68,7 @@ export class NodeAppsModule {
                         }
                     }
                     await this.createAndRun(blog);
+                    await this.wait_s(20);
                     console.log("Created instance for: ", blog.domain);
                 } catch (error) {
                     console.log("Couldn't generate certificates on running for: ", blog.domain, error);
@@ -77,6 +78,12 @@ export class NodeAppsModule {
             console.log('Error while reading blogs from database');
             throw error;
         }
+    }
+
+     private static async wait_s(seconds: number) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, seconds*1000);
+        })
     }
 
     /**
