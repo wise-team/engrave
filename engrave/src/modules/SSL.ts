@@ -52,7 +52,8 @@ export class SSLModule {
 
             for(const blog of blogs) {
                 try {
-                    if (await SSLModule.checkIfDomainPointsEngraveServer(blog.domain)) {
+                    if (await SSLModule.checkIfDomainPointsEngraveServer(blog.domain) &&
+                        await SSLModule.checkIfDomainPointsEngraveServer('www.' + blog.domain)) {
                         console.log("Unsecured blog: ", blog.domain);
                         await SSLModule.generateCertificatesForDomain(blog.domain);
                         console.log(" * SSL generated for ", blog.domain);

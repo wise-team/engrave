@@ -74,10 +74,6 @@ export class Domains {
                 .post(this.apiAuthorizedAddress)
                 .accept('json')
                 .send(orderRequest)
-
-            const createdDomainResponse = JSON.parse(result.text);
-            console.log(createdDomainResponse);
-
         } catch (error) {
             console.log(error);
             throw error;
@@ -162,10 +158,7 @@ export class Domains {
                 type: 'A',
                 answer: process.env.SERVER_IP,
                 ttl: 300
-            });
-
-        console.log(answer);
-            
+            });           
     }
 
     private static async createDomainRecordsForEngrave(domain: string) {
@@ -178,9 +171,7 @@ export class Domains {
                 answer: process.env.SERVER_IP, 
                 ttl: 300
             });
-        
-        console.log(record);
-            
+    
         record = await superagent
             .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
@@ -191,8 +182,6 @@ export class Domains {
                 ttl: 300
             });
 
-        console.log(record);
-
         record = await superagent
             .post(this.apiAuthorizedAddress + `/${domain}/records`)
             .accept('json')
@@ -202,9 +191,7 @@ export class Domains {
                 answer: process.env.SERVER_IP, 
                 ttl: 300
             });
-
-        console.log(record);
-    }
+   }
   
     static async getDomainPrice(domain: string): Promise<number> {
         const result = await superagent
@@ -227,9 +214,6 @@ export class Domains {
             } else {
                 await this.createDomainRecordsForEngrave(domain)
             }
-
-            const configuredRecords = await this.getDomainRecords(domain);
-            console.log(configuredRecords);
 
         } catch (error) {
             console.log(error);
