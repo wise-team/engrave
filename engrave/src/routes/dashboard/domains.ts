@@ -14,7 +14,7 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
 router.post('/check', async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
 
     try {
-        const domain = req.body.domain;
+        const domain = req.body.domain.toLowerCase();
 
         Domains.validateCustomDomain(domain);
 
@@ -35,7 +35,7 @@ router.post('/check', async (req: IExtendedRequest, res: express.Response, next:
 router.post('/choose', async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
 
     try {
-        const domain = req.body.domain;
+        const domain = req.body.domain.toLowerCase();;
         const currency = req.body.currency;
 
         Domains.validateCustomDomain(domain);

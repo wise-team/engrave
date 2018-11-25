@@ -37,9 +37,9 @@ router.post(
 
         try {
             let configuration = req.body;
-            let domain = configuration.domain;
+            let domain = configuration.domain.toLowerCase();
             if (configuration.subdomain) {
-                domain = configuration.subdomain + "." + configuration.domain;
+                domain = configuration.subdomain.toLowerCase() + "." + configuration.domain.toLowerCase();
             }
             
             let available = await BlogListModule.isBlogDomainAvailable(domain);

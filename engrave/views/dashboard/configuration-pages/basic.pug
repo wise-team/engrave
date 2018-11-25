@@ -3,7 +3,7 @@ form#configure
         .col-md-6
             .form-group
                 label Blog address
-                input.form-control.text-right(name='subdomain', required, pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='yourblogaddress')
+                input.form-control.text-right#configuration-domain(name='subdomain', autocapitalize="none", required, pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{2,24}?$", title="Use no special characters and whitespaces. Allowed length: 2-24 characters", type='text', placeholder='yourblogaddress')
         
         .col-md-6
             .form-group

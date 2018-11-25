@@ -9,7 +9,7 @@ form#configure
         .col-md-12
             .form-group                    
                 label Domain
-                input.form-control(name='domain', pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
+                input.form-control(name='domain', autocapitalize="none", pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,11}?$", type='text', placeholder='example.com', value='' parsley-trigger="change" required)
     .row
         .col-md-6
             .form-group

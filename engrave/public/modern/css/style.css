@@ -22,3 +22,11 @@
   border: 5px solid #ddffdd;
   background-color: #ddffdd;
 }
+
+#custom-domain {
+  text-transform: lowercase;
+}
+
+#configuration-domain {
+  text-transform: lowercase;
+}

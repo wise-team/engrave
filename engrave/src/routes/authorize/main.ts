@@ -9,8 +9,9 @@ const router = express.Router();
 router.get('/', async (req: IExtendedRequest, res: express.Response, next: express.NextFunction) => {
     if (!req.query.access_token) {
         if (req.query.blog) {
-            if (await BlogListModule.isBlogRegistered(req.query.blog)) {
-                req.session.blog_redirect = req.query.blog;
+            const blogDomain = req.query.blog.toLowerCase();
+            if (await BlogListModule.isBlogRegistered(blogDomain)) {
+                req.session.blog_redirect = blogDomain;
                 const uri = ReaderSteemConnect.getLoginURL();
                 res.redirect(uri);
             } else {

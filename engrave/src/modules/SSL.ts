@@ -54,7 +54,7 @@ export class SSLModule {
                 try {
                     if (await SSLModule.checkIfDomainPointsEngraveServer(blog.domain) &&
                         await SSLModule.checkIfDomainPointsEngraveServer('www.' + blog.domain)) {
-                        console.log("Unsecured blog: ", blog.domain);
+                        console.log("Unsecured blog: ", blog.domain, "from @" + blog.steem_username);
                         await SSLModule.generateCertificatesForDomain(blog.domain);
                         console.log(" * SSL generated for ", blog.domain);
                         NginxModule.generateNginxSettings(blog);
