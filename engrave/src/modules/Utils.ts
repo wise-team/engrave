@@ -228,8 +228,6 @@ export class Utils {
         oldsettings.onesignal_api_key = new_settings.onesignal_api_key;
         oldsettings.onesignal_logo_url = new_settings.onesignal_logo_url;
         oldsettings.onesignal_body_length = new_settings.onesignal_body_length;
-        oldsettings.analytics_gtag = new_settings.analytics_gtag;
-        oldsettings.webmastertools_id = new_settings.webmastertools_id;
         oldsettings.blog_main_image = new_settings.blog_main_image;
 
         if (new_settings.categories && new_settings.categories != '') {
