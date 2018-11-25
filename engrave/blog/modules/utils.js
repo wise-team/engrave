@@ -428,7 +428,8 @@ module.exports.removeWebsiteAdvertsElements = (body) => {
     let b = a.replace(/(\*\*\*\*\*\*\*\*\*\*\*\n\nArtykuł autorstwa: @)(?:.*)(, dodany za pomocą serwisu )(?:.*)\(https:\/\/(?:.*)\)/g, "");
     let c = b.replace(/(\n\*\*\*\n\n###\sOriginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.)/g, "");
     let d = c.replace(/(\n\*\*\*\n\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.)/g, "");
-    return d;
+    let e = d.replace(/(\n\*\*\*\n\n###\sOryginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.)/g, "");
+    return e;
 }
 
 
@@ -670,12 +671,7 @@ function canPostBeDisplayed(post) {
     }
 
     if((post.beneficiaries.length && (post.beneficiaries[0].account == 'nicniezgrublem' || post.beneficiaries[0].account == 'engrave') )) {
-        
-        let pattern_en = /(\n\*\*\*\n<center>\s###\sOriginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/;
-        let pattern_pl = /(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/;
-        
-        return pattern_en.test(post.body) || pattern_pl.test(post.body) ;
-        
+        return true;
     } else {
         return false;
     }

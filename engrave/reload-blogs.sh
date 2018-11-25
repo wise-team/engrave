@@ -6,6 +6,5 @@ for i in $(find instances/ -maxdepth 1 ! -path instances/ -type d);
 do
     BLOG=$(echo $i | sed 's#instances/##'); # pm2 process is equal to directory name but without trailing dot and slash
     echo $BLOG;
-    sudo cp -r blog/* $i/; # copy all files
     sudo pm2 reload $BLOG # restart blog instance
 done
