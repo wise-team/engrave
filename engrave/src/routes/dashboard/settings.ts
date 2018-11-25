@@ -79,13 +79,19 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
 
 router.post('/ssl', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     try {
-        console.log("Asked for SSl enable on: ", req.session.blogger.domain);
-        await SSLModule.generateCertificatesForDomain(req.session.blogger.domain);
-        let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name});
-        await NginxModule.generateNginxSettings(blog);
-        blog.ssl = true;
-        await blog.save();
-        res.json({ success: "SSL enabled!" });
+        const domain =  req.session.blogger.domain;
+        if(await SSLModule.checkIfDomainPointsEngraveServer(domain) &&
+            await SSLModule.checkIfDomainPointsEngraveServer('www.' + domain)) {
+            console.log("Asked for SSl enable on: ", req.session.blogger.domain);
+            await SSLModule.generateCertificatesForDomain(req.session.blogger.domain);
+            let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name});
+            await NginxModule.generateNginxSettings(blog);
+            blog.ssl = true;
+            await blog.save();
+            res.json({ success: "SSL enabled!" });            
+        } else {
+            res.json({ error: "Your domain is not pointing to our server. Edit DNS records or contact us" });            
+        }
     } catch (error) {
         res.json({ error: "SSL could not be enabled. Try again or contact admin" });
     }

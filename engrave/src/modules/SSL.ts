@@ -99,7 +99,7 @@ export class SSLModule {
         else return false;
     }
 
-    private static async checkIfDomainPointsEngraveServer(domain: string) {
+    static async checkIfDomainPointsEngraveServer(domain: string) {
         return new Promise ( (resolve, reject) => {
             dns.lookup(domain, null, (error, address, family) => {
                 if(error) reject(error);
