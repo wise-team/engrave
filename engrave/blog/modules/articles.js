@@ -5,6 +5,7 @@ let authors = require('../modules/authors');
 let CronJob = require('cron').CronJob;
 let steem = require('steem');
 let cfg = require('../config');
+const sitemap = require('../modules/sitemap');
 
 let cachedArticles = [];
 
@@ -24,7 +25,8 @@ function updateArticleWithPermlink(permlink, article) {
             return;
         }
     }
-    cachedArticles.unshift(article); // in case we didn't find anything
+    cachedArticles.unshift(article); // in case we didn't find 
+    sitemap.addUrl(article.permlink, article.image, article.date);
 }
 
 function cacheAllArticles() {
