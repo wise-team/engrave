@@ -68,7 +68,7 @@ export class NodeAppsModule {
                         }
                     }
                     await this.createAndRun(blog);
-                    await this.wait_s(20);
+                    await this.wait_s(5);
                     console.log("Created instance for: ", blog.domain);
                 } catch (error) {
                     console.log("Couldn't generate certificates on running for: ", blog.domain, error);
