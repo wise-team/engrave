@@ -5,6 +5,7 @@ import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import { Onesignal } from '../../modules/Onesignal';
+import { PublishedArticlesModule } from '../../modules/PublishedArticles';
 
 let steem = require('steem');
 let router = express.Router();
@@ -137,7 +138,7 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedReq
     }
 })
 
-router.post('/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
     let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
 
@@ -146,7 +147,7 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRe
 
         if (operations) {
             DashboardSteemConnect.setAccessToken(req.session.access_token);
-            DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
+            DashboardSteemConnect.broadcast(operations, async function (err: any, result: any) {
                 if (err) {
                     console.log(err);
                     if (err.hasOwnProperty('error_description')) {
@@ -164,6 +165,8 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRe
 
                 } else {
                     console.log("New article has been posted by @" + req.session.steemconnect.name);
+
+                    await PublishedArticlesModule.create(req.session.blogger, post);
                     
                     Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
 
