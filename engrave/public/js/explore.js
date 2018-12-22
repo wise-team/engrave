@@ -1,20 +1,52 @@
 $(document).ready(function () {
 
-    let counter = 12;
+    let blogsCounter = 12;
+    let articlesCounter = 12;
 
     $('#load-more').click(function (e) {
 
         $.ajax({
             type: "POST",
-            url: "/explore",
+            url: "/explore/blogs",
             data: {
-                skip: counter
+                skip: blogsCounter
             },
             success: function (data) {
                 data.blogs.forEach((blog) => {
                     renderBlog(blog);
                 }); 
-               counter+= 12;
+               blogsCounter+= 12;
+            },
+            error: function (data) {
+                $.notify({
+                    icon: "nc-icon nc-fav-remove",
+                    message: "Something went wrong. Try again"
+                }, {
+                    type: 'danger',
+                    timer: 8000,
+                    spacing: 15,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+        });
+    });
+
+    $('#load-more-articles').click(function (e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/explore/articles",
+            data: {
+                skip: articlesCounter
+            },
+            success: function (data) {
+                data.articles.forEach((article) => {
+                    renderArticle(article);
+                }); 
+               articlesCounter+= 12;
             },
             error: function (data) {
                 $.notify({
@@ -38,4 +70,11 @@ $(document).ready(function () {
         const html = $.parseHTML(newBlogDOM);
         $('#blog-list').append(html);
     }
+    
+    function renderArticle(article) {
+        const newArticleDOM = `<div class="col-lg-4 col-md-6 mb-4"><div class="card"><div class="article-image"><a href="${article.engrave_permlink}"><img class="card-img-top" src="${article.image}" title="${article.title}" style=""></a></div><div class="card-body text-center"><a href="${article.engrave_permlink}"><h4 class="card-title">${article.title}</h4></a><h6>@${article.steem_username}</h6><p class="card-text">${article.body.substr(0,240)}...</p><p class="card-text"><a href="${article.steemit_permlink}"><img class="steemit" src="/img/steemit-icon.png"></a></p></div></div></div>`
+        const html = $.parseHTML(newArticleDOM);
+        $('#articles-list').append(html);
+    }
+
 });
