@@ -38,3 +38,9 @@ body,
 .navbar-brand img {
   height: 35px;
 }
+
+.steemit {
+  height: 30px;
+  display: block;
+  margin: auto;
+}

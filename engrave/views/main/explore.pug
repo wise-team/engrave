@@ -28,3 +28,25 @@ block body
         .row.features-small.mt-5.wow.fadeIn
           .col-md-12.text-center
             button.btn.btn-grey.btn-md.waves-effect.waves-light#load-more Load more
+
+        h2.my-5.h3.text-center Latest articles
+        .row.features-small.mt-5.wow.faxdeIn#articles-list
+          each article in articles
+            .col-lg-4.col-md-6.mb-4
+              .card
+                .article-image
+                  a(href=article.engrave_permlink)
+                    img.card-img-top(src= article.image, title= article.title)
+                .card-body.text-center
+                  a(href= article.engrave_permlink)
+                    h4.card-title= article.title
+                  h6= '@' + article.steem_username
+                  p.card-text= article.body.substr(0, 240) + '...'
+                  
+                  p.card-text
+                    a(href= article.steemit_permlink)
+                      img(src='/img/steemit-icon.png').steemit
+
+        .row.features-small.mt-5.wow.fadeIn
+          .col-md-12.text-center
+            button.btn.btn-grey.btn-md.waves-effect.waves-light#load-more-articles Load more
