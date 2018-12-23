@@ -2,7 +2,6 @@ require('dotenv').config();
 
 import * as express from 'express';
 import { Config } from './config'
-import { StatisticsModule } from './modules/Statistics';
 import { SchedulerModule } from './modules/Scheduler';
 import { SSLModule } from './modules/SSL';
 import { NodeAppsModule } from './modules/NodeApps';
@@ -13,7 +12,6 @@ import { Blogs } from './database/BlogsModel';
 let config = Config.GetConfig();
 
 let path = require('path');
-// let favicon = require('serve-favicon');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session');
@@ -106,7 +104,6 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 
 let sslModuleInstance = new SSLModule(); // constructor creates CronJob
 let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
-let statisticsModuleInstance = new StatisticsModule(); // constructor creates CronJob
 let domainsModuleInstance = new Domains(); // constructor creates CronJob
 
 Themes.Initialize();

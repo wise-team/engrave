@@ -1,0 +1,3 @@
+[submodule "engrave-statistics/src/submodules/engrave-shared"]
+	path = engrave-statistics/src/submodules/engrave-shared
+	url = https://github.com/wise-team/engrave-shared.git

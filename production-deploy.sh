@@ -1,6 +1,7 @@
 
 docker build ./nginx/ -f ./nginx/Dockerfile.production -t bgornicki/nginx
 docker build ./engrave/ -f ./engrave/Dockerfile.production -t bgornicki/engrave
+docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.production -t bgornicki/engrave-statistics
 
 docker stack rm engrave
 

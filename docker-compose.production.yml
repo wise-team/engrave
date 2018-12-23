@@ -1,5 +1,12 @@
 version: "3.2"
 services:
+
+  statistics:
+    image: bgornicki/engrave-statistics
+    depends_on:
+      - mongo
+    environment:
+      - WAIT_HOSTS=mongo:27017  
   
   nginx:
     image: bgornicki/nginx
