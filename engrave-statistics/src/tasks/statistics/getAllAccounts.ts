@@ -2,23 +2,22 @@ import { Statistics } from '../../models/StatisticsModel';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 const steem = require('steem');
 
-async function getAllAccounts () {
+async function getAllAccountsStatistics () {
     console.log("Statistics module entered at: " + Date());
     
     let accounts: string[] = [];
 
     try {
-        let properties = await steem.api.getDynamicGlobalPropertiesAsync();
-        let engraveUsers = await Blogs.find({}, { steem_username: 1 });
+        const properties = await steem.api.getDynamicGlobalPropertiesAsync();
+        const engraveUsers = await Blogs.find({}, { steem_username: 1 });
         
         engraveUsers.forEach((user: any) => {
             accounts.push(user.steem_username);
         })
         
-        let steemAccountsArary = await steem.api.getAccountsAsync(accounts);
-        
-        steemAccountsArary.forEach(async (steemUser: any) => {
+        const steemAccounts = await steem.api.getAccountsAsync(accounts);
 
+        for(const steemUser of steemAccounts) {
             let databaseUser = await Statistics.findOne({ steem_username: steemUser.name });
 
             if (!databaseUser) {
@@ -27,7 +26,7 @@ async function getAllAccounts () {
                 databaseUser.steem_username = steemUser.name;
             }
 
-            var steemPower = steem.formatter.vestToSteem(steemUser.vesting_shares, properties.total_vesting_shares, properties.total_vesting_fund_steem);
+            const steemPower = steem.formatter.vestToSteem(steemUser.vesting_shares, properties.total_vesting_shares, properties.total_vesting_fund_steem);
 
             databaseUser.sbd.push(steemUser.sbd_balance.replace(" SBD", ""));
             databaseUser.steem.push(steemUser.balance.replace(" STEEM", ""));
@@ -36,10 +35,11 @@ async function getAllAccounts () {
             databaseUser.savings_sbd.push(steemUser.savings_sbd_balance.replace(" SBD", ""));
 
             await databaseUser.save();
-        });
+        }
+
     } catch(err) {
         console.log("Statistics error: ", err);
     }
 }
 
-export default getAllAccounts;
+export default getAllAccountsStatistics;
