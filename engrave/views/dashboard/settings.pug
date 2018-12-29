@@ -40,12 +40,12 @@ block body
                     .col-md-12
                       .form-group
                         label Website logo url (optional)
-                        input.form-control(name='blog_logo_url',type='url', placeholder='https://...', value= blogger.blog_logo_url)
+                        input.form-control(name='blog_logo_url', type='text', pattern="(http(s)?://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)(.)(png|jpg|jpeg|gif|bmp)", data-parsley-pattern-message="Only direct image links allowed", placeholder='https://...', value= blogger.blog_logo_url)
                   .row
                     .col-md-12
                       .form-group
                         label Website main image (used in Clean-blog theme)
-                        input.form-control(name='blog_main_image',type='url', placeholder='https://...', value= blogger.blog_main_image)
+                        input.form-control(name='blog_main_image', type='text', pattern="(http(s)?://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)(.)(png|jpg|jpeg|gif|bmp)", data-parsley-pattern-message="Only direct image links allowed", placeholder='https://...', value= blogger.blog_main_image)
                   .row
                     .col-md-6 
                       .form-group
@@ -109,7 +109,7 @@ block body
                     .col-md-12
                       .form-group
                         label Default OpenGraph image url (optional)
-                        input.form-control(name='opengraph_default_image_url', type='text', placeholder='https://...', value=blogger.opengraph_default_image_url)                                    
+                        input.form-control(name='opengraph_default_image_url', type='text', pattern="(http(s)?://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)(.)(png|jpg|jpeg|gif|bmp)", data-parsley-pattern-message="Only direct image links allowed", placeholder='https://...', value=blogger.opengraph_default_image_url)                                    
                   .row
                     .col-md-12
                       .form-group
@@ -146,7 +146,7 @@ block body
                     .col-md-12
                       .form-group
                         label Notification logo url
-                        input.form-control(name='onesignal_logo_url', type='text', placeholder='https://...', value=blogger.onesignal_logo_url)  
+                        input.form-control(name='onesignal_logo_url', pattern="(http(s)?://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)(.)(png|jpg|jpeg|gif|bmp)", data-parsley-pattern-message="Only direct image links allowed", type='text', placeholder='https://...', value=blogger.onesignal_logo_url)  
                   .row
                     .col-md-12
                       .form-group
