@@ -4,6 +4,8 @@ COPY nginx-watch.sh /etc/nginx/
 
 COPY conf/_development.conf /etc/nginx/conf.d/80_engrave.website.conf
 
+COPY maintenance /var/www/maintenance
+
 RUN apt-get update && apt-get -y install inotify-tools screen
 
 # Watch will restart nginx on every change in configuration files caused by ENGRAVE app
