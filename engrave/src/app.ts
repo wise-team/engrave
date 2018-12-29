@@ -111,11 +111,6 @@ Themes.Initialize();
 if (process.env.NODE_ENV == "production") {
 
     (async () => {
-
-        if(process.env.MIGRATE) {
-            await migrateDomainNames();
-        }
-
         NodeAppsModule.ConfigureAndStartConfiguredBlogs();
     })();
 }
@@ -176,22 +171,6 @@ function onListening() {
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;
-}
-
-async function migrateDomainNames() {
-    try {
-        const blogs = await Blogs.find();
-        for(let blog of blogs) {
-            if(blog.domain && blog.domain != '') {
-                const oldName = blog.domain;
-                blog.domain = blog.domain.toLowerCase();
-                await blog.save();
-                console.log("Domain name changed from", oldName, "to", blog.domain);
-            }
-        }
-    } catch (error) {
-        console.log("Migration error:", error);
-    }
 }
 
 export default app;
