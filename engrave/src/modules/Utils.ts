@@ -92,9 +92,11 @@ export class Utils {
             ]
         ];
 
-        if (scope == 'edit') {
+        switch(scope) {
+            case 'edit':
             return operations;
-        } else if (scope == 'publish') {
+
+            case 'publish':
             operations.push(
                 ['comment_options', {
                     author: blogger.steem_username,
@@ -113,9 +115,11 @@ export class Utils {
                 }
                 ]);
             return operations;
-        } else {
-            return null;
+
+            default:
+            throw new Error('Invalid operations scope');
         }
+
     }
 
 
@@ -134,8 +138,14 @@ export class Utils {
             var thumbnail: string = null;
 
             if (article.image && article.image != '') {
-                image.push(article.image);
-                thumbnail = article.image;
+                let imageLink = article.image;
+                
+                if(Array.isArray(article.image)) {
+                    imageLink = article.image[0];
+                }
+
+                image.push(imageLink);
+                thumbnail = imageLink;
             }
 
             urls.forEach(url => {
@@ -190,7 +200,7 @@ export class Utils {
             article.thumbnail = thumbnail;
             return article;
         } else {
-            return null;
+            throw new Error('Cannot parse article');
         }
     }
 

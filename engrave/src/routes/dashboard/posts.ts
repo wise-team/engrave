@@ -78,29 +78,28 @@ router.get('/edit/:permlink', RoutesVlidators.isLoggedAndConfigured, (req: IExte
 
 });
 
-router.post('/edit', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
-    if (post) {
+router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
+    try {
+        const post = Utils.prepareBloggerPost(req.body, req.session.blogger);
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
-        if (operations) {
-            DashboardSteemConnect.setAccessToken(req.session.access_token);
-            DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
-                if (err) {
-                    console.log(err);
-                    var errorstring = '';
-                    if (err.error_description) {
-                        errorstring = err.error_description.split(': ')[1];
-                    } else if (err.message) {
-                        errorstring = err.message.split(': ')[1];
-                    }
-                    res.json({ error: errorstring });
-                } else {
-                    console.log("Article has been updated by @" + req.session.steemconnect.name);
-                    res.json({ success: "Article updated" });
+
+        DashboardSteemConnect.setAccessToken(req.session.access_token);
+        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
+            if (err) {
+                console.log(err);
+                var errorstring = '';
+                if (err.error_description) {
+                    errorstring = err.error_description.split(': ')[1];
+                } else if (err.message) {
+                    errorstring = err.message.split(': ')[1];
                 }
-            });
-        }
-    } else {
+                res.json({ error: errorstring });
+            } else {
+                console.log("Article has been updated by @" + req.session.steemconnect.name);
+                res.json({ success: "Article updated" });
+            }
+        });
+    } catch (error) {
         res.json({ error: "Article parsing error" });
     }
 });
@@ -140,53 +139,40 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedReq
 
 router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
-    let post = Utils.prepareBloggerPost(req.body, req.session.blogger);
-
-    if (post) {
+    try {
+        const post = Utils.prepareBloggerPost(req.body, req.session.blogger);
         const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
+        
+        DashboardSteemConnect.setAccessToken(req.session.access_token);
+        await DashboardSteemConnect.broadcast(operations);
 
-        if (operations) {
-            DashboardSteemConnect.setAccessToken(req.session.access_token);
-            DashboardSteemConnect.broadcast(operations, async function (err: any, result: any) {
-                if (err) {
-                    console.log(err);
-                    if (err.hasOwnProperty('error_description')) {
-                        let errorstring = err.error_description.split('\n')[0].split(': ')[1];
-                        if (errorstring == 'Comment already has beneficiaries specified.') {
-                            res.json({ error: 'There is an article with that title!' });
-                        } else if(errorstring != '') {
-                            res.json({ error: errorstring });
-                        } else {
-                            res.json({ error: 'Error occured. Try again' });
-                        }
-                    } else {
-                        res.json({ error: 'Error occured. Try again' });
-                    }
+        console.log("New article has been posted by @" + req.session.steemconnect.name);
 
-                } else {
-                    console.log("New article has been posted by @" + req.session.steemconnect.name);
+        await PublishedArticlesModule.create(req.session.blogger, post);
+        
+        Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
 
-                    await PublishedArticlesModule.create(req.session.blogger, post);
-                    
-                    Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
-
-                    if (post._id && post._id != '') {
-                        Posts.deleteOne({ _id: post._id }, function (err: Error) {
-                            if (err) {
-                                console.log(err);
-                            }
-                        });
-                        
-                        res.json({ success: "Article published", draft: true });
-                    } else {
-                        res.json({ success: "Article published" });
-                    }
-
-                }
-            });
+        if (post._id && post._id != '') {
+            await Posts.deleteOne({ _id: post._id });
+            res.json({ success: "Article published", draft: true });
+        } else {
+            res.json({ success: "Article published" });
         }
-    } else {
-        res.json({ error: "Article parsing error" });
+
+    } catch (error) {
+        console.log(error);
+        if (error.hasOwnProperty('error_description')) {
+            let errorstring = error.error_description.split('\n')[0].split(': ')[1];
+            if (errorstring == 'Comment already has beneficiaries specified.') {
+                res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring != '') {
+                res.json({ error: errorstring });
+            } else {
+                res.json({ error: 'Error occured. Try again' });
+            }
+        } else {
+            res.json({ error: error.message });
+        }
     }
 });
 
@@ -240,55 +226,50 @@ router.post('/draft/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExten
     }
 })
 
-router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
-    let draft = req.body;
-    if (draft && draft.id != '') {
-        Posts.findById({ _id: draft.id }, function (err: Error, draft: any) {
-            if (!err && draft) {
-                draft.body = Utils.removeWebsiteAdvertsElements(draft.body);
-                let post = Utils.prepareBloggerPost(draft, req.session.blogger);
+router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
 
-                if (post) {
-                    const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
+    try {
+        const { id } = req.body;
 
-                    if (operations) {
-                        DashboardSteemConnect.setAccessToken(req.session.access_token);
-                        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
-                            if (err) {
-                                console.log(err);
-                                var errorstring = err.error_description.split('\n')[0].split(': ')[1];
-                                if (errorstring == 'Comment already has beneficiaries specified.') {
-                                    res.json({ error: 'There is an article with that title!' });
-                                } else if (errorstring != '') {
-                                    res.json({ error: errorstring });
-                                } else {
-                                    res.json({ error: 'Error occured. Try again' });
-                                }
+        if(!id) throw new Error('No such draft');
 
-                            } else {
-                                console.log("New article has been posted by @" + req.session.steemconnect.name);
-                                if (post._id && post._id != '') {
-                                    Posts.deleteOne({ _id: post._id }, function (err: Error) {
-                                        if (err) {
-                                            console.log(err);
-                                        }
-                                    });
-                                    res.json({ success: "Article published", draft: true });
-                                } else {
-                                    res.json({ success: "Article published" });
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    res.json({ error: "Article parsing error" });
-                }
+        let draft = await Posts.findById({ _id: id });
+
+        draft.body = Utils.removeWebsiteAdvertsElements(draft.body);
+
+        let post = Utils.prepareBloggerPost(draft, req.session.blogger);
+        const operations = Utils.PrepareOperations('publish', post, req.session.blogger);
+
+        DashboardSteemConnect.setAccessToken(req.session.access_token);
+        await DashboardSteemConnect.broadcast(operations);
+            
+        console.log("New article has been posted by @" + req.session.steemconnect.name);
+
+        await PublishedArticlesModule.create(req.session.blogger, post);
+
+        Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
+
+        if (post._id && post._id != '') {
+            await Posts.deleteOne({ _id: post._id });
+            res.json({ success: "Article published", draft: true });
+        } else {
+            res.json({ success: "Article published" });
+        }
+        
+    } catch (error) {
+        console.log(error);
+        if (error.hasOwnProperty('error_description')) {
+            let errorstring = error.error_description.split('\n')[0].split(': ')[1];
+            if (errorstring == 'Comment already has beneficiaries specified.') {
+                res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring != '') {
+                res.json({ error: errorstring });
             } else {
-                res.json({ success: 'Draft deleted' });
+                res.json({ error: 'Error occured. Try again' });
             }
-        });
-    } else {
-        res.json({ error: 'Error while deleting draft' });
+        } else {
+            res.json({ error: error.message });
+        }
     }
 })
 
