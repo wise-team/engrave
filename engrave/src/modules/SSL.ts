@@ -100,9 +100,9 @@ export class SSLModule {
     }
 
     static async checkIfDomainPointsEngraveServer(domain: string) {
-        return new Promise ( (resolve, reject) => {
+        return new Promise ( (resolve) => {
             dns.lookup(domain, null, (error, address, family) => {
-                if(error) reject(error);
+                if(error) resolve(false);
                 else {
                     resolve(address == process.env.SERVER_IP);
                 }
