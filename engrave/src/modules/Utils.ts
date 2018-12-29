@@ -125,6 +125,10 @@ export class Utils {
 
     static prepareBloggerPost(article: any, blogger: any) {
 
+        if(article.image != '' && !isImage(article.image)) {
+            throw new Error('Please use only direct image link as a thumbnail');
+        }
+
         if (article.body != '' && article.title != '') {
 
             if (!article.permlink) {

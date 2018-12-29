@@ -39,6 +39,9 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
+      - ./engrave/src:/app/src
+      - ./engrave/views:/app/views
+      - ./engrave/public:/app/public
     depends_on:
       - mongo
     secrets:

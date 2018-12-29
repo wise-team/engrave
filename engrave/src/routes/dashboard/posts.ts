@@ -100,7 +100,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
             }
         });
     } catch (error) {
-        res.json({ error: "Article parsing error" });
+        res.json({ error: error.message });
     }
 });
 
@@ -206,7 +206,7 @@ router.post('/draft', RoutesVlidators.isLoggedAndConfigured, async (req: IExtend
             res.json({ success: 'Draft saved', _id: draft._id });
         }
     } catch (error) {
-        res.json({ error: 'Error while saving draft' });
+        res.json({ error: error.message });
     }
 
 })
