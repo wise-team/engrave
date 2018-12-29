@@ -6,10 +6,9 @@
   "author": "Bartłomiej Górnicki <bartlomiej@wise-team.io> (https://wise-team.io)",
   "scripts": {
     "start": "tsc & NODE_ENV=production node dist/app.js",
-    "debug": "ts-node --inspect=0.0.0.0:9229 --nolazy src/app.ts",
+    "debug": "tsc & NODE_ENV=production node --inspect=0.0.0.0:9229 dist/app.js",
     "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\"",
-    "watch": "nodemon -L -e ts -w ./src -x npm run watch:serve",
-    "watch:serve": "node --inspect=0.0.0.0:9229 --require ts-node/register src/app.ts"
+    "watch": "nodemon -L -e ts -w ./src -x npm run debug"
   },
   "dependencies": {
     "@cloudreach/docker-secrets": "1.0.3",
@@ -32,6 +31,7 @@
     "greenlock": "2.4.2",
     "homedir": "0.6.0",
     "is-image": "2.0.0",
+    "jsonwebtoken": "^8.4.0",
     "le-store-certbot": "2.2.0",
     "lodash": "4.17.11",
     "moment": "2.22.2",

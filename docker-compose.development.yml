@@ -42,6 +42,7 @@ services:
       - ./engrave/src:/app/src
       - ./engrave/views:/app/views
       - ./engrave/public:/app/public
+      - ./engrave/dist:/app/dist
     depends_on:
       - mongo
     secrets:
