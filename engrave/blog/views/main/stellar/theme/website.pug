@@ -7,7 +7,12 @@ html
         link(rel='stylesheet', href='/assets/css/main.css')
         noscript
             link(rel='stylesheet', href='/assets/css/noscript.css')
+
+        if config.webmastertools_id && config.webmastertools_id != ''
+            meta(name="google-site-verification" content= config.webmastertools_id)
         
+        include partials/opengraph.pug
+
         block scripts
             include partials/scripts.pug
     

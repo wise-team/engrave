@@ -4,8 +4,9 @@ html
         title= page_title
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
-        if google_site_verification && google_site_verification != ''
-            meta(name="google-site-verification" content= config.google_site_verification)
+        
+        if config.webmastertools_id && config.webmastertools_id != ''
+            meta(name="google-site-verification" content= config.webmastertools_id)
 
         if website_favicon_url && website_favicon_url != ''
             link(rel="icon" type="image/png" href= config.website_favicon_url)

@@ -1,9 +1,12 @@
 //- Facebook Open Graph Meta Data
 //- meta(property="og:url" content="")
 meta(property="og:type" content="article")
-meta(property="og:locale" content="pl_PL")
+if config.frontpage_language == 'pl'
+    meta(property="og:locale" content="pl_PL")
+else
+    meta(property="og:locale" content="en_US")
 meta(property="og:site_name" content= config.blog_title)
-meta(property="og:title" content= article_title)
+meta(property="og:title" content= page_title)
 if body_abbr
     meta(property="og:description" content= body_abbr)
 else
@@ -16,7 +19,7 @@ else
 //- Twitter Meta Data
 meta(name="twitter:card" content="summary_large_image")
 meta(name="twitter:site" content= config.blog_title)
-meta(name="twitter:title" content= article_title)
+meta(name="twitter:title" content= page_title)
 if body_abbr
     meta(name="twitter:description" content= body_abbr)
 else 
