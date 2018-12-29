@@ -36,7 +36,7 @@ block body
               .card
                 .article-image
                   a(href=article.engrave_permlink)
-                    img.card-img-top(src= article.image, title= article.title)
+                    img.card-img-top(src= article.image ? article.image : '/img/default.jpg', title= article.title)
                 .card-body.text-center
                   a(href= article.engrave_permlink)
                     h4.card-title= article.title
