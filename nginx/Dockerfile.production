@@ -3,7 +3,6 @@ FROM nginx
 COPY nginx-watch.sh /etc/nginx/
 
 COPY conf/_production.conf /etc/nginx/conf.d/80_engrave.website.conf
-COPY conf/default.conf /etc/nginx/conf.d/
 
 RUN apt-get update && apt-get -y install inotify-tools screen
 
