@@ -3,9 +3,7 @@ let router = express.Router();
 let utils = require('../modules/utils.js');
 let authors = require('../modules/authors.js');
 var cfg = require('../config');
-var showdown = require('showdown')
 let articles = require('../modules/articles.js');
-
 let sitemap = require('../modules/sitemap');
 
 router.get('/sitemap.xml', (req, res, next) => {
@@ -18,39 +16,6 @@ router.get('/sitemap.xml', (req, res, next) => {
         }
         res.header('Content-Type', 'application/xml');
         res.send(xml);
-    });
-});
-
-router.get('/o-nas', (req, res, next) => {
-
-    req.session.current_url = "o-nas";
-    res.render('main/' + cfg.get_config().theme + '/static/about', { 
-        categories: cfg.get_config().categories, 
-        page_title: "O nas - Głodni Wiedzy", 
-        user: utils.prepareLoggedUserObject(req.session), 
-        featured: articles.getFeaturedPosts() 
-    });
-});
-
-router.get('/jak-zarabiac', (req, res, next) => {
-
-    req.session.current_url = "jak-zarabiac";
-    res.render('main/' + cfg.get_config().theme + '/static/jak-zarabiac', { 
-        categories: cfg.get_config().categories, 
-        page_title: "Jak zarabiać - Głodni Wiedzy", 
-        user: utils.prepareLoggedUserObject(req.session), 
-        featured: articles.getFeaturedPosts() 
-    });
-});
-
-router.get('/kontakt', (req, res, next) => {
-
-    req.session.current_url = "kontakt";
-    res.render('main/' + cfg.get_config().theme + '/static/contact', { 
-        categories: cfg.get_config().categories, 
-        page_title: "Kontakt - Głodni Wiedzy",
-        user: utils.prepareLoggedUserObject(req.session), 
-        featured: articles.getFeaturedPosts() 
     });
 });
 
@@ -117,6 +82,12 @@ router.get('/author/:author', (req, res, next) => {
     } else {
         res.redirect('/autor/' + req.params.author)
     }
+});
+
+router.post('/settings/refresh', (req, res) => {
+    cfg.refresh_config(() => {
+        res.json({status: "OK"});
+    });
 });
 
 handleCategoryRoute = (req, res) => {

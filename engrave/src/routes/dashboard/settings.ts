@@ -7,6 +7,7 @@ import { NginxModule } from '../../modules/Nginx';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ICategory } from '../../helpers/ICategory';
+import axios from 'axios';
 
 let router = express.Router();
 
@@ -70,7 +71,21 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
             Utils.CopySettings(newSettings, blog);
             await blog.save();
             req.session.blogger = blog;
-            res.json({ success: "Settings saved successfully" });
+
+            try {
+                
+                await axios({
+                    method: 'POST',
+                    url: `http${blog.ssl ? 's' : ''}://${blog.domain}/settings/refresh`
+                });
+
+                res.json({ success: "Settings saved successfully" });
+                
+            } catch (err) {
+                console.log(err);
+                res.json({ error: "Error while updating blog settings" });
+            }
+            
         }
     } catch (error) {
         res.json({ error: error.message });
