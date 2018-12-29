@@ -52,7 +52,7 @@ block body
                                     .col-md-12
                                         .form-group
                                             label(data-toggle="tooltip" data-placement="top" title="If not specified - first image from post will be used as post thumbnail") Thumbnail image (optional)
-                                            input.form-control(type='text', pattern="(https://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)", placeholder='https://...', value=post.image, name='image')
+                                            input.form-control(type='text', pattern="(http(s)?://)([a-zA-Z0-9]{1,256}\.)?[a-zA-Z0-9]{2,256}\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=]*)(.)(png|jpg|jpeg|gif|bmp)", placeholder='https://...', value=post.image, name='image')
                             
                                 .pull-right
                                 button.btn.btn-success.btn-fill.pull-right#btn-publish( type="button")
