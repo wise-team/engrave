@@ -3,9 +3,14 @@ services:
 
   api-gateway:
     image: bgornicki/engrave-api-gateway
+    deploy:
+      replicas: 1
     ports:
       - 3002:3000
       - 3003:3001
+    volumes:
+      - ./engrave-api-gateway/src:/app/src
+      - ./engrave-api-gateway/dist:/app/dist
 
   statistics:
     image: bgornicki/engrave-statistics
