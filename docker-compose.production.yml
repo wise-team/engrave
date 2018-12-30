@@ -7,6 +7,12 @@ services:
       - mongo
     environment:
       - WAIT_HOSTS=mongo:27017  
+
+  image-uploader:
+    image: bgornicki/engrave-image-uploader
+    secrets:
+      - IMGUR_KEY
+      - IMGUR_CLIENT_ID
   
   nginx:
     image: bgornicki/nginx
@@ -56,4 +62,8 @@ secrets:
   NAMECOM_TOKEN:
     external: true
   NAMECOM_USERNAME:
+    external: true
+  IMGUR_KEY:
+    external: true
+  IMGUR_CLIENT_ID:
     external: true

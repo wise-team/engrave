@@ -7,6 +7,18 @@ services:
       - mongo
     environment:
       - WAIT_HOSTS=mongo:27017
+
+  image-uploader:
+    image: bgornicki/engrave-image-uploader
+    ports:
+      - 3000:3000
+      - 3001:3001
+    secrets:
+      - IMGUR_KEY
+      - IMGUR_CLIENT_ID
+    volumes:
+      - ./engrave-image-uploader/src:/app/src
+      - ./engrave-image-uploader/dist:/app/dist
   
   nginx:
     image: bgornicki/nginx
@@ -22,7 +34,7 @@ services:
   engrave:
     image: bgornicki/engrave
     ports:
-      - 127.0.0.1:9229:9229
+      - 9229:9229
     environment:
       - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
       - PAYMENT_REDIRECT_URI=http://127.0.0.1/dashboard/configure/
@@ -66,4 +78,8 @@ secrets:
   NAMECOM_TOKEN:
     external: true
   NAMECOM_USERNAME:
+    external: true
+  IMGUR_KEY:
+    external: true
+  IMGUR_CLIENT_ID:
     external: true
