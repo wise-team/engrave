@@ -3,6 +3,7 @@ docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
 docker build ./engrave/ -f ./engrave/Dockerfile.development -t bgornicki/engrave
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.development -t bgornicki/engrave-statistics
 docker build ./engrave-image-uploader/ -f ./engrave-image-uploader/Dockerfile.development -t bgornicki/engrave-image-uploader
+docker build ./engrave-api-gateway/ -f ./engrave-api-gateway/Dockerfile.development -t bgornicki/engrave-api-gateway
 
 docker stack rm engrave
 

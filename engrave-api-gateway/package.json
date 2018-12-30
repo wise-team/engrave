@@ -1,12 +1,14 @@
 {
-  "name": "engrave-statistics",
+  "name": "engrave-api-gateway",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "debug": "tsc & NODE_ENV=production node --inspect=0.0.0.0:3001 dist/index.js",
+    "watch": "nodemon -L -e ts -w ./src -x npm run debug"
   },
   "author": "bgornicki",
   "license": "ISC",

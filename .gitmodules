@@ -5,3 +5,7 @@
 [submodule "engrave-image-uploader/src/submodules/engrave-shared"]
 	path = engrave-image-uploader/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
+
+[submodule "engrave-api-gateway/src/submodules/engrave-shared"]
+	path = engrave-api-gateway/src/submodules/engrave-shared
+	url = https://github.com/wise-team/engrave-shared.git

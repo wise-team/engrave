@@ -1,6 +1,9 @@
 version: "3.2"
 services:
 
+  api-gateway:
+    image: bgornicki/engrave-api-gateway
+    
   statistics:
     image: bgornicki/engrave-statistics
     depends_on:
