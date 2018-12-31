@@ -17,4 +17,4 @@ until [ -z "$(docker network ls --filter label=com.docker.stack.namespace=engrav
   sleep 1;
 done
 
-docker stack deploy -c docker-compose.development.yml engrave
+docker stack deploy -c docker-compose.engrave.development.yml engrave

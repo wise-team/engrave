@@ -1,0 +1,49 @@
+extends website.pug
+
+block body
+  main.mt-5.pt-4
+    .container
+      h3.my-5.h3.text-center Jeszcze tylko dwa proste kroki do twojego bloga!
+      .row.d-flex.justify-content-center
+
+      .row.text-center.wow.fadeIn.justify-content-md-center
+        
+        .col-lg-4.col-md-12.mb-4
+          .card
+            .card-header
+              h4
+                strong Blog w subdomenie
+            .card-body
+             
+              ol.list-unstyled.mb-4
+                li
+                  | Jeśli jesteś blogerem hobbystą, możesz założyć bloga w naszej subdomenie. Możesz wybrać adres jaki ci się tylko podoba, np. <strong>swiatwypiekow.dblog.pl</strong>
+                
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/basic') Załóż bloga
+
+        .col-lg-4.col-md-6.mb-4
+          .card
+            .card-header
+              h4
+                strong Mam własną domenę
+            .card-body
+
+              ol.list-unstyled.mb-4
+                li
+                  | Jeśli posiadasz własną domenę możesz jej użyć w naszej platformie. Wystarczy, że zmienisz ustawienia DNS, co zajmie ci maksymalnie minutę.
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/standard') Załóż bloga
+        
+        .col-lg-4.col-md-6.mb-4
+          .card
+            .card-header
+              h4
+                strong Chcę kupić domenę
+            .card-body
+
+              ol.list-unstyled.mb-4
+                li
+                  | Jeśli chcesz stworzyć profesjonalnego bloga, ale nie posiadasz własnej domeny możesz ją w prosty sposób kupić u nas i zapłacić tokenami STEEM albo SBD.
+              a.btn.btn-lg.btn-block.btn-primary(href='/authorize/tier/extended') Załóż bloga
+      .row.d-flex.justify-content-center
+        .col-md-8.text-center
+          p.mb-5 Ustawienia możesz zmienić w dowolnym momencie. Platforma dblog.pl automatycznie pobiera prowizję w wysokości 15% wynagrodzenia z twoich wpisów.

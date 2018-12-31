@@ -5,7 +5,7 @@ import * as express from 'express';
 let router = express.Router();
 
 router.get('/about', (req: IExtendedRequest, res: Response, next: NextFunction) => {
-    res.render('main/about.pug', { blogger: req.session.blogger });
+    res.render(`main/${process.env.FRONT}/about.pug`, { blogger: req.session.blogger });
 });
 
 module.exports = router;

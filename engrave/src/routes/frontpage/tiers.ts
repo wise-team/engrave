@@ -6,7 +6,7 @@ let router = express.Router();
 
 router.get('/tiers', (req: IExtendedRequest, res: Response, next: NextFunction) => {
     if (req.session.blogger && !req.session.blogger.tier) {
-        res.render('main/tiers.pug', { blogger: req.session.blogger });
+        res.render(`main/${process.env.FRONT}/tiers.pug`, { blogger: req.session.blogger });
     } else {
         res.redirect('/');
     }

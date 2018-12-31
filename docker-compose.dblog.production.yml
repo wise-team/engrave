@@ -3,33 +3,19 @@ services:
 
   api-gateway:
     image: bgornicki/engrave-api-gateway
-    deploy:
-      replicas: 1
-    ports:
-      - 3002:3000
-      - 3003:3001
-    volumes:
-      - ./engrave-api-gateway/src:/app/src
-      - ./engrave-api-gateway/dist:/app/dist
-
+    
   statistics:
     image: bgornicki/engrave-statistics
     depends_on:
       - mongo
     environment:
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017  
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
-    ports:
-      - 3000:3000
-      - 3001:3001
     secrets:
       - IMGUR_KEY
       - IMGUR_CLIENT_ID
-    volumes:
-      - ./engrave-image-uploader/src:/app/src
-      - ./engrave-image-uploader/dist:/app/dist
   
   nginx:
     image: bgornicki/nginx
@@ -44,47 +30,39 @@ services:
 
   engrave:
     image: bgornicki/engrave
-    ports:
-      - 9229:9229
     environment:
-      - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
-      - PAYMENT_REDIRECT_URI=http://127.0.0.1/dashboard/configure/
-      - DOMAIN=engrave.website
+      - DOMAIN=dblog.pl
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
-      - BLOGS_DOMAINS=["engrave.website", "engrave.site"]
-      - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
+      - BLOGS_DOMAINS=["dblog.pl"]
+      - BLOGS_CATEGORIES=["Inne", "Finanse i ekonomia", "Lifestyle", "Jedzenie", "Sport", "Podróże", "Zdrowie i uroda", "Hobby", "Muzyka", "Dziennikarstwo", "Fotografia", "Technologia"]
       - WAIT_HOSTS=mongo:27017
-      - SERVER_IP=139.162.185.235
-      - NAMECOM_API=api.dev.name.com
-      - DOMAIN_PRICE_SBD=10
-      - DOMAIN_PRICE_STEEM=20
+      - SERVER_IP=172.104.225.127
+      - PAYMENT_REDIRECT_URI=https://dblog.pl/dashboard/configure/
+      - NAMECOM_API=api.name.com
+      - DOMAIN_PRICE_SBD=15
+      - DOMAIN_PRICE_STEEM=35
+      - FRONT=dblog
+      - STEEMCONNECT_ID=dblog.app
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - ./engrave/src:/app/src
-      - ./engrave/views:/app/views
-      - ./engrave/public:/app/public
-      - ./engrave/dist:/app/dist
     depends_on:
       - mongo
     secrets:
       - NAMECOM_TOKEN
       - NAMECOM_USERNAME
-      
+
   mongo:
     image: mongo
     volumes:
       - db-data:/data/db
-    ports:
-    - "27017:27017"
-
 
 volumes:
   db-data:
   nginx_certs:
   nginx_conf:
- 
+
 secrets:
   NAMECOM_TOKEN:
     external: true

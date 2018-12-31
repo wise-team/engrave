@@ -1,0 +1,264 @@
+extends website.pug
+
+block body
+  #carousel-example-1z.carousel.slide.carousel-fade(data-ride='carousel')
+    .carousel-inner(role='listbox')
+      .carousel-item.active
+        .view(style="background-image: url('/img/dblog-background.jpg'); background-repeat: no-repeat; background-size: cover;")
+          .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
+            .text-center.white-text.mx-5.wow.fadeIn
+              h1.mb-4
+                strong Załóż bloga i zacznij zarabiać robiąc to co lubisz
+              p
+                strong Dzięki nowoczesnej technologii blockchain.
+              p.mb-4.d-none.d-md-block
+                strong
+                  | Steem jest jednym z najszybciej rozwijających się projektów blockchainowych.
+                  br
+                  | Zarabiaj tokeny STEEM oraz SBD za dodawanie wartościowych wpisów na własnego bloga.
+              a.btn.btn-outline-white.btn-lg(href='/create')
+                | Załóż bloga
+                i.fa.fa-graduation-cap.ml-2
+  main
+    .container
+      section.mt-5.wow.fadeIn
+        .row
+          .col-md-6.mb-4
+            img.img-fluid.z-depth-1-half(src='https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg', alt='')
+          .col-md-6.mb-4
+            h3.h3.mb-3 Zdecentralizowana platforma blogowa oparta na kryptowalucie Steem
+            p
+              | Nie jesteś zmęczony inwestowaniem swojego czasu i pieniędzy, aby tworzyć kolejne blogi, czy strony internetowe, które nigdy się nie zwracają? Zacznij zarabiać pisząc wartościowe artykuły na swojego własnego bloga.
+            hr
+            p
+              | dblog.pl to 
+              strong prosta w użyciu
+              |  platforma blogowa. Możesz wybrać szablon swojego bloga spośród 
+              strong 3 nowoczesnych i dobrze wyglądających
+              |  szablonów i nie zapłacisz za to ani grosza!
+            a.btn.btn-grey.btn-md(target="_blank", href='https://momolovelock.com')
+              | Zobacz przykład 
+              i.fa.fa-retweet.ml-1
+            a.btn.btn-grey.btn-md(href='/create')
+              | Załóż bloga 
+              i.fa.fa-image.ml-1
+      hr.my-5
+      section
+        h3.h3.text-center.mb-5 Krótko i na temat
+        .row.wow.fadeIn
+          .col-lg-6.col-md-12.px-4
+            .row
+              .col-1.mr-3
+                i.fa.fa-code.fa-2x.indigo-text
+              .col-10
+                h5.feature-title Nowoczesny blockchain Steem
+                p.grey-text
+                  | Cała treść jest przechowywana bezpośrednio w blockchainie Steem. Nie musisz się martwić o koszty hostingu
+            div(style='height:30px')
+            .row
+              .col-1.mr-3
+                i.fa.fa-book.fa-2x.blue-text
+              .col-10
+                h5.feature-title Najważniejsi są czytelnicy
+                p.grey-text
+                  | Proste ale skuteczne szablony z integracją z blockchainem Steem pozwalają czytelnikom na pełną interakcję z blogami
+            div(style='height:30px')
+            .row
+              .col-1.mr-3
+                i.fa.fa-graduation-cap.fa-2x.cyan-text
+              .col-10
+                h5.feature-title Przyjazne wyszukiwarkom
+                p.grey-text
+                  | Bądź widoczny w sieci. Szablony nakierowane na SEO poprawią twoją pozycję w wynikach wyszukiwania
+          .col-lg-6.col-md-12
+            p.h5.text-center.mb-4 Obejrzyj krótki tutorial
+            .embed-responsive.embed-responsive-16by9
+              iframe.embed-responsive-item(src='', allowfullscreen='')
+
+      hr.my-5
+      section
+        h2.my-5.h3.text-center Zbyt krótko?
+        .row.features-small.mb-5.mt-3.wow.fadeIn
+          .col-md-4
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Łatwa instalacja
+                p.grey-text
+                  | Możesz stworzyć własnego bloga w kilka sekund za pomocą kilku kliknięć
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Panel twórcy
+                p.grey-text
+                  | Pisz artykuły i skonfiguruj swojego bloga w jednym miejscu
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Dostęp do statystyk
+                p.grey-text Możesz podpiąć Google Analytics do swojego bloga i mieć wszystkie potrzebne informacje o czytelnikach
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Pełna responsywność
+                p.grey-text
+                  | Nie ma znaczenia, czy twój blog będzie wyświetlany na komputerze, czy smartfonie - wszędzie będzie wyglądał dobrze!
+                div(style='height:15px')
+          .col-md-4.flex-center
+            img.z-depth-0.img-fluid(src='https://mdbootstrap.com/img/Others/screens.png', alt='')
+          .col-md-4.mt-2
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Bloguj z własną domeną
+                p.grey-text
+                  | Jeśli posiadasz domenę możesz ją w łatwy sposób użyć, żeby prowadzić własnego bloga opartego na Steem
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Nowoczesne szablony
+                p.grey-text Dobrze wyglądające szablony, które pozwolą stworzyć wartościowego bloga
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Wszystko za darmo
+                p.grey-text
+                  | Za nic nie musisz płacić, platforma sama pobierze niewielką prowizję z wynagrodzenia twoich postów
+                div(style='height:15px')
+            .row
+              .col-2
+                i.fa.fa-check-circle.fa-2x.indigo-text
+              .col-10
+                h6.feature-title Aktywność na blockchainie
+                p.grey-text Będziesz mógł śledzić aktywność swojego konta zapisaną w blockchainie. Nie przegapisz niczego!
+                div(style='height:15px')
+      hr.mb-5
+      section
+        h2.my-5.h3.text-center ...nadal?
+        .row.features-small.mt-5.wow.fadeIn
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-firefox.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Kompatybilność
+                p.grey-text.mt-2
+                  | Chrome, Firefox, IE, Safari, Opera, Microsoft Edge - dblog.pl działa na każdej przeglądarce
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-level-up.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Częste aktualizacje
+                p.grey-text.mt-2
+                  | dblog.pl staje sie lepszy z tygodnia na tydzień. Uwielbiamy technologię i staramy się ją rozwijać.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-comments-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Aktywna społeczność
+                p.grey-text.mt-2
+                  | Użytkowników Steem przybywa każdego dnia. Wartościowe blogi mogą ten proces przyspieszyć!
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-code.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Responsywność
+                p.grey-text.mt-2
+                  | Wszystkie szablony są w pełni responsywne, więc twój blog będzie wyglądał dobrze nawet na smartfonie.
+        .row.features-small.mt-4.wow.fadeIn
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-cubes.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Możliwość dostosowania
+                p.grey-text.mt-2 Możesz dostosować swojego bloga w prosty sposób w panelu twórcy.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-question.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Wsparcie techniczne
+                p.grey-text.mt-2
+                  | Dbamy o niezawodność. Jeśli masz jakieś pytania lub problemy nie krępuj się z nami skontaktować.
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-th.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Rozszerzalność
+                p.grey-text.mt-2 Jesteśmy otwarci na wszelkie propozycje zmian i rozwoju. Po prostu do nas napisz!
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-file-code-o.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2
+                h5.feature-title.font-bold.mb-1 Własne szablony
+                p.grey-text.mt-2 Możemy stworzyć dla ciebie unikalny szablon, musimy to tylko omówić.
+      
+      //////////
+      
+      hr.mb-5
+      section
+        h2.my-5.h3.text-center Przykładowe blogi
+        .row.features-small.mt-5.wow.fadeIn
+          
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-globe.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Steem Hikers
+                p.grey-text.mt-2 Autostopem przez świat
+                p.grey-text.mt-2
+                  a(href="https://steem-hikers.pl" ) steem-hikers.pl
+          
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-globe.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Momo Lovelock
+                p.grey-text.mt-2 Welcome to my thought bubble...
+                p.grey-text.mt-2
+                  a(href="https://momolovelock.com/" ) momolovelock.com
+          
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-globe.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Wyniki Lotto
+                p.grey-text.mt-2 Portal o Lotto - graj świadomie!
+                p.grey-text.mt-2
+                  a(href="https://wynikilotto.engrave.website" ) wynikilotto.engrave.website
+          
+          .col-xl-3.col-lg-6
+            .row
+              .col-2
+                i.fa.fa-globe.fa-2x.mb-1.indigo-text(aria-hidden='true')
+              .col-10.mb-2.pl-3
+                h5.feature-title.font-bold.mb-1 Technologicznie
+                p.grey-text.mt-2 Blockchainowy blog o technologii
+                p.grey-text.mt-2
+                  a(href="https://gornicki.org/" ) gornicki.org
+
+        .row.features-small.mt-5.wow.fadeIn
+          .col-md-12.text-center
+            a(href='/explore') 
+              button.btn.btn-grey.btn-md.waves-effect.waves-light Explore more blogs

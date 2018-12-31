@@ -1,0 +1,58 @@
+doctype html
+html(lang='pl')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    link(rel='apple-touch-icon', sizes='180x180', href='/apple-touch-icon.png')
+    link(rel='icon', type='image/png', sizes='32x32', href='/favicon-32x32.png')
+    link(rel='icon', type='image/png', sizes='16x16', href='/favicon-16x16.png')
+    link(rel='manifest', href='/site.webmanifest')
+    link(rel='mask-icon', href='/safari-pinned-tab.svg', color='#5bbad5')
+    meta(name='msapplication-TileColor', content='#ffffff')
+    meta(name='theme-color', content='#ffffff')
+    meta(http-equiv='x-ua-compatible', content='ie=edge')
+    title dblog.pl - zdecentralizowana platforma blogowa
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/mdb.min.css', rel='stylesheet')
+    link(href='/css/style.css', rel='stylesheet')
+
+    meta(property="og:type" content="article")
+    meta(property="og:locale" content="pl_PL")
+    meta(property="og:site_name" content= 'dblog.pl')
+    meta(property="og:title" content= 'dblog.pl - zdecentralizowana platforma blogowa')
+    meta(property="og:description" content= 'Załóż bloga i zacznij zarabiać robiąc to co lubisz dzięki technologii blockchain. Zarabiaj tokeny STEEM oraz SBD za dodawanie wartościowych wpisów na własnego bloga.')
+    meta(property="og:image" content= '/img/dblog-background.jpg')
+    
+    // Global site tag (gtag.js) - Google Analytics
+    script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-120365822-1')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-120365822-1');
+
+    style(type='text/css').
+      @media (min-width: 800px) and (max-width: 850px) {
+      .navbar:not(.top-nav-collapse) {
+      background: #1C2331!important;
+      }
+      }
+  body
+
+    block link
+      -var selected = 'home'; //used for menu, default
+
+    include partials/menu.pug
+   
+    block body
+    
+    include partials/footer.pug
+    
+    block scripts
+      script(type='text/javascript', src='js/jquery-3.2.1.min.js')
+      script(type='text/javascript', src='js/popper.min.js')
+      script(type='text/javascript', src='js/bootstrap.min.js')
+      script(type='text/javascript', src='js/mdb.min.js')
+      script(type='text/javascript').
+        new WOW().init();

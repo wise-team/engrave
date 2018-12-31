@@ -1,0 +1,19 @@
+FROM nginx
+
+COPY nginx-watch.sh /etc/nginx/
+
+COPY conf/_production_engrave.conf /etc/nginx/conf.d/80_engrave.website.conf
+COPY conf/_api_production_engrave.conf /etc/nginx/conf.d/_api.engrave.website.conf
+
+COPY maintenance /var/www/maintenance
+
+RUN apt-get update && apt-get -y install inotify-tools screen
+
+# Watch will restart nginx on every change in configuration files caused by ENGRAVE app
+WORKDIR /etc/nginx
+RUN chmod +x ./nginx-watch.sh
+
+EXPOSE 80
+EXPOSE 443
+
+CMD screen -d -m -t watch sh ./nginx-watch.sh && exec nginx -g 'daemon off;'

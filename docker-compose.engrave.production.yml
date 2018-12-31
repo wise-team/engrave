@@ -42,6 +42,7 @@ services:
       - NAMECOM_API=api.name.com
       - DOMAIN_PRICE_SBD=15
       - DOMAIN_PRICE_STEEM=35
+      - FRONT=engrave
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt

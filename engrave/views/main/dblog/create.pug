@@ -1,0 +1,66 @@
+extends website.pug
+
+block body
+  block link
+    -var selected='create'
+  style(type='text/css').
+    html,
+    body,
+    header,
+    .view {
+    height: 100%;
+    }
+    @media (max-width: 740px) {
+    html,
+    body,
+    header,
+    .view {
+    height: 1500px;
+    }
+    }
+    @media (min-width: 800px) and (max-width: 850px) {
+    html,
+    body,
+    header,
+    .view {
+    height: 650px;
+    }
+    }
+    @media (min-width: 800px) and (max-width: 850px) {
+    .navbar:not(.top-nav-collapse) {
+    background: #1C2331!important;
+    }
+    }
+
+
+  .view.full-page-intro(style="background-image: url('/img/dblog-create.jpg'); background-repeat: no-repeat; background-size: cover;")
+    .mask.rgba-black-light.d-flex.justify-content-center.align-items-center
+      .container
+        .row.wow.fadeIn
+          .col-md-6.mb-4.white-text.text-center.text-md-left
+            h1.display-4.font-weight-bold Zaraz założysz swojego nowego bloga
+            hr.hr-light
+            a.btn.btn-indigo.btn-lg(href='/authorize')
+              | Zakończ rejestrację za pomocą Steemconnect
+              i.fa.fa-graduation-cap.ml-2
+            hr.hr-light
+            p
+              strong Musisz autoryzować platformę korzystając ze swojego konta Steem
+            p.mb-4.d-none.d-md-block
+              strong
+                | Zostaniesz przekierowany na stronę Steemconnect, gdzie musisz zezwolić aplikacji @dblog.app na dostęp do swojego konta. Potrzebujemy uprawnień, żeby dodawać do blockchainu twoje artykuły, ale nie martw się, nie chcemy żadnego z twoich kluczy autoryzujących. 
+            p
+              strong
+                | Upewnij się, że jesteś na oficjalnej stronie Steemconnect!
+          .col-md-6.col-xl-5.mb-4
+            .card
+              .card-body
+                form(name='')
+                  h3.dark-grey-text.text-center
+                    strong Nie masz konta Steem?
+                  hr
+                  p.text-center
+                    | Możesz takie założyć w szybki i prosty sposób. Wystarczy, że napiszesz swój pierwszy wartościowy artykuł!
+                  
+                  .text-center
+                    a.btn.btn-indigo(href="https://steemfounders.com") Wypróbuj Steemfounders

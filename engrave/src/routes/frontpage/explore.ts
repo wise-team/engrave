@@ -13,7 +13,7 @@ router.post("/explore/articles", check("skip").isDecimal(), getMoreArticles);
 
 
 async function renderExplorePage(req: IExtendedRequest, res: Response, next: NextFunction) {
-  res.render("main/explore.pug", {
+  res.render(`main/${process.env.FRONT}/explore.pug`, {
     blogs: await BlogListModule.getRegisteredBlogs(0),
     articles: await PublishedArticlesModule.getLatest(0),
     blogger: req.session.blogger

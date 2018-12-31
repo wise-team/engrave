@@ -1,0 +1,39 @@
+nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
+      .container
+        a.navbar-brand(href='/')
+          img(src='/img/dblog.logo.png').navbar-left
+          
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+          
+        #navbarSupportedContent.collapse.navbar-collapse
+        
+          ul.navbar-nav.mr-auto
+            li.nav-item(class= (selected=='home') ? 'active' : '')
+              a.nav-link(href='/')
+                | Główna
+                span.sr-only (current)
+            li.nav-item(class= (selected=='explore') ? 'active' : '')
+              a.nav-link(href='/explore') Odkrywaj
+            
+              
+            if !blogger    
+              li.nav-item(class= (selected=='create') ? 'active' : '')
+                a.nav-link(href='/create') Załóż bloga
+                
+            li.nav-item
+              a.nav-link(href='https://discord.gg/8NktdFh') Nasz Discord
+
+          ul.navbar-nav.nav-flex-icons
+
+            li.nav-item
+              if !blogger
+                a.nav-link.border.border-light.rounded(href='/authorize')
+                  | Zaloguj się
+              else
+                a.nav-link(href='/authorize/logout')
+                  | Wyloguj
+            li.nav-item
+              if blogger
+                a.nav-link.border.border-light.rounded(href='/dashboard')
+                  = 'Cześć @' + blogger.steem_username +  ', otwórz panel'

@@ -99,7 +99,7 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
 
     // render the error page
     res.status((<any>err).status || 500);
-    res.render('main/error');
+    res.render(`main/${process.env.FRONT}/error`);
 });
 
 let sslModuleInstance = new SSLModule(); // constructor creates CronJob

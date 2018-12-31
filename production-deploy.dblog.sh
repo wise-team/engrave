@@ -1,5 +1,5 @@
 
-docker build ./nginx/ -f ./nginx/Dockerfile.production -t bgornicki/nginx
+docker build ./nginx/ -f ./nginx/Dockerfile.dblog.production -t bgornicki/nginx
 docker build ./engrave/ -f ./engrave/Dockerfile.production -t bgornicki/engrave
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.production -t bgornicki/engrave-statistics
 docker build ./engrave-image-uploader/ -f ./engrave-image-uploader/Dockerfile.production -t bgornicki/engrave-image-uploader
@@ -17,4 +17,4 @@ until [ -z "$(docker network ls --filter label=com.docker.stack.namespace=engrav
   sleep 1;
 done
 
-docker stack deploy -c docker-compose.production.yml engrave
+docker stack deploy -c docker-compose.dblog.production.yml engrave
