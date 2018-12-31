@@ -13,3 +13,7 @@
 [submodule "engrave-ssl/src/submodules/engrave-shared"]
 	path = engrave-ssl/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
+
+[submodule "engrave-nginx-configurator/src/submodules/engrave-shared"]
+	path = engrave-nginx-configurator/src/submodules/engrave-shared
+	url = https://github.com/wise-team/engrave-shared.git
