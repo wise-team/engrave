@@ -172,7 +172,7 @@ export class Utils {
                 for (var i = 0; i < blogger.categories.length; i++) {
                     if (blogger.categories[i].name === article.category) {
                         category = blogger.categories[i];
-                        tags.push(blogger.categories[i].steem_tag); // obtain category steemconnect tags
+                        tags.push(blogger.categories[i].steem_tag.toLowerCase()); // obtain category steemconnect tags
                         break;
                     }
                 }

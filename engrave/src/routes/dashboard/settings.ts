@@ -57,8 +57,8 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
             }
 
             categories.push({
-                steem_tag: steem_tag,
-                slug: slug,
+                steem_tag: steem_tag.toLowerCase(),
+                slug: slug.toLowerCase(),
                 name: singleCategory.value
             })
         })
