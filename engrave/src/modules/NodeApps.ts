@@ -1,9 +1,9 @@
-import { SSLModule } from './SSL';
 import { Blogs } from './../database/BlogsModel';
 import { IBlog } from '../helpers/IBlog';
 import { Config } from "../config";
 import * as pm2 from 'pm2'
-import { NginxModule } from './Nginx';
+import generateNginxSettings from '../services/nginx/generateNginxSettings';
+import validateDomainCertificates from '../services/ssl/validateDomainCertificates';
 
 let fs = require('fs');
 let path = require('path');
@@ -37,7 +37,7 @@ export class NodeAppsModule {
                 }]
             };
 
-            await NginxModule.generateNginxSettings(blog);
+            await generateNginxSettings(blog);
 
             await this.pm2Connect();
             fs.writeFileSync(path.join(blogPath, 'app_config.json'), JSON.stringify(newAppConfig), { flag: 'w' });
@@ -62,7 +62,16 @@ export class NodeAppsModule {
             for(let blog of blogs) {
                 try {
                     if (blog.is_domain_custom) {
-                        if (!SSLModule.validateDomainCertificates(blog.domain)) {
+                        
+                        let hasDomainCertificates = false;
+                        
+                        try {
+                            hasDomainCertificates = await validateDomainCertificates(blog.domain)
+                        } catch(err) {
+                            // ignore errors and suppose there is no certificate
+                        }
+
+                        if (! hasDomainCertificates) {
                             blog.ssl = false;
                             await blog.save();
                         }

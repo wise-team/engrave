@@ -1,7 +1,0 @@
-{
-    "services": {
-        "api-gateway": "api-gateway:3000",
-        "image-uploader": "image-uploader:3000",
-        "statistics": "statistics:3000"
-    }
-}

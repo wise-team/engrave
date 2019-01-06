@@ -2,12 +2,13 @@ import { Themes } from './../../modules/Themes';
 import { Blogs } from './../../database/BlogsModel';
 import { Utils } from '../../modules/Utils'
 import * as express from 'express';
-import { SSLModule } from '../../modules/SSL';
-import { NginxModule } from '../../modules/Nginx';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ICategory } from '../../helpers/ICategory';
 import axios from 'axios';
+import checkIfDomainPointsToEngrave from '../../services/domain/checkIfDomainPointsToEngrave';
+import generateCertificatesForDomain from '../../services/ssl/generateCertificatesForDomain';
+import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 
 let router = express.Router();
 
@@ -95,12 +96,12 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
 router.post('/ssl', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     try {
         const domain =  req.session.blogger.domain;
-        if(await SSLModule.checkIfDomainPointsEngraveServer(domain) &&
-            await SSLModule.checkIfDomainPointsEngraveServer('www.' + domain)) {
+        if(await checkIfDomainPointsToEngrave (domain) &&
+            await checkIfDomainPointsToEngrave('www.' + domain)) {
             console.log("Asked for SSl enable on: ", req.session.blogger.domain);
-            await SSLModule.generateCertificatesForDomain(req.session.blogger.domain);
             let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name});
-            await NginxModule.generateNginxSettings(blog);
+            await generateCertificatesForDomain(req.session.blogger.domain);
+            await generateNginxSettings(blog);
             blog.ssl = true;
             await blog.save();
             res.json({ success: "SSL enabled!" });            

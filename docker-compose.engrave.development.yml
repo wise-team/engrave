@@ -14,18 +14,31 @@ services:
 
   ssl:
     image: bgornicki/engrave-ssl
+    depends_on:
+      - mongo
     ports:
       - 3004:3000
       - 3005:3001
     volumes:
       - ./engrave-ssl/src:/app/src
       - ./engrave-ssl/dist:/app/dist
-      - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
       - instances:/app/instances
     environment:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
+      - WAIT_HOSTS=mongo:27017
+      - SERVER_IP=139.162.185.235
+
+  nginx-configurator:
+    image: bgornicki/engrave-nginx-configurator
+    ports:
+      - 3006:3000
+      - 3007:3001
+    volumes:
+      - ./engrave-nginx-configurator/src:/app/src
+      - ./engrave-nginx-configurator/dist:/app/dist
+      - nginx_conf:/etc/nginx/conf.d
 
   statistics:
     image: bgornicki/engrave-statistics
@@ -74,7 +87,7 @@ services:
       - NAMECOM_API=api.dev.name.com
       - DOMAIN_PRICE_SBD=10
       - DOMAIN_PRICE_STEEM=20
-      - FRONT=dblog
+      - FRONT=engrave
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt

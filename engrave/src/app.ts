@@ -3,11 +3,11 @@ require('dotenv').config();
 import * as express from 'express';
 import { Config } from './config'
 import { SchedulerModule } from './modules/Scheduler';
-import { SSLModule } from './modules/SSL';
 import { NodeAppsModule } from './modules/NodeApps';
 import { Themes } from './modules/Themes';
 import { Domains } from './modules/Domains';
-import { Blogs } from './database/BlogsModel';
+import waitForMicroservice from './submodules/engrave-shared/utils/waitForMicroservice';
+import configs from './submodules/engrave-shared/config/config';
 
 let config = Config.GetConfig();
 
@@ -102,7 +102,6 @@ app.use(function (err: Error, req: express.Request, res: express.Response, next:
     res.render(`main/${process.env.FRONT}/error`);
 });
 
-let sslModuleInstance = new SSLModule(); // constructor creates CronJob
 let schedulerModuleInstance = new SchedulerModule(); // constructor creates CronJob
 let domainsModuleInstance = new Domains(); // constructor creates CronJob
 
@@ -111,6 +110,10 @@ Themes.Initialize();
 if (process.env.NODE_ENV == "production") {
 
     (async () => {
+
+        await waitForMicroservice(configs.services.nginx_configurator);
+        await waitForMicroservice(configs.services.ssl);
+
         NodeAppsModule.ConfigureAndStartConfiguredBlogs();
     })();
 }

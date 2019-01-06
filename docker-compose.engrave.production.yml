@@ -17,6 +17,24 @@ services:
       - IMGUR_KEY
       - IMGUR_CLIENT_ID
   
+  ssl:
+    image: bgornicki/engrave-ssl
+    depends_on:
+      - mongo
+    volumes:
+      - nginx_certs:/etc/letsencrypt
+      - instances:/app/instances
+    environment:
+      - SSL_EMAIL=engrave@niepodam.pl
+      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
+      - WAIT_HOSTS=mongo:27017
+      - SERVER_IP=139.162.185.235
+
+  nginx-configurator:
+    image: bgornicki/engrave-nginx-configurator
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+
   nginx:
     image: bgornicki/nginx
     ports:
@@ -34,7 +52,7 @@ services:
       - DOMAIN=engrave.website
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
-      - BLOGS_DOMAINS=["engrave.website", "engrave.site"]
+      - BLOGS_DOMAINS=["engrave.website", "engrave.site", "dblog.org"]
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
       - WAIT_HOSTS=mongo:27017
       - SERVER_IP=139.162.185.235
@@ -46,6 +64,7 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
+      - instances:/app/instances
     depends_on:
       - mongo
     secrets:
@@ -61,6 +80,7 @@ volumes:
   db-data:
   nginx_certs:
   nginx_conf:
+  instances:
 
 secrets:
   NAMECOM_TOKEN:
