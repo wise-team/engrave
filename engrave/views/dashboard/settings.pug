@@ -90,10 +90,10 @@ block body
                                 input.form-control(name="c_" + index + '_name', required=true, type='text', placeholder='Technology', value=category.name)                                    
                         .col-md-4
                             .form-group
-                                input.form-control(pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+", name="c_" + index + '_slug', required=true, type='text', placeholder='technology', value=category.slug) 
+                                input.form-control(pattern="^[a-z0-9][a-z0-9-_]+", name="c_" + index + '_slug', required=true, type='text', placeholder='technology', value=category.slug) 
                         .col-md-3
                             .form-group
-                                input.form-control(pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]+", name="c_" + index + '_steem_tag', required=true, type='text', placeholder='pl-technologia', value=category.steem_tag) 
+                                input.form-control(pattern="^[a-z0-9][a-z0-9-_]+", name="c_" + index + '_steem_tag', required=true, type='text', placeholder='pl-technologia', value=category.steem_tag) 
                         .col-md-1
                             .form-group
                                 button.btn.btn-danger.btn-fill.pull-right.category_remove_btn(type='button') X
