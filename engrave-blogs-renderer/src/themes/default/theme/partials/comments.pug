@@ -1,0 +1,22 @@
+if !user
+    include steemit-box.pug
+else
+    .contact-form-box
+        .title-section
+            h1= "leave_reply"
+        form#comment-form
+            label(for="comment-body")= "comment" + ':'
+            textarea#comment(name="comment_body")
+            input(type="hidden", name="permlink", value= permlink)
+            input(type="hidden", name="title", value= title)
+            input(type="hidden", name="parent_author", value="")
+            button(type="submit")#submit-contact
+                i.fa.fa-comment
+                = "send_reply_text"
+
+.comment-area-box#comments
+    .title-section
+        h1
+            span= "Comments"
+
+                        

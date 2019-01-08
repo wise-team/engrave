@@ -6,6 +6,7 @@ docker build ./engrave-image-uploader/ -f ./engrave-image-uploader/Dockerfile.de
 docker build ./engrave-api-gateway/ -f ./engrave-api-gateway/Dockerfile.development -t bgornicki/engrave-api-gateway
 docker build ./engrave-ssl/ -f ./engrave-ssl/Dockerfile.development -t bgornicki/engrave-ssl
 docker build ./engrave-nginx-configurator/ -f ./engrave-nginx-configurator/Dockerfile.development -t bgornicki/engrave-nginx-configurator
+docker build ./engrave-blogs-renderer/ -f ./engrave-blogs-renderer/Dockerfile.development -t bgornicki/engrave-blogs-renderer
 
 docker stack rm engrave
 

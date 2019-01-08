@@ -47,6 +47,19 @@ services:
     environment:
       - WAIT_HOSTS=mongo:27017
 
+  blogs-renderer:
+    image: bgornicki/engrave-blogs-renderer
+    ports:
+      - 80:8080
+      - 3010:3001
+    depends_on:
+      - redis
+    environment:
+      - WAIT_HOSTS=mongo:27017,redis:6379
+    volumes:
+      - ./engrave-blogs-renderer/src:/app/src
+      - ./engrave-blogs-renderer/dist:/app/dist
+
   image-uploader:
     image: bgornicki/engrave-image-uploader
     ports:
@@ -59,16 +72,16 @@ services:
       - ./engrave-image-uploader/src:/app/src
       - ./engrave-image-uploader/dist:/app/dist
   
-  nginx:
-    image: bgornicki/nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_certs:/etc/letsencrypt
-    depends_on:
-      - engrave
+  # nginx:
+  #   image: bgornicki/nginx
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - nginx_conf:/etc/nginx/conf.d
+  #     - nginx_certs:/etc/letsencrypt
+  #   depends_on:
+  #     - engrave
 
   engrave:
     image: bgornicki/engrave
@@ -109,12 +122,20 @@ services:
     ports:
     - "27017:27017"
 
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+    ports:
+    - "6379:6379"
+
 
 volumes:
   db-data:
   nginx_certs:
   nginx_conf:
   instances:
+  redis-data:
  
 secrets:
   NAMECOM_TOKEN:

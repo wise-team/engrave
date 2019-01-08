@@ -1,0 +1,11 @@
+.sidebar.theiaStickySidebar
+    .widget
+        if blog.fb_fanpage_url && blog.fb_fanpage_url != ''
+            .fb-page(data-href=blog.fb_fanpage_url data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true")
+                blockquote(cite=blog.fb_fanpage_url).fb-xfbml-parse-ignore
+                    a(href=blog.fb_fanpage_url)
+                        = blog.blog_title
+
+    .widget.news-widget
+        h1= "Most popular"
+        include sidebar/featured.pug

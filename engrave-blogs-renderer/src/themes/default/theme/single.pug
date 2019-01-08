@@ -1,0 +1,52 @@
+extends website
+
+append scripts
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.js" async)
+    script(src="//cdn.jsdelivr.net/npm/marked/marked.min.js" async)
+    script(src="/js/single.js" async)
+
+    link(href="//cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.2/rangeslider.css" rel="stylesheet")
+
+block content
+
+    meta(name="description", content= article.body.substr(0, 255))
+    input(type='hidden', id='permlink', value= permlink)
+    input(type='hidden', id='editorial', value= blog.username)
+    if user
+        input(type='hidden', id='logged_user', value= user.name)
+    .row
+        if user
+            #voting
+                p#voting-counter= net_votes
+                #voting-loader
+                    i(class= voted ? "voted" : "" ).fa.fa-thumbs-up#voting-icon
+                p#voting-value
+                    | $
+                    = value
+        .col-lg-8
+            div(itemscope itemtype="http://schema.org/NewsArticle").single-post
+                meta(itemprop="mainEntityOfPage" content= "https://" + blog.domain + "/" + article.permlink)
+                meta(itemprop="datePublished" content= moment(date).toISOString())
+                meta(itemprop="dateModified" content= moment(date).toISOString())
+                meta(itemprop="image" content= article.thumbnail)
+                meta(itemprop="headline" content= article.title)
+
+                //- include partials/metadata/publisher.pug
+
+                h1= article.title
+
+                .text-boxes
+                    p!= article.body
+                    h2 Tagi
+                    ul.tags-list
+                        each tag in article.tags
+                            li
+                                a(href="/kategoria/"+ tag)= tag
+            //- include partials/author.pug
+            include partials/comments.pug
+
+        .col-lg-4.sidebar-sticky
+            include partials/sidebar.pug
+        //-     include partials/voting-modal.pug
