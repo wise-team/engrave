@@ -1,5 +1,5 @@
-[submodule "engrave/src/submodules/engrave-shared"]
-	path = engrave/src/submodules/engrave-shared
+[submodule "engrave-front-dashboard/src/submodules/engrave-shared"]
+	path = engrave-front-dashboard/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
 [submodule "engrave-api-gateway/src/submodules/engrave-shared"]
 	path = engrave-api-gateway/src/submodules/engrave-shared
