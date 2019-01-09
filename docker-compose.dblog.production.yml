@@ -15,7 +15,7 @@ services:
   blogs-renderer:
     image: bgornicki/engrave-blogs-renderer
     deploy:
-      replicas: 2
+      replicas: 1
     depends_on:
       - mongo
       - redis
