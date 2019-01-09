@@ -26,7 +26,7 @@ async function handler(req: Request, res: Response) {
            
         } catch (error) {
             if(error instanceof BlogNotExist) {
-                return res.redirect('/');
+                return res.redirect('https://' + process.env.DOMAIN);
             } else if(error instanceof ArticleNotFound) {            
     
                 const blog = await cache.getBlog(hostname);

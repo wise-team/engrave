@@ -69,6 +69,7 @@ services:
       - redis
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
+      - DOMAIN=engrave.website
     volumes:
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
