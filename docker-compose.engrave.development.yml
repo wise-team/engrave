@@ -72,6 +72,7 @@ services:
     volumes:
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
+      - themes:/app/src/themes
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
@@ -85,22 +86,11 @@ services:
       - ./engrave-image-uploader/src:/app/src
       - ./engrave-image-uploader/dist:/app/dist
   
-  # nginx:
-  #   image: bgornicki/nginx
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   volumes:
-  #     - nginx_conf:/etc/nginx/conf.d
-  #     - nginx_certs:/etc/letsencrypt
-  #   depends_on:
-  #     - engrave
-
   engrave-front-dashboard:
-    image: bgornicki/engrave
+    image: bgornicki/engrave-front-dashboard
     ports:
       - 9229:9229
-      - 8080:8080
+      - 8080:80
     environment:
       - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1:8080/authorize/
       - PAYMENT_REDIRECT_URI=http://127.0.0.1:8080/dashboard/configure/
@@ -119,10 +109,11 @@ services:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
       - instances:/app/instances
-      - ./engrave/src:/app/src
-      - ./engrave/views:/app/views
-      - ./engrave/public:/app/public
-      - ./engrave/dist:/app/dist
+      - themes:/app/themes
+      - ./engrave-front-dashboard/src:/app/src
+      - ./engrave-front-dashboard/views:/app/views
+      - ./engrave-front-dashboard/public:/app/public
+      - ./engrave-front-dashboard/dist:/app/dist
     depends_on:
       - mongo
     secrets:
@@ -150,6 +141,7 @@ volumes:
   nginx_conf:
   instances:
   redis-data:
+  themes:
  
 secrets:
   NAMECOM_TOKEN:

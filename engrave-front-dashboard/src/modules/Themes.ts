@@ -8,7 +8,7 @@ export interface ITheme {
 
 export class Themes {
 
-    private static themesRootDirectory = path.join(__dirname, '..', '..', 'blog', 'views', 'main');
+    private static themesRootDirectory = '/app/themes';
     private static themes: ITheme[] = [];
 
     private static searchForPublicDirectory(dirListing: string[]) {

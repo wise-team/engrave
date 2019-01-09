@@ -83,6 +83,7 @@ volumes:
   nginx_certs:
   nginx_conf:
   instances:
+  themes:
 
 secrets:
   NAMECOM_TOKEN:

@@ -1,6 +1,5 @@
 FROM node:alpine
 
-RUN npm install -g pm2
 RUN npm install -g ts-node
 RUN npm install -g nodemon
 RUN npm install -g typescript
@@ -15,13 +14,6 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-
-# Install blog template app
-WORKDIR /app/blog
-RUN npm install
-
-# Compile ENGRAVE app
-WORKDIR /app
 
 RUN tsc
 

@@ -21,6 +21,8 @@ services:
       - redis
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
+    volumes:
+      - themes:/app/src/themes
 
   engrave-front-dashboard:
     image: bgornicki/engrave-front-dashboard
@@ -41,6 +43,7 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
+      - themes:/app/themes
     depends_on:
       - mongo
     secrets:
@@ -107,6 +110,7 @@ volumes:
   nginx_conf:
   instances:
   redis-data:
+  themes:
 
 secrets:
   NAMECOM_TOKEN:
