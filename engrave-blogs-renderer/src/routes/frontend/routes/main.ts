@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getBlog, getLatestArticles, getFeaturedArticles } from '../../../submodules/engrave-shared/services/cache/cache';
+import { BlogNotExist } from '../../../submodules/engrave-shared/helpers/errorCodes';
 
 const middleware: any[] =  [];
 
@@ -22,7 +23,11 @@ async function handler(req: Request, res: Response) {
         });
         
     } catch(error) {
-        res.redirect('/');
+        if(error instanceof BlogNotExist) {
+            return res.redirect('https://' + process.env.DOMAIN);
+        } else {
+            return res.redirect('/');
+        }
     }
 }
 
