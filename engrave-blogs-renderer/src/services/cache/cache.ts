@@ -88,7 +88,7 @@ async function getBlog(hostname: string): Promise<Blog> {
         
         if( ! blog) {
 
-            const dbBlog = await Blogs.findOne({});
+            const dbBlog = await Blogs.findOne({domain: hostname});
 
             if( ! dbBlog) throw new BlogNotExist();
 

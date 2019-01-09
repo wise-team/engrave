@@ -30,7 +30,7 @@ services:
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - BLOGS_DOMAINS=["dblog.pl"]
       - BLOGS_CATEGORIES=["Inne", "Finanse i ekonomia", "Lifestyle", "Jedzenie", "Sport", "Podróże", "Zdrowie i uroda", "Hobby", "Muzyka", "Dziennikarstwo", "Fotografia", "Technologia"]
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - SERVER_IP=172.104.225.127
       - PAYMENT_REDIRECT_URI=https://dblog.pl/dashboard/configure/
       - NAMECOM_API=api.name.com

@@ -10,6 +10,9 @@ import { PublishedArticlesModule } from '../../modules/PublishedArticles';
 let steem = require('steem');
 let router = express.Router();
 
+const Redis = require('ioredis');
+const redis = new Redis({ host: "redis" });
+
 router.get('/posts', RoutesVlidators.isLoggedAndConfigured, async function (req: IExtendedRequest, res: express.Response) {
 
     try {
@@ -104,7 +107,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
     }
 });
 
-router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedRequest, res: express.Response) => {
+router.post('/delete', RoutesVlidators.isLoggedAndConfigured, async (req: IExtendedRequest, res: express.Response) => {
     let article = req.body;
     if (article && article.permlink != '') {
 
@@ -115,7 +118,7 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedReq
             }]];
 
         DashboardSteemConnect.setAccessToken(req.session.access_token);
-        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
+        DashboardSteemConnect.broadcast(operations, async function (err: any, result: any) {
             if (err) {
                 console.log(err);
                 var errorstring = err.error_description.split('\n')[0].split(': ')[1];
@@ -128,6 +131,14 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, (req: IExtendedReq
                 }
             } else {
                 console.log("Post deleted");
+
+                try {
+                    await redis.del(`article:${req.session.blogger.steem_username}:${article.permlink}`);
+                    await redis.zrem(`created:${req.session.blogger.steem_username}`, article.permlink);
+                } catch (error) {
+                    console.log(error);
+                }
+
                 res.json({ success: "Post deleted" });
             }
         });
@@ -147,6 +158,8 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
         await DashboardSteemConnect.broadcast(operations);
 
         console.log("New article has been posted by @" + req.session.steemconnect.name);
+
+        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
 
         await PublishedArticlesModule.create(req.session.blogger, post);
         
@@ -246,6 +259,8 @@ router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req:
         console.log("New article has been posted by @" + req.session.steemconnect.name);
 
         await PublishedArticlesModule.create(req.session.blogger, post);
+
+        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
 
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
 

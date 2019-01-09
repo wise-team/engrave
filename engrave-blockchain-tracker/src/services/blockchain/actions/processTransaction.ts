@@ -1,6 +1,5 @@
-import { ifArticleExist } from "../../redis/redis";
+import { ifArticleExist, deleteArticle } from "../../redis/redis";
 import { IUpdate } from "../blockchain";
-
 
 export default async (tx: any): Promise<IUpdate> => {
     try {
@@ -22,6 +21,14 @@ export default async (tx: any): Promise<IUpdate> => {
         
                 if(await ifArticleExist(author, permlink)) {
                     return {author: author, permlink: permlink};
+                }
+            }
+
+            case 'delete_comment': {
+                const { author, permlink } = tx.operations[0][1];
+        
+                if(await ifArticleExist(author, permlink)) {
+                    deleteArticle(author, permlink);
                 }
             }
 

@@ -56,7 +56,7 @@ services:
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - BLOGS_DOMAINS=["engrave.website", "engrave.site", "dblog.org"]
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - SERVER_IP=139.162.185.235
       - PAYMENT_REDIRECT_URI=https://engrave.website/dashboard/configure/
       - NAMECOM_API=api.name.com
