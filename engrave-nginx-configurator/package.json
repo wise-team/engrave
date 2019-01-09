@@ -25,7 +25,9 @@
     "steem": "^0.7.3",
     "le-store-certbot": "2.2.1",
     "greenlock": "2.6.7",
-    "axios": "0.18.0"
+    "axios": "0.18.0",
+    "ioredis": "4.3.0",
+    "redis-json": "2.2.2"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"

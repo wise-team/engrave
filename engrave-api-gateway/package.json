@@ -24,7 +24,9 @@
     "mongoose-auto-increment-reworked": "^1.2.1",
     "steem": "^0.7.3",
     "jsonwebtoken": "8.4.0",
-    "axios": "0.18.0"
+    "axios": "0.18.0",
+    "ioredis": "4.3.0",
+    "redis-json": "2.2.2"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
