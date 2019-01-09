@@ -23,9 +23,9 @@
 	url = https://github.com/wise-team/engrave-shared.git
 
 [submodule "engrave-blockchain-tracker/src/submodules/engrave-shared"]
-	path = engrave/src/submodules/engrave-shared
+	path = engrave-blockchain-tracker/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
 
 [submodule "engrave-blogs-renderer/src/submodules/engrave-shared"]
-	path = engrave/src/submodules/engrave-shared
+	path = engrave-blogs-renderer/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git

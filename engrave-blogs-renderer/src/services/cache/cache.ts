@@ -50,23 +50,23 @@ async function getArticle(username: string, hostname: string, permlink: string) 
     }
 }
 
-async function setArticle(hostname: string, permlink: string, article: any) {
+async function setArticle(username: string, permlink: string, article: any) {
     
     const parsedArticle = parseSteemArticle(article);
     const timestamp = (new Date(article.created)).getTime();
     
-    await redis.set(`article:${hostname}:${permlink}`, JSON.stringify(parsedArticle));
-    await redis.zadd(`created:${hostname}`, timestamp, `article:${hostname}:${permlink}`);
+    await redis.set(`article:${username}:${permlink}`, JSON.stringify(parsedArticle));
+    await redis.zadd(`created:${username}`, timestamp, `article:${username}:${permlink}`);
     
     return parsedArticle
 }
 
-async function setArticleNotExists(hostname: string, permlink: string) {
-    return await redis.set(`article:${hostname}:${permlink}`, JSON.stringify({state: 404}), 'EX', 3600 * 24);
+async function setArticleNotExists(username: string, permlink: string) {
+    return await redis.set(`article:${username}:${permlink}`, JSON.stringify({state: 404}), 'EX', 3600 * 24);
 }
 
-async function getLatest(hostname: string, limit: number): Promise<IArticle[]> {
-    const permlinks = await redis.zrevrange(`created:${hostname}`, 0, limit);
+async function getLatest(username: string, limit: number): Promise<IArticle[]> {
+    const permlinks = await redis.zrevrange(`created:${username}`, 0, limit);
     
     if(!permlinks.length) {
         return [];
@@ -77,9 +77,9 @@ async function getLatest(hostname: string, limit: number): Promise<IArticle[]> {
     return posts;
 }
 
-async function getFeatured(hostname: string, limit: number): Promise<IArticle[]> {
+async function getFeatured(username: string, limit: number): Promise<IArticle[]> {
     // todo get featured
-    return await getLatest(hostname, limit);
+    return await getLatest(username, limit);
 }
 
 async function getBlog(hostname: string): Promise<Blog> {

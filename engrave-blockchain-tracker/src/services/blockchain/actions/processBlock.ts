@@ -15,6 +15,7 @@ export default async (blockNumber: number): Promise<IProcessedBlock> => {
             for(const tx of transactions) {
                 const update = await processTransaction(tx);
                 if(update && (updates.indexOf(update) === -1) ) {
+                    console.log('Found Engrave article:', update.author, update.permlink);
                     updates.push(update);
                 }
             }

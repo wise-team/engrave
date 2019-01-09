@@ -11,7 +11,6 @@ export default async (tx: any): Promise<IUpdate> => {
                 const { author, permlink } = tx.operations[0][1];
         
                 if(await ifArticleExist(author, permlink)) {
-                    console.log('Engrave article:', author, permlink);
                     return {author: author, permlink: permlink};
                 }
             }
@@ -22,7 +21,6 @@ export default async (tx: any): Promise<IUpdate> => {
                 const { author, permlink } = tx.operations[0][1];
         
                 if(await ifArticleExist(author, permlink)) {
-                    console.log('Engrave article:', author, permlink);
                     return {author: author, permlink: permlink};
                 }
             }

@@ -16,7 +16,7 @@ async function handler(req: Request, res: Response) {
 
             const blogger = await cache.getBlog(hostname);
             const article = await cache.getArticle(blogger.username, hostname, permlink);
-            const featured = await cache.getFeatured(hostname, 5);
+            const featured = await cache.getFeatured(blogger.username, 5);
     
             return res.render('default/theme/single.pug', {
                 blog: blogger,

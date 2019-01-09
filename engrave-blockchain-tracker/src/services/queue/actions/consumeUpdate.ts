@@ -1,9 +1,9 @@
 import { getDataFromUpdateString } from "../queue";
+import parseSteemArticle from "../../../submodules/engrave-shared/services/article/parseSteemArticle";
 
 const Redis = require('ioredis');
 const redis = new Redis({ host: "redis" });
 const steem = require('steem');
-
 
 export default async () => {
     try {
@@ -13,7 +13,11 @@ export default async () => {
         if(update) {
             const {author, permlink} = getDataFromUpdateString(update);
             const article = await steem.api.getContentAsync(author, permlink);
-            console.log(article);
+            const parsedArticle = parseSteemArticle(article);
+            
+            await redis.set(`article:${author}:${permlink}`, JSON.stringify(parsedArticle));
+            
+            return parsedArticle
         }
         
     } catch (error) {

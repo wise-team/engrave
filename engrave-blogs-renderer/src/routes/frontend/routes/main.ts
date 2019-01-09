@@ -10,8 +10,8 @@ async function handler(req: Request, res: Response) {
     try {
         
         const blog = await cache.getBlog(hostname);
-        const latest = await cache.getLatest(hostname, 10);
-        const featured = await cache.getFeatured(hostname, 10);
+        const latest = await cache.getLatest(blog.username, 10);
+        const featured = await cache.getFeatured(blog.username, 10);
 
         // dynamicStatic.setPath(path.resolve(__dirname, 'path/to/app/assets'));
         
