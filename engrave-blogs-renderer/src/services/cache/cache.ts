@@ -21,7 +21,7 @@ redis.on("error", function (err: any) {
 
 async function getArticle(username: string, hostname: string, permlink: string) {
     try {
-        const flattenedArticle = await redis.get(`article:${hostname}:${permlink}`);
+        const flattenedArticle = await redis.get(`article:${username}:${permlink}`);
         
         if( ! flattenedArticle) {    
             
