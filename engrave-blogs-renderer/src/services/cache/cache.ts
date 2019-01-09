@@ -7,17 +7,9 @@ import parseSteemArticle from '../../submodules/engrave-shared/services/article/
 import { IArticle } from "../../submodules/engrave-shared/interfaces/IArticle";
 
 const Redis = require('ioredis');
-const redis = new Redis({
-    host: "redis"
-});
-
+const redis = new Redis({ host: "redis" });
 const JSONCache = require('redis-json');
- 
 const blogs = new JSONCache(redis, {prefix: 'blogs:'});
-
-redis.on("error", function (err: any) {
-    console.log("Redis error " + err);
-});
 
 async function getArticle(username: string, hostname: string, permlink: string) {
     try {
@@ -50,13 +42,14 @@ async function getArticle(username: string, hostname: string, permlink: string) 
     }
 }
 
-async function setArticle(username: string, permlink: string, article: any) {
+async function setArticle(username: string, permlink: string, steem_article: any) {
     
-    const parsedArticle = parseSteemArticle(article);
-    const timestamp = (new Date(article.created)).getTime();
+    const parsedArticle = parseSteemArticle(steem_article);
+    const timestamp = (new Date(steem_article.created)).getTime();
     
     await redis.set(`article:${username}:${permlink}`, JSON.stringify(parsedArticle));
     await redis.zadd(`created:${username}`, timestamp, `article:${username}:${permlink}`);
+    // await redis.zadd(`category:${steem_article.category}:${username}`, timestamp, `article:${username}:${permlink}`);
     
     return parsedArticle
 }
