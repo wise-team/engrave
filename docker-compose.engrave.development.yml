@@ -35,6 +35,8 @@ services:
     ports:
       - 3006:3000
       - 3007:3001
+    environment:
+      - WAIT_HOSTS=mongo:27017
     volumes:
       - ./engrave-nginx-configurator/src:/app/src
       - ./engrave-nginx-configurator/dist:/app/dist

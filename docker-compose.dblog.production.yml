@@ -55,6 +55,8 @@ services:
 
   nginx-configurator:
     image: bgornicki/engrave-nginx-configurator
+    environment:
+      - WAIT_HOSTS=mongo:27017
     volumes:
       - nginx_conf:/etc/nginx/conf.d
 
