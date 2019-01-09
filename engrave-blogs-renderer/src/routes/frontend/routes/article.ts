@@ -29,11 +29,11 @@ async function handler(req: Request, res: Response) {
                 return res.redirect('/');
             } else if(error instanceof ArticleNotFound) {            
     
-                const blogger = await cache.getBlog(hostname);
-                const featured = await cache.getFeatured(hostname, 10);
+                const blog = await cache.getBlog(hostname);
+                const featured = await cache.getFeatured(blog.username, 10);
 
                 return res.render('default/theme/404.pug', {
-                    blog: blogger,
+                    blog: blog,
                     featured: featured
                 });
             }

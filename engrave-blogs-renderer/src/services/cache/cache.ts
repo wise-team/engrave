@@ -32,7 +32,7 @@ async function getArticle(username: string, hostname: string, permlink: string) 
                 throw new ArticleNotFound();
             }
             
-            return await setArticle(hostname, permlink, article);
+            return await setArticle(username, permlink, article);
 
         } else {
 
