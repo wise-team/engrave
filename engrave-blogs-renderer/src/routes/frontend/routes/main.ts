@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import cache from '../../../services/cache/cache';
+import { getBlog, getLatestArticles, getFeaturedArticles } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] =  [];
 
@@ -9,9 +9,9 @@ async function handler(req: Request, res: Response) {
     
     try {
         
-        const blog = await cache.getBlog(hostname);
-        const latest = await cache.getLatest(blog.username, 10);
-        const featured = await cache.getFeatured(blog.username, 10);
+        const blog = await getBlog(hostname);
+        const latest = await getLatestArticles(blog.username, 10);
+        const featured = await getFeaturedArticles(blog.username, 10);
 
         // dynamicStatic.setPath(path.resolve(__dirname, 'path/to/app/assets'));
         

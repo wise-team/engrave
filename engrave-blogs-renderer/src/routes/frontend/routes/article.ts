@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import cache from '../../../services/cache/cache';
-import {BlogNotExist, ArticleNotFound} from '../../../helpers/errorCodes';
+import { getBlog, getArticle, getFeaturedArticles } from '../../../submodules/engrave-shared/services/cache/cache';
+import { BlogNotExist, ArticleNotFound } from '../../../submodules/engrave-shared/helpers/errorCodes';
 
 const middleware: any[] =  [];
 
@@ -14,9 +14,9 @@ async function handler(req: Request, res: Response) {
 
         try {
 
-            const blogger = await cache.getBlog(hostname);
-            const article = await cache.getArticle(blogger.username, hostname, permlink);
-            const featured = await cache.getFeatured(blogger.username, 5);
+            const blogger = await getBlog(hostname);
+            const article = await getArticle(blogger.username, hostname, permlink);
+            const featured = await getFeaturedArticles(blogger.username, 5);
     
             return res.render('default/theme/single.pug', {
                 blog: blogger,
@@ -29,8 +29,8 @@ async function handler(req: Request, res: Response) {
                 return res.redirect('https://' + process.env.DOMAIN);
             } else if(error instanceof ArticleNotFound) {            
     
-                const blog = await cache.getBlog(hostname);
-                const featured = await cache.getFeatured(blog.username, 10);
+                const blog = await getBlog(hostname);
+                const featured = await getFeaturedArticles(blog.username, 10);
 
                 return res.render('default/theme/404.pug', {
                     blog: blog,
