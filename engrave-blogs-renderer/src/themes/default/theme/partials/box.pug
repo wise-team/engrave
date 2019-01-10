@@ -11,14 +11,14 @@ article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
         .post-image
             a(href= '/' + item.permlink)
                 img(src= item.thumbnail? item.thumbnail : '/img/default.jpg')
-            a(href="/kategoria/"+ item.category, class="category category-" + item.category) #{item.category_fullname}
+            a(href="/kategoria/"+ item.category.slug, class="category category-" + item.category.slug) #{item.category.name}
         h2
             a(href= '/' + item.permlink, itemprop="url") #{item.title}
         ul.post-tags
             li
                 div(itemprop="author" itemscope itemtype="https://schema.org/Person")
                     i.lnr.lnr-user
-                    = "Author" + ' '
+                    = "@" + blog.username
                     span
                         a(href="/autor/" + item.root_author, itemprop="url")
                             if item.author && item.author.name && item.author.surname
@@ -37,5 +37,5 @@ article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
             li
                 i.lnr.lnr-diamond
                 | $
-                = item.value
+                = item.value.toFixed(2)
         p= item.abstract + "..."

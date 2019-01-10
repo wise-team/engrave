@@ -11,8 +11,8 @@ append scripts
 
 block content
 
-    meta(name="description", content= article.body.substr(0, 255))
-    input(type='hidden', id='permlink', value= permlink)
+    meta(name="description", content= article.abstract)
+    input(type='hidden', id='permlink', value= article.permlink)
     input(type='hidden', id='editorial', value= blog.username)
     if user
         input(type='hidden', id='logged_user', value= user.name)
@@ -28,22 +28,40 @@ block content
         .col-lg-8
             div(itemscope itemtype="http://schema.org/NewsArticle").single-post
                 meta(itemprop="mainEntityOfPage" content= "https://" + blog.domain + "/" + article.permlink)
-                meta(itemprop="datePublished" content= moment(date).toISOString())
-                meta(itemprop="dateModified" content= moment(date).toISOString())
+                meta(itemprop="datePublished" content= moment(article.created).toISOString())
+                meta(itemprop="dateModified" content= moment(article.created).toISOString())
                 meta(itemprop="image" content= article.thumbnail)
                 meta(itemprop="headline" content= article.title)
 
-                //- include partials/metadata/publisher.pug
+                include partials/metadata/publisher.pug
 
+
+                ul(itemscope itemtype="http://schema.org/BreadcrumbList").post-tags
+                    li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
+                        i.lnr.lnr-tag
+                        span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
+                            a(href="/kategoria/"+ article.category.slug itemprop="url")
+                                span(itemprop="name")= article.category.name
+                    li
+                        i.lnr.lnr-clock
+                        span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
+
+                if article.thumbnail
+                    img(src= article.thumbnail)
+                
                 h1= article.title
 
                 .text-boxes
+
                     p!= article.body
-                    h2 Tagi
+
                     ul.tags-list
                         each tag in article.tags
                             li
-                                a(href="/kategoria/"+ tag)= tag
+                                a= tag
+                            //- li
+                                //- a(href="/kategoria/"+ tag)= tag
+
             //- include partials/author.pug
             include partials/comments.pug
 

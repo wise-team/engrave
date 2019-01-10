@@ -13,11 +13,4 @@ ul.small-posts
                 ul.post-tags
                     li
                         i.lnr.lnr-user
-                        = "Author" + ' '
-                        a(href="/autor/" + post.root_author)
-                            if post.author && post.author.name && post.author.surname
-                                = post.author.name + ' ' + post.author.surname
-                            else if post.author && post.author.name
-                                = post.author.name
-                            else 
-                                = post.root_author
+                        a(href="/autor/" + post.root_author)= '@' + blog.username
