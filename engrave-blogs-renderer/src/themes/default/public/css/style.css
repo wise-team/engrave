@@ -2737,7 +2737,7 @@ div.search-box {
 /*------------------------------------------------- */
 body.underconstruction {
   /*
-   * Set a counter and get the length of the image path.
+   * Set a counter and get t length of the image path.
    */
   /*
    * Loop ver the image path and figure out the
@@ -3604,4 +3604,39 @@ span.img-caption {
 
 .sidebar-link-with-image {
   overflow: hidden;
+}
+
+table {
+  box-shadow: inset 0 0 0 -1px red;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+thead {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+tbody {
+  border: 1px solid #f1f1f1;
+  background-color: #fefefe;
+  display: table-row-group;
+  vertical-align: middle;
+}
+
+tbody td {
+  padding: 0.5rem 0.625rem 0.625rem;
+}
+
+thead th {
+  padding: 0.5rem 0.625rem 0.625rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  border-bottom: 0;
+  background-color: #f1f1f1;
 }
