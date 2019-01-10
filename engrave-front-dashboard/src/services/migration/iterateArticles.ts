@@ -6,38 +6,40 @@ const steem = require('steem');
 
 export default async (blog: IBlog) => {
 
-    try {
         const limit = 10;
+
         let counter = limit;
+
         let query: any = {
             tag: blog.steem_username,
             limit: limit
         }
 
         do {
-            const posts = await steem.api.getDiscussionsByBlogAsync(query);
-            counter = posts.length;
+            try {
+                const posts = await steem.api.getDiscussionsByBlogAsync(query);
+                counter = posts.length;
 
-            for(const post of posts) {
+                for(const post of posts) {
 
-                query.start_author = post.author;
-                query.start_permlink = post.permlink;
-                
-                if(post.author == blog.steem_username) { // ignore resteems
+                    query.start_author = post.author;
+                    query.start_permlink = post.permlink;
                     
-                    if(validateSteemArticle(post)) {
-                        console.log(" * Engrave article migrated:", blog.steem_username, post.permlink);
-                        await setArticle(blog.domain, blog.steem_username, post.permlink, post);
-                    }
+                    if(post.author == blog.steem_username) { // ignore resteems
+                        
+                        if(validateSteemArticle(post)) {
+                            console.log(" * Engrave article migrated:", blog.steem_username, post.permlink);
+                            await setArticle(blog.domain, blog.steem_username, post.permlink, post);
+                        }
 
+                    }
                 }
-                
+            } catch (error) {
+                console.log(error);   
             }
 
         } while(counter == limit)
 
-    } catch (error) {
-        console.log(error);   
-    }
+   
 
 }
