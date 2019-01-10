@@ -133,6 +133,7 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, async (req: IExten
                 console.log("Post deleted");
 
                 try {
+                    await redis.del(`engrave:${req.session.blogger.steem_username}:${article.permlink}`);
                     await redis.del(`article:${req.session.blogger.steem_username}:${article.permlink}`);
                     await redis.zrem(`created:${req.session.blogger.steem_username}`, article.permlink);
                 } catch (error) {
@@ -160,7 +161,7 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
         console.log("New article has been posted by @" + req.session.steemconnect.name);
 
         await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
-
+        
         await PublishedArticlesModule.create(req.session.blogger, post);
         
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);

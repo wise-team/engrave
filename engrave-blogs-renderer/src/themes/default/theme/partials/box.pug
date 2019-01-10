@@ -30,10 +30,10 @@ article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
             li
                 a(href= '/' + item.permlink + "#comments")
                     i.lnr.lnr-bubble
-                    span= item.comments_quantity
+                    span= item.comments
             li
                 i.lnr.lnr-thumbs-up
-                = item.net_votes
+                = item.votes_count
             li
                 i.lnr.lnr-diamond
                 | $

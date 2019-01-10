@@ -27,7 +27,7 @@ if featured.length
                                     li
                                         div(itemprop="author" itemscope itemtype="https://schema.org/Person")
                                             i.lnr.lnr-user
-                                            = "translation.frontpage.author" + " "
+                                            = "@" + blog.username
                                             span
                                                 a(href="/autor/" + featured_item.root_author, itemprop="url")
                                                     if featured_item.author && featured_item.author.name && featured_item.author.surname
@@ -39,10 +39,10 @@ if featured.length
                                     li
                                         a(href= '/' + featured_item.permlink + "#comments")
                                             i.lnr.lnr-bubble
-                                            span= featured_item.comments_quantity
+                                            span= featured_item.comments
                                     li
                                         i.lnr.lnr-thumbs-up
-                                        = featured_item.net_votes
+                                        = featured_item.votes_count
                                     li
                                         i.lnr.lnr-diamond
                                         | $

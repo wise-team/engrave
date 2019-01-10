@@ -19,7 +19,7 @@ block content
     .row
         if user
             #voting
-                p#voting-counter= net_votes
+                p#voting-counter= votes_count
                 #voting-loader
                     i(class= voted ? "voted" : "" ).fa.fa-thumbs-up#voting-icon
                 p#voting-value
