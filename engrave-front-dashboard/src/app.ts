@@ -6,6 +6,7 @@ import { Themes } from './modules/Themes';
 import { Domains } from './modules/Domains';
 import waitForMicroservice from './submodules/engrave-shared/utils/waitForMicroservice';
 import configs from './submodules/engrave-shared/config/config';
+import migrate from './services/migration/migrate';
 
 let config = Config.GetConfig();
 
@@ -110,6 +111,9 @@ if (process.env.NODE_ENV == "production") {
 
         await waitForMicroservice(configs.services.nginx_configurator);
         await waitForMicroservice(configs.services.ssl);
+
+        await migrate();
+
 
     })();
 }

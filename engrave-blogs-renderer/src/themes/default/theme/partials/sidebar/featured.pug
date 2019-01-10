@@ -13,4 +13,5 @@ ul.small-posts
                 ul.post-tags
                     li
                         i.lnr.lnr-user
-                        a(href="/autor/" + post.root_author)= '@' + blog.username
+                        a= '@' + blog.username + ', '
+                        span(title= moment.utc(post.created).local().format('LLL'))= moment.utc(post.created).local().fromNow()
