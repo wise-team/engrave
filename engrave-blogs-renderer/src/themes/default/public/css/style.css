@@ -2424,7 +2424,8 @@ ul.author-list {
 /*  404 error page
 /*------------------------------------------------- */
 .error-banner {
-  margin-bottom: 30px;
+  margin-top: 60px;
+  margin-bottom: 60px;
   padding: 25px 30px;
   border: 1px solid #f1f1f1; }
   .error-banner h1 {

@@ -40,7 +40,7 @@ block content
                     li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
                         i.lnr.lnr-tag
                         span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
-                            a(href="/kategoria/"+ article.category.slug itemprop="url")
+                            a(href="/category/"+ article.category.slug itemprop="url")
                                 span(itemprop="name")= article.category.name
                     li
                         i.lnr.lnr-clock
@@ -60,7 +60,7 @@ block content
                             li
                                 a= tag
                             //- li
-                                //- a(href="/kategoria/"+ tag)= tag
+                                //- a(href="/tag/"+ tag)= tag
 
             //- include partials/author.pug
             include partials/comments.pug

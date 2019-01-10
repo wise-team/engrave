@@ -5,21 +5,19 @@ append scripts
 
 block content
     meta(name="description", content= blog.opengraph_default_description)
+
     include partials/featured.pug
 
-
-    if latest
+    if latest && latest.length
         .posts-block.standard-box
             .title-section
                 h1= "New  articles"
             .row#posts
-                if latest.length == 0
-                    .news-post.standart-post
-                        h3= "No posts found"
-                else
-                    each item in latest
-                        include partials/box.pug
+                each item in latest
+                    include partials/box.pug
         
             if latest.length
                 .center-button
                     a(href="#").load-more= "Load more"
+    else
+        include partials/empty.pug

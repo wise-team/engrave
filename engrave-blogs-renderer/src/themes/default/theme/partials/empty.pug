@@ -1,0 +1,62 @@
+.posts-block#featured-posts
+    h1= "Featured articles"
+    .slider-news
+        .flexslider
+            ul.slides
+                li.flex-active-slide
+                    img(src='/img/empty-featured.jpg')
+                    .slider-caption
+                        a(href="#", class="category") Default category
+                        h2
+                            a(href="#") This blog seems to be empty
+                        ul.post-tags
+                            li
+                                div
+                                    i.lnr.lnr-user
+                                    = "@" + blog.username
+                            li
+                                a(href="#")
+                                    i.lnr.lnr-bubble
+                                    span= 11
+                            li
+                                i.lnr.lnr-thumbs-up
+                                = 42
+                            li
+                                i.lnr.lnr-diamond
+                                | $
+                                = (13.42).toFixed(2)
+                        p This is a featured post and there will be more of them if you will start blogging. Try to add proper images that will look good on this slider. Sample articles will disappear when you add the first article.
+
+.posts-block.standard-box
+    .title-section
+        h1= "New  articles"
+    .row#posts
+
+        each _, index in Array(6)
+
+            article.col-lg-4.col-md-6
+
+                .news-post.standart-post
+                    .post-image
+                        a(href="#")
+                            img(src='https://loremflickr.com/g/320/240//dog,cat?random=' + index)
+                        a(href="#", class="category") Default category
+                    h2
+                        a(href="#") Sample article title
+                    ul.post-tags
+                        li
+                            div
+                                i.lnr.lnr-user
+                                = "@" + blog.username
+                        li
+                            a(href="#")
+                                i.lnr.lnr-bubble
+                                span= 10
+                        li
+                            i.lnr.lnr-thumbs-up
+                            = 42
+                        li
+                            i.lnr.lnr-diamond
+                            | $
+                            = (Math.random(10,20) * 10).toFixed(2)
+                    p This is a sample article. It will disappear when you add your first real article. Try to add an image to every article to make it look better.

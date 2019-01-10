@@ -5,17 +5,24 @@ append scripts
 
 block content
     meta(name="description", content= blog.opengraph_default_description)
-    input(type="hidden" value=category )#category_indicator
+    input(type="hidden" value=category.slug )#category_indicator
     .posts-block.standard-box
         .title-section
-            h1= 'Category'
+            h1= category.name
         .row#posts
             if latest.length
                 each item in latest
                     include partials/box.pug            
             else
-                h3= "No posts in this category"
-    
+                .single-post
+                    .text-boxes
+                        article.col-lg-12.col-md-12
+                            .news-post.standart-post
+                                h3 Hi there!
+                                p It seems that this is a new category and there is no content here. Try to add some articles using Engrave dashboard.
+                                
+                                img(src="/img/empty.png")
+        
         if latest.length
             .center-button
                 a(href="#").load-more= "Load more"

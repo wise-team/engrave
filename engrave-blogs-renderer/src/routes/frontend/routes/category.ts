@@ -14,13 +14,23 @@ async function handler(req: Request, res: Response) {
         const blog = await getBlog(hostname);
         const latest = await getLatestFromCategory(slug, blog.username, 10);
         const featured = await getFeaturedArticles(blog.username, 10);
+        let category = blog.categories.find( category => category.slug == slug);
+
+        if(!category) {
+            category = {
+                steem_tag: slug,
+                name: slug,
+                slug: slug
+            }
+        }
 
         // dynamicStatic.setPath(path.resolve(__dirname, 'path/to/app/assets'));
         
         return res.render('default/theme/category.pug', {
             blog: blog,
             latest: latest,
-            featured: featured
+            featured: featured,
+            category: category
         });
         
     } catch(error) {

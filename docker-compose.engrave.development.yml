@@ -53,6 +53,8 @@ services:
     image: bgornicki/engrave-blockchain-tracker
     depends_on:
       - redis
+    ports:
+      - 3012:3001
     environment:
       - STARTING_BLOCK=29303302
       - WAIT_HOSTS=redis:6379

@@ -11,7 +11,7 @@ article(itemscope itemtype="http://schema.org/NewsArticle").col-lg-4.col-md-6
         .post-image
             a(href= '/' + item.permlink)
                 img(src= item.thumbnail? item.thumbnail : '/img/default.jpg')
-            a(href="/kategoria/"+ item.category.slug, class="category category-" + item.category.slug) #{item.category.name}
+            a(href="/category/"+ item.category.slug, class="category category-" + item.category.slug) #{item.category.name}
         h2
             a(href= '/' + item.permlink, itemprop="url") #{item.title}
         ul.post-tags
