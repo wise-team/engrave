@@ -20,7 +20,7 @@ if featured.length
                             else
                                 img(src='/img/default-big.png')
                             .slider-caption
-                                a(href="/kategoria/"+ featured_item.category, class="category category-" + featured_item.category) #{featured_item.category_fullname}
+                                a(href="/kategoria/"+ featured_item.category.slug, class="category category-" + featured_item.category.slug) #{featured_item.category.name}
                                 h2
                                     a(href= featured_item.permlink, itemprop="url")= featured_item.title
                                 ul.post-tags

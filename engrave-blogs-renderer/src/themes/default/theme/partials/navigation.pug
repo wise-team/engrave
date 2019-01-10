@@ -9,32 +9,32 @@ header.clearfix.style-4
                     img(src= blog.blog_logo_url).site-logo
             else
                 a.navbar-brand(href="/")
-                    h3=blog.title ? blog.title : 'asdasdasd'
+                    h3=blog.title ? blog.title : 'Blockchain blog'
     
-            //- .collapse.navbar-collapse#navbarSupportedContent
-            //-     ul.navbar-nav.ml-auto
-            //-         each nav in blog.categories
-            //-             li(class=['nav-item', {active: category === nav.slug}] itemprop="name")
-            //-                 a(href="/kategoria/" + nav.slug, class="nav-link " + nav.slug, itemprop="url").nav-link= nav.name
+            .collapse.navbar-collapse#navbarSupportedContent
+                ul.navbar-nav.ml-auto
+                    each nav in blog.categories
+                        li(class=['nav-item', {active: category === nav.slug}] itemprop="name")
+                            a(href="/kategoria/" + nav.slug, class="nav-link " + nav.slug, itemprop="url").nav-link= nav.name
 
-            //-         if user
-            //-             li.nav-item.drop-link
-            //-                 a(href="#").nav-link
-            //-                     img(src= user.profile_image).profile-image
-            //-                     | &nbsp;&nbsp;&nbsp;
-            //-                     = '@' + user.name
-            //-                     i.fa.fa-angle-down(aria-hidden='true')
+                    if user
+                        li.nav-item.drop-link
+                            a(href="#").nav-link
+                                img(src= user.profile_image).profile-image
+                                | &nbsp;&nbsp;&nbsp;
+                                = '@' + user.name
+                                i.fa.fa-angle-down(aria-hidden='true')
                             
-            //-                 ul.dropdown
-            //-                     li
-            //-                         a(href="https://steemit.com/@" + blog.steem_username, target='_blank') Przejdź na Steemit
-            //-                     li
-            //-                         a(href='https://v2.steemconnect.com/sign/follow?follower=' + user.name + '&following=' + blog.steem_username + '', target='_blank') Obserwuj @#{blog.steem_username}
-            //-                     li
-            //-                         a(href='https://v2.steemconnect.com/sign/delegate-vesting-shares?delegator=' + user.name + '&delegatee=' + blog.steem_username + '&vesting_shares=203212.5180%20VESTS', target='_blank') Deleguj 100 SP i wspieraj
-            //-                     li
-            //-                     li
-            //-                         a(href="/authorize/logout") Wyloguj
-            //-         else
-            //-             li.nav-item
-            //-                 a(href="/authorize", class="nav-link internet").nav-link= translation.frontpage.login_text
+                            ul.dropdown
+                                li
+                                    a(href="https://steemit.com/@" + blog.steem_username, target='_blank') Przejdź na Steemit
+                                li
+                                    a(href='https://v2.steemconnect.com/sign/follow?follower=' + user.name + '&following=' + blog.steem_username + '', target='_blank') Obserwuj @#{blog.steem_username}
+                                li
+                                    a(href='https://v2.steemconnect.com/sign/delegate-vesting-shares?delegator=' + user.name + '&delegatee=' + blog.steem_username + '&vesting_shares=203212.5180%20VESTS', target='_blank') Deleguj 100 SP i wspieraj
+                                li
+                                li
+                                    a(href="/authorize/logout") Wyloguj
+                    else
+                        li.nav-item
+                            a(href="/authorize", class="nav-link internet").nav-link= "Login"

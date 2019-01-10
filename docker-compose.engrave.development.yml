@@ -73,7 +73,7 @@ services:
     volumes:
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
-      - themes:/app/src/themes
+      # - themes:/app/src/themes
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
