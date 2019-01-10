@@ -6,6 +6,7 @@ import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import { Onesignal } from '../../modules/Onesignal';
 import { PublishedArticlesModule } from '../../modules/PublishedArticles';
+import { removeArticle } from '../../submodules/engrave-shared/services/cache/cache';
 
 let steem = require('steem');
 let router = express.Router();
@@ -133,9 +134,7 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, async (req: IExten
                 console.log("Post deleted");
 
                 try {
-                    await redis.del(`engrave:${req.session.blogger.steem_username}:${article.permlink}`);
-                    await redis.del(`article:${req.session.blogger.steem_username}:${article.permlink}`);
-                    await redis.zrem(`created:${req.session.blogger.steem_username}`, article.permlink);
+                    await removeArticle(req.session.blogger.steem_username, article.permlink);
                 } catch (error) {
                     console.log(error);
                 }

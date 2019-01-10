@@ -1,5 +1,5 @@
 import { getDataFromUpdateString } from "../queue";
-import { setArticle } from '../../../submodules/engrave-shared/services/cache/cache';
+import { setArticle, removeArticle } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const Redis = require('ioredis');
 const redis = new Redis({ host: "redis" });
@@ -15,6 +15,8 @@ export default async () => {
             const article = await steem.api.getContentAsync(author, permlink);
             const {domain} = JSON.parse(article.json_metadata);
 
+            await removeArticle(author, permlink);
+            
             return await setArticle(domain, author, permlink, article);
         }
         

@@ -29,7 +29,7 @@ async function handler(req: Request, res: Response) {
         return res.render('default/theme/category.pug', {
             blog: blog,
             latest: latest,
-            featured: featured,
+            featured: featured, 
             category: category
         });
         
