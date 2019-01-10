@@ -1,5 +1,4 @@
 import { RoutesVlidators } from '../../validators/RoutesValidators';
-import { Blogs } from './../../database/BlogsModel';
 import { Tier } from '../../helpers/TierEnum';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';

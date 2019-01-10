@@ -1,10 +1,10 @@
 
-import { Blogs } from './../../database/BlogsModel';
 import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ProfileValidator } from '../../validators/ProfileValidator';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { IBlog } from '../../helpers/IBlog';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 let router = express.Router();
 

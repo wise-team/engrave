@@ -1,8 +1,8 @@
 import { BlogListModule } from './../../modules/BlogList';
-import { Blogs } from './../../database/BlogsModel';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { DashboardSteemConnect, ReaderSteemConnect } from '../../modules/SteemConnect';
 import * as express from 'express';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 const router = express.Router();
 

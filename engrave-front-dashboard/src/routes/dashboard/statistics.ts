@@ -2,9 +2,8 @@ import { StatisticsValidator } from './../../validators/StatisticsValidator';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
-import { Utils } from '../../modules/Utils';
-import { Blogs } from '../../database/BlogsModel';
 import axios from 'axios';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 let router = express.Router();
 

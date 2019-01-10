@@ -1,9 +1,9 @@
 import { Themes } from './../../modules/Themes';
-import { Blogs } from './../../database/BlogsModel';
 import * as express from 'express';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ThemeValidator } from '../../validators/ThemeValidator';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 let router = express.Router();
 

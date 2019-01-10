@@ -1,5 +1,4 @@
 import { Themes } from './../../modules/Themes';
-import { Blogs } from './../../database/BlogsModel';
 import { Utils } from '../../modules/Utils'
 import * as express from 'express';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
@@ -9,6 +8,7 @@ import axios from 'axios';
 import checkIfDomainPointsToEngrave from '../../services/domain/checkIfDomainPointsToEngrave';
 import generateCertificatesForDomain from '../../services/ssl/generateCertificatesForDomain';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 let router = express.Router();
 

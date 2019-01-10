@@ -1,8 +1,8 @@
 import { Domains } from './../../modules/Domains';
-import { Blogs } from './../../database/BlogsModel';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 import { Utils } from '../../modules/Utils';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 const router = express.Router();
 

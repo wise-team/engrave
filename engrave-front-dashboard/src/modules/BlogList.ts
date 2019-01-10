@@ -1,5 +1,6 @@
-import { Blogs } from './../database/BlogsModel';
+
 import * as _ from 'lodash';
+import { Blogs } from '../submodules/engrave-shared/models/BlogsModel';
 
 let parseDomain = require('parse-domain');
 

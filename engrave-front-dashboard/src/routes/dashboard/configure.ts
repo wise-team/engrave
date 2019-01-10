@@ -1,11 +1,11 @@
 import { ConfigureValidator } from '../../validators/ConfigureValidator';
 import { BlogListModule } from '../../modules/BlogList';
-import { Blogs } from '../../database/BlogsModel';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { Tier } from '../../helpers/TierEnum';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import * as express from 'express';
 import { Themes } from '../../modules/Themes';
+import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 
 let router = express.Router();
 

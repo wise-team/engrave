@@ -1,6 +1,6 @@
 import * as superagent from 'superagent';
-import { Blogs } from "../database/BlogsModel";
 import * as _ from 'lodash';
+import { Blogs } from '../submodules/engrave-shared/models/BlogsModel';
 
 let CronJob = require('cron').CronJob;
 let steem = require('steem');
