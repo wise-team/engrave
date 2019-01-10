@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getBlog, getLatestArticles, getFeaturedArticles } from '../../../submodules/engrave-shared/services/cache/cache';
 import { BlogNotExist } from '../../../submodules/engrave-shared/helpers/errorCodes';
+const dynamicStatic = require('express-dynamic-static')();
 
 const middleware: any[] =  [];
 
@@ -14,9 +15,9 @@ async function handler(req: Request, res: Response) {
         const latest = await getLatestArticles(blog.username, 0);
         const featured = await getFeaturedArticles(blog.username, 0);
 
-        // dynamicStatic.setPath(path.resolve(__dirname, 'path/to/app/assets'));
+        dynamicStatic.setPath(`/app/src/themes/${blog.theme}/public`);
         
-        return res.render('default/theme/index.pug', {
+        return res.render(`${blog.theme}/theme/index.pug`, {
             blog: blog,
             latest: latest,
             featured: featured
