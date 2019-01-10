@@ -56,7 +56,7 @@ services:
     ports:
       - 3012:3001
     environment:
-      - STARTING_BLOCK=29303302
+      - STARTING_BLOCK=29339091
       - WAIT_HOSTS=redis:6379
     volumes:
       - ./engrave-blockchain-tracker/src:/app/src

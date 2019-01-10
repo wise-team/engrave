@@ -5,6 +5,7 @@ append scripts
 
 block content
     meta(name="description", content= blog.opengraph_default_description)
+    input(type="hidden" value=blog.username)#author_indicator
 
     include partials/featured.pug
 

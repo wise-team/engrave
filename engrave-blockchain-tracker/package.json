@@ -1,7 +1,7 @@
 {
-  "name": "engrave-steem-tracker",
+  "name": "engrave-blockchain-tracker",
   "version": "0.0.1",
-  "description": "",
+  "description": "Microservice to track Steem blockchain and update articles posted by Engrave users.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
