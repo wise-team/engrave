@@ -112,7 +112,7 @@ if (process.env.NODE_ENV == "production") {
         await waitForMicroservice(configs.services.nginx_configurator);
         await waitForMicroservice(configs.services.ssl);
 
-        await migrate();
+        migrate();
 
 
     })();
