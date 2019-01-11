@@ -16,9 +16,9 @@
 
                         img(src=featured_item.image)
                         .slider-caption
-                            a(href="/kategoria/"+ featured_item.category, class="category category-" + featured_item.category) #{featured_item.category_fullname}
+                            a(href="/category/"+ featured_item.category.slug, class="category category-" + featured_item.category.slug) #{featured_item.category.name}
                             h2
-                                a(href= featured_item.url, itemprop="url")= featured_item.title
+                                a(href= featured_item.permlink, itemprop="url")= featured_item.title
                             ul.post-tags
                                 li
                                     div(itemprop="author" itemscope itemtype="https://schema.org/Person")
@@ -33,7 +33,7 @@
                                                 else 
                                                     span(itemprop="name")= featured_item.root_author
                                 li
-                                    a(href= '/' + featured_item.url + "#comments")
+                                    a(href= '/' + featured_item.permlink + "#comments")
                                         i.lnr.lnr-bubble
                                         span= featured_item.comments_quantity
                                 li
