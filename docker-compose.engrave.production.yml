@@ -3,53 +3,30 @@ services:
 
   api-gateway:
     image: bgornicki/engrave-api-gateway
-    
-  statistics:
-    image: bgornicki/engrave-statistics
+
+  blockchain-tracker:
+    image: bgornicki/engrave-blockchain-tracker
+    depends_on:
+      - redis
+    environment:
+      - STARTING_BLOCK=29369963
+      - WAIT_HOSTS=redis:6379
+
+  blogs-renderer:
+    image: bgornicki/engrave-blogs-renderer
+    deploy:
+      replicas: 1
     depends_on:
       - mongo
+      - redis
     environment:
-      - WAIT_HOSTS=mongo:27017  
-
-  image-uploader:
-    image: bgornicki/engrave-image-uploader
-    secrets:
-      - IMGUR_KEY
-      - IMGUR_CLIENT_ID
-  
-  ssl:
-    image: bgornicki/engrave-ssl
-    depends_on:
-      - mongo
+      - WAIT_HOSTS=mongo:27017,redis:6379
+      - DOMAIN=engrave.website
     volumes:
-      - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
-    environment:
-      - SSL_EMAIL=engrave@niepodam.pl
-      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
-      - WAIT_HOSTS=mongo:27017
-      - SERVER_IP=139.162.185.235
+      - themes:/app/src/themes
 
-  nginx-configurator:
-    image: bgornicki/engrave-nginx-configurator
-    environment:
-      - WAIT_HOSTS=mongo:27017
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-
-  nginx:
-    image: bgornicki/nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_certs:/etc/letsencrypt
-    depends_on:
-      - engrave
-
-  engrave:
-    image: bgornicki/engrave
+  engrave-front-dashboard:
+    image: bgornicki/engrave-front-dashboard
     environment:
       - DOMAIN=engrave.website
       - SSL_EMAIL=engrave@niepodam.pl
@@ -63,20 +40,70 @@ services:
       - DOMAIN_PRICE_SBD=15
       - DOMAIN_PRICE_STEEM=35
       - FRONT=engrave
+      - STEEMCONNECT_ID=engrave.app
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
+      - themes:/app/themes
     depends_on:
       - mongo
     secrets:
       - NAMECOM_TOKEN
       - NAMECOM_USERNAME
+    
+  image-uploader:
+    image: bgornicki/engrave-image-uploader
+    secrets:
+      - IMGUR_KEY
+      - IMGUR_CLIENT_ID
+
+  nginx-configurator:
+    image: bgornicki/engrave-nginx-configurator
+    environment:
+      - WAIT_HOSTS=mongo:27017
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+  
+  ssl:
+    image: bgornicki/engrave-ssl
+    depends_on:
+      - mongo
+    volumes:
+      - nginx_certs:/etc/letsencrypt
+      - instances:/app/instances
+    environment:
+      - SSL_EMAIL=engrave@niepodam.pl
+      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
+      - WAIT_HOSTS=mongo:27017
+      - SERVER_IP=139.162.185.235
+  
+  statistics:
+    image: bgornicki/engrave-statistics
+    depends_on:
+      - mongo
+    environment:
+      - WAIT_HOSTS=mongo:27017  
+
+  nginx:
+    image: bgornicki/nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+      - nginx_certs:/etc/letsencrypt
+    depends_on:
+      - engrave
 
   mongo:
     image: mongo
     volumes:
       - db-data:/data/db
+
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
 
 volumes:
   db-data:
@@ -84,6 +111,7 @@ volumes:
   nginx_conf:
   instances:
   themes:
+  redis-data:
 
 secrets:
   NAMECOM_TOKEN:

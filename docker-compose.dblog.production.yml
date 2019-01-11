@@ -9,7 +9,7 @@ services:
     depends_on:
       - redis
     environment:
-      - STARTING_BLOCK=29339091
+      - STARTING_BLOCK=29369963
       - WAIT_HOSTS=redis:6379
 
   blogs-renderer:
