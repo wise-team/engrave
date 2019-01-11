@@ -6,6 +6,6 @@ docker build ./engrave-image-uploader/ -f ./engrave-image-uploader/Dockerfile.pr
 docker build ./engrave-nginx-configurator/ -f ./engrave-nginx-configurator/Dockerfile.production -t bgornicki/engrave-nginx-configurator
 docker build ./engrave-ssl/ -f ./engrave-ssl/Dockerfile.production -t bgornicki/engrave-ssl
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.production -t bgornicki/engrave-statistics
-docker build ./nginx/ -f ./nginx/Dockerfile.dblog.production -t bgornicki/nginx
+docker build ./nginx/ -f ./nginx/Dockerfile.engrave.production -t bgornicki/nginx
 
 docker stack deploy -c docker-compose.engrave.production.yml engrave
