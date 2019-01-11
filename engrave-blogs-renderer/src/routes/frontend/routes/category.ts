@@ -13,8 +13,8 @@ async function handler(req: Request, res: Response) {
     try {
         
         const blog = await getBlog(hostname);
-        const latest = await getLatestFromCategory(slug, blog.username, 10);
-        const featured = await getFeaturedArticles(blog.username, 10);
+        const latest = await getLatestFromCategory(slug, blog.username, 0);
+        const featured = await getFeaturedArticles(blog.username, 0);
         let category = blog.categories.find( category => category.slug == slug);
       
         if(!category) {
