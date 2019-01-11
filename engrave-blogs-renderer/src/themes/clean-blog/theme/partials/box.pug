@@ -3,12 +3,9 @@
         h2.post-title= item.title
         h3.post-subtitle= item.abstract
     p.post-meta
-        if blog.author_name
-            = "posted by "
-            a()= blog.author_name
-            | , 
         span(title= moment.utc(item.created).local().format('LLL'))= moment.utc(item.created).local().fromNow()
-        = ', comments: '
-        span= item.comments
+        span= ', comments: ' + item.comments
+        span= ', votes: ' + item.votes_count
         span= ', reward: $' + parseFloat(item.value).toFixed(2)
+
     hr

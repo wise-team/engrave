@@ -1,5 +1,13 @@
 extends website
 
+append scripts
+    script(src='/js/main.js')
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    if blog.lang == 'pl'
+        script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+    else 
+        script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/en.js" async)
+
 block header
     header.masthead(style= (blog.main_image) ? "background-image: url('" + blog.main_image + "')" : "background-image: url('/img/home-bg.jpg')")
         .overlay
@@ -11,11 +19,16 @@ block header
                         span.subheading= blog.slogan
 
 block content
+    input(type="hidden" value=blog.username)#author_indicator
     .container
         .row
             .col-lg-8.col-md-10.mx-auto
-                if latest.length == 0
-                    p No posts here
-                else
-                    each item in latest
-                        include partials/box.pug
+                #posts
+                    if latest.length == 0
+                        p No posts here
+                    else
+                        each item in latest
+                            include partials/box.pug
+                .clearfix.center-button
+                    center
+                        a.btn.btn-primary#load-more Load more

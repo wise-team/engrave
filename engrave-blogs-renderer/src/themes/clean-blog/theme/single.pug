@@ -30,14 +30,10 @@ block header
             .post-heading
               h1= article.title
               h2.subheading= article.abstract + '...'
-              span.meta
-                if blog.username
-                  = 'by '
-                  a()= blog.username
-                  | , 
+              span.meta 
                 span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
-                = ', comments: '
-                span= article.comments
+                span= ', comments: ' + article.comments
+                span= ', votes: ' + article.votes_count
                 span= ', reward: $' + parseFloat(article.value).toFixed(2)
     article
       .container
