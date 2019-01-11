@@ -10,6 +10,7 @@ async function handler(req: Request, res: Response) {
 
     return handleResponseError(async () => {
 
+
         const {hostname} = req;
         const {permlink} = req.params;
 
@@ -21,7 +22,7 @@ async function handler(req: Request, res: Response) {
             
             dynamicStatic.setPath(`/app/src/themes/${blog.theme}/public`);
         
-            return res.render(`${blog.theme}/theme/index.pug`, {
+            return res.render(`${blog.theme}/theme/single.pug`, {
                 blog: blog,
                 article: article,
                 featured: featured
@@ -35,7 +36,9 @@ async function handler(req: Request, res: Response) {
                 const blog = await getBlog(hostname);
                 const featured = await getFeaturedArticles(blog.username, 10);
 
-                return res.render('default/theme/404.pug', {
+                dynamicStatic.setPath(`/app/src/themes/${blog.theme}/public`);
+
+                return res.render(`${blog.theme}/theme/404.pug`, {
                     blog: blog,
                     featured: featured
                 });

@@ -1,0 +1,10 @@
+nav#nav
+    ul
+        each nav in blog.categories
+            li
+                a.active(href="/category/" + nav.slug)= nav.name
+        li
+            if !user
+                a.active(href='/authorize') Login
+            else
+                a.active(href='/authorize/logout')= 'Logout, @' + user.name

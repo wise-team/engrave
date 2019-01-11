@@ -1,0 +1,15 @@
+extends website.pug
+
+block content
+    section.main#content
+        if article.thumbnail
+            img(src= article.thumbnail)
+        span
+            != article.body
+
+    section.main#comments
+        header.major
+            h2 Comments
+            p Not impremented yet. Stay tuned!
+
+    

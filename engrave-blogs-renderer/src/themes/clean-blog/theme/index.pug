@@ -1,0 +1,21 @@
+extends website
+
+block header
+    header.masthead(style= (blog.main_image) ? "background-image: url('" + blog.main_image + "')" : "background-image: url('/img/home-bg.jpg')")
+        .overlay
+        .container
+            .row
+                .col-lg-8.col-md-10.mx-auto
+                    .site-heading
+                        h1= blog.title
+                        span.subheading= blog.slogan
+
+block content
+    .container
+        .row
+            .col-lg-8.col-md-10.mx-auto
+                if latest.length == 0
+                    p No posts here
+                else
+                    each item in latest
+                        include partials/box.pug

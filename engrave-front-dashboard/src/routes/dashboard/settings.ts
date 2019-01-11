@@ -9,6 +9,7 @@ import checkIfDomainPointsToEngrave from '../../services/domain/checkIfDomainPoi
 import generateCertificatesForDomain from '../../services/ssl/generateCertificatesForDomain';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { setBlog } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();
 
@@ -74,11 +75,8 @@ router.post('/settings', RoutesVlidators.isLoggedAndConfigured, async (req: IExt
             req.session.blogger = blog;
 
             try {
-                
-                await axios({
-                    method: 'POST',
-                    url: `http${blog.ssl ? 's' : ''}://${blog.domain}/settings/refresh`
-                });
+
+                await setBlog(blog.domain, blog);
 
                 res.json({ success: "Settings saved successfully" });
                 
