@@ -23,7 +23,7 @@ services:
       - ./engrave-ssl/src:/app/src
       - ./engrave-ssl/dist:/app/dist
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
+      - certbot:/app/certbot
     environment:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
@@ -73,6 +73,7 @@ services:
       - WAIT_HOSTS=mongo:27017,redis:6379
       - DOMAIN=engrave.website
     volumes:
+      - certbot:/app/certbot
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
       # - themes:/app/src/themes
@@ -111,7 +112,6 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
       - themes:/app/themes
       - ./engrave-front-dashboard/src:/app/src
       - ./engrave-front-dashboard/views:/app/views
@@ -142,7 +142,7 @@ volumes:
   db-data:
   nginx_certs:
   nginx_conf:
-  instances:
+  certbot:
   redis-data:
   themes:
  

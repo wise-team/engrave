@@ -23,6 +23,7 @@ services:
       - WAIT_HOSTS=mongo:27017,redis:6379
       - DOMAIN=dblog.pl
     volumes:
+      - certbot:/app/certbot
       - themes:/app/src/themes
 
   engrave-front-dashboard:
@@ -69,8 +70,8 @@ services:
     depends_on:
       - mongo
     volumes:
+      - certbot:/app/certbot
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
     environment:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
@@ -109,7 +110,7 @@ volumes:
   db-data:
   nginx_certs:
   nginx_conf:
-  instances:
+  certbot:
   redis-data:
   themes:
 
