@@ -18,7 +18,7 @@ async function handler(req: Request, res: Response) {
 
             const blog = await getBlog(hostname);
             const article = await getArticle(blog.username, hostname, permlink);
-            const featured = await getFeaturedArticles(blog.username, 5);
+            const featured = await getFeaturedArticles(blog.username, 0);
             
             dynamicStatic.setPath(`/app/src/themes/${blog.theme}/public`);
         
