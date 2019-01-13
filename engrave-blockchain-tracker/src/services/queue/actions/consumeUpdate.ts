@@ -12,6 +12,9 @@ export default async () => {
 
         if(update) {
             const {author, permlink} = getDataFromUpdateString(update);
+
+            console.log("Consumed article:", author, permlink);
+
             const article = await steem.api.getContentAsync(author, permlink);
             const {domain} = JSON.parse(article.json_metadata);
 
