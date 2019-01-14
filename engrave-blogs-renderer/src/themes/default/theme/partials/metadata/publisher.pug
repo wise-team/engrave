@@ -1,0 +1,9 @@
+.metadata__publisher(itemprop="publisher" itemscope itemtype="https://schema.org/Organization")
+    div(itemprop="logo" itemscope itemtype="https://schema.org/ImageObject")
+        meta(itemprop="url" content= blog.logo_url)
+        meta(itemprop="width" content="350")
+        meta(itemprop="height" content="350")
+    meta(itemprop="name" content= blog.title)
+    meta(itemprop="url" content= "https://" + blog.domain)
+    if blog.link_facebook
+        meta(itemprop="sameas" content= blog.link_facebook)

@@ -4,36 +4,86 @@ services:
   api-gateway:
     image: bgornicki/engrave-api-gateway
     
-  statistics:
-    image: bgornicki/engrave-statistics
+  blockchain-tracker:
+    image: bgornicki/engrave-blockchain-tracker
+    depends_on:
+      - redis
+    environment:
+      - STARTING_BLOCK=29369963
+      - WAIT_HOSTS=redis:6379
+
+  blogs-renderer:
+    image: bgornicki/engrave-blogs-renderer
+    deploy:
+      replicas: 1
     depends_on:
       - mongo
+      - redis
     environment:
-      - WAIT_HOSTS=mongo:27017  
+      - WAIT_HOSTS=mongo:27017,redis:6379
+      - DOMAIN=dblog.pl
+    volumes:
+      - certbot:/app/certbot
+      - themes:/app/src/themes
+
+  engrave-front-dashboard:
+    image: bgornicki/engrave-front-dashboard
+    environment:
+      - DOMAIN=dblog.pl
+      - SSL_EMAIL=engrave@niepodam.pl
+      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
+      - BLOGS_DOMAINS=["dblog.pl"]
+      - BLOGS_CATEGORIES=["Inne", "Finanse i ekonomia", "Lifestyle", "Jedzenie", "Sport", "Podróże", "Zdrowie i uroda", "Hobby", "Muzyka", "Dziennikarstwo", "Fotografia", "Technologia"]
+      - WAIT_HOSTS=mongo:27017,redis:6379
+      - SERVER_IP=172.104.225.127
+      - PAYMENT_REDIRECT_URI=https://dblog.pl/dashboard/configure/
+      - NAMECOM_API=api.name.com
+      - DOMAIN_PRICE_SBD=15
+      - DOMAIN_PRICE_STEEM=35
+      - FRONT=dblog
+      - STEEMCONNECT_ID=dblog.app
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+      - nginx_certs:/etc/letsencrypt
+      - themes:/app/themes
+    depends_on:
+      - mongo
+    secrets:
+      - NAMECOM_TOKEN
+      - NAMECOM_USERNAME
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
     secrets:
       - IMGUR_KEY
       - IMGUR_CLIENT_ID
-      
+
+  nginx-configurator:
+    image: bgornicki/engrave-nginx-configurator
+    environment:
+      - WAIT_HOSTS=mongo:27017
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+
   ssl:
     image: bgornicki/engrave-ssl
     depends_on:
       - mongo
     volumes:
+      - certbot:/app/certbot
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
     environment:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - WAIT_HOSTS=mongo:27017
-      - SERVER_IP=139.162.185.235
-
-  nginx-configurator:
-    image: bgornicki/engrave-nginx-configurator
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
+      - SERVER_IP=172.104.225.127
+    
+  statistics:
+    image: bgornicki/engrave-statistics
+    depends_on:
+      - mongo
+    environment:
+      - WAIT_HOSTS=mongo:27017  
   
   nginx:
     image: bgornicki/nginx
@@ -46,40 +96,23 @@ services:
     depends_on:
       - engrave
 
-  engrave:
-    image: bgornicki/engrave
-    environment:
-      - DOMAIN=dblog.pl
-      - SSL_EMAIL=engrave@niepodam.pl
-      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
-      - BLOGS_DOMAINS=["dblog.pl"]
-      - BLOGS_CATEGORIES=["Inne", "Finanse i ekonomia", "Lifestyle", "Jedzenie", "Sport", "Podróże", "Zdrowie i uroda", "Hobby", "Muzyka", "Dziennikarstwo", "Fotografia", "Technologia"]
-      - WAIT_HOSTS=mongo:27017
-      - SERVER_IP=172.104.225.127
-      - PAYMENT_REDIRECT_URI=https://dblog.pl/dashboard/configure/
-      - NAMECOM_API=api.name.com
-      - DOMAIN_PRICE_SBD=15
-      - DOMAIN_PRICE_STEEM=35
-      - FRONT=dblog
-      - STEEMCONNECT_ID=dblog.app
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_certs:/etc/letsencrypt
-    depends_on:
-      - mongo
-    secrets:
-      - NAMECOM_TOKEN
-      - NAMECOM_USERNAME
-
   mongo:
     image: mongo
     volumes:
       - db-data:/data/db
 
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+
 volumes:
   db-data:
   nginx_certs:
   nginx_conf:
+  certbot:
+  redis-data:
+  themes:
 
 secrets:
   NAMECOM_TOKEN:

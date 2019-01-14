@@ -1,0 +1,17 @@
+ul.small-posts
+    each post in featured
+        li
+            a(href= post.permlink).sidebar-link-with-image
+                if post.thumbnail && post.thumbnail != ''
+                    img(src= post.thumbnail).sidebar_featured_image
+                else 
+                    img(src='/img/default.jpg').sidebar_featured_image
+            .post-cont
+                h2
+                    a(href= post.permlink) 
+                        = post.title
+                ul.post-tags
+                    li
+                        i.lnr.lnr-user
+                        a= '@' + blog.username + ', '
+                        span(title= moment.utc(post.created).local().format('LLL'))= moment.utc(post.created).local().fromNow()

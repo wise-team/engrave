@@ -1,0 +1,22 @@
+extends website.pug
+
+append content
+    if latest.length
+        each article in latest
+            section#intro.main
+                .spotlight
+                    .content
+                        header.major
+                            h2= article.title
+                        p= article.abstract + '...'
+                        ul.actions
+                            li
+                                a.button(href='/' + article.permlink) Read
+                    span.image
+                        img(src=article.thumbnail, alt='')
+    else 
+        section#intro.main
+            .spotlight
+                .content
+                    header.major
+                        h2= "No articles found or loaded from blockchain yet"

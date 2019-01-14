@@ -1,0 +1,29 @@
+footer#footer
+    section
+        h2= blog.title
+        p= blog.slogan
+
+    section
+        if blog.link_twitter || blog.link_facebook || blog.link_instagram
+            h2 Social media
+
+        ul.icons
+            if blog.link_twitter
+                li
+                    a.icon.fa-twitter.alt(href= blog.link_twitter)
+                        span.label Twitter
+            if blog.link_facebook
+                li
+                    a.icon.fa-facebook.alt(href= blog.link_facebook)
+                        span.label Facebook
+            if blog.link_instagram
+                li
+                    a.icon.fa-instagram.alt(href= blog.link_instagram)
+                        span.label Instagram
+
+    p.copyright
+        | Powered by 
+        a(href='https://engrave.website') ENGRAVE
+        | . Designed by 
+        a(href='https://html5up.net') HTML5 UP
+        | .

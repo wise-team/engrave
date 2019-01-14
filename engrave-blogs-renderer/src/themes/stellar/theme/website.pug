@@ -1,0 +1,39 @@
+doctype html
+html
+    head
+        if article
+            title= article.title + ' - ' + blog.title
+        else if category
+            title= category.name + ' - ' + blog.title
+        else
+            title= blog.title + ' - ' + blog.slogan
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+        link(rel='stylesheet', href='/assets/css/main.css')
+        noscript
+            link(rel='stylesheet', href='/assets/css/noscript.css')
+
+        if blog.webmastertools_id && blog.webmastertools_id != ''
+            meta(name="google-site-verification" content= blog.webmastertools_id)
+        
+        include partials/opengraph.pug
+
+        block scripts
+            include partials/scripts.pug
+    
+    
+    body.is-preload
+        #wrapper
+            header#header.alt
+                a(href='/')
+                    h1= blog.title
+                p= blog.slogan
+            
+            include partials/nav.pug
+            
+            #main
+                block content
+                
+
+            include partials/footer.pug
+        include partials/scripts-bottom.pug

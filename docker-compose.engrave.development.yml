@@ -23,7 +23,7 @@ services:
       - ./engrave-ssl/src:/app/src
       - ./engrave-ssl/dist:/app/dist
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
+      - certbot:/app/certbot
     environment:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
@@ -35,6 +35,8 @@ services:
     ports:
       - 3006:3000
       - 3007:3001
+    environment:
+      - WAIT_HOSTS=mongo:27017
     volumes:
       - ./engrave-nginx-configurator/src:/app/src
       - ./engrave-nginx-configurator/dist:/app/dist
@@ -46,6 +48,35 @@ services:
       - mongo
     environment:
       - WAIT_HOSTS=mongo:27017
+
+  blockchain-tracker:
+    image: bgornicki/engrave-blockchain-tracker
+    depends_on:
+      - redis
+    ports:
+      - 3012:3001
+    environment:
+      - STARTING_BLOCK=29339091
+      - WAIT_HOSTS=redis:6379
+    volumes:
+      - ./engrave-blockchain-tracker/src:/app/src
+      - ./engrave-blockchain-tracker/dist:/app/dist
+
+  blogs-renderer:
+    image: bgornicki/engrave-blogs-renderer
+    ports:
+      - 80:8080
+      - 3010:3001
+    depends_on:
+      - redis
+    environment:
+      - WAIT_HOSTS=mongo:27017,redis:6379
+      - DOMAIN=engrave.website
+    volumes:
+      - certbot:/app/certbot
+      - ./engrave-blogs-renderer/src:/app/src
+      - ./engrave-blogs-renderer/dist:/app/dist
+      # - themes:/app/src/themes
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
@@ -59,30 +90,20 @@ services:
       - ./engrave-image-uploader/src:/app/src
       - ./engrave-image-uploader/dist:/app/dist
   
-  nginx:
-    image: bgornicki/nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_certs:/etc/letsencrypt
-    depends_on:
-      - engrave
-
-  engrave:
-    image: bgornicki/engrave
+  engrave-front-dashboard:
+    image: bgornicki/engrave-front-dashboard
     ports:
       - 9229:9229
+      - 8080:80
     environment:
-      - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1/authorize/
-      - PAYMENT_REDIRECT_URI=http://127.0.0.1/dashboard/configure/
+      - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1:8080/authorize/
+      - PAYMENT_REDIRECT_URI=http://127.0.0.1:8080/dashboard/configure/
       - DOMAIN=engrave.website
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - BLOGS_DOMAINS=["engrave.website", "engrave.site"]
       - BLOGS_CATEGORIES=["Other", "Financial and economy", "Lifestyle", "Food", "Sport", "Travel", "Health and beauty", "Hobby", "Music", "Journalism", "Photography", "Technology"]
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - SERVER_IP=139.162.185.235
       - NAMECOM_API=api.dev.name.com
       - DOMAIN_PRICE_SBD=10
@@ -91,11 +112,11 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - instances:/app/instances
-      - ./engrave/src:/app/src
-      - ./engrave/views:/app/views
-      - ./engrave/public:/app/public
-      - ./engrave/dist:/app/dist
+      - themes:/app/themes
+      - ./engrave-front-dashboard/src:/app/src
+      - ./engrave-front-dashboard/views:/app/views
+      - ./engrave-front-dashboard/public:/app/public
+      - ./engrave-front-dashboard/dist:/app/dist
     depends_on:
       - mongo
     secrets:
@@ -109,12 +130,21 @@ services:
     ports:
     - "27017:27017"
 
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+    ports:
+    - "6379:6379"
+
 
 volumes:
   db-data:
   nginx_certs:
   nginx_conf:
-  instances:
+  certbot:
+  redis-data:
+  themes:
  
 secrets:
   NAMECOM_TOKEN:

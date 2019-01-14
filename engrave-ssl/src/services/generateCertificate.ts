@@ -5,7 +5,7 @@ const leStore = require('le-store-certbot').create({
     certPath: ':configDir/live/:hostname/cert.pem',                //       will be templated as expected by
     chainPath: ':configDir/live/:hostname/chain.pem',              //       greenlock.js
     logsDir: process.env.SSL_CERTIFICATES_DIR + '/engrave-logs',
-    webrootPath: '/app/instances/:hostname/public/.well-known/acme-challenge',
+    webrootPath: '/app/certbot/.well-known/acme-challenge',
     debug: false
 });
 

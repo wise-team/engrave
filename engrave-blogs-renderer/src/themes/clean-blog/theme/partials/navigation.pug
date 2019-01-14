@@ -1,0 +1,17 @@
+// Navigation
+nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
+    .container
+        a.navbar-brand(href='/')= blog.title
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+            | Menu
+            i.fa.fa-bars
+        #navbarResponsive.collapse.navbar-collapse
+            ul.navbar-nav.ml-auto
+                each category in blog.categories
+                    li.nav-item
+                        a.nav-link(href=((blog.lang == 'pl') ? '/category/' : '/category/') + category.slug)= category.name
+                li.nav-item
+                    if !user
+                        a.nav-link(href='/authorize') Login
+                    else
+                        a.nav-link(href='/authorize/logout')= 'Logout, @' + user.name

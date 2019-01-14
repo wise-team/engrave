@@ -1,0 +1,46 @@
+.posts-block#featured-posts
+    h1= translation.frontpage.hottopics
+    .slider-news
+        .flexslider
+            ul.slides
+                each featured_item in featured
+                    li(itemscope itemtype="http://schema.org/NewsArticle").flex-active-slide
+                        
+                        include metadata/publisher.pug
+
+                        meta(itemprop="mainEntityOfPage" content= "https://" + blog.domain + "/" + featured_item.permlink)
+                        meta(itemprop="datePublished" content= moment(featured_item.date).toISOString())
+                        meta(itemprop="dateModified" content= moment(featured_item.date).toISOString())
+                        meta(itemprop="image" content= featured_item.image)
+                        meta(itemprop="headline" content= featured_item.title)
+
+                        img(src=featured_item.image)
+                        .slider-caption
+                            a(href="/category/"+ featured_item.category.slug, class="category category-" + featured_item.category.slug) #{featured_item.category.name}
+                            h2
+                                a(href= featured_item.permlink, itemprop="url")= featured_item.title
+                            ul.post-tags
+                                li
+                                    div(itemprop="author" itemscope itemtype="https://schema.org/Person")
+                                        i.lnr.lnr-user
+                                        = translation.frontpage.author + " "
+                                        span
+                                            a(href="/autor/" + featured_item.root_author, itemprop="url")
+                                                if featured_item.author && featured_item.author.name && featured_item.author.surname
+                                                    span(itemprop="name")= featured_item.author.name + ' ' + featured_item.author.surname
+                                                else if featured_item.author && featured_item.author.name
+                                                    span(itemprop="name")= featured_item.author.name
+                                                else 
+                                                    span(itemprop="name")= featured_item.root_author
+                                li
+                                    a(href= '/' + featured_item.permlink + "#comments")
+                                        i.lnr.lnr-bubble
+                                        span= featured_item.comments_quantity
+                                li
+                                    i.lnr.lnr-thumbs-up
+                                    = featured_item.net_votes
+                                li
+                                    i.lnr.lnr-diamond
+                                    | $
+                                    = featured_item.value
+                            p= featured_item.body_abbr + "..."
