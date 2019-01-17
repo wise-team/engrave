@@ -9,7 +9,10 @@ export default async (blockNumber: number): Promise<IProcessedBlock> => {
         const {transactions, timestamp} = await steem.api.getBlockAsync(blockNumber);
 
         if(transactions) {
-            console.log("Transactions:", transactions.length, "block:", blockNumber);
+
+            if( (blockNumber % 10) == 0) {
+                console.log("Transactions:", transactions.length, "block:", blockNumber);
+            }
 
             let updates: IUpdate[] = [];
 
