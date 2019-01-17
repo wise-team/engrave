@@ -3,43 +3,38 @@ import { IUpdate } from "../blockchain";
 
 export default async (tx: any): Promise<IUpdate> => {
     try {
-        const operation = tx.operations[0][0];
 
-        switch(operation) {
-            case 'vote': {
-                const { author, permlink } = tx.operations[0][1];
-        
-                if(await ifArticleExist(author, permlink)) {
-                    return {author: author, permlink: permlink};
+        for(const operation of tx.operations) {
+
+            const type = operation[0];
+            
+            switch(type) {
+                case 'vote': 
+                case 'comment': {
+                    const { author, permlink } = operation[1];
+                    if(await ifArticleExist(author, permlink)) {
+                        return {author: author, permlink: permlink};
+                    }
                 }
-            }
-
-            break;
-
-            case 'comment': {
-                const { author, permlink } = tx.operations[0][1];
-        
-                if(await ifArticleExist(author, permlink)) {
-                    return {author: author, permlink: permlink};
+                
+                break;
+                
+                case 'delete_comment': {
+                    const { author, permlink } = operation[1];
+                    if(await ifArticleExist(author, permlink)) {
+                        deleteArticle(author, permlink);
+                    }
                 }
+    
+                break;
+    
+                default:
+                break;
             }
-
-            case 'delete_comment': {
-                const { author, permlink } = tx.operations[0][1];
-        
-                if(await ifArticleExist(author, permlink)) {
-                    deleteArticle(author, permlink);
-                }
-            }
-
-            break;
-
-            default:
-            break;
-
         }
 
         return null;
+
     } catch (error) {
         console.log(error);
         return null;
