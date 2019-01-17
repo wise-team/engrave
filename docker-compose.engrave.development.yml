@@ -11,6 +11,8 @@ services:
     volumes:
       - ./engrave-api-gateway/src:/app/src
       - ./engrave-api-gateway/dist:/app/dist
+    environment:
+      - WAIT_HOSTS=mongo:27017
 
   ssl:
     image: bgornicki/engrave-ssl
@@ -56,7 +58,7 @@ services:
     ports:
       - 3012:3001
     environment:
-      - STARTING_BLOCK=29339091
+      - STARTING_BLOCK=29543648
       - WAIT_HOSTS=redis:6379
     volumes:
       - ./engrave-blockchain-tracker/src:/app/src
