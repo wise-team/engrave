@@ -4,7 +4,9 @@ import { INewBlog } from '../submodules/engrave-shared/interfaces/INewBlog';
 export let BlogSchema = new Schema({
 
     username: String,
+    url: String,
     domain: String,
+    domain_redirect: Boolean,
     link_facebook: String,
     link_twitter: String,
     link_linkedin: String,
@@ -25,9 +27,8 @@ export let BlogSchema = new Schema({
     theme: String,
     show_everything: Boolean,
     categories: [{
-            steem_tag: String,
-            name: String,
-            slug: String
+        name: String,
+        slug: String
     }]
 });
 
