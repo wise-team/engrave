@@ -10,5 +10,5 @@ export default (username: string, scope: Scope) => {
             platform: 'engrave.website',
             scope: scope
         }
-      }, secrets.JWT_TOKEN, { expiresIn: '1h' });
+      }, secrets.JWT_SECRET, { expiresIn: '1h' });
 }
