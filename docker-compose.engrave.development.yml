@@ -76,6 +76,7 @@ services:
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
       - DOMAIN=engrave.website
+      - AUTH_SERVICE=http://127.0.0.1:3013
     volumes:
       - certbot:/app/certbot
       - ./engrave-blogs-renderer/src:/app/src
@@ -94,6 +95,9 @@ services:
       - ./engrave-image-uploader/src:/app/src
       - ./engrave-image-uploader/dist:/app/dist
   
+  beta-dashboard:
+    image: bgornicki/engrave-dashboard:latest
+
   engrave-front-dashboard:
     image: bgornicki/engrave-front-dashboard
     ports:
@@ -142,6 +146,7 @@ services:
       - SC2_REDIRECT_DASHBOARD=http://127.0.0.1:3013/dashboard/authorize
       - SC2_REDIRECT_BLOG=http://127.0.0.1:3013/blog/authorize
       - STEEMCONNECT_ID=engrave.app
+      - DASHBOARD_ADDR=http://127.0.0.1:8080
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET

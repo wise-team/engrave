@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import * as os from 'os';
 
 const middleware: any[] =  [
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
-        return res.redirect('https://' + process.env.DOMAIN + '/blog')
+        const { referer } = req.headers;
+        return res.redirect( process.env.AUTH_SERVICE + '/blog?redirect=' + (referer ? referer : req.host))
     }, req, res);
 }
 

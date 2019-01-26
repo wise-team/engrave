@@ -24,6 +24,7 @@ services:
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
       - DOMAIN=engrave.website
+      - AUTH_SERVICE=https://auth.engrave.website
     volumes:
       - certbot:/app/certbot
       - themes:/app/src/themes
@@ -94,9 +95,13 @@ services:
       - SC2_REDIRECT_DASHBOARD=https://auth.engrave.website/dashboard/authorize
       - SC2_REDIRECT_BLOG=https://auth.engrave.website/blog/authorize
       - STEEMCONNECT_ID=dblog.app
+      - DASHBOARD_ADDR=https://beta.engrave.website
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET
+
+  beta-dashboard:
+    image: bgornicki/engrave-dashboard:latest
 
   nginx:
     image: bgornicki/nginx

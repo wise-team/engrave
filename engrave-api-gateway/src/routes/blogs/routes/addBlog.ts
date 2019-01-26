@@ -8,7 +8,6 @@ import blogsService from '../../../services/blogs/services.blogs';
 import { INewBlog } from '../../../submodules/engrave-shared/interfaces/INewBlog';
 
 const middleware: any[] =  [
-    body('username').isString(), // check if username is the same as authenticated
     body('url').isString().isURL().custom(isBlogAddressFree).withMessage("This address is taken"), // isEngraveUrlValid
     body('title').isString(),
     
@@ -24,8 +23,9 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
-        const { 
-            username, 
+        const { username } = res.locals;
+
+        const {  
             url, 
             title, 
             slogan

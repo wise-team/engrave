@@ -13,7 +13,7 @@ async function handler(req: any, res: Response) {
     return handleResponseError(async () => {
 
         const { code } = req.query;
-        const { blog } = req.session;
+        const { redirect } = req.session;
        
         const { data: { access_token,  refresh_token, username, expires_in} } = await sc.getRefreshToken(code, sc.blog.scope);
     
@@ -22,9 +22,9 @@ async function handler(req: any, res: Response) {
 
         const token = jwt.createJwt(username, jwt.Scope.BLOG);
         
-        if(blog) {
+        if(redirect) {
             const tokenString = encodeURIComponent(token);
-            return res.redirect('https://' + blog + '?jwt=' + tokenString);
+            return res.redirect(redirect + '?jwt=' + tokenString);
         } else {
             return res.redirect('/');
         }

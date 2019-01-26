@@ -14,17 +14,26 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         
         const token = (<string>req.headers['authorization']).replace("Bearer ", "");
 
-        if(!token) throw new VerificationError('Unauthorized');
+        if( ! token)
+            throw new VerificationError('Unauthorized');
     
-        const decodedToken: any = jwt.verify(token, secrets.JWT_TOKEN);
+        const decodedToken: any = jwt.verify(token, secrets.JWT_SECRET);
 
-        if(decodedToken.platform !== "engrave.website") throw new VerificationError('Wrong platform name');
+        if(decodedToken.data.platform !== "engrave.website")
+            throw new VerificationError('Wrong platform name');
         
-        if(decodedToken.scope !== "dashboard") throw new VerificationError('Invalid scope');
+        if(decodedToken.data.scope !== "dashboard")
+            throw new VerificationError('Invalid scope');
+
+        if( ! decodedToken.data.username) 
+            throw new VerificationError('Missing username');
 
         const currentTime = new Date().getTime() / 1000;
         
-        if (decodedToken.exp < currentTime) throw new VerificationError("Token expired");
+        if (decodedToken.exp < currentTime)
+            throw new VerificationError("Token expired");
+
+        res.locals.username = decodedToken.data.username;
 
         next();
         

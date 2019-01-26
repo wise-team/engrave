@@ -24,6 +24,7 @@ services:
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
       - DOMAIN=dblog.pl
+      - AUTH_SERVICE=https://auth.dblog.pl
     volumes:
       - certbot:/app/certbot
       - themes:/app/src/themes
@@ -94,10 +95,14 @@ services:
       - SC2_REDIRECT_DASHBOARD=https://auth.dblog.pl/dashboard/authorize
       - SC2_REDIRECT_BLOG=https://auth.dblog.pl/blog/authorize
       - STEEMCONNECT_ID=dblog.app
+      - DASHBOARD_ADDR=https://beta.dblog.pl
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET
   
+  beta-dashboard:
+    image: bgornicki/engrave-dashboard:latest
+
   nginx:
     image: bgornicki/nginx
     ports:

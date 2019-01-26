@@ -10,10 +10,9 @@ const blogsApi: express.Router = express.Router();
 
 blogsApi.get('/all/:username', getAllBlogs.middleware, getAllBlogs.handler);
 blogsApi.get('/:id', getBlog.middleware, getBlog.handler);
-blogsApi.delete('/', removeBlog.middleware, removeBlog.handler);
-blogsApi.post('/', addBlog.middleware, addBlog.handler);
-blogsApi.put('/', updateBlog.middleware, updateBlog.handler);
-// blogsApi.put('/', verifyToken, updateBlog.middleware, updateBlog.handler);
+blogsApi.delete('/', verifyToken, removeBlog.middleware, removeBlog.handler);
+blogsApi.post('/', verifyToken, addBlog.middleware, addBlog.handler);
+blogsApi.put('/', verifyToken, updateBlog.middleware, updateBlog.handler);
 
 
 export default blogsApi;
