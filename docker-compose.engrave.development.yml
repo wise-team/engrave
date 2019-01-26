@@ -13,6 +13,8 @@ services:
       - ./engrave-api-gateway/dist:/app/dist
     environment:
       - WAIT_HOSTS=mongo:27017
+    secrets:
+      - JWT_SECRET
 
   ssl:
     image: bgornicki/engrave-ssl
@@ -124,7 +126,26 @@ services:
     secrets:
       - NAMECOM_TOKEN
       - NAMECOM_USERNAME
-      
+  
+  auth:
+    image: bgornicki/engrave-auth
+    deploy:
+      replicas: 1
+    ports:
+      - 3013:3000
+      - 3014:3001
+    volumes:
+      - ./engrave-auth/src:/app/src
+      - ./engrave-auth/dist:/app/dist
+    environment:
+      - WAIT_HOSTS=mongo:27017
+      - SC2_REDIRECT_DASHBOARD=http://127.0.0.1:3013/dashboard/authorize
+      - SC2_REDIRECT_BLOG=http://127.0.0.1:3013/blog/authorize
+      - STEEMCONNECT_ID=engrave.app
+    secrets:
+      - SC2_APP_SECRET
+      - JWT_SECRET
+
   mongo:
     image: mongo
     volumes:
@@ -156,4 +177,8 @@ secrets:
   IMGUR_KEY:
     external: true
   IMGUR_CLIENT_ID:
+    external: true
+  SC2_APP_SECRET:
+    external: true
+  JWT_SECRET:
     external: true

@@ -3,6 +3,8 @@ services:
 
   api-gateway:
     image: bgornicki/engrave-api-gateway
+    secrets:
+      - JWT_SECRET
 
   blockchain-tracker:
     image: bgornicki/engrave-blockchain-tracker
@@ -85,6 +87,17 @@ services:
     environment:
       - WAIT_HOSTS=mongo:27017  
 
+  auth:
+    image: bgornicki/engrave-auth
+    environment:
+      - WAIT_HOSTS=mongo:27017
+      - SC2_REDIRECT_DASHBOARD=https://auth.engrave.website/dashboard/authorize
+      - SC2_REDIRECT_BLOG=https://auth.engrave.website/blog/authorize
+      - STEEMCONNECT_ID=dblog.app
+    secrets:
+      - SC2_APP_SECRET
+      - JWT_SECRET
+
   nginx:
     image: bgornicki/nginx
     ports:
@@ -122,4 +135,8 @@ secrets:
   IMGUR_KEY:
     external: true
   IMGUR_CLIENT_ID:
+    external: true
+  SC2_APP_SECRET:
+    external: true
+  JWT_SECRET:
     external: true

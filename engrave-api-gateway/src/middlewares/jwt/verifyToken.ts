@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import * as httpCodes from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
+const secrets = require('@cloudreach/docker-secrets');
 
 class VerificationError extends Error {
 
@@ -15,9 +16,11 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         if(!token) throw new VerificationError('Unauthorized');
     
-        const decodedToken: any = jwt.decode(token);
+        const decodedToken: any = jwt.verify(token, secrets.JWT_TOKEN);
 
-        if(decodedToken.proxy !== "engrave.app") throw new VerificationError('Wrong proxy name');
+        if(decodedToken.platform !== "engrave.website") throw new VerificationError('Wrong platform name');
+        
+        if(decodedToken.scope !== "dashboard") throw new VerificationError('Invalid scope');
 
         const currentTime = new Date().getTime() / 1000;
         

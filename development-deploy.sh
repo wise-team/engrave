@@ -8,6 +8,9 @@ docker build ./engrave-ssl/ -f ./engrave-ssl/Dockerfile.development -t bgornicki
 docker build ./engrave-nginx-configurator/ -f ./engrave-nginx-configurator/Dockerfile.development -t bgornicki/engrave-nginx-configurator
 docker build ./engrave-blogs-renderer/ -f ./engrave-blogs-renderer/Dockerfile.development -t bgornicki/engrave-blogs-renderer
 docker build ./engrave-blockchain-tracker/ -f ./engrave-blockchain-tracker/Dockerfile.development -t bgornicki/engrave-blockchain-tracker
+docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.development -t bgornicki/engrave-auth
+
+docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
 
 docker stack rm engrave
 

@@ -1,6 +1,7 @@
 import healthApi from "../routes/health/health.routes";
 import frontendApi from "../routes/frontend/frontend.routes";
 import postsApi from "../routes/posts/posts.routes";
+import loginApi from "../routes/login/login.routes";
 
 function routes(app:any) {
     
@@ -8,7 +9,9 @@ function routes(app:any) {
     
     app.use('/health', healthApi);
     app.use('/posts', postsApi);
+    app.use('/login', loginApi);
     app.use('/', frontendApi);
+    
     app.use(function (err:any, req:any, res:any, next:any) {
         // set locals, only providing error in development
 

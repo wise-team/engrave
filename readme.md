@@ -23,6 +23,8 @@ echo "<name.com api username>" | sudo docker secret create NAMECOM_USERNAME -
 echo "<name.com api token>" | sudo docker secret create NAMECOM_TOKEN -
 echo "<imgur project key>" | sudo docker secret create IMGUR_KEY -
 echo "<imgur client id>" | sudo docker secret create IMGUR_CLIENT_ID -
+echo "steemconnect app secret" | sudo docker secret create SC2_APP_SECRET -
+echo "jwt secret" | sudo docker secret create JWT_SECRET -
 ```
 
 If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-compose.yml` file for environmental variables and then just type:
