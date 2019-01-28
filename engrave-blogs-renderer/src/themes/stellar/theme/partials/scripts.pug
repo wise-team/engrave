@@ -1,5 +1,9 @@
 script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
 
+script(src='http://127.0.0.1:3013/sslo.js')
+
+script(src='/assets/js/ssojwt.js')
+
 if blog.onesignal_app_id
     script(type='text/javascript').
         var onesignal_id = !{JSON.stringify(blog.onesignal_app_id)}

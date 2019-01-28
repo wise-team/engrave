@@ -11,7 +11,7 @@ const dashboard = sc2.Initialize({
 const blog = sc2.Initialize({
     app: process.env.STEEMCONNECT_ID,
     callbackURL: process.env.SC2_REDIRECT_BLOG,
-    scope: ['login', 'vote', 'comment', 'offline']
+    scope: ['login', 'vote', 'comment']
 });
 
 const sc = {

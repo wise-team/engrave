@@ -14,7 +14,7 @@ async function handler(req: any, res: Response) {
 
         const { code } = req.query;
        
-        const { data: { access_token,  refresh_token, username, expires_in} } = await sc.getRefreshToken(code, sc.dashboard.scope);
+        const { data: { access_token, refresh_token, username, expires_in} } = await sc.getRefreshToken(code, sc.dashboard.scope);
     
         vault.storeRefreshToken(username, refresh_token);
         vault.storeAccessToken(username, access_token);

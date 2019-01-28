@@ -150,6 +150,7 @@ services:
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET
+      - VAULT_TOKEN
 
   mongo:
     image: mongo
@@ -164,7 +165,15 @@ services:
       - redis-data:/data
     ports:
     - "6379:6379"
-
+  
+  vault:
+    image: vault
+    ports:
+      - 8200:8200
+    volumes:
+      - ./vault/file:/vault/file:rw
+      - ./vault/config:/vault/config:rw
+    entrypoint: vault server -config=/vault/config/vault.json
 
 volumes:
   db-data:
@@ -186,4 +195,6 @@ secrets:
   SC2_APP_SECRET:
     external: true
   JWT_SECRET:
+    external: true
+  VAULT_TOKEN:
     external: true

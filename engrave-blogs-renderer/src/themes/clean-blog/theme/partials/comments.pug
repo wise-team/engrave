@@ -1,19 +1,17 @@
 .container.bootstrap.snippet
   .row
     .col-lg-8.col-md-10.mx-auto
-      if !user
-        include steemit-box.pug
-      else
-        .contact-form-box.comment-reply-form
-          .title-section
-              h3= "Reply"
-          form#comment-form
-              textarea#comment(name="comment_body")
-              input(type="hidden", name="permlink", value= permlink)
-              input(type="hidden", name="title", value= title)
-              input(type="hidden", name="parent_author", value="")
-              button(type="submit")#submit-contact.submit-reply
-                = "Send reply"
+      include steemit-box.pug
+      .contact-form-box.comment-reply-form#comment-form-modal
+        .title-section
+            h3= "Reply"
+        form#comment-form
+            textarea#comment(name="comment_body")
+            input(type="hidden", name="permlink", value= permlink)
+            input(type="hidden", name="title", value= title)
+            input(type="hidden", name="parent_author", value="")
+            button(type="submit")#submit-contact.submit-reply
+              = "Send reply"
   .row
     .col-lg-8.col-md-10.mx-auto
       .blog-comment#comments

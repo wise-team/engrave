@@ -680,3 +680,7 @@ padding: 0;
     background-color: #00A7B3;
   }
 }
+
+#comment-form-modal {
+  display: none;
+}

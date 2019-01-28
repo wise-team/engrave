@@ -6,7 +6,7 @@ let parseDomain = require('parse-domain');
 
 export class BlogListModule {
 
-    private static prohibitedSubdomains = ['beta', 'alpha', 'staging', 'demo', 'live', 'm', 'api', 'www', 'blog'];
+    private static prohibitedSubdomains = ['auth', 'vault', 'beta', 'alpha', 'staging', 'demo', 'live', 'm', 'api', 'www', 'blog'];
     private static prohibitedDomains = ['example.com'].concat(JSON.parse(process.env.BLOGS_DOMAINS ? process.env.BLOGS_DOMAINS : "[]"));
 
     /**
