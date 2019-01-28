@@ -91,7 +91,7 @@ services:
   auth:
     image: bgornicki/engrave-auth
     environment:
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - SC2_REDIRECT_DASHBOARD=https://auth.dblog.pl/dashboard/authorize
       - SC2_REDIRECT_BLOG=https://auth.dblog.pl/blog/authorize
       - STEEMCONNECT_ID=dblog.app

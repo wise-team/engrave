@@ -142,7 +142,7 @@ services:
       - ./engrave-auth/src:/app/src
       - ./engrave-auth/dist:/app/dist
     environment:
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - SC2_REDIRECT_DASHBOARD=http://127.0.0.1:3013/dashboard/authorize
       - SC2_REDIRECT_BLOG=http://127.0.0.1:3013/blog/authorize
       - STEEMCONNECT_ID=engrave.app

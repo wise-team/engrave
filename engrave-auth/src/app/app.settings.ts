@@ -1,10 +1,12 @@
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
-let session = require('express-session');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+
 import * as express from 'express';
 
 function settings(app: any) {
-    app.use(session({ secret: 'asdasdasdasdasdsad', saveUninitialized: true, resave: false }));
+    app.use(session({ store: new RedisStore({ host: 'redis', port: 6379 }), secret: 'wobkvDgD6fe1zY9VaKTe5s7K8hamVojeoKiK0ais', saveUninitialized: true, resave: false }));
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(express.static('/app/src/public')); // for sslo purposes

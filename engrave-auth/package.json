@@ -18,6 +18,7 @@
     "@types/mongoose": "^5.3.5",
     "axios": "0.18.0",
     "body-parser": "^1.18.3",
+    "connect-redis": "^3.4.0",
     "cron": "1.6.0",
     "express": "^4.16.4",
     "express-session": "1.15.6",
