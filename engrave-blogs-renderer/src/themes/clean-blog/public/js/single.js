@@ -213,7 +213,7 @@ $(document).ready(function () {
                         comment_vote_clicked = false;
                     },
                     error: function (data) {
-                        toastr.error("Coś poszło nie tak...");
+                        toastr.error("Something gone wrong");
                         voteIcon.addClass("fa-thumbs-up");
                         voteIcon.removeClass("fa-spinner").removeClass("fa-spin");
                         comment_vote_clicked = false;
@@ -228,7 +228,7 @@ $(document).ready(function () {
     function appendNewComment(body, author, commentsList) {
         let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
         $(newComment).addClass('comment-highlight');
-        $('body').animate({ scrollTop: $(newComment).offset().top }, 500);
+        $('html, body').animate({ scrollTop: $(newComment).offset().top - 500 }, 500);
     }
 
     $('#comments').on('click', '.cancel', function(e) {
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
+                    toastr.error("Something gone wrong");
                     $("#comment").val("");
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
@@ -352,7 +352,7 @@ $(document).ready(function () {
                     box.removeClass('formGrayOut');
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
+                    toastr.error("Something gone wrong");
                     box.find('[name="comment_body"]').css("visibility", "visible");
                     box.find('.submit-reply').css("visibility", "visible");
                     box.removeClass('formGrayOut');

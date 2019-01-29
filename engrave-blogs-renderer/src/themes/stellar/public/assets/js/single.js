@@ -63,7 +63,62 @@ $(document).ready(function () {
 
     });
 
-    // submit comment
+    $('#comment-form').submit(function (e) {
+
+        e.preventDefault();
+
+        $('#submit-contact').css("visibility", "hidden");
+        $('#comment').css("visibility", "hidden");
+        $('#comment-form').addClass('formGrayOut');
+
+        if ($("#comment").val() != "") {
+            var post_data = $(this).serialize();
+            $("#comment").val("");
+            $("#parent_author").val("");
+
+            $.ajax({
+                type: "POST",
+                url: "/action/comment",
+                data: post_data,
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", getLoggedInToken());
+                },
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.success);
+                        $('#comments-empty').remove();
+                        
+                        var comment_list = $("#comments").children()[1];
+
+                        appendNewComment(data.body, data.author, comment_list);
+                    } else {
+                        toastr.error(data.error);
+                        toastr.error(data);
+                        console.log(data);
+                    }
+                    
+                    $('#comment-form').removeClass('formGrayOut');
+                    $('#submit-contact').css("visibility", "visible");
+                    $('#comment').css("visibility", "visible");
+
+                },
+                error: function (data) {
+                    toastr.error("Coś poszło nie tak...");
+                    $("#comment").val("");
+                    $('#comment-form').removeClass('formGrayOut');
+                    $('#submit-contact').css("visibility", "visible");
+                    $('#comment').css("visibility", "visible");
+                }
+            });
+        } else {
+            toastr.error("You cannot send empty comment");
+            $('#submit-contact').css("visibility", "visible");
+            $('#comment').css("visibility", "visible");
+            $('#comment-form').removeClass('formGrayOut');
+        }
+    });
+
+    // submit comment to comment
     $('#comments').on('submit', '.comment-reply-form2', function (e) {
 
         e.preventDefault();
@@ -122,7 +177,7 @@ $(document).ready(function () {
                 }
             });
         } else {
-            toastr.error("Nie możesz wysłać pustego komentarza");
+            toastr.error("You cannot send empty comment");
         }
     });
 });
@@ -237,7 +292,9 @@ function handleCommentVote(comment_element) {
 function appendNewComment(body, author, commentsList) {
     let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
     $(newComment).addClass('comment-highlight');
-    $('body').animate({ scrollTop: $(newComment).offset().top }, 500);
+
+
+    $('html, body').animate({ scrollTop: $(newComment).offset().top}, 500);
 }
 
 function appendCommentForm(element) {
@@ -298,8 +355,11 @@ function renderComment(comment, voted, list_id) {
     const value = parseFloat(parseFloat(comment.pending_payout_value.replace(" SBD", "")) + parseFloat(comment.total_payout_value.replace(" SBD", ""))).toFixed(2);
     const newCommentHtml = `<img src="https://steemitimages.com/u/${comment.author}/avatar" class="avatar"><div class="post-comments"><p class="meta"><a href="https://steemit.com/@${comment.author}">@${comment.author}</a>, <span title="${moment.utc(comment.created).local().format('LLL')}">${moment.utc(comment.created).local().fromNow()}</span>: <input type="hidden" name="comment_permlink" value="${comment.permlink}"><input type="hidden" name="comment_author" value="${comment.author}"><input type="hidden" name="comment_title" value="${comment.title}"> </p><p>${marked(comment.body)}</p><p class="comment-actions"><i class="fa fa-thumbs-up comments-action comment-vote"></i>&nbsp;<span name="comment-votes">${comment.net_votes}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span name="comment-value">$${value}</span><span class="comment-action comment-reply">&nbsp;&nbsp;&nbsp;&nbsp;Reply</span></p></div>`;
 
-    $(list_id).append(newCommentHtml); 
+    const newDiv = document.createElement('div');
+    $(newDiv).append(newCommentHtml);
 
-    return newCommentHtml;
+    $(list_id).append(newDiv); 
+    
+    return newDiv
 
 }

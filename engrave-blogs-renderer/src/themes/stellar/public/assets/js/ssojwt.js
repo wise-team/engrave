@@ -5,12 +5,10 @@ function onLoad(){
     const token = urlParams.get('jwt');
 
     if(token) {
-        console.log(token);
         sslssso.login(token);
         var url = [location.protocol, '//', location.host, location.pathname].join('');
         window.location.replace(url);
     }
-
 }
 
 //Invoked when user logs out
@@ -19,6 +17,9 @@ function onLogout(){
     document.getElementById("nav-login").innerText = "Login";
     document.getElementById("nav-login").href = "/login";
     localStorage.removeItem('aMZr1grXqFXbiRzmOGRM');
+
+    document.getElementById("login-box").style.display = "block";
+    document.getElementById("comment-form-modal").style.display = "none";
 }
 
 // Invoked after page load if you have a valid token or after new JWT correct identification (if page is still loaded)
@@ -32,5 +33,8 @@ function onIdentification(operation){
     document.getElementById("nav-login").innerText = "Logout, @" + username;
     document.getElementById("nav-login").href = "javascript:sslssso.logout();";
     
+    document.getElementById("login-box").style.display = "none";
+    document.getElementById("comment-form-modal").style.display = "block";
+
     localStorage.setItem('aMZr1grXqFXbiRzmOGRM', operation.jwt);
 }
