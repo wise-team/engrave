@@ -1145,27 +1145,37 @@ a.load-more:hover {
 
 /* post tags list style */
 ul.post-tags {
-  margin-bottom: 8px; }
-  ul.post-tags li {
-    display: inline-block;
-    margin-right: 7px;
-    color: #999;
-    font-size: 11px;
-    font-family: "Open Sans", sans-serif;
-    transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out; }
-    ul.post-tags li i {
-      font-size: 12px;
-      color: #343434;
-      margin-right: 5px; }
-    ul.post-tags li a {
-      color: #999; }
-    ul.post-tags li a:hover {
-      color: #00A7B3; }
-  ul.post-tags li:last-child {
-    margin-right: 0; }
+  margin-bottom: 8px; 
+}
+ul.post-tags li {
+  display: inline-block;
+  margin-right: 7px;
+  color: #999;
+  font-size: 11px;
+  font-family: "Open Sans", sans-serif;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out; 
+}
+
+ul.post-tags li i {
+  font-size: 12px;
+  color: #343434;
+  margin-right: 5px; 
+}
+
+ul.post-tags li a {
+  color: #999; 
+}
+
+ul.post-tags li a:hover {
+  color: #00A7B3; 
+}
+
+ul.post-tags li:last-child {
+  margin-right: 0; 
+}
 
 .standart-post .post-image {
   position: relative;

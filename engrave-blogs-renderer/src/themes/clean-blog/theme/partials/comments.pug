@@ -6,7 +6,7 @@
         .title-section
             h3= "Reply"
         form#comment-form
-            textarea#comment(name="body")
+            textarea#comment(name="body" rows="6")
             input(type="hidden", name="parent_title", value= article.title)
             input(type="hidden", name="parent_permlink", value= article.permlink)
             input(type="hidden", name="parent_author", value= blog.username)

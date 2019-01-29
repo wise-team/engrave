@@ -1,4 +1,5 @@
 var comment_vote_clicked = false;
+let votingHandler = null;
 
 function getLoggedInToken(){
     return localStorage.getItem('aMZr1grXqFXbiRzmOGRM');
@@ -65,6 +66,8 @@ $(document).ready(function () {
     
     function renderComment(comment, voted, list_id) {
     
+        console.log(comment);
+
         var new_comment_box = document.createElement('div');
         $(new_comment_box).addClass('post-comments');
     
@@ -143,23 +146,39 @@ $(document).ready(function () {
     
     }
 
-    $('#loggedinModal').on('hidden.bs.modal', function () {
+    $('#voting-power-modal').on('hidden.bs.modal', function () {
         comment_vote_clicked = false;
     })
 
     $('#comments').on('click', '.comment-vote', function (e) {
+        if (getLoggedInToken()) {
+            if (!comment_vote_clicked) {
+                votingHandler = () => { handleCommentVote(this) };   
+                $("#voting-power-modal").modal();
+            }
+        } else {
+            toastr.error("Please login first");
+        }
+    })
 
+    function handleCommentVote(comment_element) {
+        
+        $("#voting-power-modal").modal('hide');
+        
+        const power = $("#example_id").prop("value");  
+        
         if (getLoggedInToken()) {
             if (!comment_vote_clicked) {
                 comment_vote_clicked = true;
 
-                var comment = $(this).parent().parent();
+                var comment = $(comment_element).parent().parent();
                 var comment_author = comment.find('[name="comment_author"]').val();
                 var comment_permlink = comment.find('[name="comment_permlink"]').val();
 
-                upvotePermlink = comment_permlink;
-                upvoteAuthor = comment_author;
-                upvoteComment = $(this).parent();
+                console.log(comment_permlink);
+                console.log(comment_author);
+
+                upvoteComment = $(comment_element).parent();
 
                 var commentVotesCount = upvoteComment.find('[name="comment-votes"]');
                 var voteIcon = upvoteComment.find('.comment-vote');
@@ -172,7 +191,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "/action/vote",
-                    data: { permlink: upvotePermlink, author: upvoteAuthor, weight: 10000},
+                    data: { permlink: comment_permlink, author: comment_author, weight: power * 100},
                     beforeSend: function(request) {
                         request.setRequestHeader("Authorization", getLoggedInToken());
                     },
@@ -204,7 +223,7 @@ $(document).ready(function () {
         } else {
             toastr.error("Please login first");
         }
-    });
+    }
 
     function appendNewComment(body, author, commentsList) {
         let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
@@ -351,4 +370,67 @@ $(document).ready(function () {
             }
     }
 
+    // article voting
+    $('#voting-icon').click(function (e) {
+        if (getLoggedInToken()) {
+            if (!comment_vote_clicked) {
+                votingHandler = handleArticleVote;   
+                $("#voting-power-modal").modal();
+            }
+        } else {
+            toastr.error("Please login first");
+        }
+    })
+
+    $('#votingAccept').on('click', function (e) {
+
+        votingHandler();
+
+    });
+
+    function handleArticleVote() {
+    
+        $("#voting-power-modal").modal('hide');
+
+        const power = $("#example_id").prop("value");
+        const permlink = $("#permlink").val();
+        const editorial = $("#editorial").val();
+    
+        if (!comment_vote_clicked) {
+            comment_vote_clicked = true;
+            $('#voting-icon').removeClass('fa-thumbs-up');
+            $('#voting-icon').addClass('fa-spinner').addClass("fa-spin");
+            $.ajax({
+                type: "POST",
+                url: "/action/vote",
+                data: {
+                    permlink: permlink,
+                    author: editorial,
+                    weight: power * 100
+                },
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", getLoggedInToken());
+                },
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.success);
+                        $('#voting-counter').text(data.net_votes);
+                        $('#voting-value').text("$" + data.value);
+                    } else if (data.error) {
+                        toastr.error(data.error);
+                    }
+                    comment_vote_clicked = false;
+                    $('#voting-icon').addClass('fa-thumbs-up').addClass("voted");
+                    $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
+                },
+                error: function (data) {
+                    console.log("error");
+                    toastr.error("Something gone wrong...");
+                    comment_vote_clicked = false;
+                    $('#voting-icon').addClass('fa-thumbs-up');
+                    $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
+                }
+            });
+        }
+    }
 });

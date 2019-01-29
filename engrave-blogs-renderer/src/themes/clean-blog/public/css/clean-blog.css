@@ -699,3 +699,39 @@ padding: 0;
 .comment-reply {
   cursor: pointer
 }
+
+ul.post-tags {
+  padding-left: 0px;
+}
+
+ul.post-tags li {
+  display: inline-block;
+  margin-right: 13px;
+  color: #999;
+  font-size: 1em;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out; 
+}
+
+ul.post-tags li i {
+  color: #343434;
+  margin-right: 15px; 
+}
+
+ul.post-tags li a {
+  color: #999; 
+}
+
+ul.post-tags li a:hover {
+  color: #00A7B3; 
+}
+
+ul.post-tags li:last-child {
+  margin-right: 0; 
+}
+
+#voting-icon {
+  cursor: pointer;
+}
