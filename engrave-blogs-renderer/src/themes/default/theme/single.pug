@@ -35,17 +35,6 @@ block content
 
                 include partials/metadata/publisher.pug
 
-
-                ul(itemscope itemtype="http://schema.org/BreadcrumbList").post-tags
-                    li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
-                        i.lnr.lnr-tag
-                        span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
-                            a(href="/category/"+ article.category.slug itemprop="url")
-                                span(itemprop="name")= article.category.name
-                    li
-                        i.lnr.lnr-clock
-                        span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
-
                 if article.thumbnail
                     img(src= article.thumbnail)
                 
@@ -62,9 +51,26 @@ block content
                             //- li
                                 //- a(href="/tag/"+ tag)= tag
 
+                ul(itemscope itemtype="http://schema.org/BreadcrumbList").post-tags
+                    li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
+                        i.lnr.lnr-tag
+                        span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
+                            a(href="/category/"+ article.category.slug itemprop="url")
+                                span(itemprop="name")= article.category.name
+                    li
+                        i.lnr.lnr-clock
+                        span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
+                    li
+                        i.lnr.lnr-thumbs-up#voting-icon
+                        span= article.votes_count
+
+                    li
+                        i.lnr.lnr-diamond
+                        span= '$' + parseFloat(article.value).toFixed(2)
+
             //- include partials/author.pug
             include partials/comments.pug
 
         .col-lg-4.sidebar-sticky
             include partials/sidebar.pug
-        //-     include partials/voting-modal.pug
+            include partials/voting-modal.pug

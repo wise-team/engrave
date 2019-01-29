@@ -4,7 +4,4 @@ nav#nav
             li
                 a.active(href="/category/" + nav.slug)= nav.name
         li
-            if !user
-                a.active(href='/authorize') Login
-            else
-                a.active(href='/authorize/logout')= 'Logout, @' + user.name
+            a.active(href='/login')#nav-login Login

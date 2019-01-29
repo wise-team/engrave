@@ -1,15 +1,15 @@
-
-//todo ukrywanie komentarzy z net_rshares < 0
-// TODO pojawianie sie dodanego komentarza na stronie!
-// przewijanie do komentarza
-// zaznaczanie, ze komentarz jest nowy, jakis active border
-
 var comment_vote_clicked = false;
 let loggedInUser = null;
 
 let upvotePermlink = null;
 let upvoteAuthor = null;
 let upvoteComment = null;
+
+let votingHandler = handleCommentVote;
+
+function getLoggedInToken(){
+    return localStorage.getItem('aMZr1grXqFXbiRzmOGRM');
+}
 
 $(document).ready(function () {
 
@@ -24,72 +24,20 @@ $(document).ready(function () {
         grid_num: 10
     });
 
-    // moment.locale('pl');
-
     $('#votingAccept').on('click', function (e) {
-        $("#loggedinModal").modal('hide');
 
-        let power = $("#example_id").prop("value");
-
-        console.log(power);
-
-        var votes = upvoteComment.find('[name="comment-votes"]');
-        var tetet = upvoteComment.find('.comment-vote');
-        var value = upvoteComment.find('[name="comment-value"]');
-
-        tetet.removeClass("fa-thumbs-up");
-        tetet.removeClass("comment-vote");
-        tetet.addClass("fa-spinner").addClass("fa-spin");
-
-        $.ajax({
-            type: "POST",
-            url: "/action/comment-vote",
-            data: { comment_permlink: upvotePermlink, comment_author: upvoteAuthor, power: power},
-            success: function (data) {
-                if (data.success) {
-                    toastr.success(data.success);
-                    votes.text(data.net_votes);
-                    value.text(data.value);
-                    tetet.addClass("fa-thumbs-up").addClass("voted");
-                    tetet.addClass("comment-vote");
-                    tetet.removeClass("fa-spinner").removeClass("fa-spin");
-
-                } else if (data.error) {
-                    toastr.error(data.error);
-                    tetet.addClass("fa-thumbs-up");
-                    tetet.addClass("comment-vote");
-                    tetet.removeClass("fa-spinner").removeClass("fa-spin");
-                }
-                comment_vote_clicked = false;
-            },
-            error: function (data) {
-                toastr.error("Coś poszło nie tak...");
-                tetet.addClass("fa-thumbs-up");
-                tetet.removeClass("fa-spinner").removeClass("fa-spin");
-                comment_vote_clicked = false;
-            }
-        });
+        votingHandler();
 
     });
 
-    // $('#loggedinModal').on('show.bs.modal', function (event) {
-    //     // var button = $(event.relatedTarget) // Button that triggered the modal
-
-    //     // console.log(button);
-
-    //     // var recipient = button.data('whatever') // Extract info from data-* attributes
-    //     // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    //     // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    //     // var modal = $(this)
-    //     // modal.find('.modal-title').text('New message to ' + recipient)
-    //     // modal.find('.modal-body input').val(recipient)
-    // })
+    $('#comments').on('click', '.cancel', function(e) {
+        const element = $(this).parent().parent().remove();
+    });
 
     $('#comments').on('click', '.comment-vote', function (e) {
 
-        if (loggedInUser) {
+        if (getLoggedInToken()) {
             if (!comment_vote_clicked) {
-                comment_vote_clicked = true;
 
                 var comment = $(this).parent().parent();
                 var comment_author = comment.find('[name="comment_author"]').val();
@@ -99,24 +47,23 @@ $(document).ready(function () {
                 upvoteAuthor = comment_author;
                 upvoteComment = $(this).parent();
 
-
                 $("#loggedinModal").modal();
             }
         } else {
-            $("#loggedoutModal").modal();
+            toastr.error('You must login first');
         }
             
     });
 
 
     $('#comments').on('click', '.comment-reply', function (e) {
-        if (loggedInUser) {
+        if (getLoggedInToken()) {
             let commentBox = $(this).parent().parent();
             if(!commentBox.find('.comment-reply-form').length) {
-                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply"><i class="fa fa-comment"></i>Wyślij odpowiedź</button></form></div>');
+                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply"><i class="fa fa-comment"></i>Send reply</button><a class="btn cancel" id="submit-contact">Cancel</a></form></div>');
             }
         } else {
-            $("#loggedoutModal").modal();
+            toastr.error('You must login first');
         }
     });
 
@@ -127,11 +74,13 @@ $(document).ready(function () {
         var comment = $(this).parent().parent();
         var comment_author = comment.find('[name="comment_author"]').val();
         var comment_permlink = comment.find('[name="comment_permlink"]').val();
+        var comment_title = comment.find('[name="comment_title"]').val();
 
         let reply_data = {};
-        reply_data.comment_body = $(this).find('[name="comment_body"]').val();
+        reply_data.body = $(this).find('[name="comment_body"]').val();
         reply_data.parent_author = comment_author;
-        reply_data.permlink = comment_permlink;
+        reply_data.parent_permlink = comment_permlink;
+        reply_data.parent_title = comment_title;
 
 
         if (reply_data.comment_body != "") {
@@ -143,10 +92,24 @@ $(document).ready(function () {
                 type: "POST",
                 url: "/action/comment",
                 data: reply_data,
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", getLoggedInToken());
+                },
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.success);
-                        get_content_replies(reply_data.parent_author, reply_data.permlink, comment.parent().parent());
+                        
+                        let repliesList = $(comment).parent().find('.comment-tree');
+
+
+                        if(repliesList.length == 0) {
+                            repliesList = document.createElement('ul')
+                            $(repliesList).addClass("comment-tree");
+                            $(comment).parent().parent().append(repliesList);
+                        }
+
+                        appendNewComment(data.body, data.author, repliesList);
+                        
                         box.remove();
                     } else if (data.error) {
                         toastr.error(data.error);
@@ -154,8 +117,8 @@ $(document).ready(function () {
                     $(this).removeClass('formGrayOut');
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
-                    $(this).removeClass('formGrayOut');
+                    toastr.error("Something gone wrong...");
+                    box.removeClass('formGrayOut');
                 }
             });
         } else {
@@ -186,54 +149,27 @@ $(document).ready(function () {
 
     get_content_replies(editorial, permlink, "#comments");
 
-    var vote_clicked = false;
-
     $('#voting-icon').click(function (e) {
 
-        console.log("Vote clicked");
+        if (getLoggedInToken()) {
 
-        if (!vote_clicked) {
-            vote_clicked = true;
-            $('#voting-icon').removeClass('fa-thumbs-up');
-            $('#voting-icon').addClass('fa-spinner').addClass("fa-spin");
-            $.ajax({
-                type: "POST",
-                url: "/action/vote",
-                data: "test",
-                success: function (data) {
-                    if (data.success) {
-                        toastr.success(data.success);
-                        $('#voting-counter').text(data.net_votes);
-                        $('#voting-value').text("$" + data.value);
-                    } else if (data.error) {
-                        toastr.error(data.error);
-                    }
-                    vote_clicked = false;
-                    $('#voting-icon').addClass('fa-thumbs-up').addClass("voted");
-                    $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
-                },
-                error: function (data) {
-                    console.log("error");
-                    toastr.error("Coś poszło nie tak...");
-                    vote_clicked = false;
-                    $('#voting-icon').addClass('fa-thumbs-up');
-                    $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
-                }
-            });
+            if (!comment_vote_clicked) {
+
+                votingHandler = handleArticleVote;
+
+                $("#loggedinModal").modal();
+            }
+        } else {
+            toastr.error("You must login first");
         }
+        
     })
 
-    // Listen to submit event on the <form> itself!
+    // submit main comment form!
     $('#comment-form').submit(function (e) {
-
-        function appendNewComment(body, author, commentsList) {
-            // commentsList.append();
-        }
 
         e.preventDefault();
 
-        var comment_list = $("#comments").children()[1];
-        console.log($("#comments").children()[1]);
 
         e.preventDefault();
         $('#submit-contact').css("visibility", "hidden");
@@ -249,6 +185,9 @@ $(document).ready(function () {
                 type: "POST",
                 url: "/action/comment",
                 data: post_data,
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", getLoggedInToken());
+                },
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.success);
@@ -258,10 +197,14 @@ $(document).ready(function () {
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
                     $('#comment').css("visibility", "visible");
+
+                    var comment_list = $("#comments").children()[1];
+
+                    appendNewComment(data.body, data.author, comment_list);
+
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
-                    $("#comment").val("");
+                    toastr.error("Something gone wrong...");
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
                     $('#comment').css("visibility", "visible");
@@ -278,8 +221,6 @@ $(document).ready(function () {
 });
 
 function renderCommentsList(comments, list_id) {
-
-    console.log("renderCommentsList", comments, list_id);
     
     let ul = document.createElement('ul');
     $(ul).addClass("comment-tree");
@@ -291,30 +232,10 @@ function renderCommentsList(comments, list_id) {
             let cmt = comment;
             let li = document.createElement('li');
             $(ul).append(li);
-            if (loggedInUser) {
-                (function (lli, lcmt) {
-                    steem.api.getActiveVotes(lcmt.author, lcmt.permlink, function (err, result) {
 
-                        if (!err && result) {
-                            let voted = false;
-                            result.forEach(voter => {
-                                if (voter.voter == loggedInUser) {
-                                    voted = true;
-                                }
-                            });
-
-                            (function (lli2, lcmt2) {
-                                renderComment(lcmt2, voted, lli2);
-                            })(lli, lcmt);
-
-                        }
-                    });
-                })(li, cmt);
-            } else {
-                (function (lli, lcmt) {
-                    renderComment(lcmt, false, lli);
-                })(li, cmt);
-            }
+            (function (lli, lcmt) {
+                renderComment(lcmt, false, lli);
+            })(li, cmt);
 
             if (cmt.children > 0) {
 
@@ -331,8 +252,6 @@ function renderCommentsList(comments, list_id) {
 
 function get_content_replies(author, permlink, list_id) {
     
-    console.log("get_content_replies", author, permlink, list_id);
-
     steem.api.getContentReplies(author, permlink, function (err, result) {
         if (!err && result) {
             (function(ul) {
@@ -340,6 +259,14 @@ function get_content_replies(author, permlink, list_id) {
             })(list_id);
         }
     });
+}
+
+function appendNewComment(body, author, commentsList) {
+    let li = document.createElement('li');
+    let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, li);
+    $(newComment).addClass('comment-highlight');
+    $(commentsList).append(li);
+    $('html, body').animate({ scrollTop: $(newComment).offset().top - 500 }, 500);
 }
 
 function renderComment(comment, voted, list_id) {
@@ -364,14 +291,14 @@ function renderComment(comment, voted, list_id) {
     $(i).addClass('fa').addClass('fa-clock-o');
     $(span).append(i);
     // $(span).append(comment.created);
-    $(span).append(moment(comment.created).format("LLL"));
+    $(span).append(moment.utc(comment.created).local().fromNow());
 
     var comment_body = document.createElement('p');
 
     if (comment.net_rshares >= 0) {
         $(comment_body).append(marked(comment.body));
     } else {
-        $(comment_body).append('Komentarz ukryty');
+        $(comment_body).append('Comment hidden due to low rating');
     }
     
 
@@ -392,7 +319,7 @@ function renderComment(comment, voted, list_id) {
     $(span_value).attr('name', "comment-value").append('$').append(value);
 
     var span_replay = document.createElement('span');
-    $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Odpowiedz");
+    $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Reply");
 
     $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value).append(span_replay);
 
@@ -400,9 +327,12 @@ function renderComment(comment, voted, list_id) {
     $(hidden_permlink).attr('type', 'hidden').attr('name', 'comment_permlink').attr('value', comment.permlink);
     let hidden_author = document.createElement('input');
     $(hidden_author).attr('type', 'hidden').attr('name', 'comment_author').attr('value', comment.author);
+    let hidden_title = document.createElement('input');
+    $(hidden_title).attr('type', 'hidden').attr('name', 'comment_title').attr('value', comment.title);
 
     $(content).append(hidden_permlink);
     $(content).append(hidden_author);
+    $(content).append(hidden_title);
     $(content).append(h4);
     $(content).append(span);
     $(content).append(comment_body);
@@ -412,4 +342,98 @@ function renderComment(comment, voted, list_id) {
 
     $(list_id).append(new_comment_box); 
 
+    return new_comment_box;
+
+}
+
+function handleCommentVote() {
+    $("#loggedinModal").modal('hide');
+
+    let power = $("#example_id").prop("value");
+
+    var votes = upvoteComment.find('[name="comment-votes"]');
+    var tetet = upvoteComment.find('.comment-vote');
+    var value = upvoteComment.find('[name="comment-value"]');
+
+    tetet.removeClass("fa-thumbs-up");
+    tetet.removeClass("comment-vote");
+    tetet.addClass("fa-spinner").addClass("fa-spin");
+
+    comment_vote_clicked = true;
+
+    $.ajax({
+        type: "POST",
+        url: "/action/vote",
+        data: { permlink: upvotePermlink, author: upvoteAuthor, weight: power * 100},
+        beforeSend: function(request) {
+            request.setRequestHeader("Authorization", getLoggedInToken());
+        },
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.success);
+                votes.text(data.net_votes);
+                value.text(data.value);
+                tetet.addClass("fa-thumbs-up").addClass("voted");
+                tetet.addClass("comment-vote");
+                tetet.removeClass("fa-spinner").removeClass("fa-spin");
+
+            } else if (data.error) {
+                toastr.error(data.error);
+                tetet.addClass("fa-thumbs-up");
+                tetet.addClass("comment-vote");
+                tetet.removeClass("fa-spinner").removeClass("fa-spin");
+            }
+            comment_vote_clicked = false;
+        },
+        error: function (data) {
+            toastr.error("Something gone wrong...");
+            tetet.addClass("fa-thumbs-up");
+            tetet.removeClass("fa-spinner").removeClass("fa-spin");
+            comment_vote_clicked = false;
+        }
+    });
+}
+
+function handleArticleVote() {
+    
+    $("#loggedinModal").modal('hide');
+    
+    let permlink = $("#permlink").val();
+    let editorial = $("#editorial").val();
+
+    if (!comment_vote_clicked) {
+        comment_vote_clicked = true;
+        $('#voting-icon').removeClass('lnr-thumbs-up');
+        $('#voting-icon').addClass('fa').addClass('fa-spinner').addClass("fa-spin");
+        $.ajax({
+            type: "POST",
+            url: "/action/vote",
+            data: {
+                permlink: permlink,
+                author: editorial,
+                weight: 10000
+            },
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", getLoggedInToken());
+            },
+            success: function (data) {
+                if (data.success) {
+                    toastr.success(data.success);
+                    $('#voting-counter').text(data.net_votes);
+                    $('#voting-value').text("$" + data.value);
+                } else if (data.error) {
+                    toastr.error(data.error);
+                }
+                comment_vote_clicked = false;
+                $('#voting-icon').addClass('lnr-thumbs-up').addClass("voted");
+                $('#voting-icon').removeClass('fa').removeClass('fa-spinner').removeClass('fa-spin');
+            },
+            error: function (data) {
+                toastr.error("Something gone wrong...");
+                comment_vote_clicked = false;
+                $('#voting-icon').addClass('lnr-thumbs-up');
+                $('#voting-icon').removeClass('fa').removeClass('fa-spinner').removeClass('fa-spin');
+            }
+        });
+    }
 }

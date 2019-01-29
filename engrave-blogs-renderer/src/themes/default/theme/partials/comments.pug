@@ -1,3 +1,18 @@
+include steemit-box.pug
+
+.contact-form-box#comment-form-modal
+    .title-section
+        h1= 'Leave reply'
+    form#comment-form
+        label(for="comment-body")= 'Comment:'
+        textarea#comment(name="body")
+        input(type="hidden", name="parent_permlink", value= article.permlink)
+        input(type="hidden", name="parent_title", value= article.title)
+        input(type="hidden", name="parent_author", value= blog.username)
+        button(type="submit")#submit-contact
+            i.fa.fa-comment
+            = 'Reply'
+
 .comment-area-box#comments
     .title-section
         h1

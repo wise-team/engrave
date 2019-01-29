@@ -5,7 +5,7 @@ append scripts
     var btn_reply_text = "Reply"
     var btn_send_reply_text = "Send reply"
     var btn_cancel_text = "Cancel"
-    var comment_hidden = "Comment hidden"
+    var comment_hidden = "Comment hidden due to low rating"
   script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
   script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
   if blog.lang == 'pl'
@@ -40,5 +40,35 @@ block header
         .row
           .col-lg-8.col-md-10.mx-auto
             != article.body
+            
+            .article-actions
+              ul.post-tags
+                li(itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem")
+                    i.fa.fa-tag
+                    span(itemscope itemtype="http://schema.org/Thing" itemprop="item")
+                        a(href="/category/"+ article.category.slug itemprop="url")
+                            span(itemprop="name")= article.category.name
+                li
+                    i.fa.fa-clock-o
+                    span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
+                li
+                    i.fa.fa-thumbs-up#voting-icon
+                    span= article.votes_count
+
+                li
+                    i.fa.fa-diamond
+                    span= '$' + parseFloat(article.value).toFixed(2)
     hr
     include partials/comments.pug
+
+    #voting-power-modal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5 Select voting power
+                .modal-body
+                    .slider-container
+                        input(type="text" id="example_id" name="example_name" value="50")
+                .modal-footer
+                    button.btn.btn-success(type='button' id="votingAccept") Vote
+                    button(type="button" class="btn btn-link" data-dismiss="modal") Cancel

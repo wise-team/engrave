@@ -50,5 +50,7 @@ $(document).ready(function () {
 });
 
 function generateNewArticleBox(article) {
-    return `<div class="post-preview"><a href="/${article.permlink}"><h2 class="post-title">${article.title}</h2><h3 class="post-subtitle">${article.abstract}</h3></a><p class="post-meta"><span title="${moment.utc(article.created).local().format('LLL')}">${moment.utc(article.created).local().fromNow()}</span><span>, comments: ${article.comments}</span><span>, votes: ${article.votes_count}</span><span>, reward: $0.00</span></p></div>`;
+    console.log(article);
+    const value = article.value.toFixed(2);
+    return `<div class="post-preview"><a href="/${article.permlink}"><h2 class="post-title">${article.title}</h2><h3 class="post-subtitle">${article.abstract}</h3></a><p class="post-meta"><span title="${moment.utc(article.created).local().format('LLL')}">${moment.utc(article.created).local().fromNow()}</span><span>, comments: ${article.comments}</span><span>, votes: ${article.votes_count}</span><span>, reward: $${value}</span></p></div>`;
 }

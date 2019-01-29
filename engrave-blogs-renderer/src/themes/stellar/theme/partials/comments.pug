@@ -1,0 +1,17 @@
+
+include steemit-box.pug
+
+.contact-form-box.comment-reply-form#comment-form-modal
+  .title-section
+      h3= "Reply"
+  form#comment-form
+      textarea#comment(name="body" rows="6")
+      input(type="hidden", name="parent_title", value= article.title)
+      input(type="hidden", name="parent_permlink", value= article.permlink)
+      input(type="hidden", name="parent_author", value= blog.username)
+      button(type="submit")#submit-contact.submit-reply
+        = "Send reply"
+.row
+  .col-lg-8.col-md-10.mx-auto
+    .blog-comment#comments
+      p#comments-empty= "No comments"

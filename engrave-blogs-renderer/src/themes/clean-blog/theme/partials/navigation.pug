@@ -11,7 +11,4 @@ nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
                     li.nav-item
                         a.nav-link(href=((blog.lang == 'pl') ? '/category/' : '/category/') + category.slug)= category.name
                 li.nav-item
-                    if !user
-                        a.nav-link(href='/authorize') Login
-                    else
-                        a.nav-link(href='/authorize/logout')= 'Logout, @' + user.name
+                    a.nav-link(href='/login')#nav-login Login

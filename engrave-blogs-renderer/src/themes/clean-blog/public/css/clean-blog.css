@@ -533,11 +533,11 @@ padding: 0;
     margin-left: 0px;
   }
   .blog-comment img.avatar {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
   .blog-comment .post-comments{
-    margin-left: 45px;
+    margin-left: 25px;
   }
 
   .blog-comment {
@@ -553,12 +553,6 @@ padding: 0;
     margin-left: 25px;
   }
 }
-
-
- .comments-action {
-  font-size: 12px;
-   opacity: 0.6;
-} 
 
 .comments-action:hover {
   opacity: 0.8;
@@ -636,6 +630,17 @@ padding: 0;
     margin-right: 10px; }
 .comment-reply-form button:hover {
   opacity: 0.85; }
+.comment-reply-form .cancel {
+  font-size: 0.5em;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 15px 25px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 
 
   .steemit-info {
@@ -679,4 +684,59 @@ padding: 0;
   100% {
     background-color: #00A7B3;
   }
+}
+
+#comment-form-modal {
+  display: none;
+}
+
+.comment-reply {
+  cursor: pointer
+}
+
+.comment-reply:hover {
+  opacity: 0.8;
+  cursor: pointer;
+  color: #00A7B3;
+
+}
+
+ul.post-tags {
+  padding-left: 0px;
+}
+
+ul.post-tags li {
+  display: inline-block;
+  margin-right: 13px;
+  color: #999;
+  font-size: 1em;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out; 
+}
+
+ul.post-tags li i {
+  color: #343434;
+  margin-right: 15px; 
+}
+
+ul.post-tags li a {
+  color: #999; 
+}
+
+ul.post-tags li a:hover {
+  color: #00A7B3; 
+}
+
+ul.post-tags li:last-child {
+  margin-right: 0; 
+}
+
+#voting-icon {
+  cursor: pointer;
+}
+
+.comment-actions {
+	margin-bottom: 0px;
 }

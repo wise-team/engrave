@@ -1,7 +1,7 @@
 {
-  "name": "engrave-statistics",
+  "name": "engrave-blogs-renderer",
   "version": "0.0.1",
-  "description": "",
+  "description": "Engrave blogs renderer microservice",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,7 +32,10 @@
     "pug": "2.0.3",
     "redis-json": "2.2.2",
     "steem": "^0.7.3",
-    "striptags": "^3.1.1"
+    "striptags": "^3.1.1",
+    "@cloudreach/docker-secrets": "1.0.3",
+    "node-vault": "0.9.5",
+    "steemconnect": "2.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"

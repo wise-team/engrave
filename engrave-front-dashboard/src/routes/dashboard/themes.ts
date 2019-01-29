@@ -4,6 +4,7 @@ import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ThemeValidator } from '../../validators/ThemeValidator';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { setBlog } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();
 
@@ -28,6 +29,10 @@ async function changeTheme(req: IExtendedRequest, res: express.Response) {
     let blog = await Blogs.findOne({ steem_username: req.session.blogger.steem_username})
     blog.theme = req.body.theme;
     await blog.save();
+    req.session.blogger = blog;
+
+    await setBlog(blog.domain, blog);      
+
     res.json({ success: "Theme changed" })
   } catch (error) {
     res.status(400).json({ error: error.message })

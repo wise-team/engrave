@@ -1,15 +1,50 @@
 extends website.pug
 
+append scripts
+    script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
+    script(src="//cdn.jsdelivr.net/npm/marked/marked.min.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    script(src="/assets/js/single.js")
+
 block content
+    input(type='hidden', id='permlink', value= article.permlink)
+    input(type='hidden', id='editorial', value= blog.username)
+
     section.main#content
         if article.thumbnail
             img(src= article.thumbnail)
         span
             != article.body
+        
+    section.main
+        ul.statistics
+            li.style1
+                span.icon.fa-thumbs-up#voting-icon
+                strong= article.votes_count 
+                |Upvotes
+            li.style2
+                span.icon.fa-diamond
+                strong= '$' + parseFloat(article.value).toFixed(2)
+                |Reward
+            li.style3
+                span.icon.fa-comment
+                strong= article.comments
+                |Comments
 
-    section.main#comments
+    section.main.blog-comments#comments
         header.major
             h2 Comments
-            p Not impremented yet. Stay tuned!
 
-    
+            include partials/comments.pug
+
+    #voting-power-modal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5 Select voting power
+                .modal-body
+                    .slider-container
+                        input(type="text" id="example_id" name="example_name" value="50")
+                .modal-footer
+                    button.btn.btn-success(type='button' id="votingAccept") Vote
+                    button(type="button" class="btn btn-link" data-dismiss="modal") Cancel

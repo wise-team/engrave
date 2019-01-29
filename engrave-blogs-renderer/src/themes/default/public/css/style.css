@@ -1145,27 +1145,37 @@ a.load-more:hover {
 
 /* post tags list style */
 ul.post-tags {
-  margin-bottom: 8px; }
-  ul.post-tags li {
-    display: inline-block;
-    margin-right: 7px;
-    color: #999;
-    font-size: 11px;
-    font-family: "Open Sans", sans-serif;
-    transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out; }
-    ul.post-tags li i {
-      font-size: 12px;
-      color: #343434;
-      margin-right: 5px; }
-    ul.post-tags li a {
-      color: #999; }
-    ul.post-tags li a:hover {
-      color: #00A7B3; }
-  ul.post-tags li:last-child {
-    margin-right: 0; }
+  margin-bottom: 8px; 
+}
+ul.post-tags li {
+  display: inline-block;
+  margin-right: 7px;
+  color: #999;
+  font-size: 11px;
+  font-family: "Open Sans", sans-serif;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out; 
+}
+
+ul.post-tags li i {
+  font-size: 12px;
+  color: #343434;
+  margin-right: 5px; 
+}
+
+ul.post-tags li a {
+  color: #999; 
+}
+
+ul.post-tags li a:hover {
+  color: #00A7B3; 
+}
+
+ul.post-tags li:last-child {
+  margin-right: 0; 
+}
 
 .standart-post .post-image {
   position: relative;
@@ -3298,11 +3308,13 @@ footer {
 }
 
 #voting-icon {
-  font-size: 1.2em;
-  padding: 10px;
-  border-radius: 50%;
-  border: 1px solid #1a9adb;
-  -webkit-box-shadow: 0px 0px 5px 1px rgba(66,145,214,0.5); -moz-box-shadow: 1px 1px 5px 1px rgba(66,145,214,0.5); box-shadow: 1px 1px 5px 1px rgba(66,145,214,0.5);
+  cursor: pointer;
+  border-radius: 50%; 
+  /* font-size: 1.2em; */
+  /* padding: 10px; */
+  /* border-radius: 50%; */
+  /* border: 1px solid #1a9adb; */
+  /* -webkit-box-shadow: 0px 0px 5px 1px rgba(66,145,214,0.5); -moz-box-shadow: 1px 1px 5px 1px rgba(66,145,214,0.5); box-shadow: 1px 1px 5px 1px rgba(66,145,214,0.5); */
 }
 
 #voting-icon:hover {
@@ -3640,4 +3652,22 @@ thead th {
 tbody tr:nth-child(even) {
   border-bottom: 0;
   background-color: #f1f1f1;
+}
+
+#comment-form-modal {
+  display: none;
+}
+
+.cancel {
+  margin-left: 20px;
+}
+
+.comment-highlight {
+  border-radius: 3px;
+  animation: highlight 500ms ease-out 2 alternate;
+}
+@keyframes highlight {
+  100% {
+    background-color: #00A7B3;
+  }
 }
