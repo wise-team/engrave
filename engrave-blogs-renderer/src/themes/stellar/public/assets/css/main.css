@@ -3880,3 +3880,13 @@ input, select, textarea {
 	opacity: 0.2;
 	background: #333 url('https://code.jquery.com/mobile/1.3.1/images/ajax-loader.gif') no-repeat 50% 50%;
 }
+
+.comment-highlight {
+	border-radius: 3px;
+	animation: highlight 500ms ease-out 2 alternate;
+  }
+  @keyframes highlight {
+	100% {
+	  background-color: #00A7B3;
+	}
+  }

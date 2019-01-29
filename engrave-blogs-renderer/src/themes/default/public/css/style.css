@@ -3657,3 +3657,17 @@ tbody tr:nth-child(even) {
 #comment-form-modal {
   display: none;
 }
+
+.cancel {
+  margin-left: 20px;
+}
+
+.comment-highlight {
+  border-radius: 3px;
+  animation: highlight 500ms ease-out 2 alternate;
+}
+@keyframes highlight {
+  100% {
+    background-color: #00A7B3;
+  }
+}

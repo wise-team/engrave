@@ -1,9 +1,3 @@
-
-//todo ukrywanie komentarzy z net_rshares < 0
-// TODO pojawianie sie dodanego komentarza na stronie!
-// przewijanie do komentarza
-// zaznaczanie, ze komentarz jest nowy, jakis active border
-
 var comment_vote_clicked = false;
 let loggedInUser = null;
 
@@ -36,6 +30,10 @@ $(document).ready(function () {
 
     });
 
+    $('#comments').on('click', '.cancel', function(e) {
+        const element = $(this).parent().parent().remove();
+    });
+
     $('#comments').on('click', '.comment-vote', function (e) {
 
         if (getLoggedInToken()) {
@@ -62,7 +60,7 @@ $(document).ready(function () {
         if (getLoggedInToken()) {
             let commentBox = $(this).parent().parent();
             if(!commentBox.find('.comment-reply-form').length) {
-                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply"><i class="fa fa-comment"></i>Wyślij odpowiedź</button></form></div>');
+                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply"><i class="fa fa-comment"></i>Send reply</button><a class="btn cancel" id="submit-contact">Cancel</a></form></div>');
             }
         } else {
             toastr.error('You must login first');
@@ -100,7 +98,18 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.success);
-                        get_content_replies(reply_data.parent_author, reply_data.permlink, comment.parent().parent());
+                        
+                        let repliesList = $(comment).parent().find('.comment-tree');
+
+
+                        if(repliesList.length == 0) {
+                            repliesList = document.createElement('ul')
+                            $(repliesList).addClass("comment-tree");
+                            $(comment).parent().parent().append(repliesList);
+                        }
+
+                        appendNewComment(data.body, data.author, repliesList);
+                        
                         box.remove();
                     } else if (data.error) {
                         toastr.error(data.error);
@@ -109,7 +118,7 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     toastr.error("Something gone wrong...");
-                    $(this).removeClass('formGrayOut');
+                    box.removeClass('formGrayOut');
                 }
             });
         } else {
@@ -156,12 +165,11 @@ $(document).ready(function () {
         
     })
 
-    // Listen to submit event on the <form> itself!
+    // submit main comment form!
     $('#comment-form').submit(function (e) {
 
         e.preventDefault();
 
-        console.log($("#comments").children()[1]);
 
         e.preventDefault();
         $('#submit-contact').css("visibility", "hidden");
@@ -189,10 +197,14 @@ $(document).ready(function () {
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
                     $('#comment').css("visibility", "visible");
+
+                    var comment_list = $("#comments").children()[1];
+
+                    appendNewComment(data.body, data.author, comment_list);
+
                 },
                 error: function (data) {
                     toastr.error("Something gone wrong...");
-                    $("#comment").val("");
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
                     $('#comment').css("visibility", "visible");
@@ -209,8 +221,6 @@ $(document).ready(function () {
 });
 
 function renderCommentsList(comments, list_id) {
-
-    console.log("renderCommentsList", comments, list_id);
     
     let ul = document.createElement('ul');
     $(ul).addClass("comment-tree");
@@ -242,8 +252,6 @@ function renderCommentsList(comments, list_id) {
 
 function get_content_replies(author, permlink, list_id) {
     
-    console.log("get_content_replies", author, permlink, list_id);
-
     steem.api.getContentReplies(author, permlink, function (err, result) {
         if (!err && result) {
             (function(ul) {
@@ -251,6 +259,14 @@ function get_content_replies(author, permlink, list_id) {
             })(list_id);
         }
     });
+}
+
+function appendNewComment(body, author, commentsList) {
+    let li = document.createElement('li');
+    let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, li);
+    $(newComment).addClass('comment-highlight');
+    $(commentsList).append(li);
+    $('html, body').animate({ scrollTop: $(newComment).offset().top - 500 }, 500);
 }
 
 function renderComment(comment, voted, list_id) {
@@ -275,14 +291,14 @@ function renderComment(comment, voted, list_id) {
     $(i).addClass('fa').addClass('fa-clock-o');
     $(span).append(i);
     // $(span).append(comment.created);
-    $(span).append(moment(comment.created).format("LLL"));
+    $(span).append(moment.utc(comment.created).local().fromNow());
 
     var comment_body = document.createElement('p');
 
     if (comment.net_rshares >= 0) {
         $(comment_body).append(marked(comment.body));
     } else {
-        $(comment_body).append('Komentarz ukryty');
+        $(comment_body).append('Comment hidden due to low rating');
     }
     
 
@@ -303,7 +319,7 @@ function renderComment(comment, voted, list_id) {
     $(span_value).attr('name', "comment-value").append('$').append(value);
 
     var span_replay = document.createElement('span');
-    $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Odpowiedz");
+    $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;Reply");
 
     $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value).append(span_replay);
 
@@ -325,6 +341,8 @@ function renderComment(comment, voted, list_id) {
     $(new_comment_box).append(content);
 
     $(list_id).append(new_comment_box); 
+
+    return new_comment_box;
 
 }
 
@@ -411,7 +429,6 @@ function handleArticleVote() {
                 $('#voting-icon').removeClass('fa').removeClass('fa-spinner').removeClass('fa-spin');
             },
             error: function (data) {
-                console.log("error");
                 toastr.error("Something gone wrong...");
                 comment_vote_clicked = false;
                 $('#voting-icon').addClass('lnr-thumbs-up');
