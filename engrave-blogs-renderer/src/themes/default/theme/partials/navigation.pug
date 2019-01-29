@@ -34,7 +34,7 @@ header.clearfix.style-4
                                     a(href='https://v2.steemconnect.com/sign/delegate-vesting-shares?delegator=' + user.name + '&delegatee=' + blog.username + '&vesting_shares=203212.5180%20VESTS', target='_blank') Deleguj 100 SP i wspieraj
                                 li
                                 li
-                                    a(href="/authorize/logout") Logout
+                                    a(href="javascript:sslsso.logout();") Logout
                     else
                         li.nav-item
-                            a(href="/authorize", class="nav-link internet").nav-link= "Login"
+                            a(href="/login", class="nav-link internet")#nav-login.nav-link= "Login"

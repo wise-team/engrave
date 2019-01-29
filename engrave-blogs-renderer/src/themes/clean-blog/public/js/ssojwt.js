@@ -17,7 +17,6 @@ function onLogout(){
     document.getElementById("nav-login").innerText = "Login";
     document.getElementById("nav-login").href = "/login";
 
-
     document.getElementById("login-box").style.display = "block";
     document.getElementById("comment-form-modal").style.display = "none";
 
@@ -29,16 +28,11 @@ function onLogout(){
 function onIdentification(operation){
     const username = operation.payload.data.username;
 
-    console.log(operation.payload.data.scope);  //Your user unique identifier (for example the username)
-    console.log(username); //User full name
-
     document.getElementById("nav-login").innerText = "Logout, @" + username;
     document.getElementById("nav-login").href = "javascript:sslssso.logout();";
 
     document.getElementById("login-box").style.display = "none";
     document.getElementById("comment-form-modal").style.display = "block";
     
-    console.log(operation.jwt);  //The token itself
-
     localStorage.setItem('aMZr1grXqFXbiRzmOGRM', operation.jwt);
 }

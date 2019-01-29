@@ -1,15 +1,32 @@
 extends website.pug
 
+append scripts
+    script(src="//cdn.steemjs.com/lib/latest/steem.min.js")
+    script(src="//cdn.jsdelivr.net/npm/marked/marked.min.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    script(src="/assets/js/single.js")
+
 block content
+    input(type='hidden', id='permlink', value= article.permlink)
+    input(type='hidden', id='editorial', value= blog.username)
+
     section.main#content
         if article.thumbnail
             img(src= article.thumbnail)
         span
             != article.body
+    section.main
+        ul.actions
+            li
+                a(href='/category/' + article.category.slug).button= article.category.name
+            li
+                .button= 'Votes: ' + article.votes_count
+            li
+                .button= 'Reward: $' + parseFloat(article.value).toFixed(2)
 
     section.main#comments
         header.major
             h2 Comments
-            p Not impremented yet. Stay tuned!
+            p Not implemented yet. Stay tuned!
 
     
