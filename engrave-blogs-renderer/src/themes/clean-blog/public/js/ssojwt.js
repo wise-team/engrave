@@ -10,12 +10,18 @@ function onLoad(){
         window.location.replace(url);
     }
 }
-
+ 
 //Invoked when user logs out
 function onLogout(){
     console.log('logout');
     document.getElementById("nav-login").innerText = "Login";
     document.getElementById("nav-login").href = "/login";
+
+
+    document.getElementById("login-box").style.display = "block";
+    document.getElementById("comment-form-modal").style.display = "none";
+
+    localStorage.removeItem('aMZr1grXqFXbiRzmOGRM');
 }
 
 // Invoked after page load if you have a valid token or after new JWT correct identification (if page is still loaded)
@@ -33,4 +39,6 @@ function onIdentification(operation){
     document.getElementById("comment-form-modal").style.display = "block";
     
     console.log(operation.jwt);  //The token itself
+
+    localStorage.setItem('aMZr1grXqFXbiRzmOGRM', operation.jwt);
 }

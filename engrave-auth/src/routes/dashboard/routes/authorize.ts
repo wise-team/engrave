@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import sc from '../../../services/steemconnect/steemconnect.service';
+import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 import vault from '../../../services/vault/vault.service';
 import jwt from '../../../services/jwt/jwt.service';
 import { query } from 'express-validator/check';

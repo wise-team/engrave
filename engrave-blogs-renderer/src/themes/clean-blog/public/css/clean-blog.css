@@ -684,3 +684,7 @@ padding: 0;
 #comment-form-modal {
   display: none;
 }
+
+.comment-reply {
+  cursor: pointer
+}

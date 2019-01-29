@@ -1,7 +1,6 @@
 sslssso = new sslssso();
 var console = window.console || { log: function() {} };
 
-
 function Observable(){
 	
     this.listen = function(type, method, scope, context) {

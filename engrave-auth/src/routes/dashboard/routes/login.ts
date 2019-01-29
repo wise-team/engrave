@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import sc from '../../../services/steemconnect/steemconnect.service';
+import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 import { query } from 'express-validator/check';
 
 const middleware: any[] =  [

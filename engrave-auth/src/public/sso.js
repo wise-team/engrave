@@ -14,7 +14,7 @@ function log(level, object){
 }
 			
 function onIdentification(operation){
-	log(LogLevels.INFO ,"[SSO IFRAME] fire event onidentification jwt: "+ operation.jwt);
+	log(LogLevels.INFO ,"[SSO IFRAME] fire event onidentification");
 
 	domain = "*";
 	
@@ -63,14 +63,13 @@ function doLogout(){
 }
 
 function doLogin(jwt){
-	log(LogLevels.INFO,"[SSO IFRAME] login :"+jwt);
+	log(LogLevels.INFO,"[SSO IFRAME] login");
 	localStorage.setItem(tokenId,jwt);
 }
 
 function localStorageHandler(e) {
 	
   	log(LogLevels.DEBUG,'[SSO IFRAME] Successfully communicate with other tab');
-  	log(LogLevels.DEBUG,'[SSO IFRAME] Received data: ' + localStorage.getItem(tokenId));
   	var jwtsso = localStorage.getItem(tokenId);
   	if (jwtsso){
 		validateJWT (jwtsso);
@@ -126,7 +125,6 @@ function validateJWTRemote(jwtsso){
 	log(LogLevels.DEBUG,"[SSO IFRAME] Remote validation of JWT with url: "+validationUrl+ " accountId:"+ accountId+ " apiKey:"+apiKey);
 	
 	jwt = new JWT(jwtsso);
-	log(LogLevels.DEBUG,jwt.payload());
 	var rest = new RestClient(validationUrl);
 	
 	/*
@@ -138,9 +136,6 @@ function validateJWTRemote(jwtsso){
 	 */
 	rest.validateJWT(jwtsso, 
 	   function (obj){
-			
-			console.log(obj);
-
 			var operation = obj;
 			if (obj.AuthenticationOperation){
 				operation = obj.AuthenticationOperation;
@@ -179,7 +174,6 @@ function parseJWTLocal(jwtsso){
 	try{
 		var jwt = new JWT(jwtsso);
 		var payload = jwt.payload();
-		log(LogLevels.DEBUG,payload);
 		
 		if (jwt.isExpired())
 			throw ("JWT expired");
@@ -203,11 +197,8 @@ function parseJWTLocal(jwtsso){
 
 function ready(){
 	var jwtsso = localStorage.getItem(tokenId);
-	log(LogLevels.INFO,"[SSO IFRAME] ready, tokenId " + tokenId);
-	log(LogLevels.INFO,"[SSO IFRAME] ready, jwtsso " + jwtsso);
 
 	log(LogLevels.INFO,"[SSO IFRAME] ready");
-	log(LogLevels.DEBUG,"[SSO IFRAME] " + tokenId + " = "+jwtsso);
 	if (jwtsso){
 		validateJWT (jwtsso);
 	} else {

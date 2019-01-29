@@ -82,6 +82,8 @@ services:
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
       # - themes:/app/src/themes
+    secrets:
+      - VAULT_TOKEN
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
