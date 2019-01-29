@@ -15,18 +15,25 @@ block content
             img(src= article.thumbnail)
         span
             != article.body
+        
     section.main
-        ul.actions
-            li
-                a(href='/category/' + article.category.slug).button= article.category.name
-            li
-                .button= 'Votes: ' + article.votes_count
-            li
-                .button= 'Reward: $' + parseFloat(article.value).toFixed(2)
+        ul.statistics
+            li.style1
+                span.icon.fa-thumbs-up
+                strong= article.votes_count 
+                |Upvotes
+            li.style2
+                span.icon.fa-diamond
+                strong= '$' + parseFloat(article.value).toFixed(2)
+                |Reward
+            li.style3
+                span.icon.fa-comment
+                strong= article.comments
+                |Comments
 
-    section.main#comments
+    section.main.blog-comments#comments
         header.major
             h2 Comments
-            p Not implemented yet. Stay tuned!
+            p#comments-empty No comments found
 
     
