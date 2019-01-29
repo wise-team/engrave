@@ -66,7 +66,7 @@ function sslssso (){
 	 
 	
 	function _getIframeUrl(){
-		return 'https://auth.dblog.pl/sslo.html';
+		return 'https://auth.engrave.website/sslo.html';
 	}	
 	
     function _getUrl(){
