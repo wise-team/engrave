@@ -66,7 +66,7 @@ function sslssso (){
 	 
 	
 	function _getIframeUrl(){
-		return 'http://127.0.0.1:3013/sslo.html';
+		return 'https://auth.dblog.pl/sslo.html';
 	}	
 	
     function _getUrl(){

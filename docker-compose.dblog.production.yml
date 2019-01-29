@@ -5,6 +5,8 @@ services:
     image: bgornicki/engrave-api-gateway
     secrets:
       - JWT_SECRET
+    environment:
+      - WAIT_HOSTS=mongo:27017
     
   blockchain-tracker:
     image: bgornicki/engrave-blockchain-tracker
@@ -28,6 +30,8 @@ services:
     volumes:
       - certbot:/app/certbot
       - themes:/app/src/themes
+    secrets:
+      - VAULT_TOKEN
 
   engrave-front-dashboard:
     image: bgornicki/engrave-front-dashboard
@@ -101,9 +105,6 @@ services:
       - JWT_SECRET
       - VAULT_TOKEN
   
-  beta-dashboard:
-    image: bgornicki/engrave-dashboard:latest
-
   nginx:
     image: bgornicki/nginx
     ports:
@@ -127,8 +128,6 @@ services:
   
   vault:
     image: vault
-    ports:
-      - 8200:8200
     volumes:
       - ./vault/file:/vault/file:rw
       - ./vault/config:/vault/config:rw
