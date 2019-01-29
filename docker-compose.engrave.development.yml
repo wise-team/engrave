@@ -173,7 +173,7 @@ services:
     ports:
       - 8200:8200
     volumes:
-      - ./vault/file:/vault/file:rw
+      - vault_db:/vault/file:rw
       - ./vault/config:/vault/config:rw
     entrypoint: vault server -config=/vault/config/vault.json
 
@@ -184,6 +184,7 @@ volumes:
   certbot:
   redis-data:
   themes:
+  vault_db:
  
 secrets:
   NAMECOM_TOKEN:
