@@ -212,6 +212,11 @@ $(document).ready(function () {
         $('body').animate({ scrollTop: $(newComment).offset().top }, 500);
     }
 
+    $('#comments').on('click', '.cancel', function(e) {
+        const element = $(this).parent().parent().remove();
+        console.log(element);
+    });
+
     $('#comments').on('click', '.comment-reply', function (e) {
         if(getLoggedInToken()) {
             appendCommentForm(this);
@@ -342,7 +347,7 @@ $(document).ready(function () {
     function appendCommentForm(element) {
         let commentBox = $(element).parent().parent().parent();
             if(!commentBox.find('.comment-reply-form').length) {
-                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply">' + btn_send_reply_text + '</button></form></div>');
+                commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply">' + btn_send_reply_text + '</button><a class="cancel" id="submit-contact">Cancel</a></form></div>');
             }
     }
 

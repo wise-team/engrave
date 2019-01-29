@@ -636,6 +636,17 @@ padding: 0;
     margin-right: 10px; }
 .comment-reply-form button:hover {
   opacity: 0.85; }
+.comment-reply-form .cancel {
+  font-size: 0.5em;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 15px 25px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 0;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 
 
   .steemit-info {
