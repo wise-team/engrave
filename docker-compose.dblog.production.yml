@@ -60,30 +60,7 @@ services:
       - NAMECOM_USERNAME
 
   beta-dashboard:
-    image: bgornicki/engrave-front-dashboard
-    environment:
-      - DOMAIN=dblog.pl
-      - SSL_EMAIL=engrave@niepodam.pl
-      - SSL_CERTIFICATES_DIR=/etc/letsencrypt
-      - BLOGS_DOMAINS=["dblog.pl"]
-      - BLOGS_CATEGORIES=["Inne", "Finanse i ekonomia", "Lifestyle", "Jedzenie", "Sport", "Podróże", "Zdrowie i uroda", "Hobby", "Muzyka", "Dziennikarstwo", "Fotografia", "Technologia"]
-      - WAIT_HOSTS=mongo:27017,redis:6379
-      - SERVER_IP=172.104.225.127
-      - PAYMENT_REDIRECT_URI=https://dblog.pl/dashboard/configure/
-      - NAMECOM_API=api.name.com
-      - DOMAIN_PRICE_SBD=15
-      - DOMAIN_PRICE_STEEM=35
-      - FRONT=dblog
-      - STEEMCONNECT_ID=dblog.app
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_certs:/etc/letsencrypt
-      - themes:/app/themes
-    depends_on:
-      - mongo
-    secrets:
-      - NAMECOM_TOKEN
-      - NAMECOM_USERNAME
+    image: bgornicki/engrave-dashboard:latest
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
