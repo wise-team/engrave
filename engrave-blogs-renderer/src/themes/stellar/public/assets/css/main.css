@@ -3855,3 +3855,28 @@ input, select, textarea {
 	}
 
 }
+
+#voting-icon {
+	cursor: pointer;
+}
+
+.modal-dialog {
+    margin-top: 100px;
+}
+
+.comment-reply-form2 {
+	margin-top: 1em;
+}
+
+#comment {
+	margin-bottom: 1em;
+}
+
+.submit-reply {
+	margin-right: 30px;
+}
+
+.formGrayOut {
+	opacity: 0.2;
+	background: #333 url('https://code.jquery.com/mobile/1.3.1/images/ajax-loader.gif') no-repeat 50% 50%;
+}

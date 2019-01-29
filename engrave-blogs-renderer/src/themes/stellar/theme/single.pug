@@ -19,7 +19,7 @@ block content
     section.main
         ul.statistics
             li.style1
-                span.icon.fa-thumbs-up
+                span.icon.fa-thumbs-up#voting-icon
                 strong= article.votes_count 
                 |Upvotes
             li.style2
@@ -36,4 +36,14 @@ block content
             h2 Comments
             p#comments-empty No comments found
 
-    
+    #voting-power-modal.modal.fade(role='dialog')
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5 Select voting power
+                .modal-body
+                    .slider-container
+                        input(type="text" id="example_id" name="example_name" value="50")
+                .modal-footer
+                    button.btn.btn-success(type='button' id="votingAccept") Vote
+                    button(type="button" class="btn btn-link" data-dismiss="modal") Cancel
