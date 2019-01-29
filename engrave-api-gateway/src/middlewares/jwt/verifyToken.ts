@@ -10,7 +10,8 @@ class VerificationError extends Error {
 export default async (req: Request, res: Response, next: NextFunction) => {
     
     try {
-        if(!req.headers['authorization']) throw new VerificationError('Auth token was not supplied');
+        if(!req.headers['authorization']) 
+            throw new VerificationError('Auth token was not supplied');
         
         const token = (<string>req.headers['authorization']).replace("Bearer ", "");
 
