@@ -78,12 +78,10 @@ $(document).ready(function () {
     
         var content = document.createElement('p');
         $(content).addClass('meta');
-
-        $(content).append(moment(comment.created).format('LLL') + ", ");
-
+        
         var authorsLink = document.createElement('a');
         $(authorsLink).prop('href', "https://steemit.com/@" + comment.author);
-        $(authorsLink).append(comment.author);
+        $(authorsLink).append("@" + comment.author);
     
         var created_span = document.createElement('span');
         var i = document.createElement('i');
@@ -117,9 +115,9 @@ $(document).ready(function () {
         var span_replay = document.createElement('span');
         $(span_replay).addClass('comment-action').addClass('comment-reply').append("&nbsp;&nbsp;&nbsp;&nbsp;" + btn_reply_text);
         
-        var comment_action = document.createElement('i');
-        $(comment_action).addClass('pull-right');
-        $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value);
+        var comment_action = document.createElement('p');
+        $(comment_action).addClass('comment-actions');
+        $(comment_action).append(i_voted).append(span_votes).append(span_value);
         $(comment_action).append(i_voted).append("&nbsp;").append(span_votes).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(span_value).append(span_replay);
     
         let hidden_permlink = document.createElement('input');
@@ -133,11 +131,13 @@ $(document).ready(function () {
         $(content).append(hidden_author);
         $(content).append(hidden_title);
         $(content).append(authorsLink);
+        $(content).append(", " + moment.utc(comment.created).local().fromNow());
         $(content).append(": ");
-        $(content).append(comment_action);
+        // $(content).append(comment_action);
     
         $(new_comment_box).append(content);
         $(new_comment_box).append(comment_body);
+        $(new_comment_box).append(comment_action);
 
     
         $(list_id).append(new_comment_box); 
@@ -364,7 +364,7 @@ $(document).ready(function () {
     });
 
     function appendCommentForm(element) {
-        let commentBox = $(element).parent().parent().parent();
+        let commentBox = $(element).parent().parent();
             if(!commentBox.find('.comment-reply-form').length) {
                 commentBox.append('<div class="comment-reply-form"><form class="comment-reply-form2"><textarea id="comment" name="comment_body"></textarea><button type="submit" class="submit-reply">' + btn_send_reply_text + '</button><a class="cancel" id="submit-contact">Cancel</a></form></div>');
             }

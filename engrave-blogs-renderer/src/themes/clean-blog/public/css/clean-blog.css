@@ -533,11 +533,11 @@ padding: 0;
     margin-left: 0px;
   }
   .blog-comment img.avatar {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
   .blog-comment .post-comments{
-    margin-left: 45px;
+    margin-left: 25px;
   }
 
   .blog-comment {
@@ -553,12 +553,6 @@ padding: 0;
     margin-left: 25px;
   }
 }
-
-
- .comments-action {
-  font-size: 12px;
-   opacity: 0.6;
-} 
 
 .comments-action:hover {
   opacity: 0.8;
@@ -700,6 +694,13 @@ padding: 0;
   cursor: pointer
 }
 
+.comment-reply:hover {
+  opacity: 0.8;
+  cursor: pointer;
+  color: #00A7B3;
+
+}
+
 ul.post-tags {
   padding-left: 0px;
 }
@@ -734,4 +735,8 @@ ul.post-tags li:last-child {
 
 #voting-icon {
   cursor: pointer;
+}
+
+.comment-actions {
+	margin-bottom: 0px;
 }
