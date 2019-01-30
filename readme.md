@@ -26,7 +26,7 @@ echo "<imgur client id>" | sudo docker secret create IMGUR_CLIENT_ID -
 echo "steemconnect app secret" | sudo docker secret create SC2_APP_SECRET -
 echo "jwt secret" | sudo docker secret create JWT_SECRET -
 echo "vault token" | sudo docker secret create VAULT_TOKEN -
-```
+```321f21b9b3cecc1af05dfedc3fbb437bcc5796eecd2e13a7
 
 If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-compose.yml` file for environmental variables and then just type:
 
