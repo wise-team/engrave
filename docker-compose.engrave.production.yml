@@ -30,6 +30,8 @@ services:
     volumes:
       - certbot:/app/certbot
       - themes:/app/src/themes
+    secrets:
+      - VAULT_TOKEN
 
   engrave-front-dashboard:
     image: bgornicki/engrave-front-dashboard
