@@ -5,7 +5,7 @@ $(document).ready(function () {
     var simplemde = new SimpleMDE(
         {
             forceSync: true, 
-            spellChecker: false,
+            spellChecker: true,
             element: document.getElementById("edit-body"),
             showIcons: ["code", "table"],
             shortcuts: {

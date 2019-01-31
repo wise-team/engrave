@@ -19,7 +19,7 @@ $(document).ready(function () {
                 "drawTable": null // bind Cmd-Alt-T to drawTable action, which doesn't come with a default shortcut
             },
             forceSync: true, 
-            spellChecker: false,
+            spellChecker: true,
             element: document.getElementById("post-body"),
             showIcons: ["code", "table"],
           
