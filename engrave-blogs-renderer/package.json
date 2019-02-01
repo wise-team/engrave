@@ -35,7 +35,8 @@
     "striptags": "^3.1.1",
     "@cloudreach/docker-secrets": "1.0.3",
     "node-vault": "0.9.5",
-    "steemconnect": "2.0.1"
+    "steemconnect": "2.0.1",
+    "is-an-image-url": "1.0.3"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"
