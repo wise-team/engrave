@@ -48,7 +48,8 @@
     "http-status-codes":"1.3.0",
     "ioredis": "4.3.0",
     "redis-json": "2.2.2",
-    "markdown-it": "8.4.2"
+    "markdown-it": "8.4.2",
+    "is-an-image-url": "1.0.3"
   },
   "repository": {
     "type": "git",

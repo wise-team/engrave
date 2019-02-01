@@ -25,7 +25,8 @@
     "steem": "^0.7.3",
     "axios": "0.18.0",
     "ioredis": "4.3.0",
-    "redis-json": "2.2.2"
+    "redis-json": "2.2.2",
+    "is-an-image-url": "1.0.3"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"
