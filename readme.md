@@ -32,12 +32,20 @@ If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-co
 
 `./development-deploy.sh`
 
-It will create docker stack with engrave and nginx on top. It should just work out of the box. If you want to deploy production setup you can use:
+It will create docker stack with engrave and nginx on top. It should just work out of the box. 
 
-`./production-deploy.engrave.sh`
+If you want to deploy production setup you can use:
+
+```
+./images-build-engrave.sh
+./production-deploy.engrave.sh
+```
 
 or
 
-`./production-deploy.dblog.sh`
+```
+./images-build-dblog.sh
+./production-deploy.dblog.sh
+```
 
 But be very very carefully! It will really deploy production setup!
