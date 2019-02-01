@@ -32,7 +32,7 @@ services:
       - SSL_EMAIL=engrave@niepodam.pl
       - SSL_CERTIFICATES_DIR=/etc/letsencrypt
       - WAIT_HOSTS=mongo:27017
-      - SERVER_IP=139.162.185.235
+      - SERVER_IP=127.0.0.1
 
   nginx-configurator:
     image: bgornicki/engrave-nginx-configurator

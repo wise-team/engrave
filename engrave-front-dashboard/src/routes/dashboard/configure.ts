@@ -6,6 +6,8 @@ import { RoutesVlidators } from '../../validators/RoutesValidators';
 import * as express from 'express';
 import { Themes } from '../../modules/Themes';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import validateDomainPointingToEngrave from '../../services/ssl/validateDomainPointingToEngrave';
+import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 
 let router = express.Router();
 
@@ -39,6 +41,9 @@ router.post(
             let domain = configuration.domain.toLowerCase();
             if (configuration.subdomain) {
                 domain = configuration.subdomain.toLowerCase() + "." + configuration.domain.toLowerCase();
+            } else {
+                if ( ! await validateDomainPointingToEngrave(domain))
+                    throw new Error("Please, change your domain's DNS settings as mentioned in this page and try again");
             }
             
             let available = await BlogListModule.isBlogDomainAvailable(domain);
@@ -64,6 +69,8 @@ router.post(
                 }
 
                 await blog.save();
+
+                await generateNginxSettings(blog);
 
                 res.json({ success: "Configured successfully!" });
             }
