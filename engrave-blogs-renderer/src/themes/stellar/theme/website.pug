@@ -7,6 +7,10 @@ html
             title= category.name + ' - ' + blog.title
         else
             title= blog.title + ' - ' + blog.slogan
+
+        if blog.webmastertools_id && blog.webmastertools_id != ''
+            meta(name="google-site-verification" content= blog.webmastertools_id)
+
         meta(charset='utf-8')
         
         meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
@@ -18,9 +22,6 @@ html
         link(href="/assets/css/toastr.min.css" rel="stylesheet")
         noscript
             link(rel='stylesheet', href='/assets/css/noscript.css')
-
-        if blog.webmastertools_id && blog.webmastertools_id != ''
-            meta(name="google-site-verification" content= blog.webmastertools_id)
         
         include partials/opengraph.pug
 

@@ -1,7 +1,17 @@
 doctype html
 html
     head
-        title= blog.title
+
+        if article
+            title= article.title + ' - ' + blog.title
+        else if category
+            title= category.name + ' - ' + blog.title
+        else
+            title= blog.title + ' - ' + blog.slogan
+
+        if blog.webmastertools_id && blog.webmastertools_id != ''
+            meta(name="google-site-verification" content= blog.webmastertools_id)
+
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
         
