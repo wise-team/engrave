@@ -12,7 +12,7 @@ async function handler(req: Request, res: Response) {
         
         const blogs = await blogsService.getMultipleWithQuery({username: username});
         
-        return res.json({ blogs });
+        return res.json([ ...blogs ]);
 
     }, req, res);
 }

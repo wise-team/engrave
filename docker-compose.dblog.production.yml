@@ -7,6 +7,7 @@ services:
       - JWT_SECRET
     environment:
       - WAIT_HOSTS=mongo:27017
+      - BLOGS_DOMAINS=["dblog.pl"]
     
   blockchain-tracker:
     image: bgornicki/engrave-blockchain-tracker
@@ -65,14 +66,6 @@ services:
       - JWT_SECRET
     environment:
       - WAIT_HOSTS=mongo:27017
-
-  blockchain-tracker:
-    image: bgornicki/engrave-blockchain-tracker
-    depends_on:
-      - redis
-    environment:
-      - STARTING_BLOCK=29369963
-      - WAIT_HOSTS=redis:6379
 
   image-uploader:
     image: bgornicki/engrave-image-uploader

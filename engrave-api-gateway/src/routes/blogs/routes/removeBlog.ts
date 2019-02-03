@@ -3,7 +3,7 @@ import { handleResponseError } from '../../../submodules/engrave-shared';
 import { body } from 'express-validator/check';
 
 import blogsService from '../../../services/blogs/services.blogs';
-import { blogExists } from '../../../validators/blogExiststs';
+import { blogExists } from '../../../validators/blog/blogExiststs';
 
 const middleware: any[] =  [
     body('id').isString().custom(blogExists).withMessage('Blog does not exist')

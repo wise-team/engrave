@@ -8,8 +8,8 @@ import verifyToken from "../../middlewares/jwt/verifyToken";
 
 const blogsApi: express.Router = express.Router();
 
-blogsApi.get('/all/:username', getAllBlogs.middleware, getAllBlogs.handler);
-blogsApi.get('/:id', getBlog.middleware, getBlog.handler);
+blogsApi.get('/:id', verifyToken, getBlog.middleware, getBlog.handler);
+blogsApi.get('/', verifyToken, getAllBlogs.middleware, getAllBlogs.handler);
 blogsApi.delete('/', verifyToken, removeBlog.middleware, removeBlog.handler);
 blogsApi.post('/', verifyToken, addBlog.middleware, addBlog.handler);
 blogsApi.put('/', verifyToken, updateBlog.middleware, updateBlog.handler);

@@ -3,7 +3,7 @@ import { handleResponseError } from '../../../submodules/engrave-shared';
 import { param } from 'express-validator/check';
 
 import blogsService from '../../../services/blogs/services.blogs';
-import { blogExists } from '../../../validators/blogExiststs';
+import { blogExists } from '../../../validators/blog/blogExiststs';
 
 const middleware: any[] =  [
     param('id').isMongoId().custom(blogExists).withMessage('Blog does not exist')
@@ -19,7 +19,7 @@ async function handler(req: Request, res: Response) {
 
         if(blog.username != username) throw new Error("You are not the owner of that blog!");
 
-        return res.json({ blog });
+        return res.json( blog );
 
     }, req, res);
 }

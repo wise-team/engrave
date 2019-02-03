@@ -13,6 +13,7 @@ services:
       - ./engrave-api-gateway/dist:/app/dist
     environment:
       - WAIT_HOSTS=mongo:27017
+      - BLOGS_DOMAINS=["engrave.website", "engrave.site", "dblog.org"]
     secrets:
       - JWT_SECRET
 
