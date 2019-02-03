@@ -62,11 +62,11 @@ block content
                         span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
                     li
                         i.lnr.lnr-thumbs-up#voting-icon
-                        span= article.votes_count
+                        span#voting-counter= article.votes_count
 
                     li
                         i.lnr.lnr-diamond
-                        span= '$' + parseFloat(article.value).toFixed(2)
+                        span#voting-value= '$' + parseFloat(article.value).toFixed(2)
 
             //- include partials/author.pug
             include partials/comments.pug

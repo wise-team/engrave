@@ -47,6 +47,8 @@ $(document).ready(function () {
                 upvoteAuthor = comment_author;
                 upvoteComment = $(this).parent();
 
+                votingHandler = handleCommentVote;
+
                 $("#loggedinModal").modal();
             }
         } else {
@@ -117,12 +119,12 @@ $(document).ready(function () {
                     $(this).removeClass('formGrayOut');
                 },
                 error: function (data) {
-                    toastr.error("Something gone wrong...");
+                    showResponseError(data);
                     box.removeClass('formGrayOut');
                 }
             });
         } else {
-            toastr.error("Nie możesz wysłać pustego komentarza");
+            toastr.error("You can't send empty comment");
         }
 
         
@@ -204,14 +206,14 @@ $(document).ready(function () {
 
                 },
                 error: function (data) {
-                    toastr.error("Something gone wrong...");
+                    showResponseError(data);
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
                     $('#comment').css("visibility", "visible");
                 }
             });
         } else {
-            toastr.error("Nie możesz wysłać pustego komentarza");
+            toastr.error("You can't send empty comment");
             $('#submit-contact').css("visibility", "visible");
             $('#comment').css("visibility", "visible");
             $('#comment-form').removeClass('formGrayOut');
@@ -386,8 +388,9 @@ function handleCommentVote() {
             comment_vote_clicked = false;
         },
         error: function (data) {
-            toastr.error("Something gone wrong...");
+            showResponseError(data);
             tetet.addClass("fa-thumbs-up");
+            tetet.addClass("comment-vote");
             tetet.removeClass("fa-spinner").removeClass("fa-spin");
             comment_vote_clicked = false;
         }
@@ -429,11 +432,20 @@ function handleArticleVote() {
                 $('#voting-icon').removeClass('fa').removeClass('fa-spinner').removeClass('fa-spin');
             },
             error: function (data) {
-                toastr.error("Something gone wrong...");
+                showResponseError(data);
                 comment_vote_clicked = false;
                 $('#voting-icon').addClass('lnr-thumbs-up');
                 $('#voting-icon').removeClass('fa').removeClass('fa-spinner').removeClass('fa-spin');
             }
         });
+    }
+}
+
+
+function showResponseError(response) {
+    if(response.responseJSON.error) {
+        toastr.error(response.responseJSON.error);
+    } else {
+        toastr.error("Something gone wrong...");
     }
 }

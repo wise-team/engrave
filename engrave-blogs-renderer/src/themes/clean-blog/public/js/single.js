@@ -199,7 +199,7 @@ $(document).ready(function () {
                         if (data.success) {
                             toastr.success(data.success);
                             commentVotesCount.text(data.net_votes);
-                            commentValue.text(data.value);
+                            commentValue.text("$" + data.value.toFixed(2));
                             voteIcon.addClass("fa-thumbs-up").addClass("voted");
                             voteIcon.addClass("comment-vote");
                             voteIcon.removeClass("fa-spinner").removeClass("fa-spin");
@@ -213,7 +213,7 @@ $(document).ready(function () {
                         comment_vote_clicked = false;
                     },
                     error: function (data) {
-                        toastr.error("Something gone wrong");
+                        showResponseError(data);
                         voteIcon.addClass("fa-thumbs-up");
                         voteIcon.removeClass("fa-spinner").removeClass("fa-spin");
                         comment_vote_clicked = false;
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
                 },
                 error: function (data) {
-                    toastr.error("Something gone wrong");
+                    showResponseError(data);
                     $("#comment").val("");
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
@@ -292,7 +292,7 @@ $(document).ready(function () {
                 }
             });
         } else {
-            toastr.error("Nie możesz wysłać pustego komentarza");
+            toastr.error("You can't send empty comment");
             $('#submit-contact').css("visibility", "visible");
             $('#comment').css("visibility", "visible");
             $('#comment-form').removeClass('formGrayOut');
@@ -352,14 +352,14 @@ $(document).ready(function () {
                     box.removeClass('formGrayOut');
                 },
                 error: function (data) {
-                    toastr.error("Something gone wrong");
+                    showResponseError(data);
                     box.find('[name="comment_body"]').css("visibility", "visible");
                     box.find('.submit-reply').css("visibility", "visible");
                     box.removeClass('formGrayOut');
                 }
             });
         } else {
-            toastr.error("Nie możesz wysłać pustego komentarza");
+            toastr.error("You can't send empty comment");
         }
     });
 
@@ -415,7 +415,7 @@ $(document).ready(function () {
                     if (data.success) {
                         toastr.success(data.success);
                         $('#voting-counter').text(data.net_votes);
-                        $('#voting-value').text("$" + data.value);
+                        $('#voting-value').text("$" + data.value.toFixed(2));
                     } else if (data.error) {
                         toastr.error(data.error);
                     }
@@ -424,8 +424,7 @@ $(document).ready(function () {
                     $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
                 },
                 error: function (data) {
-                    console.log("error");
-                    toastr.error("Something gone wrong...");
+                    showResponseError(data);
                     comment_vote_clicked = false;
                     $('#voting-icon').addClass('fa-thumbs-up');
                     $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
@@ -434,3 +433,12 @@ $(document).ready(function () {
         }
     }
 });
+
+
+function showResponseError(response) {
+    if(response.responseJSON.error) {
+        toastr.error(response.responseJSON.error);
+    } else {
+        toastr.error("Something gone wrong...");
+    }
+}

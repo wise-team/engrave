@@ -11,3 +11,4 @@ until [ -z "$(docker network ls --filter label=com.docker.stack.namespace=dblog 
 done
 
 docker stack deploy -c docker-compose.dblog.production.yml dblog
+echo "Remember to unseal the vault!"

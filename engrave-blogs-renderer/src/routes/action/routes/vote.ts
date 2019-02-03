@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import * as os from 'os';
 import { body, header } from 'express-validator/check';
 import auth from '../../../services/auth/auth';
 import vault from '../../../services/vault/vault.service';
 import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
+import { getContentStats } from '../../../submodules/engrave-shared/services/steem/steem';
 
 const middleware: any[] =  [
     body('author').isString(),
@@ -26,14 +26,17 @@ async function handler(req: Request, res: Response) {
 
         const access_token = await vault.getAccessToken(username);
 
-        const result = await sc.vote(access_token, username, author, permlink, parseInt(weight));
+        await sc.vote(access_token, username, author, permlink, parseInt(weight));
+        
+        const { net_votes, value } = await getContentStats(author, permlink);
 
-        console.log(`Voted successfully by: ${username} at ${author}, ${permlink}`);
+        console.log(`Voted successfully by: @${username} at ${author}, ${permlink}`);
 
         return res.json({
             success: 'Voted successfully',
             author: username,
-            result
+            net_votes,
+            value
         });
 
     }, req, res);

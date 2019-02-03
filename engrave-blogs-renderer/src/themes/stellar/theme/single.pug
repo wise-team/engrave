@@ -20,11 +20,11 @@ block content
         ul.statistics
             li.style1
                 span.icon.fa-thumbs-up#voting-icon
-                strong= article.votes_count 
+                strong#voting-counter= article.votes_count 
                 |Upvotes
             li.style2
                 span.icon.fa-diamond
-                strong= '$' + parseFloat(article.value).toFixed(2)
+                strong#voting-value= '$' + parseFloat(article.value).toFixed(2)
                 |Reward
             li.style3
                 span.icon.fa-comment

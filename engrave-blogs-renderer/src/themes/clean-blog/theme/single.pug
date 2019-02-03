@@ -53,11 +53,11 @@ block header
                     span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
                 li
                     i.fa.fa-thumbs-up#voting-icon
-                    span= article.votes_count
+                    span#voting-counter= article.votes_count
 
                 li
                     i.fa.fa-diamond
-                    span= '$' + parseFloat(article.value).toFixed(2)
+                    span#voting-value= '$' + parseFloat(article.value).toFixed(2)
     hr
     include partials/comments.pug
 

@@ -103,7 +103,7 @@ $(document).ready(function () {
 
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
+                    showResponseError(data);
                     $("#comment").val("");
                     $('#comment-form').removeClass('formGrayOut');
                     $('#submit-contact').css("visibility", "visible");
@@ -170,7 +170,7 @@ $(document).ready(function () {
                     box.removeClass('formGrayOut');
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
+                    showResponseError(data);
                     box.find('[name="comment_body"]').css("visibility", "visible");
                     box.find('.submit-reply').css("visibility", "visible");
                     box.removeClass('formGrayOut');
@@ -218,7 +218,7 @@ function handleArticleVote() {
                 $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
             },
             error: function (data) {
-                toastr.error("Something gone wrong...");
+                showResponseError(data);
                 comment_vote_clicked = false;
                 $('#voting-icon').addClass('fa-thumbs-up');
                 $('#voting-icon').removeClass('fa-spinner').removeClass('fa-spin');
@@ -263,7 +263,7 @@ function handleCommentVote(comment_element) {
                     if (data.success) {
                         toastr.success(data.success);
                         commentVotesCount.text(data.net_votes);
-                        commentValue.text(data.value);
+                        commentValue.text("$" + data.value.toFixed(2));
                         voteIcon.addClass("fa-thumbs-up").addClass("voted");
                         voteIcon.addClass("comment-vote");
                         voteIcon.removeClass("fa-spinner").removeClass("fa-spin");
@@ -277,7 +277,7 @@ function handleCommentVote(comment_element) {
                     comment_vote_clicked = false;
                 },
                 error: function (data) {
-                    toastr.error("Coś poszło nie tak...");
+                    showResponseError(data);
                     voteIcon.addClass("fa-thumbs-up");
                     voteIcon.removeClass("fa-spinner").removeClass("fa-spin");
                     comment_vote_clicked = false;
@@ -362,4 +362,12 @@ function renderComment(comment, voted, list_id) {
     
     return newDiv
 
+}
+
+function showResponseError(response) {
+    if(response.responseJSON.error) {
+        toastr.error(response.responseJSON.error);
+    } else {
+        toastr.error("Something gone wrong...");
+    }
 }

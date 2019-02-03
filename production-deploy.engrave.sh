@@ -11,3 +11,4 @@ until [ -z "$(docker network ls --filter label=com.docker.stack.namespace=engrav
 done
 
 docker stack deploy -c docker-compose.engrave.production.yml engrave
+echo "Remember to unseal the vault!"
