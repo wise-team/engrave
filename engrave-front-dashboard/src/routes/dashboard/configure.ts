@@ -8,6 +8,7 @@ import { Themes } from '../../modules/Themes';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 import validateDomainPointingToEngrave from '../../services/ssl/validateDomainPointingToEngrave';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
+import { setUserRegistered } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();
 
@@ -69,6 +70,8 @@ router.post(
                 }
 
                 await blog.save();
+
+                await setUserRegistered(blog.steem_username);
 
                 await generateNginxSettings(blog);
 

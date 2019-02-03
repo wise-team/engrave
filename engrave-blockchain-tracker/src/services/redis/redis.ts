@@ -1,13 +1,15 @@
-import getLastProcessedBlock from './actions/getLastProcessedBlock';
-import setLastProcessedBlock from './actions/setLastProcessedBlock';
-import ifArticleExist from './actions/ifArticleExists';
-import pushUpdatesToQueue from './actions/pushUpdatesToQueue';
-import deleteArticle from './actions/deleteArticle';
+import getLastProcessedBlock from './actions/common/getLastProcessedBlock';
+import setLastProcessedBlock from './actions/common/setLastProcessedBlock';
+import ifArticleExist from './actions/articles/ifArticleExists';
+import pushUpdatesToQueue from './actions/common/pushUpdatesToQueue';
+import deleteArticle from './actions/articles/deleteArticle';
+import isUserRegistered from './actions/users/isUserRegistered';
 
 export {
     getLastProcessedBlock,
     setLastProcessedBlock,
     ifArticleExist,
     pushUpdatesToQueue,
-    deleteArticle
+    deleteArticle,
+    isUserRegistered
 }

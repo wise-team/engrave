@@ -13,8 +13,11 @@ async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
         const { id } = req.params;
+        const { username } = res.locals;
     
         const blog = await blogsService.getBlogByQuery({_id: id});
+
+        if(blog.username != username) throw new Error("You are not the owner of that blog!");
 
         return res.json({ blog });
 

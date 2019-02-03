@@ -9,7 +9,11 @@ import { isBlogAddressFree } from '../../../validators/isBlogAddressFree';
 const middleware: any[] =  [
     body('id').isString().custom(blogExists).withMessage('Blog does not exist'),
     body('url').optional().isString().isURL(), //isEngraveAddressValid
-    body('domain').optional().isString().not().isEmpty().isURL().custom(isBlogAddressFree).withMessage("This address is taken").custom(isDomainValid).withMessage("Domain not pointing to Engrave server"), //isRedirected //isDomain
+    body('domain').optional()
+        .isString().not().isEmpty()
+        .isURL()
+        .custom(isBlogAddressFree).withMessage("This address is taken")
+        .custom(isDomainValid).withMessage("Domain not pointing to Engrave server"),
     body('domain_redirect').optional().isBoolean(),
     body('title').optional().isString(),
     body('slogan').optional().isString(),

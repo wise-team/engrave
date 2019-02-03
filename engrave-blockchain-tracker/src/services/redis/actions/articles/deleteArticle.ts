@@ -1,8 +1,4 @@
-import { removeArticle } from "../../../submodules/engrave-shared/services/cache/cache";
-
-const Redis = require('ioredis');
-
-const redis = new Redis({ host: "redis" });
+import { removeArticle } from "../../../../submodules/engrave-shared/services/cache/cache";
 
 async function deleteArticle(username: string, permlink: string) {
 

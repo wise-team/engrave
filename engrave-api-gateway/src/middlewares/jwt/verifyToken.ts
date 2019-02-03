@@ -18,23 +18,23 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if( ! token)
             throw new VerificationError('Unauthorized');
     
-        const decodedToken: any = jwt.verify(token, secrets.JWT_SECRET);
+        const payload: any = jwt.verify(token, secrets.JWT_SECRET);
 
-        if(decodedToken.data.platform !== "engrave.website")
+        if(payload.data.platform !== "engrave.website")
             throw new VerificationError('Wrong platform name');
         
-        if(decodedToken.data.scope !== "dashboard")
+        if(payload.data.scope !== "dashboard")
             throw new VerificationError('Invalid scope');
 
-        if( ! decodedToken.data.username) 
+        if( ! payload.data.username) 
             throw new VerificationError('Missing username');
 
         const currentTime = new Date().getTime() / 1000;
         
-        if (decodedToken.exp < currentTime)
+        if (payload.exp < currentTime)
             throw new VerificationError("Token expired");
 
-        res.locals.username = decodedToken.data.username;
+        res.locals.username = payload.data.username;
 
         next();
         

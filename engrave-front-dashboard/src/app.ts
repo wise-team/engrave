@@ -112,6 +112,8 @@ if (process.env.NODE_ENV == "production") {
         await waitForMicroservice(configs.services.nginx_configurator);
         await waitForMicroservice(configs.services.ssl);
 
+        await migrate();
+
     })();
 }
 
@@ -172,17 +174,6 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
 }
-
-
-if (process.env.NODE_ENV == "production") {
-
-    (async () => {
-
-        migrate();
-
-    })();
-}
-
 
 export default app;
 export { server};

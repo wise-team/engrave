@@ -1,4 +1,4 @@
-import { ifArticleExist, deleteArticle } from "../../redis/redis";
+import { ifArticleExist, deleteArticle, isUserRegistered } from "../../redis/redis";
 import { IUpdate } from "../blockchain";
 
 export default async (tx: any): Promise<IUpdate> => {
@@ -10,22 +10,75 @@ export default async (tx: any): Promise<IUpdate> => {
             
             switch(type) {
                 case 'vote': 
-                case 'comment': {
                     const { author, permlink } = operation[1];
+                    
                     if(await ifArticleExist(author, permlink)) {
                         return {author: author, permlink: permlink};
                     }
-                }
-                
+                break;
+
+                case 'comment': {
+                    
+                    const { parent_author, author, permlink } = operation[1];
+                    
+                    if(await ifArticleExist(author, permlink)) {
+                        return {author: author, permlink: permlink};
+                    }
+
+                    if( parent_author != author && await isUserRegistered(parent_author)) {
+                        console.log("Notify new comment: ", parent_author, author, permlink);
+                    }
+
+                }                
                 break;
                 
                 case 'delete_comment': {
+
                     const { author, permlink } = operation[1];
+                    
                     if(await ifArticleExist(author, permlink)) {
                         deleteArticle(author, permlink);
                     }
                 }
-    
+                break;
+
+                case 'transfer': {
+
+                    const { from, to, amount } = operation[1];
+                    
+                    if(await isUserRegistered(to)) {
+                        console.log("Notify new transfer: ", from, to, amount);
+                    }
+                }
+                break;
+
+                case 'custom_json': {
+                   
+                    const { id, json } = operation[1];
+                    
+                    if(id == 'follow') {
+                        
+                        const op = JSON.parse(json);
+
+                        if(op[0] == 'follow') {
+
+                            const {follower, following, what} = op[1];
+
+                            if(await isUserRegistered(following)) {
+                                if( what.length > 0) {
+                                    console.log("Started following you: ", follower, following);
+                                } else {
+                                    console.log("Stopped following you: ", follower, following);
+                                }
+                            }
+                        }
+
+                        else if (op[0] == 'reblog') {
+
+                        }
+                    }
+
+                }
                 break;
     
                 default:
