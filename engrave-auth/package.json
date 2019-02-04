@@ -32,7 +32,8 @@
     "redis-json": "2.2.2",
     "steem": "^0.7.3",
     "steemconnect": "2.0.1",
-    "is-an-image-url": "1.0.3"
+    "is-an-image-url": "1.0.3",
+    "markdown-it": "8.4.2"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"
