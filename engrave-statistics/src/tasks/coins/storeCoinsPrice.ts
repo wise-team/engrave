@@ -1,6 +1,5 @@
 import getPrice from '../../services/coins/getPrice';
 import setCoinHistory from '../../services/cache/actions/setCoinHistory';
-import getCoinHistory from '../../services/cache/actions/getCoinHistory';
 import { Coin } from '../../helpers/Coin';
 
 async function storeCoinsPrice () {
