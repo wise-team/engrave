@@ -6,7 +6,7 @@ services:
     secrets:
       - JWT_SECRET
     environment:
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
       - BLOGS_DOMAINS=["engrave.website", "engrave.site", "dblog.org"]
 
   blockchain-tracker:
