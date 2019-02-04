@@ -98,7 +98,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - WAIT_HOSTS=mongo:27017  
+      - WAIT_HOSTS=mongo:27017,redis:6379
 
   auth:
     image: bgornicki/engrave-auth

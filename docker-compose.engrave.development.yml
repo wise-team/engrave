@@ -52,7 +52,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - WAIT_HOSTS=mongo:27017
+      - WAIT_HOSTS=mongo:27017,redis:6379
 
   blockchain-tracker:
     image: bgornicki/engrave-blockchain-tracker
