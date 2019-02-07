@@ -45,7 +45,7 @@ block body
                                     .col-md-12
                                         .form-group
                                             label Additional tags (space separated)
-                                            input.form-control(type='text', pattern="([a-zA-Z0-9]+[ ]?)([a-zA-Z0-9]+[ ]?){0,3}", data-parsley-pattern-message="Only letters and numbers allowed. No more than 4 tags", placeholder='tag anothertag', value= (draft && draft.tags) ? draft.tags.slice(1).join(" ") : '', name='tags')
+                                            input.form-control(type='text', pattern="([a-zA-Z0-9\-]+[ ]?)([a-zA-Z0-9\-]+[ ]?){0,3}", data-parsley-pattern-message="Only letters and numbers allowed. No more than 4 tags", placeholder='tag anothertag', value= (draft && draft.tags) ? draft.tags.slice(1).join(" ") : '', name='tags')
                                 .row
                                     .col-md-12
                                         .form-group
