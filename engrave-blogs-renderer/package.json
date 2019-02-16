@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "build": "tsc",
     "debug": "tsc & NODE_ENV=production node --inspect=0.0.0.0:3001 dist/index.js",
-    "watch": "nodemon -L -e ts -w ./src -x npm run debug"
+    "watch": "nodemon -L -e ts,pug,css,js,json -w ./src -x npm run debug"
   },
   "author": "bgornicki",
   "license": "ISC",
