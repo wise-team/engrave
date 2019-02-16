@@ -1,0 +1,16 @@
+extends website
+
+append scripts
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" async)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pl.js" async)
+
+block content
+    .container.box-article
+        h1.topic-title.part=category.name
+        if latest
+            .row
+                each item in latest
+                    .col-sm-12.col-md-6.col-lg-4
+                        include partials/box.pug
+        else
+            h1 No posts in this category

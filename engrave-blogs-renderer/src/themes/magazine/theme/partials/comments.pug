@@ -1,0 +1,187 @@
+if !user
+    include steemit-box.pug
+else
+    h1.topic-title.part Leave reply
+    form.add.comment#comment-form
+        label(for="comment-body")= "Comment" + ':'
+        textarea#comment(class="add-comment-area" name="comment_body")
+        input(type="hidden", name="permlink", value= permlink)
+        input(type="hidden", name="title", value= title)
+        input(type="hidden", name="parent_author", value="")
+        button(class="add-comment-button" type="submit")#submit-contact
+            .add-comment-text
+                span(class="oi oi-comment-square" title="icon comment")
+                span Send reply
+
+.comment-area-box#comments
+    h1.topic-title.part Comments
+    .comment-tree
+        img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+        .comment-content
+            h4= "jblew"
+            small.text-muted
+                span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                =moment(date).format('DD MMMM YYYY, h:mm:ss')
+            p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment"
+            small.text-muted
+                ul
+                    li.next-item
+                        span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                        ="5"
+                    li.next-item
+                        span(class="oi")
+                        ="$" + "0.10"
+                    li.next-item
+                        span.comment-reply-link Reply
+        .comment-tree
+            img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+            .comment-content
+                h4= "jblew"
+                small.text-muted
+                    span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                    =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer "
+                small.text-muted
+                    ul
+                        li.next-item
+                            span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                            ="5"
+                        li.next-item
+                            span="$" + "0.00"
+                        li.next-item
+                            span.comment-reply-link Reply
+            .comment-tree
+                img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                .comment-content
+                    h4= "jblew"
+                    small.text-muted
+                        span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                        =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                    p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer"
+                    small.text-muted
+                        ul
+                            li.next-item
+                                span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                ="5"
+                            li.next-item
+                                span="$" + "0.00"
+                            li.next-item
+                                span.comment-reply-link Reply
+                .comment-tree
+                    img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                    .comment-content
+                        h4= "jblew"
+                        small.text-muted
+                            span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                            =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                        p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer answer"
+                        small.text-muted
+                            ul
+                                li.next-item
+                                    span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                    ="5"
+                                li.next-item
+                                    span="$" + "0.00"
+                                li.next-item
+                                    span.comment-reply-link Reply
+                .comment-tree
+                    img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                    .comment-content
+                        h4= "jblew"
+                        small.text-muted
+                            span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                            =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                        p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer2"
+                        small.text-muted
+                            ul
+                                li.next-item
+                                    span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                    ="5"
+                                li.next-item
+                                    span="$" + "1.00"
+                                li.next-item
+                                    span.comment-reply-link Reply
+                    .comment-tree
+                        img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                        .comment-content
+                            h4= "jblew"
+                            small.text-muted
+                                span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                                =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                            p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer2 answer"
+                            small.text-muted
+                                ul
+                                    li.next-item
+                                        span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                        ="5"
+                                    li.next-item
+                                        span="$" + "5.00"
+                                    li.next-item
+                                        span.comment-reply-link Reply
+                        .comment-tree
+                            img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                            .comment-content
+                                h4= "jblew"
+                                small.text-muted
+                                    span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                                    =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                                p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer2 answer answer"
+                                small.text-muted
+                                    ul
+                                        li.next-item
+                                            span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                            ="5"
+                                        li.next-item
+                                            span="$" + "3.00"
+                                        li.next-item
+                                            span.comment-reply-link Reply
+                            .comment-tree
+                                img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+                                .comment-content
+                                    h4= "jblew"
+                                    small.text-muted
+                                        span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                                        =moment(date).format('DD MMMM YYYY", h:mm:ss')
+                                    p= "Dlaczego nie #pl-nauka i #pl-astronomia? main comment -answer answer2 answer answer answer"
+                                    small.text-muted
+                                        ul
+                                            li.next-item
+                                                span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                                                ="5"
+                                            li.next-item
+                                                span="$" + "2.00"
+                                            li.next-item
+                                                span.comment-reply-link Reply
+        img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+        .comment-content
+            h4= "jblew"
+            small.text-muted
+                span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                =moment(date).format('DD MMMM YYYY", h:mm:ss')
+            p= "Dlaczego nie #pl-nauka i #pl-astronomia?"
+            small.text-muted
+                ul
+                    li.next-item
+                        span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                        ="5"
+                    li.next-item
+                        span(class="no-payout")="$" + "0.00"
+                    li.next-item
+                        span.comment-reply-link Reply
+        img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+        .comment-content
+            h4= "jblew"
+            small.text-muted
+                span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+                =moment(date).format('DD MMMM YYYY", h:mm:ss')
+            p= "Dlaczego nie #pl-nauka i #pl-astronomia?"
+            small.text-muted
+                ul
+                    li.next-item
+                        span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                        ="5"
+                    li.next-item
+                        span="$" + "0,00"
+                    li.next-item
+                        span.comment-reply-link Reply
+

@@ -1,0 +1,18 @@
+.container.slider-box
+    h1.topic-title="Hot topics"
+    .carousel.slide.carousel-fade(id="carouselExampleFade" data-ride="carousel")
+        .carousel-inner
+            each item, index in featured
+                .carousel-item(class={active: index==0})
+                    img.d-block.w-100(src=item.thumbnail ? item.thumbnail: '/img/default-big.png' alt="")
+                    .slider-text-box
+                        a.badge.badge-primary(href="/kategoria/" + item.category.slug) #{item.category.name}
+                        div
+                            include article-info.pug
+        .slider.control-buttons
+            a.carousel-control-prev.right-side(href="#carouselExampleFade" role="button" data-slide="prev")
+                span.carousel-control-prev-icon(aria-hidden="true")
+                span.sr-only="Previous"
+            a.carousel-control-next.right-side(href="#carouselExampleFade" role="button" data-slide="next")
+                span.carousel-control-next-icon(aria-hidden="true")
+                span.sr-only="Next"

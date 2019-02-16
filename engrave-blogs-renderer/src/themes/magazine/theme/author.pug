@@ -1,0 +1,16 @@
+extends website
+
+append scripts
+    script(src="/js/main.js")
+
+block content
+    .container.box-article
+        h1.topic-title.part Authors page
+        include partials/author-box
+        if latest
+            .row
+                each item in latest
+                    .col-sm-12.col-md-6.col-lg-4
+                        include partials/box.pug
+        else
+            h1 No posts created by this author

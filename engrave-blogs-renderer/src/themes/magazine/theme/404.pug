@@ -1,0 +1,15 @@
+extends website
+
+block content
+    .container.box-article
+        .error-box
+            .error-banner
+                h1 Error
+                    span=" 404"
+                p The page you are looking for does not exist. Try another one or visit 
+                    a(href='//' + blog.domain) main page.
+
+    include partials/featured
+    .container
+        hr
+

@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        title= blog.title
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
+
+        link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO", crossorigin="anonymous")
+        link(href="/css/open-iconic-bootstrap.min.css" rel= "stylesheet")
+        link(href="/css/typicons.min.css" rel="stylesheet")
+        link(href="/css/style.css" rel="stylesheet")
+
+        block scripts
+            include partials/scripts.pug
+
+    body
+        #fb-root
+        script.
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v3.1';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        include partials/navigation.pug
+
+        block content
+        
+        include partials/footer.pug

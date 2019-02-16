@@ -1,0 +1,6 @@
+.article-image
+    a(href= '/' + item.permlink)
+        img.card-img-top(src= item.thumbnail? item.thumbnail: '/img/default.jpg')
+    a.badge.badge-primary(href="/category/"+ item.category.slug, id=item.category) #{item.category.name}
+.card-body
+    include article-info.pug

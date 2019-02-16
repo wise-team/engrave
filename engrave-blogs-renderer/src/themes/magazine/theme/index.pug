@@ -1,0 +1,14 @@
+extends website
+
+block content
+    meta(name="description", content= blog.opengraph_default_description)
+    include partials/featured.pug
+    .container.box-article
+        if latest
+            h1.topic-title.part New articles
+            .row
+                each item in latest
+                    .col-sm-12.col-md-6.col-lg-4
+                        include partials/box.pug
+        .load-more-button
+            a.load-more-text(href='#') Load more

@@ -1,0 +1,27 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    .container
+        a.navbar-brand(href="/")
+            if blog.logo_url && blog.logo_url != ''
+                img.logo(src= blog.logo_url)
+            else
+                span= blog.title
+                span= blog.slogan
+        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span.navbar-toggler-icon
+
+        .collapse.navbar-collapse(id="navbarSupportedContent")
+            ul.navbar-nav.ml-auto
+                li.nav-item(id="authors")
+                    a.nav-link(href='/authors')= "Autorzy"
+                each nav in blog.categories
+                    li.nav-item(id=nav.slug)
+                        a.nav-link(href="/category/" + nav.slug)= nav.name
+
+                li.nav-item(id="log")
+                    if user
+                        a.nav-link(href="/authorize/logout")
+                            img(src= user.profile_image).logged-user-image
+                            | &nbsp;&nbsp;&nbsp;
+                            | Logout
+                    else
+                        a.nav-link(href="/authorize") Login
