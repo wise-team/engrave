@@ -1,19 +1,21 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import * as os from 'os';
 import { body } from 'express-validator/check';
 import mail from '../../../services/mail/mail';
+import preparator from '../../../services/preparator/preparator';
 
 const middleware: any[] =  [
-    body('email').isEmail()
+    body('email').isEmail(),
+    body('username').isString().isLength({min:2, max: 24}),
+    body('domain').isURL()
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
-        const { email } = req.body;
+        const { email, username, domain } = req.body;
 
-        await mail.send(email, "Confirmation", "This is confirmation email");
+        await mail.send(email, "Confirmation", preparator.confirmation(username, domain));
         
         return res.json({
             status: 'OK'
