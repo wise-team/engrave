@@ -1,5 +1,7 @@
-import confirmation from './actions/confirmation';
+import registrationConfirmation from './actions/registrationConfirmation';
+import blogCreated from './actions/blogCreated';
 
 export default {
-    confirmation
+    registrationConfirmation,
+    blogCreated
 }
