@@ -112,6 +112,15 @@ services:
       - SC2_APP_SECRET
       - JWT_SECRET
       - VAULT_TOKEN
+  
+  mailer:
+    image: bgornicki/engrave-mailer
+    environment:
+      - MAILGUN_SENDER_NAME=Engrave platform
+      - MAILGUN_SENDER_ADDRESS=noreply@engrave.website
+    secrets:
+      - MAILGUN_DOMAIN
+      - MAILGUN_API_KEY
 
   nginx:
     image: bgornicki/nginx
@@ -164,4 +173,8 @@ secrets:
   JWT_SECRET:
     external: true
   VAULT_TOKEN:
+    external: true
+  MAILGUN_DOMAIN:
+    external: true
+  MAILGUN_API_KEY:
     external: true

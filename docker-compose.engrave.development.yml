@@ -82,7 +82,6 @@ services:
       - certbot:/app/certbot
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
-      # - themes:/app/src/themes
     secrets:
       - VAULT_TOKEN
 
@@ -123,7 +122,7 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - themes:/app/themes
+      - ./engrave-blogs-renderer/src/themes:/app/themes
       - ./engrave-front-dashboard/src:/app/src
       - ./engrave-front-dashboard/views:/app/views
       - ./engrave-front-dashboard/public:/app/public
@@ -154,6 +153,21 @@ services:
       - SC2_APP_SECRET
       - JWT_SECRET
       - VAULT_TOKEN
+  
+  mailer:
+    image: bgornicki/engrave-mailer
+    volumes:
+      - ./engrave-mailer/src:/app/src
+      - ./engrave-mailer/dist:/app/dist
+    environment:
+      - MAILGUN_SENDER_NAME=Engrave platform
+      - MAILGUN_SENDER_ADDRESS=noreply@engrave.website
+    secrets:
+      - MAILGUN_DOMAIN
+      - MAILGUN_API_KEY
+    ports:
+      - 3015:3000
+      - 3016:3001
 
   mongo:
     image: mongo
@@ -184,7 +198,6 @@ volumes:
   nginx_conf:
   certbot:
   redis-data:
-  themes:
   vault_db:
  
 secrets:
@@ -201,4 +214,8 @@ secrets:
   JWT_SECRET:
     external: true
   VAULT_TOKEN:
+    external: true
+  MAILGUN_DOMAIN:
+    external: true
+  MAILGUN_API_KEY:
     external: true

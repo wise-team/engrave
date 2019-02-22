@@ -7,4 +7,5 @@ docker build ./engrave-nginx-configurator/ -f ./engrave-nginx-configurator/Docke
 docker build ./engrave-ssl/ -f ./engrave-ssl/Dockerfile.production -t bgornicki/engrave-ssl
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.production -t bgornicki/engrave-statistics
 docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.production -t bgornicki/engrave-auth
+docker build ./engrave-mailer/ -f ./engrave-mailer/Dockerfile.production -t bgornicki/engrave-mailer
 docker build ./nginx/ -f ./nginx/Dockerfile.dblog.production -t bgornicki/nginx

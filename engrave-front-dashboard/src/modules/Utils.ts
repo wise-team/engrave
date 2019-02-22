@@ -39,7 +39,7 @@ export class Utils {
                 var resteemed = (element.author != username);
 
                 if (cnt < limit && !resteemed) {
-                    if ( blogger.show_everything || element.beneficiaries.length && (element.beneficiaries[0].account == 'nicniezgrublem' || element.beneficiaries[0].account == 'engrave')) {
+                    if ( blogger.show_everything || blogger.adopter || element.beneficiaries.length && (element.beneficiaries[0].account == 'nicniezgrublem' || element.beneficiaries[0].account == 'engrave')) {
                         if (element.json_metadata && element.json_metadata != '') {
                             let metadata = JSON.parse(element.json_metadata);
                             if (metadata.image && metadata.image.length) {
@@ -84,7 +84,7 @@ export class Utils {
                         image: article.image,
                         links: article.links,
                         category: article.category,
-                        app: `engrave/0.1`,
+                        app: `engrave`,
                         format: "markdown",
                         domain: blogger.domain
                     })
@@ -97,21 +97,29 @@ export class Utils {
             return operations;
 
             case 'publish':
+
+            let extensions: any = [];
+
+            if(!blogger.adopter) {
+                extensions = [
+                    [0, {
+                        beneficiaries: [
+                            { account: 'engrave', weight: 15 * 100 }
+                        ]
+                    }]
+                ];
+            }
+            
+
             operations.push(
                 ['comment_options', {
                     author: blogger.steem_username,
                     permlink: article.permlink,
-                    max_accepted_payout: '1000000.000 SBD',
+                    max_accepted_payout: article.decline_reward ? '0.000 SBD' : '1000000.000 SBD',
                     percent_steem_dollars: 10000,
                     allow_votes: true,
                     allow_curation_rewards: true,
-                    extensions: [
-                        [0, {
-                            beneficiaries: [
-                                { account: 'engrave', weight: 15 * 100 }
-                            ]
-                        }]
-                    ]
+                    extensions: extensions
                 }
                 ]);
             return operations;
@@ -193,9 +201,9 @@ export class Utils {
             })
 
             if (blogger.frontpage_language == 'pl') {
-                article.body += '\n\n***\n<center>\n### Pierwotnie opublikowano na [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').\n</center>';
+                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             } else {
-                article.body += '\n\n***\n<center>\n### Originally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').\n</center>';
+                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             }
             article.links = links;
             article.tags = tags;
@@ -209,8 +217,12 @@ export class Utils {
     }
 
     static removeWebsiteAdvertsElements(body: string) {
-        let newBody = body.replace(/(\n\*\*\*\n<center>\s###\sOriginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
-        newBody = newBody.replace(/(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/g, "")
+        let newBody = body
+            .replace(/(\n\*\*\*\n<center>\s###\sOriginally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.\n\<\/center\>)/g, "")
+            .replace(/(\n\*\*\*\n<center><sup>Originally posted on \[)(.*)(\)\.\sSteem blog powered by \[)(.*)(\)\.<\/sup\>\<\/center\>)/g, "")
+            .replace(/(\n\*\*\*\n<center>\s###\sPierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.\n\<\/center\>)/g, "")
+            .replace(/(\n\*\*\*\n<center><sup>Pierwotnie opublikowano na \[)(.*)(\)\.\sBlog na Steem napędzany przez \[)(.*)(\)\.<\/sup\>\<\/center\>)/g, "")
+            
         return newBody;
     }
 

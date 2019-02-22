@@ -72,7 +72,7 @@ $(document).ready(function () {
     }
     
     function renderArticle(article) {
-        const newArticleDOM = `<div class="col-lg-4 col-md-6 mb-4"><div class="card"><div class="article-image"><a href="${article.engrave_permlink}"><img class="card-img-top" src="${article.image}" title="${article.title}" style=""></a></div><div class="card-body text-center"><a href="${article.engrave_permlink}"><h4 class="card-title">${article.title}</h4></a><h6>@${article.steem_username}</h6><p class="card-text">${article.body.substr(0,240)}...</p><p class="card-text"><a href="${article.steemit_permlink}"><img class="steemit" src="/img/steemit-icon.png"></a></p></div></div></div>`
+        const newArticleDOM = `<div class="col-lg-4 col-md-6 mb-4"><div class="card"><div class="article-image"><a href="${article.engrave_permlink}"><img class="card-img-top" src="${article.image ? article.image : "/img/default.jpg"}" title="${article.title}" style=""></a></div><div class="card-body text-center"><a href="${article.engrave_permlink}"><h4 class="card-title">${article.title}</h4></a><h6>@${article.steem_username}</h6><p class="card-text">${article.body.substr(0,240)}...</p><p class="card-text"><a href="${article.steemit_permlink}"><img class="steemit" src="/img/steemit-icon.png"></a></p></div></div></div>`
         const html = $.parseHTML(newArticleDOM);
         $('#articles-list').append(html);
     }
