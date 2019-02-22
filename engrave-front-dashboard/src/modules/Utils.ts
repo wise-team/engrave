@@ -201,9 +201,9 @@ export class Utils {
             })
 
             if (blogger.frontpage_language == 'pl') {
-                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             } else {
-                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             }
             article.links = links;
             article.tags = tags;
