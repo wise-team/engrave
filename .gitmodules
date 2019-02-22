@@ -25,3 +25,6 @@
 [submodule "engrave-auth/src/submodules/engrave-shared"]
 	path = engrave-auth/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
+[submodule "engrave-mailer/src/submodules/engrave-shared"]
+	path = engrave-mailer/src/submodules/engrave-shared
+	url = https://github.com/wise-team/engrave-shared.git
