@@ -19,7 +19,19 @@ export default async (tx: any): Promise<IUpdate> => {
 
                 case 'comment': {
                     
-                    const { parent_author, author, permlink } = operation[1];
+                    const { parent_author, author, permlink, body} = operation[1];
+
+                    const usernames = getMentions(body);
+
+                    const mentions = uniq(usernames);
+                    
+                    if(mentions) {
+                        for(const mention of mentions) {
+                            if(await isUserRegistered(mention.replace('@', ''))) {
+                                console.log("Mention:", mention);
+                            }
+                        }
+                    }
                     
                     if(await ifArticleExist(author, permlink)) {
                         return {author: author, permlink: permlink};
@@ -93,3 +105,9 @@ export default async (tx: any): Promise<IUpdate> => {
         return null;
     }
 }
+
+const getMentions = (body: string) => {
+    return body.match(/@[a-z](-[a-z0-9](-[a-z0-9])*)?(-[a-z0-9]|[a-z0-9])*(?:\.[a-z](-[a-z0-9](-[a-z0-9])*)?(-[a-z0-9]|[a-z0-9])*)*/g);
+}
+
+let uniq = (a: string[]) => [...new Set(a)];

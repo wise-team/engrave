@@ -115,7 +115,7 @@ export class Utils {
                 ['comment_options', {
                     author: blogger.steem_username,
                     permlink: article.permlink,
-                    max_accepted_payout: '1000000.000 SBD',
+                    max_accepted_payout: article.decline_reward ? '0.000 SBD' : '1000000.000 SBD',
                     percent_steem_dollars: 10000,
                     allow_votes: true,
                     allow_curation_rewards: true,
