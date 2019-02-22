@@ -14,8 +14,8 @@ if blog.onesignal_app_id
 if blog.analytics_gtag
     script(type='text/javascript').
         var analytics_identifier = !{JSON.stringify(blog.analytics_gtag)}
-    script(async src="https://www.googletagmanager.com/gtag/js?id=" + blog.analytics_gtag rel="preload")
-    script(src='/assets/js/analytics.js' rel="preload" async)
+script(async src="https://www.googletagmanager.com/gtag/js?id=UA-120365822-4" rel="preload")
+script(src='/js/analytics.js' rel="preload" async)
 
 #fb-root
 script(src='/assets/js/jquery.min.js')
