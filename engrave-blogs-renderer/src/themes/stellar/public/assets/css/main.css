@@ -3283,8 +3283,9 @@ input, select, textarea {
 				}
 
 					#nav ul li a:hover {
-						background-color: rgba(222, 222, 222, 0.25);
+						background-color: #c79cc8;
 						text-decoration: none;
+						color: white;
 					}
 
 					#nav ul li a.active {
@@ -3378,6 +3379,7 @@ input, select, textarea {
 			#main button:hover,
 			#main .button:hover {
 				background-color: rgba(222, 222, 222, 0.25);
+				text-decoration: none;
 			}
 
 			#main input[type="submit"]:active,
@@ -3412,6 +3414,7 @@ input, select, textarea {
 				#main button.primary:hover,
 				#main .button.primary:hover {
 					background-color: #9acff2;
+					text-decoration: none;
 				}
 
 				#main input[type="submit"].primary:active,
