@@ -4,6 +4,7 @@ import * as express from 'express';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import axios from 'axios';
 import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { setBlog } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();
 
@@ -40,7 +41,18 @@ router.put(
             blog.webmastertools_id = newSettings.webmastertools_id;
             await blog.save();
             req.session.blogger = blog;
-            res.json({ success: "Settings saved successfully" });
+
+            try {
+
+                await setBlog(blog.domain, blog);
+
+                res.json({ success: "Settings saved successfully" });
+                
+            } catch (err) {
+                console.log(err);
+                res.json({ error: "Error while updating blog settings" });
+            }
+
         } catch (err) {
             res.status(400).json({ error: "Error while changing statistics settings" });
         }

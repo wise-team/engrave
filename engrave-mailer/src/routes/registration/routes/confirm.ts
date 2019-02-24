@@ -15,6 +15,8 @@ async function handler(req: Request, res: Response) {
         
         const { email, username, domain } = req.body;
 
+        console.log("Your new blog is ready mail sent");
+
         await mail.send(email, "Your new blog is ready", preparator.registrationConfirmation(username, domain));
         
         return res.json({
