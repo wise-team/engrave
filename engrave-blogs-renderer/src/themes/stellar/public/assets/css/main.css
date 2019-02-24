@@ -3403,7 +3403,7 @@ input, select, textarea {
 			#main input[type="button"].primary,
 			#main button.primary,
 			#main .button.primary {
-				background-color: #8cc9f0;
+				background-color: #efa8b0;
 				color: #ffffff !important;
 				box-shadow: none;
 			}
@@ -3413,7 +3413,7 @@ input, select, textarea {
 				#main input[type="button"].primary:hover,
 				#main button.primary:hover,
 				#main .button.primary:hover {
-					background-color: #9acff2;
+					opacity: 0.8;
 					text-decoration: none;
 				}
 
@@ -3433,7 +3433,46 @@ input, select, textarea {
 					color: #ffffff !important;
 				}
 
-		#main label {
+			#main input[type="submit"].votes,
+			#main input[type="reset"].votes,
+			#main input[type="button"].votes,
+			#main button.votes,
+			#main .button.votes {
+				background-color: #a89cc8;
+				color: #ffffff !important;
+				box-shadow: none;
+			}
+
+				#main input[type="submit"].votes:hover,
+				#main input[type="reset"].votes:hover,
+				#main input[type="button"].votes:hover,
+				#main button.votes:hover,
+				#main .button.votes:hover {
+					cursor: default;
+					text-decoration: none;
+				}
+
+			#main input[type="submit"].reward,
+			#main input[type="reset"].reward,
+			#main input[type="button"].reward,
+			#main button.reward,
+			#main .button.reward {
+				background-color: #8cc9f0;
+				color: #ffffff !important;
+				box-shadow: none;
+			}
+
+				#main input[type="submit"].reward:hover,
+				#main input[type="reset"].reward:hover,
+				#main input[type="button"].reward:hover,
+				#main button.reward:hover,
+				#main .button.reward:hover {
+					cursor: default;
+					text-decoration: none;
+				}
+
+
+#main label {
 			color: #636363;
 		}
 
