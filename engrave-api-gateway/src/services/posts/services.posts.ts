@@ -4,6 +4,7 @@ import getMultipleWithQuery from './actions/getMultipleWithQuery';
 import getWithQuery from './actions/getWithQuery';
 import removeWithQuery from './actions/removeWithQuery';
 import updateWithQuery from './actions/updateWithQuery';
+import validatePostOwnership from './actions/validatePostOwnership';
 
 const postsService = {
     createDraft,
@@ -11,7 +12,8 @@ const postsService = {
     getMultipleWithQuery,
     getWithQuery,
     removeWithQuery,
-    updateWithQuery
+    updateWithQuery,
+    validatePostOwnership
 }
 
 export default postsService;

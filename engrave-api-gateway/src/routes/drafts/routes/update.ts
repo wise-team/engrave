@@ -3,6 +3,7 @@ import { handleResponseError } from '../../../submodules/engrave-shared';
 import { body } from 'express-validator/check';
 import { draftExists } from '../../../validators/drafts/draftExists';
 import postsService from '../../../services/posts/services.posts';
+import validatePostOwnership from '../../../services/posts/actions/validatePostOwnership';
 
 const middleware: any[] =  [
     body('id').isMongoId().custom(draftExists).withMessage("This draft does not exist"),
@@ -20,6 +21,7 @@ const middleware: any[] =  [
     body('username').not().exists().withMessage("Bad boy! You cannot change username"),
     body('status').not().exists().withMessage("Bad boy! You cannot change draft status"),
     body('_id').not().exists().withMessage("Bad boy! You tried to become a hacker, don\'t you?"),
+    body('blogId').not().exists().withMessage("Bad boy! You tried to become a hacker, don\'t you?")
 ];
 
 async function handler(req: Request, res: Response) {
@@ -28,13 +30,11 @@ async function handler(req: Request, res: Response) {
         const { id } = req.body;
         const { username } = res.locals;
 
-        let draft = await postsService.getWithQuery({_id: id});
-
-        if(draft.username != username) throw new Error("You are not the owner of that draft!");
+        validatePostOwnership(id, username);
 
         await postsService.updateWithQuery(id, req.body);
 
-        draft = await postsService.getWithQuery({_id: id});
+        const draft = await postsService.getWithQuery({_id: id});
 
         return res.json({ status: 'OK', draft });
 

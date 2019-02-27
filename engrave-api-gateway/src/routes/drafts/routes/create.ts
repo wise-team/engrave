@@ -2,8 +2,11 @@ import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
 import { body } from 'express-validator/check';
 import postsService from '../../../services/posts/services.posts';
+import { blogExists } from '../../../validators/blog/blogExiststs';
+import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 
 const middleware: any[] =  [
+    body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
     body('title').isString(),
     body('body').isString(),
 
@@ -19,7 +22,9 @@ async function handler(req: Request, res: Response) {
         
         const { username } = res.locals;
 
+        
         const {
+            blogId,
             title,
             body,
             thumbnail,
@@ -27,8 +32,11 @@ async function handler(req: Request, res: Response) {
             categories,
             tags
         } = req.body;
-       
+        
+        validateBlogOwnership(blogId, username);
+        
         const post = await postsService.createDraft({
+            blogId,
             username,
             title,
             body,

@@ -2,11 +2,16 @@ import { Schema, Model, model } from 'mongoose';
 import { IPost } from './IPost';
 
 export let PostSchema: Schema = new Schema({
+    blogId: {
+        type: Schema.Types.ObjectId,
+        ref: 'newblogs',
+        required: true
+    },
     created: Date,
     username: String,
     scheduled: {
-        required: false,
-        type: Date
+        type: Date,
+        required: false
     },
     title: String,
     body: String,

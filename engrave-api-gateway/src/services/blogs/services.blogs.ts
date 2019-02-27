@@ -3,6 +3,7 @@ import createBlogWithQuery from './actions/createBlogWithQuery';
 import getMultipleWithQuery from './actions/getMultipleWithQuery';
 import removeBlogWithQuery from './actions/removeBlogWithQuery';
 import updateBlogWithQuery from './actions/updateBlogWithQuery';
+import validateBlogOwnership from './actions/validateBlogOwnership';
 import isUrlFree from './actions/isUrlFree';
 
 
@@ -12,7 +13,8 @@ const blogsService = {
     getMultipleWithQuery,
     removeBlogWithQuery,
     updateBlogWithQuery,
-    isUrlFree
+    isUrlFree,
+    validateBlogOwnership
 }
 
 export default blogsService;
