@@ -21,10 +21,17 @@ export class PublishedArticlesModule {
 
     }
 
-    public static async getLatest(skip: number) {
+    public static async getLatest(skip: number, category: string) {
         try {
+
+            let query: any = {};
+            
+            if(category && category != "") {
+                query.category = category;
+            }
+
             const articles = await PublishedArticles
-              .find({})
+              .find(query)
               .skip(skip)
               .limit(12)
               .sort("-date")
