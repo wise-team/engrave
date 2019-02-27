@@ -30,7 +30,7 @@ services:
       - AUTH_SERVICE=https://auth.engrave.website
     volumes:
       - certbot:/app/certbot
-      - themes:/app/src/themes
+      - /var/engrave/themes:/app/src/themes
     secrets:
       - VAULT_TOKEN
 
@@ -53,7 +53,7 @@ services:
     volumes:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
-      - themes:/app/themes
+      - /var/engrave/themes:/app/themes
     depends_on:
       - mongo
     secrets:
@@ -155,7 +155,6 @@ volumes:
   nginx_certs:
   nginx_conf:
   certbot:
-  themes:
   redis-data:
   vault_db:
 
