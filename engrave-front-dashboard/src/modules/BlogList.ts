@@ -97,9 +97,15 @@ export class BlogListModule {
      * Return array of registered and configured blogs
      * @param skip how many blogs to skip (used for pagination)
      */
-    static async getRegisteredBlogs(skip: number) {
+    static async getRegisteredBlogs(skip: number, category: string) {
         try {
-            const blogs = await Blogs.find({ configured: true })
+            let query: any = { configured: true };
+            
+            if(category && category != "") {
+                query.category = category;
+            }
+
+            const blogs = await Blogs.find(query)
               .skip(skip)
               .limit(12)
               .sort("-created")
