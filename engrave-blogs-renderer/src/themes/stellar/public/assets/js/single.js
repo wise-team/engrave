@@ -90,7 +90,7 @@ $(document).ready(function () {
                         
                         var comment_list = $("#comments").children()[1];
 
-                        appendNewComment(data.body, data.author, comment_list);
+                        appendNewComment(data.rendered, data.author, comment_list);
                     } else {
                         toastr.error(data.error);
                         toastr.error(data);
@@ -159,7 +159,7 @@ $(document).ready(function () {
                             $(comment).parent().append(repliesList);
                         }
 
-                        appendNewComment(data.body, data.author, repliesList);
+                        appendNewComment(data.rendered, data.author, repliesList);
 
                         box.remove();
                     } else if (data.error) {
@@ -290,7 +290,7 @@ function handleCommentVote(comment_element) {
 }
 
 function appendNewComment(body, author, commentsList) {
-    let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
+    let newComment = renderComment({ rendered: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
     $(newComment).addClass('comment-highlight');
 
 
@@ -309,7 +309,7 @@ function getLoggedInToken(){
 }
 
 function getAndRenderComments(username, permlink, target_element) {
-    steem.api.getContentReplies(username, permlink, function (err, result) {
+    getContentReplies(username, permlink, function (err, result) {
         if (!err && result) {
             if(result.length) {
                 $('#comments-empty').remove();
@@ -353,7 +353,7 @@ function renderCommentsList(comments, list_id) {
 function renderComment(comment, voted, list_id) {
     
     const value = parseFloat(parseFloat(comment.pending_payout_value.replace(" SBD", "")) + parseFloat(comment.total_payout_value.replace(" SBD", ""))).toFixed(2);
-    const newCommentHtml = `<img src="https://steemitimages.com/u/${comment.author}/avatar" class="avatar"><div class="post-comments"><p class="meta"><a href="https://steemit.com/@${comment.author}">@${comment.author}</a>, <span title="${moment.utc(comment.created).local().format('LLL')}">${moment.utc(comment.created).local().fromNow()}</span>: <input type="hidden" name="comment_permlink" value="${comment.permlink}"><input type="hidden" name="comment_author" value="${comment.author}"><input type="hidden" name="comment_title" value="${comment.title}"> </p><p>${marked(comment.body)}</p><p class="comment-actions"><i class="fa fa-thumbs-up comments-action comment-vote"></i>&nbsp;<span name="comment-votes">${comment.net_votes}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span name="comment-value">$${value}</span><span class="comment-action comment-reply">&nbsp;&nbsp;&nbsp;&nbsp;Reply</span></p></div>`;
+    const newCommentHtml = `<img src="https://steemitimages.com/u/${comment.author}/avatar" class="avatar"><div class="post-comments"><p class="meta"><a href="https://steemit.com/@${comment.author}">@${comment.author}</a>, <span title="${moment.utc(comment.created).local().format('LLL')}">${moment.utc(comment.created).local().fromNow()}</span>: <input type="hidden" name="comment_permlink" value="${comment.permlink}"><input type="hidden" name="comment_author" value="${comment.author}"><input type="hidden" name="comment_title" value="${comment.title}"> </p><p>${comment.rendered}</p><p class="comment-actions"><i class="fa fa-thumbs-up comments-action comment-vote"></i>&nbsp;<span name="comment-votes">${comment.net_votes}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span name="comment-value">$${value}</span><span class="comment-action comment-reply">&nbsp;&nbsp;&nbsp;&nbsp;Reply</span></p></div>`;
 
     const newDiv = document.createElement('div');
     $(newDiv).append(newCommentHtml);
@@ -370,4 +370,21 @@ function showResponseError(response) {
     } else {
         toastr.error("Something gone wrong...");
     }
+}
+
+function getContentReplies(author, permlink, callback) {
+    $.ajax({
+        type: "POST",
+        url: "/comments",
+        data: {
+            author: author,
+            permlink: permlink
+        },
+        success: function (data) {
+            callback(null, data);
+        },
+        error: function (data) {
+            callback(data, null);
+        }
+    });
 }

@@ -52,7 +52,7 @@ $(document).ready(function () {
     
     function getAndRenderComments(author, permlink, list_id) {
     
-        steem.api.getContentReplies(author, permlink, function (err, result) {
+        getContentReplies(author, permlink, function (err, result) {
             if (!err && result) {
                 if(result.length) {
                     $('#comments-empty').remove();
@@ -92,7 +92,7 @@ $(document).ready(function () {
         var comment_body = document.createElement('p');
     
         if (comment.net_rshares >= 0) {
-            $(comment_body).append(marked(comment.body));
+            $(comment_body).append(comment.rendered);
         } else {
             $(comment_body).append(comment_hidden);
         }
@@ -226,7 +226,7 @@ $(document).ready(function () {
     }
 
     function appendNewComment(body, author, commentsList) {
-        let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
+        let newComment = renderComment({ rendered: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, commentsList);
         $(newComment).addClass('comment-highlight');
         $('html, body').animate({ scrollTop: $(newComment).offset().top - 500 }, 500);
     }
@@ -271,7 +271,7 @@ $(document).ready(function () {
                         
                         var comment_list = $("#comments").children()[1];
 
-                        appendNewComment(data.body, data.author, comment_list);
+                        appendNewComment(data.rendered, data.author, comment_list);
                     } else {
                         toastr.error(data.error);
                         toastr.error(data);
@@ -340,7 +340,7 @@ $(document).ready(function () {
                             $(comment).parent().append(repliesList);
                         }
 
-                        appendNewComment(data.body, data.author, repliesList);
+                        appendNewComment(data.rendered, data.author, repliesList);
 
                         box.remove();
                     } else if (data.error) {
@@ -441,4 +441,22 @@ function showResponseError(response) {
     } else {
         toastr.error("Something gone wrong...");
     }
+}
+
+
+function getContentReplies(author, permlink, callback) {
+    $.ajax({
+        type: "POST",
+        url: "/comments",
+        data: {
+            author: author,
+            permlink: permlink
+        },
+        success: function (data) {
+            callback(null, data);
+        },
+        error: function (data) {
+            callback(data, null);
+        }
+    });
 }

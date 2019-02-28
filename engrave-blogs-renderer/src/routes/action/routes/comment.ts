@@ -4,6 +4,7 @@ import { body, header } from 'express-validator/check';
 import auth from '../../../services/auth/auth';
 import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 import vault from '../../../services/vault/vault.service';
+import renderSteemCommentBody from '../../../submodules/engrave-shared/services/article/renderSteemCommentBody';
 
 const middleware: any[] =  [
     body('parent_author').isString(),
@@ -33,6 +34,7 @@ async function handler(req: Request, res: Response) {
         return res.json({
             success: 'Comment added successfully',
             body,
+            rendered: await renderSteemCommentBody(body),
             author: username,
             result
         });
