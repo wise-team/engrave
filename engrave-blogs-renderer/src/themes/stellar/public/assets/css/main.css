@@ -2868,7 +2868,11 @@ input, select, textarea {
 
 			.statistics li.style1 {
 				background-color: #efa8b0;
+				cursor: pointer;
 			}
+				.statistics li.style1:hover {
+					opacity: 0.8;
+				}
 
 			.statistics li.style2 {
 				background-color: #c79cc8;
