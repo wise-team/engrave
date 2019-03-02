@@ -3374,7 +3374,7 @@ input, select, textarea {
 		#main .button {
 			background-color: transparent;
 			box-shadow: inset 0 0 0 1px #dddddd;
-			color: #636363 !important;
+			color: #636363;
 		}
 
 			#main input[type="submit"]:hover,
@@ -3949,4 +3949,13 @@ input, select, textarea {
 
 #comment-form-modal {
 	display: none;
+}
+
+button.submit-reply{
+	color: #636363 !important;
+}
+
+button.submit-reply:hover{
+	background-color: #c79cc8 !important;
+	color: white !important;
 }
