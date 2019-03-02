@@ -11,6 +11,7 @@ block content
     input(type='hidden', id='editorial', value= blog.username)
 
     section.main#content
+        h2=article.title
         if article.thumbnail
             img(src= article.thumbnail)
         span
