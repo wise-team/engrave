@@ -3556,7 +3556,7 @@ input, select, textarea {
 		}
 
 			#main .icon.major:before {
-				border-color: #dddddd;
+				/*border-color: #dddddd;*/
 			}
 
 		#main .icon.alt {
@@ -3958,4 +3958,42 @@ button.submit-reply{
 button.submit-reply:hover{
 	background-color: #c79cc8 !important;
 	color: white !important;
+}
+
+
+.comment-actions {
+	height: 31px;
+	color: #ffffff;
+}
+
+.comment-actions i.comments-action{
+	height: auto;
+	background-color: #efa8b0;
+	cursor: pointer;
+	padding: 0.57em 0.7em;
+	margin: 0 -0.9em 0 0;
+	border-bottom-left-radius: 8px;
+	border-top-left-radius: 8px;
+}
+
+.comment-actions span[name="comment-votes"] {
+	height: auto;
+	background-color: #efa8b0;
+	cursor: pointer;
+	padding: 0.45em 0.7em;
+	margin: 0 -0.9em 0 0;
+}
+
+.comment-actions span[name="comment-value"]{
+	height: auto;
+	background-color: #c79cc8;
+	padding: 0.45em 0.7em;
+}
+
+.comment-actions span.comment-reply{
+	height: auto;
+	background-color: #a89cc8;
+	padding: 0.45em 0.7em;
+	border-bottom-right-radius: 8px;
+	border-top-right-radius: 8px;
 }
