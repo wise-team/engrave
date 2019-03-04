@@ -34,7 +34,9 @@
     "steemconnect": "2.0.1",
     "is-an-image-url": "1.0.3",
     "markdown-it": "8.4.2",
-    "striptags": "3.1.1"
+    "striptags": "3.1.1",
+    "is-image-url": "1.1.8",
+    "remarkable": "1.7.1"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"
