@@ -88,7 +88,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
 
         DashboardSteemConnect.setAccessToken(req.session.access_token);
-        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
+        DashboardSteemConnect.broadcast(operations, async function (err: any, result: any) {
             if (err) {
                 console.log(err);
                 var errorstring = '';
@@ -100,6 +100,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
                 res.json({ error: errorstring });
             } else {
                 console.log("Article has been updated by @" + req.session.steemconnect.name);
+                await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
                 res.json({ success: "Article updated" });
             }
         });
