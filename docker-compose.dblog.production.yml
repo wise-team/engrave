@@ -122,6 +122,9 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_API_KEY
 
+  webpush-sender:
+    image: bgornicki/engrave-webpush-sender
+
   nginx:
     image: bgornicki/nginx
     ports:

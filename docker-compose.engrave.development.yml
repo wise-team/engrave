@@ -168,6 +168,14 @@ services:
     ports:
       - 3015:3000
       - 3016:3001
+  
+  webpush-sender:
+    image: bgornicki/engrave-webpush-sender
+    volumes:
+      - ./engrave-webpush-sender/src:/app/src
+    ports:
+      - 3017:3000
+      - 3018:3001
 
   mongo:
     image: mongo
