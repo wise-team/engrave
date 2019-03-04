@@ -28,6 +28,6 @@
 [submodule "engrave-mailer/src/submodules/engrave-shared"]
 	path = engrave-mailer/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
-[submodule "engrave-webpush/src/submodules/engrave-shared"]
-	path = engrave-webpush/src/submodules/engrave-shared
+[submodule "engrave-webpush-sender/src/submodules/engrave-shared"]
+	path = engrave-webpush-sender/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
