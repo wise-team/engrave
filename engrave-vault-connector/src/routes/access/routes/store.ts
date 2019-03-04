@@ -14,7 +14,7 @@ async function handler(req: Request, res: Response) {
         const { username } = req.params;
         const { token } = req.body;
 
-        vault.storeAccessToken(username, token);
+        await vault.storeAccessToken(username, token);
 
         return res.json({
             message: 'OK',

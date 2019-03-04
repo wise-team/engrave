@@ -12,7 +12,7 @@ async function handler(req: Request, res: Response) {
 
         const { username } = req.params;
 
-        const token: string = await vault.getAccessToken(username);
+        const token: string = await vault.getRefreshToken(username);
 
         return res.json({
             message: "OK",

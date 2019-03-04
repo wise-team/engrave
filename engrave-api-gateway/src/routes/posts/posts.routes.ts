@@ -1,8 +1,9 @@
 import * as express from "express";
-import get from "./routes/get";
+import publish from "./routes/publish";
+import verifyToken from "../../middlewares/jwt/verifyToken";
 
 const postsApi: express.Router = express.Router();
 
-postsApi.get('/', get.middleware, get.handler);
+postsApi.post('/', verifyToken, publish.middleware, publish.handler);
 
 export default postsApi;

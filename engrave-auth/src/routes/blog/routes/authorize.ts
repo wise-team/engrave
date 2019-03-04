@@ -17,7 +17,7 @@ async function handler(req: any, res: Response) {
        
         const { data: { access_token, username, expires_in} } = await sc.getRefreshToken(code, sc.blog.scope);
     
-        vault.storeAccessToken(username, access_token);
+        await vault.storeAccessToken(username, access_token);
 
         const token = jwt.createJwt(username, jwt.Scope.BLOG);
         

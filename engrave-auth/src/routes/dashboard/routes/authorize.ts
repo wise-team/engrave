@@ -17,8 +17,8 @@ async function handler(req: any, res: Response) {
        
         const { data: { access_token, refresh_token, username, expires_in} } = await sc.getRefreshToken(code, sc.dashboard.scope);
     
-        vault.storeRefreshToken(username, refresh_token);
-        vault.storeAccessToken(username, access_token);
+        await vault.storeRefreshToken(username, refresh_token);
+        await vault.storeAccessToken(username, access_token);
 
         const token = jwt.createJwt(username, jwt.Scope.DASHBBOARD);
 
