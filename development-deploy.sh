@@ -11,6 +11,7 @@ docker build ./engrave-blockchain-tracker/ -f ./engrave-blockchain-tracker/Docke
 docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.development -t bgornicki/engrave-auth
 docker build ./engrave-mailer/ -f ./engrave-mailer/Dockerfile.development -t bgornicki/engrave-mailer
 docker build ./engrave-webpush-sender/ -f ./engrave-webpush-sender/Dockerfile.development -t bgornicki/engrave-webpush-sender
+docker build ./engrave-vault-connector/ -f ./engrave-vault-connector/Dockerfile.development -t bgornicki/engrave-vault-connector
 
 docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
 

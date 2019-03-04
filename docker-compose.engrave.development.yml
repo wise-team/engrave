@@ -82,8 +82,6 @@ services:
       - certbot:/app/certbot
       - ./engrave-blogs-renderer/src:/app/src
       - ./engrave-blogs-renderer/dist:/app/dist
-    secrets:
-      - VAULT_TOKEN
 
   image-uploader:
     image: bgornicki/engrave-image-uploader
@@ -152,7 +150,6 @@ services:
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET
-      - VAULT_TOKEN
   
   mailer:
     image: bgornicki/engrave-mailer
@@ -176,6 +173,16 @@ services:
     ports:
       - 3017:3000
       - 3018:3001
+  
+  vault-connector:
+    image: bgornicki/engrave-vault-connector
+    secrets:
+      - VAULT_TOKEN
+    volumes:
+      - ./engrave-vault-connector/src:/app/src
+    ports:
+      - 3019:3000
+      - 3020:3001
 
   mongo:
     image: mongo

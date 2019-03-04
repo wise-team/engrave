@@ -125,6 +125,11 @@ services:
   webpush-sender:
     image: bgornicki/engrave-webpush-sender
 
+  vault-connector:
+    image: bgornicki/engrave-vault-connector
+    secrets:
+      - VAULT_TOKEN
+
   nginx:
     image: bgornicki/nginx
     ports:

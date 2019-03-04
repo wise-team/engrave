@@ -31,3 +31,6 @@
 [submodule "engrave-webpush-sender/src/submodules/engrave-shared"]
 	path = engrave-webpush-sender/src/submodules/engrave-shared
 	url = https://github.com/wise-team/engrave-shared.git
+[submodule "engrave-vault-connector/src/submodules/engrave-shared"]
+	path = engrave-vault-connector/src/submodules/engrave-shared
+	url = https://github.com/wise-team/engrave-shared.git

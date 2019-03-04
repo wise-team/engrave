@@ -1,6 +1,21 @@
-import store from '../store/store';
+import axios from 'axios';
+import { handleServiceError } from '../../../submodules/engrave-shared/hof/handleServiceError';
 
-export default async (username: string) => {
-    const { data: {value: token}} = await store.read(`secret/access/${username}`)
-    return token;
+const getAccessToken = async (username: string) => {
+
+    return handleServiceError(async () => {
+    
+        const options = {
+            url: "http://vault-connector:3000/access/" + username,
+            method: 'GET'
+        };
+    
+        const { data } = await axios(options);
+    
+        return data.token;
+    
+    })
+
 }
+
+export default getAccessToken;

@@ -111,7 +111,6 @@ services:
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET
-      - VAULT_TOKEN
   
   mailer:
     image: bgornicki/engrave-mailer
@@ -124,6 +123,11 @@ services:
 
   webpush-sender:
     image: bgornicki/engrave-webpush-sender
+
+  vault-connector:
+    image: bgornicki/engrave-vault-connector
+    secrets:
+      - VAULT_TOKEN
 
   nginx:
     image: bgornicki/nginx
