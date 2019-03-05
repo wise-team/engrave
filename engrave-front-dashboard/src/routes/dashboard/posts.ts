@@ -6,7 +6,9 @@ import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import { Onesignal } from '../../modules/Onesignal';
 import { PublishedArticlesModule } from '../../modules/PublishedArticles';
-import { removeArticle } from '../../submodules/engrave-shared/services/cache/cache';
+import { removeArticle, getBlog, setArticle } from '../../submodules/engrave-shared/services/cache/cache';
+import sitemap from '../../services/sitemap/sitemap.service';
+import { getSteemArticle } from '../../submodules/engrave-shared/services/steem/steem';
 
 let steem = require('steem');
 let router = express.Router();
@@ -136,6 +138,10 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, async (req: IExten
 
                 try {
                     await removeArticle(req.session.blogger.steem_username, article.permlink);
+                    
+                    const blog = await getBlog(req.session.blogger.domain);
+                    await sitemap.rebuildSitemap(blog);
+
                 } catch (error) {
                     console.log(error);
                 }
@@ -160,11 +166,17 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
 
         console.log("New article has been posted by @" + req.session.steemconnect.name);
 
-        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
-        
         await PublishedArticlesModule.create(req.session.blogger, post);
         
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
+
+        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
+        
+        const steemArticle = await getSteemArticle(req.session.steemconnect.name, post.permlink);
+        await setArticle(req.session.blogger.domain, req.session.steemconnect.name, post.permlink, steemArticle);
+        
+        const blog = await getBlog(req.session.blogger.domain);
+        await sitemap.rebuildSitemap(blog);
 
         if (post._id && post._id != '') {
             await Posts.deleteOne({ _id: post._id });
@@ -264,6 +276,12 @@ router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req:
         await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
 
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
+
+        const steemArticle = await getSteemArticle(req.session.steemconnect.name, post.permlink);
+        await setArticle(req.session.blogger.domain, req.session.steemconnect.name, post.permlink, steemArticle);
+        
+        const blog = await getBlog(req.session.blogger.domain);
+        await sitemap.rebuildSitemap(blog);
 
         if (post._id && post._id != '') {
             await Posts.deleteOne({ _id: post._id });

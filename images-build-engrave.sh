@@ -8,4 +8,6 @@ docker build ./engrave-ssl/ -f ./engrave-ssl/Dockerfile.production -t bgornicki/
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.production -t bgornicki/engrave-statistics
 docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.production -t bgornicki/engrave-auth
 docker build ./engrave-mailer/ -f ./engrave-mailer/Dockerfile.production -t bgornicki/engrave-mailer
+docker build ./engrave-sitemap-builder/ -f ./engrave-sitemap-builder/Dockerfile.production -t bgornicki/engrave-sitemap-builder
+
 docker build ./nginx/ -f ./nginx/Dockerfile.engrave.production -t bgornicki/nginx
