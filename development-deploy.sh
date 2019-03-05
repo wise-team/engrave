@@ -10,6 +10,7 @@ docker build ./engrave-blogs-renderer/ -f ./engrave-blogs-renderer/Dockerfile.de
 docker build ./engrave-blockchain-tracker/ -f ./engrave-blockchain-tracker/Dockerfile.development -t bgornicki/engrave-blockchain-tracker
 docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.development -t bgornicki/engrave-auth
 docker build ./engrave-mailer/ -f ./engrave-mailer/Dockerfile.development -t bgornicki/engrave-mailer
+docker build ./engrave-sitemap-builder/ -f ./engrave-sitemap-builder/Dockerfile.development -t bgornicki/engrave-sitemap-builder
 
 docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
 

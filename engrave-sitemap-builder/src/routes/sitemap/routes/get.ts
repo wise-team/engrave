@@ -1,22 +1,24 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import { getBlog } from '../../../submodules/engrave-shared/services/cache/cache';
+import { body } from 'express-validator/check';
 import sitemap from '../../../services/sitemap/sitemap.service';
 
-const middleware: any[] =  [];
+const middleware: any[] =  [
+    body('domain').isURL(),
+    body('username').isString()
+];
 
 async function handler(req: Request, res: Response) {
-
     return handleResponseError(async () => {
 
-        const { hostname } = req;
+        const { domain, username } = req.body;
 
-        const blog = await getBlog(hostname);
+        const xml = await sitemap.getSitemap(domain, username);
 
-        const xml = await sitemap.getSitemap(blog);
+        console.log("Asked for sitemap for: ", domain);
 
         res.header('Content-Type', 'application/xml');
-        return res.send(xml);
+        return res.send( xml );
         
     }, req, res);
 }

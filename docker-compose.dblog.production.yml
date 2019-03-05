@@ -121,6 +121,11 @@ services:
     secrets:
       - MAILGUN_DOMAIN
       - MAILGUN_API_KEY
+  
+  sitemap-builder:
+    image: bgornicki/engrave-sitemap-builder
+    environment:
+      - WAIT_HOSTS=redis:6379
 
   nginx:
     image: bgornicki/nginx
