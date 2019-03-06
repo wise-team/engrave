@@ -3631,8 +3631,8 @@ input, select, textarea {
 			}
 
 			#main > .main > .image.main:first-child {
-				margin: -5em 0 5em 0;
-				width: calc(100% + 10em);
+				margin: -5em 0 5em -5em;
+				min-width: calc(100% + 10em);
 				border-top-right-radius: 0.25em;
 				border-top-left-radius: 0.25em;
 				border-bottom-right-radius: 0;
@@ -3654,7 +3654,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em 0;
-					width: calc(100% + 8em);
+					min-width: calc(100% - 8em);
 				}
 
 		}
@@ -3667,7 +3667,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em -3em;
-					width: calc(100% + 6em);
+					min-width: calc(100% + 6em);
 				}
 
 		}
@@ -3680,7 +3680,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 2em -2em;
-					width: calc(100% + 4em);
+					min-width: calc(100% + 4em);
 				}
 
 		}
@@ -3693,7 +3693,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 1.5em -1.5em;
-					width: calc(100% + 3em);
+					min-width: calc(100% + 3em);
 				}
 
 		}
@@ -3710,7 +3710,7 @@ input, select, textarea {
 
 					#main > .main > .image.main:first-child {
 						margin: -2.5em 0 1.5em -1em;
-						width: calc(100% + 2em);
+						min-width: calc(100% + 2em);
 						border-radius: 0;
 					}
 
