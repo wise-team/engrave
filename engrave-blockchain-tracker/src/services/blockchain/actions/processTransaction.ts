@@ -33,12 +33,12 @@ export default async (tx: any): Promise<IUpdate> => {
                         }
                     }
                     
-                    if(await ifArticleExist(author, permlink)) {
-                        return {author: author, permlink: permlink};
-                    }
-
                     if( parent_author != author && await isUserRegistered(parent_author)) {
                         console.log("Notify new comment: ", parent_author, author, permlink);
+                    }
+
+                    if(await ifArticleExist(author, permlink)) {
+                        return {author: author, permlink: permlink};
                     }
 
                 }                

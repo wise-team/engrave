@@ -17,9 +17,7 @@ export default async () => {
 
             const article = await steem.api.getContentAsync(author, permlink);
             const {domain} = JSON.parse(article.json_metadata);
-
-            await removeArticle(author, permlink);
-            
+                       
             return await setArticle(domain, author, permlink, article);
         }
         
