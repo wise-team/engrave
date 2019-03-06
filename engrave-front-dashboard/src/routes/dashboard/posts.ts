@@ -189,8 +189,12 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
         console.log(error);
         if (error.hasOwnProperty('error_description')) {
             let errorstring = error.error_description.split('\n')[0].split(': ')[1];
+            
+            
             if (errorstring == 'Comment already has beneficiaries specified.') {
                 res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring == 'The permlink of a comment cannot change.') {
+                res.json({ error: "You have an article with that title. Try another one." });
             } else if(errorstring != '') {
                 res.json({ error: errorstring });
             } else {
@@ -296,6 +300,8 @@ router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req:
             let errorstring = error.error_description.split('\n')[0].split(': ')[1];
             if (errorstring == 'Comment already has beneficiaries specified.') {
                 res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring == 'The permlink of a comment cannot change.') {
+                res.json({ error: "You have an article with that title. Try another one." });
             } else if(errorstring != '') {
                 res.json({ error: errorstring });
             } else {
