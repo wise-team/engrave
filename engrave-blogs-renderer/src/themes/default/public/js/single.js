@@ -131,21 +131,6 @@ $(document).ready(function () {
 
     });
     
-
-    $(".text-boxes img").each(function () {
-        var imageCaption = $(this).attr("alt");
-        if (imageCaption != '') {
-            var imgWidth = $(this).width();
-            var imgHeight = $(this).height();
-            var position = $(this).position();
-            var positionTop = (position.top + imgHeight - 26)
-            $("<span class='img-caption'><em>" + imageCaption +
-                "</em></span>").css({
-                    "width": "100%"
-                }).insertAfter(this);
-        }
-    });
-
     let permlink = $("#permlink").val();
     let editorial = $("#editorial").val();
 
