@@ -3968,3 +3968,8 @@ button.submit-reply:hover{
 	background-color: #c79cc8 !important;
 	color: white !important;
 }
+
+span.date {
+	font-size: medium;
+	font-style: italic;
+}
