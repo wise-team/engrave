@@ -28,13 +28,13 @@ export default async (tx: any): Promise<IUpdate> => {
                     if(mentions) {
                         for(const mention of mentions) {
                             if(await isUserRegistered(mention.replace('@', ''))) {
-                                console.log("Mention:", mention);
+                                console.log(" * Mention:", mention);
                             }
                         }
                     }
                     
                     if( parent_author != author && await isUserRegistered(parent_author)) {
-                        console.log("Notify new comment: ", parent_author, author, permlink);
+                        console.log(" * New comment: ", parent_author, author, permlink);
                     }
 
                     if(await ifArticleExist(author, permlink)) {
@@ -59,7 +59,7 @@ export default async (tx: any): Promise<IUpdate> => {
                     const { from, to, amount } = operation[1];
                     
                     if(await isUserRegistered(to)) {
-                        console.log("Notify new transfer: ", from, to, amount);
+                        console.log(" * New transfer: ", from, to, amount);
                     }
                 }
                 break;
@@ -78,9 +78,9 @@ export default async (tx: any): Promise<IUpdate> => {
 
                             if(await isUserRegistered(following)) {
                                 if( what.length > 0) {
-                                    console.log("Started following you: ", follower, following);
+                                    console.log(" * Started following you: ", follower, following);
                                 } else {
-                                    console.log("Stopped following you: ", follower, following);
+                                    console.log(" * Stopped following you: ", follower, following);
                                 }
                             }
                         }
