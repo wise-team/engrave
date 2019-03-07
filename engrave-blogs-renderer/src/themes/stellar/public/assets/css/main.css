@@ -1922,12 +1922,17 @@ input, select, textarea {
 
 	input[type="submit"],
 	input[type="reset"],
-	input[type="button"],
+	input[type="button"] {
+		background-color: transparent;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+		color: #ffffff !important;
+	}
+
 	button,
 	.button {
 		background-color: transparent;
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-		color: #ffffff !important;
+		color: #ffffff;
 	}
 
 		input[type="submit"]:hover,
@@ -2868,7 +2873,11 @@ input, select, textarea {
 
 			.statistics li.style1 {
 				background-color: #efa8b0;
+				cursor: pointer;
 			}
+				.statistics li.style1:hover {
+					opacity: 0.8;
+				}
 
 			.statistics li.style2 {
 				background-color: #c79cc8;
@@ -3370,7 +3379,7 @@ input, select, textarea {
 		#main .button {
 			background-color: transparent;
 			box-shadow: inset 0 0 0 1px #dddddd;
-			color: #636363 !important;
+			color: #636363;
 		}
 
 			#main input[type="submit"]:hover,
@@ -3622,8 +3631,8 @@ input, select, textarea {
 			}
 
 			#main > .main > .image.main:first-child {
-				margin: -5em 0 5em 0;
-				width: calc(100% + 10em);
+				margin: -5em 0 5em -5em;
+				min-width: calc(100% + 10em);
 				border-top-right-radius: 0.25em;
 				border-top-left-radius: 0.25em;
 				border-bottom-right-radius: 0;
@@ -3645,7 +3654,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em 0;
-					width: calc(100% + 8em);
+					min-width: calc(100% - 8em);
 				}
 
 		}
@@ -3658,7 +3667,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em -3em;
-					width: calc(100% + 6em);
+					min-width: calc(100% + 6em);
 				}
 
 		}
@@ -3671,7 +3680,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 2em -2em;
-					width: calc(100% + 4em);
+					min-width: calc(100% + 4em);
 				}
 
 		}
@@ -3684,7 +3693,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 1.5em -1.5em;
-					width: calc(100% + 3em);
+					min-width: calc(100% + 3em);
 				}
 
 		}
@@ -3701,7 +3710,7 @@ input, select, textarea {
 
 					#main > .main > .image.main:first-child {
 						margin: -2.5em 0 1.5em -1em;
-						width: calc(100% + 2em);
+						min-width: calc(100% + 2em);
 						border-radius: 0;
 					}
 
@@ -3945,4 +3954,13 @@ input, select, textarea {
 
 #comment-form-modal {
 	display: none;
+}
+
+button.submit-reply{
+	color: #636363 !important;
+}
+
+button.submit-reply:hover{
+	background-color: #c79cc8 !important;
+	color: white !important;
 }

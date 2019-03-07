@@ -126,6 +126,11 @@ services:
     image: bgornicki/engrave-vault-connector
     secrets:
       - VAULT_TOKEN
+      
+  sitemap-builder:
+    image: bgornicki/engrave-sitemap-builder
+    environment:
+      - WAIT_HOSTS=redis:6379
 
   nginx:
     image: bgornicki/nginx

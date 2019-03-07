@@ -17,7 +17,10 @@ append content
                             li
                                 .button.reward= 'Reward: $' + parseFloat(article.value).toFixed(2)
                     span.image
-                        img(src=article.thumbnail, alt='')
+                        if article.thumbnail
+                            img(src=article.thumbnail, alt='')
+                        else
+                            img(src="/assets/img/default.jpg", alt='')
     else 
         section#intro.main
             .spotlight

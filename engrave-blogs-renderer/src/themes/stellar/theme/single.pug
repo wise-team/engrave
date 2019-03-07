@@ -12,13 +12,15 @@ block content
 
     section.main#content
         if article.thumbnail
-            img(src= article.thumbnail)
+            span.image.main
+                img(src= article.thumbnail)
+        h2=article.title
         span
             != article.body
         
     section.main
         ul.statistics
-            li.style1
+            li.style1#voting-button
                 span.icon.fa-thumbs-up#voting-icon
                 strong#voting-counter= article.votes_count 
                 |Upvotes

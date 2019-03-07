@@ -12,6 +12,7 @@ docker build ./engrave-auth/ -f ./engrave-auth/Dockerfile.development -t bgornic
 docker build ./engrave-mailer/ -f ./engrave-mailer/Dockerfile.development -t bgornicki/engrave-mailer
 docker build ./engrave-webpush-sender/ -f ./engrave-webpush-sender/Dockerfile.development -t bgornicki/engrave-webpush-sender
 docker build ./engrave-vault-connector/ -f ./engrave-vault-connector/Dockerfile.development -t bgornicki/engrave-vault-connector
+docker build ./engrave-sitemap-builder/ -f ./engrave-sitemap-builder/Dockerfile.development -t bgornicki/engrave-sitemap-builder
 
 docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
 

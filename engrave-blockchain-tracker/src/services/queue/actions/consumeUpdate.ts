@@ -16,10 +16,10 @@ export default async () => {
             console.log("Consumed article:", author, permlink);
 
             const article = await steem.api.getContentAsync(author, permlink);
-            const {domain} = JSON.parse(article.json_metadata);
+            const { domain } = JSON.parse(article.json_metadata);
 
-            await removeArticle(author, permlink);
-            
+            console.log("Found a domain in steem article:", domain);
+                       
             return await setArticle(domain, author, permlink, article);
         }
         

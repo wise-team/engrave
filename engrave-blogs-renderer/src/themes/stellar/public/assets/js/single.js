@@ -19,7 +19,7 @@ $(document).ready(function () {
     // const power = $("#example_id").prop("value"); 
 
     // article voting
-    $('#voting-icon').click(function (e) {
+    $('#voting-button').click(function (e) {
         if (getLoggedInToken()) {
             if (!comment_vote_clicked) {
                 votingHandler = handleArticleVote;   
