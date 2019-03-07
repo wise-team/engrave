@@ -3644,8 +3644,8 @@ input, select, textarea {
 			}
 
 				#main > .main > .image.main:first-child img {
-					border-top-right-radius: 0.25em;
-					border-top-left-radius: 0.25em;
+					border-top-right-radius: 0;
+					border-top-left-radius: 0;
 					border-bottom-right-radius: 0;
 					border-bottom-left-radius: 0;
 				}
