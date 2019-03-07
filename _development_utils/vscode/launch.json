@@ -1,0 +1,137 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Engrave front dashboard attach",
+            "port": 9229,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-front-dashboard",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Image uploader attach",
+            "port": 3001,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-image-uploader",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "API Gateway attach",
+            "port": 3003,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-api-gateway",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "SSL attach",
+            "port": 3005,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-ssl",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Nginx configurator attach",
+            "port": 3007,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-nginx-configurator",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Statistics attach",
+            "port": 3009,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-statistics",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Blogs renderer attach",
+            "port": 3010,
+            "sourceMaps": true,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-blogs-renderer",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Blockchain tracker attach",
+            "port": 3012,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-blockchain-tracker",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Auth attach",
+            "port": 3014,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-auth",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Mailer attach",
+            "port": 3016,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-mailer",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Sitemap builder attach",
+            "port": 3018,
+            "address": "127.0.0.1",
+            "localRoot": "${workspaceFolder}/engrave-sitemap-builder",
+            "remoteRoot": "/app",
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/engrave/blog/app.js"
+        }
+    ]
+}
