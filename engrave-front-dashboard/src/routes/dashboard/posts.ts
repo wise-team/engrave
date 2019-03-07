@@ -32,7 +32,7 @@ router.post('/posts', RoutesVlidators.isLoggedAndConfigured, async (req: IExtend
     try {
         let start_permlink = req.body.start_permlink;
         let posts = await Utils.GetPostsFromBlockchain(10, start_permlink, req.session.steemconnect.name);
-        res.json({ success: "OK", posts: posts });
+        res.json({ success: "OK", posts: posts, domain: req.session.blogger.domain});
     } catch (error) {
         res.json({ error: "Error while trying to get blockchain posts" })
     }

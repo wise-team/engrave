@@ -167,8 +167,9 @@ $(document).ready(function () {
                     inProgress = false;
                     $('#progress-loader').remove();
                     if (data.success) {
+                        const domain = data.domain;
                         data.posts.forEach(article => {
-                            $('#published-posts').append(generateHtmlForNewArticle(article));
+                            $('#published-posts').append(generateHtmlForNewArticle(article, domain));
                         });
                         $('body').tooltip({
                             selector: '[rel=tooltip]'
@@ -192,14 +193,14 @@ $(document).ready(function () {
 
     });
 
-    function generateHtmlForNewArticle(article) {
+    function generateHtmlForNewArticle(article, domain) {
 
         let image = '/img/default.jpg';
         if(article.thumbnail) {
             image = article.thumbnail;
         }
         
-        let newArticleTemplate = `<div class="row" id="art-${article.permlink}"><div class="col-xs-12 col-sm-3 col-md-3"><img class="img-responsive img-box img-thumbnail" src="${image}"></div><div class="col-xs-12 col-sm-6 col-md-6"><label><a href="/dashboard/edit/${article.permlink}">${article.title}</a ></label><p class="card-category">${$($.parseHTML(article.body.substring(150, 0))).text()}</p><ul class="list-inline"><li class="list-inline-item card-category">&nbsp;<i class="fa fa-comments"></i>&nbsp;<span>${article.children}</span></li><li class="list-inline-item card-category">&nbsp;<i class="fa fa-thumbs-up"></i>&nbsp;${article.net_votes}</li><li class="list-inline-item card-category">&nbsp;<i class="fa fa-btc"></i>&nbsp;${'$' + parseFloat(parseFloat(article.pending_payout_value.replace(" SBD", "")) + parseFloat(article.total_payout_value.replace(" SBD", ""))).toFixed(2)}</li></ul></div > <div class="col-xs-12 col-sm-5 col-md-3"><div class="td-actions text-right"><button class="btn btn-danger btn-simple btn-link btn-chain-delete" id="cdel-it-s-just-posting-test-ignore-it" type="button" rel="tooltip" title="" data-original-title="Delete (hide on blockchain)"><i class="fa fa-trash"></i></button><a href="http://acronyms.engrave.website/${article.permlink}" target="_blank"><button class="btn btn-info btn-simple btn-link" type="button" rel="tooltip" title="" data-original-title="View at blog"><i class="fa fa-external-link"></i></button></a></div></div></div><hr>`
+        let newArticleTemplate = `<div class="row" id="art-${article.permlink}"><div class="col-xs-12 col-sm-3 col-md-3"><img class="img-responsive img-box img-thumbnail" src="${image}"></div><div class="col-xs-12 col-sm-6 col-md-6"><label><a href="/dashboard/edit/${article.permlink}">${article.title}</a ></label><p class="card-category">${$($.parseHTML(article.body.substring(150, 0))).text()}</p><ul class="list-inline"><li class="list-inline-item card-category">&nbsp;<i class="fa fa-comments"></i>&nbsp;<span>${article.children}</span></li><li class="list-inline-item card-category">&nbsp;<i class="fa fa-thumbs-up"></i>&nbsp;${article.net_votes}</li><li class="list-inline-item card-category">&nbsp;<i class="fa fa-btc"></i>&nbsp;${'$' + parseFloat(parseFloat(article.pending_payout_value.replace(" SBD", "")) + parseFloat(article.total_payout_value.replace(" SBD", ""))).toFixed(2)}</li></ul></div > <div class="col-xs-12 col-sm-5 col-md-3"><div class="td-actions text-right"><button class="btn btn-danger btn-simple btn-link btn-chain-delete" id="cdel-it-s-just-posting-test-ignore-it" type="button" rel="tooltip" title="" data-original-title="Delete (hide on blockchain)"><i class="fa fa-trash"></i></button><a href="https://${domain}/${article.permlink}" target="_blank"><button class="btn btn-info btn-simple btn-link" type="button" rel="tooltip" title="" data-original-title="View at blog"><i class="fa fa-external-link"></i></button></a></div></div></div><hr>`
         
         return $.parseHTML(newArticleTemplate);
     }
