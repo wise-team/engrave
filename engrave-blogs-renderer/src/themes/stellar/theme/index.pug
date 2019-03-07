@@ -7,7 +7,8 @@ append content
                 .spotlight
                     .content
                         header.major
-                            h2= article.title
+                            a(href='/' + article.permlink)
+                                h2= article.title
                         p= article.abstract + '...'
                         ul.actions
                             li

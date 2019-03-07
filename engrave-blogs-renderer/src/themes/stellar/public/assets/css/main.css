@@ -3593,6 +3593,10 @@ input, select, textarea {
 			background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
 		}
 
+		#main header.major a {
+			text-decoration: none;
+		}
+
 		#main table tbody tr {
 			border-color: #dddddd;
 		}
