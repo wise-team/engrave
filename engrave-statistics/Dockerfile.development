@@ -1,6 +1,6 @@
 FROM node:alpine
 
-RUN npm install -g typescript
+RUN npm install -g typescript nodemon
 
 WORKDIR /app
 COPY package*.json ./
@@ -16,4 +16,4 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.4.0/wait
 RUN chmod +x /wait
 
 ## Launch the wait tool and then your application
-CMD /wait && npm run start
+CMD /wait && npm run watch

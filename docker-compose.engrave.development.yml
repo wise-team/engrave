@@ -51,6 +51,9 @@ services:
     image: bgornicki/engrave-statistics
     depends_on:
       - mongo
+    ports:
+      - 3008:3000
+      - 3009:3001
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
 
