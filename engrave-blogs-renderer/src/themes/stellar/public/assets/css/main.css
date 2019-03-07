@@ -3431,7 +3431,7 @@ input, select, textarea {
 				#main input[type="button"].primary:active,
 				#main button.primary:active,
 				#main .button.primary:active {
-					background-color: #7ec3ee;
+					background-color: #efa8b0;
 				}
 
 				#main input[type="submit"].primary.icon:before,
