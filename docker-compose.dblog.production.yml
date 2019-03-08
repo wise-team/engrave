@@ -146,12 +146,12 @@ services:
   mongo:
     image: mongo
     volumes:
-      - db-data:/data/db
+      - mongo_db:/data/db
 
   redis:
     image: redis
     volumes:
-      - redis-data:/data
+      - redis_db:/data
   
   vault:
     image: vault
@@ -161,11 +161,11 @@ services:
     entrypoint: vault server -config=/vault/config/vault.json
 
 volumes:
-  db-data:
   nginx_certs:
   nginx_conf:
   certbot:
-  redis-data:
+  redis_db:
+  mongo_db:
   vault_db:
 
 secrets:

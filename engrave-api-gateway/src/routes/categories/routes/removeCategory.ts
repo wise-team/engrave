@@ -7,6 +7,8 @@ import categoriesService from '../../../services/categories/categories.service';
 import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 import { validateCategoryIsEmpty } from '../../../validators/categories/validateCategoryIsEmpty';
+import blogsService from '../../../services/blogs/services.blogs';
+import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] = [
     body('id').isString().custom(categoryExist).withMessage('Category does not exist')
@@ -27,6 +29,10 @@ async function handler(req: Request, res: Response) {
         }
 
         await categoriesService.removeWithQuery({_id: id});
+
+        const blog = await blogsService.getBlogByQuery({_id: category.blogId});
+
+        await setBlog(blog);
 
         return res.json({
             success: 'OK'

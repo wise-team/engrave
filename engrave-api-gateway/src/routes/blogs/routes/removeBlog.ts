@@ -25,7 +25,7 @@ async function handler(req: Request, res: Response) {
             await removeBlog(blog.custom_domain)
         }
 
-        await blogsService.removeBlogWithQuery({ _id: id });
+        await blogsService.removeBlogWithId(id);
 
         return res.json({
             success: 'OK'

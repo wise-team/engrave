@@ -201,14 +201,14 @@ services:
   mongo:
     image: mongo
     volumes:
-      - db-data:/data/db
+      - mongo_db:/data/db
     ports:
     - "27017:27017"
 
   redis:
     image: redis
     volumes:
-      - redis-data:/data
+      - redis_db:/data
     ports:
     - "6379:6379"
   
@@ -222,11 +222,11 @@ services:
     entrypoint: vault server -config=/vault/config/vault.json
 
 volumes:
-  db-data:
   nginx_certs:
   nginx_conf:
   certbot:
-  redis-data:
+  redis_db:
+  mongo_db:
   vault_db:
  
 secrets:

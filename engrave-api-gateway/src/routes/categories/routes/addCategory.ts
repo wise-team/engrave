@@ -7,6 +7,8 @@ import validateBlogOwnership from '../../../services/blogs/actions/validateBlogO
 import categoriesService from '../../../services/categories/categories.service';
 import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
 import { isSlugUniquePerBlog } from '../../../validators/categories/isSlugUniquePerBlog';
+import blogsService from '../../../services/blogs/services.blogs';
+import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] =  [
     body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
@@ -36,6 +38,10 @@ async function handler(req: Request, res: Response) {
             name,
             abstract
         })
+
+        const blog = await blogsService.getBlogByQuery({_id: blogId});
+
+        await setBlog(blog);
 
         return res.json( {
             success: "OK",

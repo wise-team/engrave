@@ -8,6 +8,7 @@ import { categoryExist } from '../../../validators/categories/categoryExist';
 import categoriesService from '../../../services/categories/categories.service';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
+import { isSlugUniquePerBlog } from '../../../validators/categories/isSlugUniquePerBlog';
 
 const middleware: any[] =  [
     body('id').isString().custom(categoryExist).withMessage('Category does not exist'),
@@ -27,14 +28,22 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
-        const { id } = req.body;
+        const { id, slug } = req.body;
         const { username } = res.locals;
 
         let [category]: ICategory[] = await categoriesService.getCategoriesByQuery({_id: id});
 
         await validateBlogOwnership(category.blogId, username);
 
+        if(!await isSlugUniquePerBlog(category.blogId, slug)) {
+            throw new Error("Category slug must be unique");
+        }
+
         category = await categoriesService.updateWithQuery(id, req.body);
+
+        const blog = await blogsService.getBlogByQuery({_id: category.blogId});
+
+        await setBlog(blog);
 
         return res.json({ status: 'OK', category });
 
