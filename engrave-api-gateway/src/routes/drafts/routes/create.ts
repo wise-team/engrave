@@ -21,7 +21,6 @@ async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
         const { username } = res.locals;
-
         
         const {
             blogId,
@@ -33,7 +32,7 @@ async function handler(req: Request, res: Response) {
             tags
         } = req.body;
         
-        validateBlogOwnership(blogId, username);
+        await validateBlogOwnership(blogId, username);
         
         const post = await postsService.createDraft({
             blogId,

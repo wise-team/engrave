@@ -30,7 +30,7 @@ async function handler(req: Request, res: Response) {
         const { id } = req.body;
         const { username } = res.locals;
 
-        validatePostOwnership(id, username);
+        await validatePostOwnership(id, username);
 
         await postsService.updateWithQuery(id, req.body);
 

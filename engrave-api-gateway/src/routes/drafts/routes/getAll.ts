@@ -16,7 +16,7 @@ async function handler(req: Request, res: Response) {
         
         const { username, blogId} = req.body;
         
-        validateBlogOwnership(blogId, username);
+        await validateBlogOwnership(blogId, username);
 
         const posts = await postsService.getMultipleWithQuery( { 
             username: username, 

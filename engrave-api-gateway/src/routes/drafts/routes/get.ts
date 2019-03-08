@@ -15,7 +15,7 @@ async function handler(req: Request, res: Response) {
         const { id } = req.params;
         const { username } = res.locals;
 
-        validatePostOwnership(id, username);
+        await validatePostOwnership(id, username);
 
         const draft = await postsService.getWithQuery({_id: id});
 
