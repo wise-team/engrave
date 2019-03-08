@@ -9,6 +9,7 @@ import validateBlogOwnership from '../../../services/blogs/actions/validateBlogO
 import { validateCategoryIsEmpty } from '../../../validators/categories/validateCategoryIsEmpty';
 import blogsService from '../../../services/blogs/services.blogs';
 import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
+import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 
 const middleware: any[] = [
     body('id').isString().custom(categoryExist).withMessage('Category does not exist')
@@ -33,6 +34,7 @@ async function handler(req: Request, res: Response) {
         const blog = await blogsService.getBlogByQuery({_id: category.blogId});
 
         await setBlog(blog);
+        await rebuildSitemap(blog);
 
         return res.json({
             success: 'OK'

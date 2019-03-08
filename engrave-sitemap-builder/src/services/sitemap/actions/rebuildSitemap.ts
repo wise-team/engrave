@@ -1,16 +1,25 @@
 const XmlSitemap = require('xml-sitemap');
-import { getLatestArticles } from '../../../submodules/engrave-shared/services/cache/cache';
+import { getLatestArticles, getBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 import * as moment from 'moment';
 import { IArticle } from '../../../submodules/engrave-shared/interfaces/IArticle';
 import * as fs from 'fs';
+import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
 
-export default async (domain: string, username: string) => {
+export default async (domain: string) => {
     
     const file = `/app/sitemaps/${domain}/sitemap.xml`;
 
     let sitemap = new XmlSitemap().setHost(`https://${domain}/`);
 
-    const articles = await getLatestArticles(username, 0, 50000);
+    const blog = await getBlog(domain);
+
+    blog.categories.forEach((category: ICategory) => {
+        sitemap.add(`category/${category.slug}`, {
+            priority: 1
+        })
+    });
+
+    const articles = await getLatestArticles(blog._id, 0, 5000);
 
     articles.forEach((article: IArticle) => {
 

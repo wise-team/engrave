@@ -7,6 +7,7 @@ import blogsService from '../../../services/blogs/services.blogs';
 import { isAddressFree } from '../../../validators/url/isAddressFree';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
 import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
+import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 
 const middleware: any[] =  [
     body('id').isString().custom(blogExists).withMessage('Blog does not exist'),
@@ -63,6 +64,7 @@ async function handler(req: Request, res: Response) {
         blog = await blogsService.getBlogByQuery({_id: id});
 
         await setBlog(blog);
+        await rebuildSitemap(blog);
 
         return res.json({ status: 'OK', blog });
 

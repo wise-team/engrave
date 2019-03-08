@@ -12,6 +12,10 @@ async function handler(req: Request, res: Response) {
         const { hostname } = req;
 
         const blog = await getBlog(hostname);
+        
+        if(blog.domain_redirect && hostname != blog.custom_domain) {
+            return res.redirect('https://' + blog.custom_domain);
+        }
 
         const xml = await sitemap.getSitemap(blog);
 

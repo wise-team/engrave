@@ -12,9 +12,17 @@ async function handler(req: Request, res: Response) {
     try {
         
         const blog = await getBlog(hostname);
-        const latest = await getLatestFromCategory('asd', blog._id, 0, 12);
-        const featured = await getFeaturedArticles(blog._id, 0, 10);
+
+        if(blog.domain_redirect && hostname != blog.custom_domain) {
+            return res.redirect('https://' + blog.custom_domain);
+        }
+        
         const category = blog.categories.find( category => category.slug == slug);
+
+        if(!category) throw new Error("Category not found");
+
+        const latest = await getLatestFromCategory(slug, blog._id, 0, 12);
+        const featured = await getFeaturedArticles(blog._id, 0, 10);
       
         return res.render(`${blog.theme}/theme/category.pug`, {
             blog: blog,

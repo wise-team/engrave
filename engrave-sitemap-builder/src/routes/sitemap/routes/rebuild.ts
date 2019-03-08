@@ -4,16 +4,15 @@ import { body } from 'express-validator/check';
 import sitemap from '../../../services/sitemap/sitemap.service';
 
 const middleware: any[] =  [
-    body('domain').isURL(),
-    body('username').isString()
+    body('domain').isURL()
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
-        const { domain, username } = req.body;
+        const { domain } = req.body;
 
-        const xml = await sitemap.rebuildSitemap(domain, username);
+        const xml = await sitemap.rebuildSitemap(domain);
 
         console.log("Asked to rebuild sitemap for: ", domain);
 

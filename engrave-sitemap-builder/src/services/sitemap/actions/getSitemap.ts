@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import rebuildSitemap from './rebuildSitemap';
 
-export default async (domain: string, username: string) => {
+export default async (domain: string) => {
 
     const file = `/app/sitemaps/${domain}/sitemap.xml`;
     
@@ -9,7 +9,7 @@ export default async (domain: string, username: string) => {
         const xml = fs.readFileSync(file);
         return xml;
     } else {
-        const xml = await rebuildSitemap(domain, username);
+        const xml = await rebuildSitemap(domain);
         return xml;
     }
     

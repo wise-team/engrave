@@ -15,6 +15,11 @@ async function handler(req: Request, res: Response) {
         try {
 
             const blog = await getBlog(hostname);
+
+            if(blog.domain_redirect && hostname != blog.custom_domain) {
+                return res.redirect('https://' + blog.custom_domain);
+            }
+
             const article = await getArticle(blog._id, permlink);
             const featured = await getFeaturedArticles(blog._id, 0, 10);
         

@@ -8,6 +8,7 @@ import blogsService from '../../../services/blogs/services.blogs';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
 import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 import { IBlog } from '../../../submodules/engrave-shared/interfaces/IBlog';
+import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 
 const middleware: any[] =  [
     body('domain').isString()
@@ -47,6 +48,7 @@ async function handler(req: Request, res: Response) {
         });
 
         await setBlog(blog);
+        await rebuildSitemap(blog);
 
         return res.json( blog );
 
