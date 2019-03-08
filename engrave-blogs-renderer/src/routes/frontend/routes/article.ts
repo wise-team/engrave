@@ -15,8 +15,8 @@ async function handler(req: Request, res: Response) {
         try {
 
             const blog = await getBlog(hostname);
-            const article = await getArticle(blog.username, hostname, permlink);
-            const featured = await getFeaturedArticles(blog.username, 0);
+            const article = await getArticle(blog._id, permlink);
+            const featured = await getFeaturedArticles(blog._id, 0, 10);
         
             return res.render(`${blog.theme}/theme/single.pug`, {
                 blog: blog,
@@ -30,7 +30,7 @@ async function handler(req: Request, res: Response) {
             } else if(error instanceof ArticleNotFound) {            
     
                 const blog = await getBlog(hostname);
-                const featured = await getFeaturedArticles(blog.username, 10);
+                const featured = await getFeaturedArticles(blog._id, 0, 10);
 
                 return res.render(`${blog.theme}/theme/404.pug`, {
                     blog: blog,

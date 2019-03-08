@@ -12,18 +12,10 @@ async function handler(req: Request, res: Response) {
     try {
         
         const blog = await getBlog(hostname);
-        const latest = await getLatestFromCategory(slug, blog.username, 0);
-        const featured = await getFeaturedArticles(blog.username, 0);
-        let category = blog.categories.find( category => category.slug == slug);
+        const latest = await getLatestFromCategory('asd', blog._id, 0, 12);
+        const featured = await getFeaturedArticles(blog._id, 0, 10);
+        const category = blog.categories.find( category => category.slug == slug);
       
-        if(!category) {
-            category = {
-                steem_tag: slug,
-                name: slug,
-                slug: slug
-            }
-        }
-
         return res.render(`${blog.theme}/theme/category.pug`, {
             blog: blog,
             latest: latest,

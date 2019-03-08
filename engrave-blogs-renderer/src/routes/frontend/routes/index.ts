@@ -11,8 +11,8 @@ async function handler(req: Request, res: Response) {
     try {
         
         const blog = await getBlog(hostname);
-        const latest = await getLatestArticles(blog.username, 0);
-        const featured = await getFeaturedArticles(blog.username, 0);
+        const latest = await getLatestArticles(blog._id, 0, 12);
+        const featured = await getFeaturedArticles(blog._id, 0, 10);
    
         return res.render(`${blog.theme}/theme/index.pug`, {
             blog: blog,

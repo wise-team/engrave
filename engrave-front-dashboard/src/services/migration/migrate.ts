@@ -1,4 +1,4 @@
-import { Blogs } from "../../submodules/engrave-shared/models/BlogsModel";
+import { Blogs } from "../../submodules/engrave-shared/models/Blogs";
 
 import { setUserRegistered } from "../../submodules/engrave-shared/services/cache/cache";
 

@@ -1,8 +1,8 @@
-import { Blog } from "../../../submodules/engrave-shared/interfaces/IBlog";
+import { IBlog } from "../../../submodules/engrave-shared/interfaces/IBlog";
 import { handleServiceError } from "../../../submodules/engrave-shared";
 import axios from 'axios';
 
-export default async (blog: Blog) => {
+export default async (blog: IBlog) => {
 
     return handleServiceError(async () => {
     
@@ -11,7 +11,7 @@ export default async (blog: Blog) => {
             method: 'GET',
             data: {
                 domain: blog.domain,
-                username: blog.username
+                username: blog.owner
             }
         };
     

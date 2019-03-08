@@ -1,4 +1,4 @@
-import { Blogs } from "../../submodules/engrave-shared/models/BlogsModel";
+import { Blogs } from "../../submodules/engrave-shared/models/Blogs";
 import generateCertificate from "../../services/generateCertificate";
 import checkIfDomainPointsEngraveServer from "../../services/checkIfDomainPointsEngraveServer";
 

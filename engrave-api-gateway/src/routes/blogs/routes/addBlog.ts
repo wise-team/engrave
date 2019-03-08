@@ -7,6 +7,7 @@ import { isAddressFree } from '../../../validators/url/isAddressFree';
 import blogsService from '../../../services/blogs/services.blogs';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
 import { IBlog } from '../../../submodules/engrave-shared/interfaces/IBlog';
+import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] =  [
     body('url').isString()
@@ -37,12 +38,15 @@ async function handler(req: Request, res: Response) {
             slogan
         } = req.body;
         
-        const blog: IBlog = await blogsService.createBlogWithQuery({
-            username, 
+        const blog = await blogsService.createBlogWithQuery({
+            email: Math.random().toString(),
+            owner: username, 
             url,
             title,
             slogan 
-        })
+        });
+
+        await setBlog(url, blog);
 
         return res.json( blog );
 

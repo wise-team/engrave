@@ -1,7 +1,7 @@
 
 import { IExtendedRequest } from "../helpers/IExtendedRequest";
 import * as express from 'express';
-import { Blogs } from "../submodules/engrave-shared/models/BlogsModel";
+import { Blogs } from "../submodules/engrave-shared/models/Blogs";
 const jwt = require('jsonwebtoken');
 
 export class RoutesVlidators {

@@ -1,8 +1,7 @@
-import { Blogs } from "../../submodules/engrave-shared/models/BlogsModel";
+import { Blogs } from "../../submodules/engrave-shared/models/Blogs";
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 import checkIfDomainPointsEngraveServer from '../../services/checkIfDomainPointsEngraveServer';
 import generateCertificate from "../../services/generateCertificate";
-
 
 async function secureNewBlogs () {
 
@@ -13,12 +12,12 @@ async function secureNewBlogs () {
             try {
                 if (await checkIfDomainPointsEngraveServer(blog.domain) &&
                     await checkIfDomainPointsEngraveServer('www.' + blog.domain)) {
-                    console.log("Unsecured blog: ", blog.domain, "from @" + blog.steem_username);
+                    console.log("Unsecured blog: ", blog.domain, "from @" + blog.owner);
                     await generateCertificate(blog.domain);
                     console.log(" * SSL generated for ", blog.domain);
                     await generateNginxSettings(blog);
                     console.log(" * NGINX with SSL generated for: ", blog.domain);
-                    blog.ssl = true;
+                    // blog.ssl = true;
                     await blog.save();
                     console.log(" * Database entry saved for blog");
                 }

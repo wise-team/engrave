@@ -4,7 +4,7 @@ async function validateBlogOwnership(blogId: string, username: string) {
     
     let blog = await blogsService.getBlogByQuery({_id: blogId});
 
-    if(blog.username != username) throw new Error("You are not the owner of that blog!");
+    if(blog.owner != username) throw new Error("You are not the owner of that blog!");
 
     return blog;
 }

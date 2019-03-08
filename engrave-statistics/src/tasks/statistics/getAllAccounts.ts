@@ -1,5 +1,5 @@
 import { Statistics } from '../../models/StatisticsModel';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 const steem = require('steem');
 
 async function getAllAccountsStatistics () {
@@ -9,16 +9,16 @@ async function getAllAccountsStatistics () {
 
     try {
         const properties = await steem.api.getDynamicGlobalPropertiesAsync();
-        const engraveUsers = await Blogs.find({}, { steem_username: 1 });
+        const engraveUsers = await Blogs.find({}, { owner: 1 });
         
         engraveUsers.forEach((user: any) => {
-            accounts.push(user.steem_username);
+            accounts.push(user.owner);
         })
         
         const steemAccounts = await steem.api.getAccountsAsync(accounts);
 
         for(const steemUser of steemAccounts) {
-            let databaseUser = await Statistics.findOne({ steem_username: steemUser.name });
+            let databaseUser = await Statistics.findOne({ owner: steemUser.name });
 
             if (!databaseUser) {
                 console.log("No steem_user in database. Adding new: ", steemUser.name);

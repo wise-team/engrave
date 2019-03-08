@@ -4,7 +4,7 @@ import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ProfileValidator } from '../../validators/ProfileValidator';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { IBlog } from '../../helpers/IBlog';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 
 let router = express.Router();
 

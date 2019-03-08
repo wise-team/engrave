@@ -1,7 +1,7 @@
 import { DashboardSteemConnect } from './SteemConnect';
 import { Tier } from "../helpers/TierEnum";
 import { IBlog } from "../helpers/IBlog";
-import { Blogs } from '../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../submodules/engrave-shared/models/Blogs';
 
 let steem = require('steem');
 var getSlug = require('speakingurl');

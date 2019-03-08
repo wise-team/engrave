@@ -10,7 +10,7 @@ async function handler(req: Request, res: Response) {
         
         const { username } = res.locals;
         
-        const blogs = await blogsService.getMultipleWithQuery({username: username});
+        const blogs = await blogsService.getMultipleWithQuery({owner: username});
         
         return res.json([ ...blogs ]);
 

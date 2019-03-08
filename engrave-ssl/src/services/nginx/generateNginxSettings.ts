@@ -10,8 +10,8 @@ export default async (blog: IBlog) => {
             method: 'POST',
             data: {
                 domain: blog.domain,
-                port: blog.port,
-                is_domain_custom: blog.is_domain_custom
+                port: 80,
+                is_domain_custom: false
             },
             url: "http://nginx-configurator:3000/configuration/generate"
         };

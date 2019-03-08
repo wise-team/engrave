@@ -1,5 +1,5 @@
 import { getDataFromUpdateString } from "../queue";
-import { setArticle, removeArticle } from '../../../submodules/engrave-shared/services/cache/cache';
+import { setArticleContent } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const Redis = require('ioredis');
 const redis = new Redis({ host: "redis" });
@@ -20,7 +20,7 @@ export default async () => {
             const { domain } = JSON.parse(article.json_metadata);
 
             if(domain && article) {
-                return await setArticle(domain, author, permlink, article);
+                return await setArticleContent(author, permlink, article);
             } else {
                 console.log(" > Domain or article not found");
                 return null;

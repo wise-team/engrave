@@ -17,7 +17,7 @@ async function handler(req: Request, res: Response) {
         let posts:any = [];
 
         if(category) {
-            posts = await getLatestFromCategory(<string>category, <string>username, skip ? parseInt(<string>skip) : 0);
+            posts = await getLatestFromCategory(<string>category, <string>username, skip ? parseInt(<string>skip) : 0, 12);
         } else {
             posts = await getLatestArticles(<string>username, skip ? parseInt(<string>skip) : 0);
         }

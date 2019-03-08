@@ -54,7 +54,7 @@ async function handler(req: Request, res: Response) {
 
         let blog = await blogsService.getBlogByQuery({_id: id});
 
-        if(blog.username != username) throw new Error("You are not the owner of that blog!");
+        if(blog.owner != username) throw new Error("You are not the owner of that blog!");
 
         await blogsService.updateBlogWithQuery(id, req.body);
 

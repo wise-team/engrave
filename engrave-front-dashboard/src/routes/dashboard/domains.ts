@@ -2,7 +2,7 @@ import { Domains } from './../../modules/Domains';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import * as express from 'express';
 import { Utils } from '../../modules/Utils';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 
 const router = express.Router();
 

@@ -3,7 +3,7 @@ import * as express from 'express';
 import { IExtendedRequest } from '../../helpers/IExtendedRequest';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { ThemeValidator } from '../../validators/ThemeValidator';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 import { setBlog } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();

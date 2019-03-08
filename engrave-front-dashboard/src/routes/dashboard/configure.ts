@@ -5,7 +5,7 @@ import { Tier } from '../../helpers/TierEnum';
 import { RoutesVlidators } from '../../validators/RoutesValidators';
 import * as express from 'express';
 import { Themes } from '../../modules/Themes';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 import validateDomainPointingToEngrave from '../../services/ssl/validateDomainPointingToEngrave';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 import { setUserRegistered } from '../../submodules/engrave-shared/services/cache/cache';

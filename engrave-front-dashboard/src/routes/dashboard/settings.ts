@@ -8,7 +8,7 @@ import axios from 'axios';
 import checkIfDomainPointsToEngrave from '../../services/domain/checkIfDomainPointsToEngrave';
 import generateCertificatesForDomain from '../../services/ssl/generateCertificatesForDomain';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
-import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
+import { Blogs } from '../../submodules/engrave-shared/models/Blogs';
 import { setBlog } from '../../submodules/engrave-shared/services/cache/cache';
 
 let router = express.Router();
