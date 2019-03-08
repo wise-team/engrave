@@ -3431,7 +3431,7 @@ input, select, textarea {
 				#main input[type="button"].primary:active,
 				#main button.primary:active,
 				#main .button.primary:active {
-					background-color: #7ec3ee;
+					background-color: #efa8b0;
 				}
 
 				#main input[type="submit"].primary.icon:before,
@@ -3593,6 +3593,10 @@ input, select, textarea {
 			background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
 		}
 
+		#main header.major a {
+			text-decoration: none;
+		}
+
 		#main table tbody tr {
 			border-color: #dddddd;
 		}
@@ -3640,8 +3644,8 @@ input, select, textarea {
 			}
 
 				#main > .main > .image.main:first-child img {
-					border-top-right-radius: 0.25em;
-					border-top-left-radius: 0.25em;
+					border-top-right-radius: 0;
+					border-top-left-radius: 0;
 					border-bottom-right-radius: 0;
 					border-bottom-left-radius: 0;
 				}
@@ -3963,4 +3967,9 @@ button.submit-reply{
 button.submit-reply:hover{
 	background-color: #c79cc8 !important;
 	color: white !important;
+}
+
+span.date {
+	font-size: medium;
+	font-style: italic;
 }
