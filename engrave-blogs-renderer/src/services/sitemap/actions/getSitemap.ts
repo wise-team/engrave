@@ -1,8 +1,7 @@
-import { IBlog } from "../../../submodules/engrave-shared/interfaces/IBlog";
 import { handleServiceError } from "../../../submodules/engrave-shared";
 import axios from 'axios';
 
-export default async (blog: IBlog) => {
+export default async (domain: string) => {
 
     return handleServiceError(async () => {
     
@@ -10,8 +9,7 @@ export default async (blog: IBlog) => {
             url: "http://sitemap-builder:3000/sitemap",
             method: 'GET',
             data: {
-                domain: blog.domain,
-                username: blog.owner
+                domain: domain
             }
         };
     

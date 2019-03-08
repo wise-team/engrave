@@ -17,10 +17,9 @@ async function handler(req: Request, res: Response) {
             return res.redirect('https://' + blog.custom_domain);
         }
 
-        const xml = await sitemap.getSitemap(blog);
+        const xml = await sitemap.getSitemap(hostname);
 
-        res.header('Content-Type', 'application/xml');
-        return res.send(xml);
+        return res.header('Content-Type', 'application/xml').send(xml);
         
     }, req, res);
 }
