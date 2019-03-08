@@ -24,7 +24,7 @@ function routes(app:any) {
         
         // render the error page
         res.status(err.status || 500);
-        res.render('default/theme/error');
+        res.render('magazine/theme/error');
     });
 }
 

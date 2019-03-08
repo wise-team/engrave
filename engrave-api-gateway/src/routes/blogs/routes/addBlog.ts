@@ -6,11 +6,11 @@ import { isAddressFree } from '../../../validators/url/isAddressFree';
 
 import blogsService from '../../../services/blogs/services.blogs';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
-import { IBlog } from '../../../submodules/engrave-shared/interfaces/IBlog';
 import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
+import { IBlog } from '../../../submodules/engrave-shared/interfaces/IBlog';
 
 const middleware: any[] =  [
-    body('url').isString()
+    body('domain').isString()
         .isURL().withMessage("Please provide valid subdomain address")
         .custom(isValidSubdomain).withMessage("This is not proper subdomain")
         .custom(isAddressFree).withMessage("This address is taken"),
@@ -21,8 +21,8 @@ const middleware: any[] =  [
     body('theme').optional().isString(), // isThemeValid
 
     // prohibited
-    body('adopter').not().exists().withMessage("Sorry, you are not an early adopter"),
     body('premium').not().exists().withMessage("You tried to become a hacker, don\'t you?"),
+    body('owner').not().exists().withMessage('You tried to become a hacker, don\'t you?'),
     body('_id').not().exists().withMessage('You tried to become a hacker, don\'t you?'),
     body('categories').not().exists().withMessage('To update categories, use another endpoint')
 ];
@@ -33,20 +33,20 @@ async function handler(req: Request, res: Response) {
         const { username } = res.locals;
 
         const {  
-            url, 
+            domain, 
             title, 
             slogan
         } = req.body;
         
-        const blog = await blogsService.createBlogWithQuery({
+        const blog: IBlog = await blogsService.createBlogWithQuery({
             email: Math.random().toString(),
             owner: username, 
-            url,
+            domain,
             title,
             slogan 
         });
 
-        await setBlog(url, blog);
+        await setBlog(blog);
 
         return res.json( blog );
 

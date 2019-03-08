@@ -6,18 +6,20 @@ import isDomainValid from '../../../validators/domain/isDomainValid';
 import blogsService from '../../../services/blogs/services.blogs';
 import { isAddressFree } from '../../../validators/url/isAddressFree';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
+import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] =  [
     body('id').isString().custom(blogExists).withMessage('Blog does not exist'),
-    body('url').isString()
-        .isURL().withMessage("Please provide valid subdomain address")
-        .custom(isValidSubdomain).withMessage("This is not proper subdomain")
-        .custom(isAddressFree).withMessage("This address is taken"),
     body('domain').optional()
         .isString().not().isEmpty()
+        .isURL().withMessage("Please provide valid subdomain address")
+        .custom(isValidSubdomain).withMessage("This is not a proper subdomain")
+        .custom(isAddressFree).withMessage("This address is taken"),
+    body('custom_domain').optional()
+        .isString().not().isEmpty()
         .isURL()
-        .custom(isAddressFree).withMessage("This address is taken")
-        .custom(isDomainValid).withMessage("Domain not pointing to Engrave server"),
+        .custom(isDomainValid).withMessage("Domain not pointing to Engrave server")
+        .custom(isAddressFree).withMessage("This address is taken"),
     body('domain_redirect').optional().isBoolean(),
     body('title').optional().isString(),
     body('slogan').optional().isString(),
@@ -37,12 +39,12 @@ const middleware: any[] =  [
     body('onesignal_logo_url').optional().isString().isURL(),
     body('analytics_gtag').optional().isString(),
     body('webmastertools_id').optional().isString(),
-
+    
     // prohibited
-    body('adopter').not().exists().withMessage("Sorry, you are not an early adopter"),
+    body('collaboration_type').not().exists().withMessage("You tried to become a hacker, don\'t you?"), // TODO 
     body('premium').not().exists().withMessage("You tried to become a hacker, don\'t you?"),
+    body('owner').not().exists().withMessage("You tried to become a hacker, don\'t you?"),
     body('_id').not().exists().withMessage('You tried to become a hacker, don\'t you?'),
-    body('username').not().exists().withMessage('Cannot change blog owner'),
     body('categories').not().exists().withMessage('To update categories, use another endpoint'),
 ];
 
@@ -59,6 +61,8 @@ async function handler(req: Request, res: Response) {
         await blogsService.updateBlogWithQuery(id, req.body);
 
         blog = await blogsService.getBlogByQuery({_id: id});
+
+        await setBlog(blog);
 
         return res.json({ status: 'OK', blog });
 
