@@ -195,8 +195,8 @@ services:
       - ./engrave-sitemap-builder/src:/app/src
       - ./engrave-sitemap-builder/dist:/app/dist
     ports:
-      - 3017:3000
-      - 3018:3001
+      - 3021:3000
+      - 302:3001
 
   mongo:
     image: mongo
