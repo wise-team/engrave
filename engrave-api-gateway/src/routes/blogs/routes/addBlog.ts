@@ -5,8 +5,8 @@ import { body } from 'express-validator/check';
 import { isAddressFree } from '../../../validators/url/isAddressFree';
 
 import blogsService from '../../../services/blogs/services.blogs';
-import { INewBlog } from '../../../submodules/engrave-shared/interfaces/INewBlog';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
+import { IBlog } from '../../../submodules/engrave-shared/interfaces/IBlog';
 
 const middleware: any[] =  [
     body('url').isString()
@@ -37,7 +37,7 @@ async function handler(req: Request, res: Response) {
             slogan
         } = req.body;
         
-        const blog: INewBlog = await blogsService.createBlogWithQuery({
+        const blog: IBlog = await blogsService.createBlogWithQuery({
             username, 
             url,
             title,

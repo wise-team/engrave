@@ -1,7 +1,7 @@
-import { BlogsModel } from "../../../models/BlogsModel";
+import { Blogs } from "../../../submodules/engrave-shared/models/Blogs";
 
 async function removeBlogWithQuery(query: any) {
-    return await BlogsModel.remove(query);
+    return await Blogs.remove(query);
 }
 
 export default removeBlogWithQuery;

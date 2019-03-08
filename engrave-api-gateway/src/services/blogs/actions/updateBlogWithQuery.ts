@@ -1,7 +1,7 @@
-import { BlogsModel } from "../../../models/BlogsModel";
+import { Blogs } from "../../../submodules/engrave-shared/models/Blogs";
 
 async function updateBlogWithQuery(id: any, query: any) {
-    return await BlogsModel.update({_id: id}, {
+    return await Blogs.update({_id: id}, {
         $set: query
     });
 }

@@ -1,7 +1,7 @@
-import { BlogsModel } from "../../../models/BlogsModel";
+import { Blogs } from "../../../submodules/engrave-shared/models/Blogs";
 
 async function isUrlFree(url: any) {
-    return await BlogsModel.find({$or: [
+    return await Blogs.find({$or: [
         {url: url},
         {domain: url}
     ]});

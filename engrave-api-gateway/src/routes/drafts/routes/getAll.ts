@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
 import { body } from 'express-validator/check';
 import postsService from '../../../services/posts/services.posts';
-import { PostStatus } from '../../../models/EPostStatus';
 import { blogExists } from '../../../validators/blog/blogExiststs';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
+import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
 
 const middleware: any[] =  [
     body('username').isString(),

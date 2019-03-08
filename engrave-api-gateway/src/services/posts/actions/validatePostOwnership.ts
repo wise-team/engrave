@@ -1,4 +1,4 @@
-import { Posts } from "../../../models/PostsModel";
+import { Posts } from "../../../submodules/engrave-shared/models/Posts";
 
 async function validatePostOwnership(id: string, username: string) {
     

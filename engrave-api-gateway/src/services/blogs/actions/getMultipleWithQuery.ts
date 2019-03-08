@@ -1,7 +1,7 @@
-import { BlogsModel } from "../../../models/BlogsModel";
+import { Blogs } from "../../../submodules/engrave-shared/models/Blogs";
 
 async function getMultipleWithQuery(query: any) {
-    return await BlogsModel.find(query);
+    return await Blogs.find(query);
 }
 
 export default getMultipleWithQuery;
