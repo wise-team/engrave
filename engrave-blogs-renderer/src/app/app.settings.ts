@@ -7,6 +7,7 @@ import { getBlog } from '../submodules/engrave-shared/services/cache/cache';
 function settings(app: any) {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    app.use('/robots.txt', serveRobotsTxt);
     app.use(serveStaticForTheme);
     app.use(express.static('/app/certbot')); // for letsencrypt purposes
     app.set('view engine', 'pug');
@@ -23,6 +24,23 @@ const serveStaticForTheme = async (req: express.Request, res: express.Response, 
     } catch (error) {
         return next();
     }
+}
+
+const serveRobotsTxt = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    
+    try {
+        const { hostname } = req;
+        await getBlog(hostname);      
+
+        const fileContent = `Sitemap: https://${hostname}/sitemap.xml\nUser-agent: *\nDisallow: `;
+        
+        res.type('text/plain').send(fileContent);
+
+    } catch (error) {
+        return next();
+    }
+
+    
 }
 
 export default settings;
