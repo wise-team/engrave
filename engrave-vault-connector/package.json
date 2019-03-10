@@ -32,7 +32,8 @@
     "node-vault": "0.9.6",
     "redis-json": "2.2.2",
     "remarkable": "1.7.1",
-    "steem": "^0.7.3"
+    "steem": "^0.7.3",
+    "steemconnect": "2.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.16.0"

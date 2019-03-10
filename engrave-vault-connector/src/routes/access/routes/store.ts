@@ -5,16 +5,18 @@ import vault from '../../../services/vault/vault.service';
 
 const middleware: any[] =  [
    param("username").isString(),
-   body("token").isString()
+   param("elevated").isBoolean(),
+   body("token").isString(),
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
-        const { username } = req.params;
         const { token } = req.body;
+        const { username } = req.params;
+        const elevated = (req.params.elevated == 'true');
 
-        await vault.storeAccessToken(username, token);
+        await vault.storeAccessToken(username, token, elevated);
 
         return res.json({
             message: 'OK',
