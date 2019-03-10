@@ -29,7 +29,7 @@ block header
           .col-lg-8.col-md-10.mx-auto
             .post-heading
               h1= article.title
-              h2.subheading= article.abstract + '...'
+              h2.subheading!= article.abstract + '...'
               span.meta 
                 span(title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
                 span= ', comments: ' + article.comments

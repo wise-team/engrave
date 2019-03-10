@@ -9,7 +9,7 @@ append content
                         header.major
                             a(href='/' + article.permlink)
                                 h2= article.title
-                        p= article.abstract + '...'
+                        p!= article.abstract + '...'
                         ul.actions
                             li
                                 a.button.primary(href='/' + article.permlink) Read
