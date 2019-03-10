@@ -2,18 +2,6 @@ h5.card-title
     a(href= '/' + item.permlink) #{item.title}
 small.text-muted
     ul
-        li
-            span(class="oi oi-person" title="icon person" aria-hidden="true")
-            span
-                = "Author" + ' '
-                span
-                    a(href="/autor/" + item.root_author)
-                        if item.author && item.author.name && item.author.surname
-                            span(itemprop="name")= item.author.name + ' ' + item.author.surname
-                        else if item.author && item.author.name
-                            span(itemprop="name")= item.author.name
-                        else
-                            span(itemprop="name")= item.root_author
         li.next-item
             span(class="oi oi-comment-square" title="icon comment" aria-hidden="true")
             span= item.comments

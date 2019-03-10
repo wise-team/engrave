@@ -14,21 +14,11 @@ block content
                             span(class="oi oi-tag" title="icon tag" aria-hidden="true")
                             =article.category.name
                         li.next-item
-                            span(class="oi oi-clock" title="icon clock" aria-hidden="true")
-                            =moment.utc(date).local().fromNow()
+                            span(class="oi oi-clock" title= moment.utc(article.created).local().format('LLL') aria-hidden="true")
+                            =moment.utc(article.created).local().fromNow()
                 .single-article-title=article.title
                 small.text-muted
                     ul
-                        li.next-item
-                            span(class="oi oi-person" title="icon person" aria-hidden="true")
-                            //- span
-                            //-     a.author-name(href="/autor/" + root_author)
-                            //-         if author && author.name && author.surname
-                            //-             span= author.name + ' ' + author.surname
-                            //-         else if author && author.name
-                            //-             span=author.name
-                            //-         else
-                            //-             span= author.username
                         li.next-item
                             span(class="oi oi-comment-square" title="icon comment" aria-hidden="true")
                             = "Comments" + ": " + article.comments
