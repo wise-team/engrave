@@ -30,6 +30,9 @@ echo "mailgun domain" | sudo docker secret create MAILGUN_DOMAIN -
 echo "mailgun api key" | sudo docker secret create MAILGUN_API_KEY -
 ```
 
+In all submodule directory (engrave-*), you should do run 'tsc' command
+
+
 If you generated SSL certificate, you can run ENGRAVE system. Inspect `docker-compose.yml` file for environmental variables and then just type:
 
 `./development-deploy.sh`
