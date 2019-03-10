@@ -7,19 +7,8 @@
                 img.img-widget(src= item.thumbnail ? item.thumbnail : 'img/default.jpg')
             .col-8
                 a.title-widget(href= '/' + item.url) #{item.title}
-                a.author-widget(href="/autor/" + item.root_author)
-                    if item.author && item.author.name && item.author.surname
-                        div
-                            span(class="oi oi-person" title="icon person" aria-hidden="true")
-                            span= "Author" + " " + item.author.name + ' ' + item.author.surname
-                    else if item.author && item.author.name
-                        div
-                            span(class="oi oi-person" title="icon person" aria-hidden="true")
-                            span= "Author" + " " + item.author.name
-                    else
-                        div
-                            span(class="oi oi-person" title="icon person" aria-hidden="true")
-                            span= "Author" + " " +  item.root_author
+                a.tag-icon-widget(class="oi oi-tag" title="icon tag" aria-hidden="true" href="/category/" + item.category.slug)
+                a.category-widget(href="/category/" + item.category.slug) &nbsp  #{item.category.name}
     if blog.fb_fanpage_url && blog.fb_fanpage_url != ''
         .fb-page(data-href=blog.fb_fanpage_url data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true")
             blockquote(cite=blog.fb_fanpage_url).fb-xfbml-parse-ignore
