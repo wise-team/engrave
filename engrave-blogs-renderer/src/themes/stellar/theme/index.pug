@@ -7,18 +7,21 @@ append content
                 .spotlight
                     .content
                         header.major
-                            h2= article.title
+                            a(href='/' + article.permlink)
+                                h2= article.title
                         p= article.abstract + '...'
                         ul.actions
                             li
                                 a.button.primary(href='/' + article.permlink) Read
                             li
-                                .button= 'Votes: ' + article.votes_count
+                                .button.votes= 'Votes: ' + article.votes_count
                             li
-                                .button= 'Reward: $' + parseFloat(article.value).toFixed(2)
-
+                                .button.reward= 'Reward: $' + parseFloat(article.value).toFixed(2)
                     span.image
-                        img(src=article.thumbnail, alt='')
+                        if article.thumbnail
+                            img(src=article.thumbnail, alt='')
+                        else
+                            img(src="/assets/img/default.jpg", alt='')
     else 
         section#intro.main
             .spotlight

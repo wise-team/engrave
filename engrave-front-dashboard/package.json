@@ -8,7 +8,7 @@
     "start": "tsc && NODE_ENV=production node dist/app.js",
     "debug": "tsc && NODE_ENV=production node --inspect=0.0.0.0:9229 dist/app.js",
     "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\"",
-    "watch": "nodemon -L -e ts -w ./src -x npm run debug"
+    "watch": "nodemon -L -e ts,pug,css,js -w ./src -x npm run debug"
   },
   "dependencies": {
     "@cloudreach/docker-secrets": "1.0.3",
@@ -49,7 +49,9 @@
     "ioredis": "4.3.0",
     "redis-json": "2.2.2",
     "markdown-it": "8.4.2",
-    "is-an-image-url": "1.0.3"
+    "is-an-image-url": "1.0.3",
+    "is-image-url": "1.1.8",
+    "remarkable": "1.7.1"
   },
   "repository": {
     "type": "git",

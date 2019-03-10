@@ -115,7 +115,7 @@ export class Utils {
                 ['comment_options', {
                     author: blogger.steem_username,
                     permlink: article.permlink,
-                    max_accepted_payout: '1000000.000 SBD',
+                    max_accepted_payout: article.decline_reward ? '0.000 SBD' : '1000000.000 SBD',
                     percent_steem_dollars: 10000,
                     allow_votes: true,
                     allow_curation_rewards: true,
@@ -201,9 +201,9 @@ export class Utils {
             })
 
             if (blogger.frontpage_language == 'pl') {
-                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             } else {
-                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](http://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
             }
             article.links = links;
             article.tags = tags;

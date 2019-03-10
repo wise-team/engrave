@@ -110,7 +110,7 @@ $(document).ready(function () {
                             $(comment).parent().parent().append(repliesList);
                         }
 
-                        appendNewComment(data.body, data.author, repliesList);
+                        appendNewComment(data.rendered, data.author, repliesList);
                         
                         box.remove();
                     } else if (data.error) {
@@ -131,21 +131,6 @@ $(document).ready(function () {
 
     });
     
-
-    $(".text-boxes img").each(function () {
-        var imageCaption = $(this).attr("alt");
-        if (imageCaption != '') {
-            var imgWidth = $(this).width();
-            var imgHeight = $(this).height();
-            var position = $(this).position();
-            var positionTop = (position.top + imgHeight - 26)
-            $("<span class='img-caption'><em>" + imageCaption +
-                "</em></span>").css({
-                    "width": "100%"
-                }).insertAfter(this);
-        }
-    });
-
     let permlink = $("#permlink").val();
     let editorial = $("#editorial").val();
 
@@ -202,7 +187,7 @@ $(document).ready(function () {
 
                     var comment_list = $("#comments").children()[1];
 
-                    appendNewComment(data.body, data.author, comment_list);
+                    appendNewComment(data.rendered, data.author, comment_list);
 
                 },
                 error: function (data) {
@@ -254,7 +239,7 @@ function renderCommentsList(comments, list_id) {
 
 function get_content_replies(author, permlink, list_id) {
     
-    steem.api.getContentReplies(author, permlink, function (err, result) {
+    getContentReplies(author, permlink, function (err, result) {
         if (!err && result) {
             (function(ul) {
                 renderCommentsList(result, ul);
@@ -265,14 +250,13 @@ function get_content_replies(author, permlink, list_id) {
 
 function appendNewComment(body, author, commentsList) {
     let li = document.createElement('li');
-    let newComment = renderComment({ body: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, li);
+    let newComment = renderComment({ rendered: body, author: author, pending_payout_value: "0.00 SBD", total_payout_value: "0.00 SBD", net_votes: 0, net_rshares: 0, created: moment() }, false, li);
     $(newComment).addClass('comment-highlight');
     $(commentsList).append(li);
     $('html, body').animate({ scrollTop: $(newComment).offset().top - 500 }, 500);
 }
 
 function renderComment(comment, voted, list_id) {
-
 
     var new_comment_box = document.createElement('div');
     $(new_comment_box).addClass('comment-box');
@@ -292,13 +276,12 @@ function renderComment(comment, voted, list_id) {
     var i = document.createElement('i');
     $(i).addClass('fa').addClass('fa-clock-o');
     $(span).append(i);
-    // $(span).append(comment.created);
     $(span).append(moment.utc(comment.created).local().fromNow());
 
     var comment_body = document.createElement('p');
 
     if (comment.net_rshares >= 0) {
-        $(comment_body).append(marked(comment.body));
+        $(comment_body).append(comment.rendered);
     } else {
         $(comment_body).append('Comment hidden due to low rating');
     }
@@ -448,4 +431,22 @@ function showResponseError(response) {
     } else {
         toastr.error("Something gone wrong...");
     }
+}
+
+
+function getContentReplies(author, permlink, callback) {
+    $.ajax({
+        type: "POST",
+        url: "/comments",
+        data: {
+            author: author,
+            permlink: permlink
+        },
+        success: function (data) {
+            callback(null, data);
+        },
+        error: function (data) {
+            callback(data, null);
+        }
+    });
 }

@@ -43,7 +43,7 @@ router.get('/', async (req: IExtendedRequest, res: express.Response, next: expre
                 }
             } else {
                 req.session.blogger = await BlogListModule.addNewUnconfiguredBlog(req.session.steemconnect.name);
-                console.log(" * Dodano nowego użytkownika do bazy: " + req.session.steemconnect.name)
+                console.log(" * New user added to database: @" + req.session.steemconnect.name)
                 res.redirect('/tiers');
             }
         } catch (error) {

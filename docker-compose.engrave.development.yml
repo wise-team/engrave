@@ -51,6 +51,9 @@ services:
     image: bgornicki/engrave-statistics
     depends_on:
       - mongo
+    ports:
+      - 3008:3000
+      - 3009:3001
     environment:
       - WAIT_HOSTS=mongo:27017,redis:6379
 
@@ -153,6 +156,32 @@ services:
       - SC2_APP_SECRET
       - JWT_SECRET
       - VAULT_TOKEN
+  
+  mailer:
+    image: bgornicki/engrave-mailer
+    volumes:
+      - ./engrave-mailer/src:/app/src
+      - ./engrave-mailer/dist:/app/dist
+    environment:
+      - MAILGUN_SENDER_NAME=Engrave platform
+      - MAILGUN_SENDER_ADDRESS=noreply@engrave.website
+    secrets:
+      - MAILGUN_DOMAIN
+      - MAILGUN_API_KEY
+    ports:
+      - 3015:3000
+      - 3016:3001
+
+  sitemap-builder:
+    image: bgornicki/engrave-sitemap-builder
+    environment:
+      - WAIT_HOSTS=redis:6379
+    volumes:
+      - ./engrave-sitemap-builder/src:/app/src
+      - ./engrave-sitemap-builder/dist:/app/dist
+    ports:
+      - 3017:3000
+      - 3018:3001
 
   mongo:
     image: mongo
@@ -199,4 +228,8 @@ secrets:
   JWT_SECRET:
     external: true
   VAULT_TOKEN:
+    external: true
+  MAILGUN_DOMAIN:
+    external: true
+  MAILGUN_API_KEY:
     external: true

@@ -21,14 +21,6 @@ form#configure
                 label Blog slogan
                 input.form-control(name='blog_slogan', pattern=".{3,100}", title="Allowed length: 3-100 characters", placeholder='Blog slogan')
     
-    .row
-        .col-md-12
-            .form-group
-                label Category
-                select.form-control(name="category")
-                    each category in config.blogs_categories
-                        option(value=category )= category
-
     .row.justify-content-md-center
         .col-md-12
             .form-group
@@ -36,7 +28,40 @@ form#configure
                 select.form-control.image-picker(name="theme")#theme-select
                     each theme, index in themes
                         option(value=theme.slug, data-img-src=`/img/${theme.slug}-theme.png`, data-img-class= (index == 0) ? "first" : "last")= theme.name
+    .row
+        .col-md-12
+            .form-group
+                label You will write about
+                select.form-control(name="category")
+                    each category in config.blogs_categories
+                        option(value=category )= category
+    .row
+        .col-md-6
+            .form-group
+                label Your e-mail
+                input.form-control(name='email', required, type='email', placeholder='example@example.com')#email
+        .col-md-6
+            .form-group
+                label Repeat e-email
+                input.form-control(name='email_repeat', required, data-parsley-equalto="#email", parsley-required="true", type='email', placeholder='example@example.com')#email_repeat
+
+    .row
+        .col-md-12
+            .form-group
+                .form-check
+                    label(data-toggle="tooltip" data-placement="top" title="").form-check-label
+                        input.form-check-input(type="checkbox", name="agreement", required)#agreement
+                        span.form-check-sign
+                        | You can send me e-mails that are required for Engrave to work
+                .form-check
+                    label(data-toggle="tooltip" data-placement="top" title="").form-check-label
+                        input.form-check-input(type="checkbox", name="newsletter")#newsletter
+                        span.form-check-sign
+                        | Please, help me discover interesting blogs
 
     a(href='/authorize/tier/cancel').btn.btn-link Change your tier
     button.btn.btn-success.btn-fill.pull-right#finish-button(type='submit') Finish configuration
     .clearfix
+
+append scripts
+    script(src="/js/configuration.js")

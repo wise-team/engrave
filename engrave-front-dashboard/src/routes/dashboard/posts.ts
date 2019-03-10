@@ -6,7 +6,9 @@ import { RoutesVlidators } from '../../validators/RoutesValidators';
 import { DashboardSteemConnect } from '../../modules/SteemConnect';
 import { Onesignal } from '../../modules/Onesignal';
 import { PublishedArticlesModule } from '../../modules/PublishedArticles';
-import { removeArticle } from '../../submodules/engrave-shared/services/cache/cache';
+import { removeArticle, getBlog, setArticle } from '../../submodules/engrave-shared/services/cache/cache';
+import sitemap from '../../services/sitemap/sitemap.service';
+import { getSteemArticle } from '../../submodules/engrave-shared/services/steem/steem';
 
 let steem = require('steem');
 let router = express.Router();
@@ -30,7 +32,7 @@ router.post('/posts', RoutesVlidators.isLoggedAndConfigured, async (req: IExtend
     try {
         let start_permlink = req.body.start_permlink;
         let posts = await Utils.GetPostsFromBlockchain(10, start_permlink, req.session.steemconnect.name);
-        res.json({ success: "OK", posts: posts });
+        res.json({ success: "OK", posts: posts, domain: req.session.blogger.domain});
     } catch (error) {
         res.json({ error: "Error while trying to get blockchain posts" })
     }
@@ -88,7 +90,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
         const operations = Utils.PrepareOperations('edit', post, req.session.blogger);
 
         DashboardSteemConnect.setAccessToken(req.session.access_token);
-        DashboardSteemConnect.broadcast(operations, function (err: any, result: any) {
+        DashboardSteemConnect.broadcast(operations, async function (err: any, result: any) {
             if (err) {
                 console.log(err);
                 var errorstring = '';
@@ -100,6 +102,7 @@ router.post('/edit', RoutesVlidators.isLoggedAndConfigured, async (req: IExtende
                 res.json({ error: errorstring });
             } else {
                 console.log("Article has been updated by @" + req.session.steemconnect.name);
+                await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
                 res.json({ success: "Article updated" });
             }
         });
@@ -135,6 +138,10 @@ router.post('/delete', RoutesVlidators.isLoggedAndConfigured, async (req: IExten
 
                 try {
                     await removeArticle(req.session.blogger.steem_username, article.permlink);
+                    
+                    const blog = await getBlog(req.session.blogger.domain);
+                    await sitemap.rebuildSitemap(blog);
+
                 } catch (error) {
                     console.log(error);
                 }
@@ -159,11 +166,17 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
 
         console.log("New article has been posted by @" + req.session.steemconnect.name);
 
-        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
-        
         await PublishedArticlesModule.create(req.session.blogger, post);
         
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
+
+        await redis.set(`engrave:${req.session.steemconnect.name}:${post.permlink}`, "");
+        
+        const steemArticle = await getSteemArticle(req.session.steemconnect.name, post.permlink);
+        await setArticle(req.session.blogger.domain, req.session.steemconnect.name, post.permlink, steemArticle);
+        
+        const blog = await getBlog(req.session.blogger.domain);
+        await sitemap.rebuildSitemap(blog);
 
         if (post._id && post._id != '') {
             await Posts.deleteOne({ _id: post._id });
@@ -176,8 +189,12 @@ router.post('/publish', RoutesVlidators.isLoggedAndConfigured, async (req: IExte
         console.log(error);
         if (error.hasOwnProperty('error_description')) {
             let errorstring = error.error_description.split('\n')[0].split(': ')[1];
+            
+            
             if (errorstring == 'Comment already has beneficiaries specified.') {
                 res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring == 'The permlink of a comment cannot change.') {
+                res.json({ error: "You have an article with that title. Try another one." });
             } else if(errorstring != '') {
                 res.json({ error: errorstring });
             } else {
@@ -264,6 +281,12 @@ router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req:
 
         Onesignal.sendNotification(req.session.blogger, post.title, post.image, post.permlink);
 
+        const steemArticle = await getSteemArticle(req.session.steemconnect.name, post.permlink);
+        await setArticle(req.session.blogger.domain, req.session.steemconnect.name, post.permlink, steemArticle);
+        
+        const blog = await getBlog(req.session.blogger.domain);
+        await sitemap.rebuildSitemap(blog);
+
         if (post._id && post._id != '') {
             await Posts.deleteOne({ _id: post._id });
             res.json({ success: "Article published", draft: true });
@@ -277,6 +300,8 @@ router.post('/draft/publish', RoutesVlidators.isLoggedAndConfigured, async (req:
             let errorstring = error.error_description.split('\n')[0].split(': ')[1];
             if (errorstring == 'Comment already has beneficiaries specified.') {
                 res.json({ error: 'There is an article with that title!' });
+            } else if(errorstring == 'The permlink of a comment cannot change.') {
+                res.json({ error: "You have an article with that title. Try another one." });
             } else if(errorstring != '') {
                 res.json({ error: errorstring });
             } else {

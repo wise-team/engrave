@@ -24,7 +24,7 @@ export default async (blockNumber: number): Promise<IProcessedBlock> => {
                 }
             }
 
-            pushUpdatesToQueue(updates);
+            await pushUpdatesToQueue(updates);
 
             return {
                 number: blockNumber,

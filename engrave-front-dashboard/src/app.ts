@@ -111,6 +111,8 @@ if (process.env.NODE_ENV == "production") {
 
         await waitForMicroservice(configs.services.nginx_configurator);
         await waitForMicroservice(configs.services.ssl);
+        await waitForMicroservice(configs.services.sitemap_builder);
+        await waitForMicroservice(configs.services.mailer);
 
         await migrate();
 

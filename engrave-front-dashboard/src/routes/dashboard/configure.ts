@@ -9,6 +9,7 @@ import { Blogs } from '../../submodules/engrave-shared/models/BlogsModel';
 import validateDomainPointingToEngrave from '../../services/ssl/validateDomainPointingToEngrave';
 import generateNginxSettings from '../../services/nginx/generateNginxSettings';
 import { setUserRegistered } from '../../submodules/engrave-shared/services/cache/cache';
+import sendWelcomeMail from '../../services/mailer/sendWelcomeMail';
 
 let router = express.Router();
 
@@ -56,6 +57,7 @@ router.post(
             if (!blog.configured) {
                 blog.configured = true;
                 blog.email = configuration.email;
+                blog.newsletter = configuration.newsletter == 'on' ? true : false;
                 blog.theme = configuration.theme;
                 blog.blog_title = configuration.blog_title;
                 blog.blog_slogan = configuration.blog_slogan;
@@ -72,8 +74,12 @@ router.post(
                 await blog.save();
 
                 await setUserRegistered(blog.steem_username);
-
+                
                 await generateNginxSettings(blog);
+                
+                if(blog.email && blog.email != '') {
+                    await sendWelcomeMail(blog.email, blog.steem_username, blog.domain);
+                }
 
                 res.json({ success: "Configured successfully!" });
             }

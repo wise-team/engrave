@@ -1922,12 +1922,17 @@ input, select, textarea {
 
 	input[type="submit"],
 	input[type="reset"],
-	input[type="button"],
+	input[type="button"] {
+		background-color: transparent;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+		color: #ffffff !important;
+	}
+
 	button,
 	.button {
 		background-color: transparent;
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-		color: #ffffff !important;
+		color: #ffffff;
 	}
 
 		input[type="submit"]:hover,
@@ -2868,7 +2873,11 @@ input, select, textarea {
 
 			.statistics li.style1 {
 				background-color: #efa8b0;
+				cursor: pointer;
 			}
+				.statistics li.style1:hover {
+					opacity: 0.8;
+				}
 
 			.statistics li.style2 {
 				background-color: #c79cc8;
@@ -3066,6 +3075,14 @@ input, select, textarea {
 			letter-spacing: -0.025em;
 		}
 
+		#header a:hover {
+			text-decoration: none;
+		}
+
+		#header a:hover h1 {
+			color: #dddddd;
+		}
+
 		#header.alt {
 			padding: 7em 5em 4em 5em ;
 		}
@@ -3254,7 +3271,7 @@ input, select, textarea {
 				-ms-transition: margin 0.2s ease;
 				transition: margin 0.2s ease;
 				display: inline-block;
-				margin: 0 0.35em;
+				margin: 0.35em;
 				padding: 0;
 				vertical-align: middle;
 			}
@@ -3271,14 +3288,16 @@ input, select, textarea {
 					border: 0;
 					border-radius: 8px;
 					box-shadow: inset 0 0 0 1px transparent;
+					background-color: #ffffff;
 				}
 
 					#nav ul li a:hover {
-						background-color: rgba(222, 222, 222, 0.25);
+						background-color: #c79cc8;
+						text-decoration: none;
+						color: white;
 					}
 
 					#nav ul li a.active {
-						background-color: #ffffff;
 						box-shadow: none;
 					}
 
@@ -3293,7 +3312,7 @@ input, select, textarea {
 		}
 
 			#nav.alt ul li {
-				margin: 0 0.175em;
+				margin: 0.175em;
 			}
 
 				#nav.alt ul li a {
@@ -3360,7 +3379,7 @@ input, select, textarea {
 		#main .button {
 			background-color: transparent;
 			box-shadow: inset 0 0 0 1px #dddddd;
-			color: #636363 !important;
+			color: #636363;
 		}
 
 			#main input[type="submit"]:hover,
@@ -3369,6 +3388,7 @@ input, select, textarea {
 			#main button:hover,
 			#main .button:hover {
 				background-color: rgba(222, 222, 222, 0.25);
+				text-decoration: none;
 			}
 
 			#main input[type="submit"]:active,
@@ -3392,7 +3412,7 @@ input, select, textarea {
 			#main input[type="button"].primary,
 			#main button.primary,
 			#main .button.primary {
-				background-color: #8cc9f0;
+				background-color: #efa8b0;
 				color: #ffffff !important;
 				box-shadow: none;
 			}
@@ -3402,7 +3422,8 @@ input, select, textarea {
 				#main input[type="button"].primary:hover,
 				#main button.primary:hover,
 				#main .button.primary:hover {
-					background-color: #9acff2;
+					opacity: 0.8;
+					text-decoration: none;
 				}
 
 				#main input[type="submit"].primary:active,
@@ -3410,7 +3431,7 @@ input, select, textarea {
 				#main input[type="button"].primary:active,
 				#main button.primary:active,
 				#main .button.primary:active {
-					background-color: #7ec3ee;
+					background-color: #efa8b0;
 				}
 
 				#main input[type="submit"].primary.icon:before,
@@ -3421,7 +3442,46 @@ input, select, textarea {
 					color: #ffffff !important;
 				}
 
-		#main label {
+			#main input[type="submit"].votes,
+			#main input[type="reset"].votes,
+			#main input[type="button"].votes,
+			#main button.votes,
+			#main .button.votes {
+				background-color: #a89cc8;
+				color: #ffffff !important;
+				box-shadow: none;
+			}
+
+				#main input[type="submit"].votes:hover,
+				#main input[type="reset"].votes:hover,
+				#main input[type="button"].votes:hover,
+				#main button.votes:hover,
+				#main .button.votes:hover {
+					cursor: default;
+					text-decoration: none;
+				}
+
+			#main input[type="submit"].reward,
+			#main input[type="reset"].reward,
+			#main input[type="button"].reward,
+			#main button.reward,
+			#main .button.reward {
+				background-color: #8cc9f0;
+				color: #ffffff !important;
+				box-shadow: none;
+			}
+
+				#main input[type="submit"].reward:hover,
+				#main input[type="reset"].reward:hover,
+				#main input[type="button"].reward:hover,
+				#main button.reward:hover,
+				#main .button.reward:hover {
+					cursor: default;
+					text-decoration: none;
+				}
+
+
+#main label {
 			color: #636363;
 		}
 
@@ -3533,6 +3593,10 @@ input, select, textarea {
 			background-image: linear-gradient(90deg, #efa8b0, #a89cc8, #8cc9f0);
 		}
 
+		#main header.major a {
+			text-decoration: none;
+		}
+
 		#main table tbody tr {
 			border-color: #dddddd;
 		}
@@ -3571,8 +3635,8 @@ input, select, textarea {
 			}
 
 			#main > .main > .image.main:first-child {
-				margin: -5em 0 5em 0;
-				width: calc(100% + 10em);
+				margin: -5em 0 5em -5em;
+				min-width: calc(100% + 10em);
 				border-top-right-radius: 0.25em;
 				border-top-left-radius: 0.25em;
 				border-bottom-right-radius: 0;
@@ -3580,8 +3644,8 @@ input, select, textarea {
 			}
 
 				#main > .main > .image.main:first-child img {
-					border-top-right-radius: 0.25em;
-					border-top-left-radius: 0.25em;
+					border-top-right-radius: 0;
+					border-top-left-radius: 0;
 					border-bottom-right-radius: 0;
 					border-bottom-left-radius: 0;
 				}
@@ -3594,7 +3658,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em 0;
-					width: calc(100% + 8em);
+					min-width: calc(100% - 8em);
 				}
 
 		}
@@ -3607,7 +3671,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -4em 0 4em -3em;
-					width: calc(100% + 6em);
+					min-width: calc(100% + 6em);
 				}
 
 		}
@@ -3620,7 +3684,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 2em -2em;
-					width: calc(100% + 4em);
+					min-width: calc(100% + 4em);
 				}
 
 		}
@@ -3633,7 +3697,7 @@ input, select, textarea {
 
 				#main > .main > .image.main:first-child {
 					margin: -3em 0 1.5em -1.5em;
-					width: calc(100% + 3em);
+					min-width: calc(100% + 3em);
 				}
 
 		}
@@ -3650,7 +3714,7 @@ input, select, textarea {
 
 					#main > .main > .image.main:first-child {
 						margin: -2.5em 0 1.5em -1em;
-						width: calc(100% + 2em);
+						min-width: calc(100% + 2em);
 						border-radius: 0;
 					}
 
@@ -3894,4 +3958,18 @@ input, select, textarea {
 
 #comment-form-modal {
 	display: none;
+}
+
+button.submit-reply{
+	color: #636363 !important;
+}
+
+button.submit-reply:hover{
+	background-color: #c79cc8 !important;
+	color: white !important;
+}
+
+span.date {
+	font-size: medium;
+	font-style: italic;
 }

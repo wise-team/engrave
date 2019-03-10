@@ -13,14 +13,18 @@ export default async () => {
         if(update) {
             const {author, permlink} = getDataFromUpdateString(update);
 
-            console.log("Consumed article:", author, permlink);
+            console.log(" * Consumed article:", author, permlink);
 
             const article = await steem.api.getContentAsync(author, permlink);
-            const {domain} = JSON.parse(article.json_metadata);
-
-            await removeArticle(author, permlink);
             
-            return await setArticle(domain, author, permlink, article);
+            const { domain } = JSON.parse(article.json_metadata);
+
+            if(domain && article) {
+                return await setArticle(domain, author, permlink, article);
+            } else {
+                console.log(" > Domain or article not found");
+                return null;
+            }
         }
         
     } catch (error) {

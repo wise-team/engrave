@@ -1,5 +1,6 @@
-import { ifArticleExist, deleteArticle, isUserRegistered } from "../../redis/redis";
+import { deleteArticle } from "../../redis/redis";
 import { IUpdate } from "../blockchain";
+import {ifArticleExist, isUserRegistered} from '../../../submodules/engrave-shared/services/cache/cache';
 
 export default async (tx: any): Promise<IUpdate> => {
     try {
@@ -19,14 +20,26 @@ export default async (tx: any): Promise<IUpdate> => {
 
                 case 'comment': {
                     
-                    const { parent_author, author, permlink } = operation[1];
+                    const { parent_author, author, permlink, body} = operation[1];
+
+                    const usernames = getMentions(body);
+
+                    const mentions = uniq(usernames);
                     
-                    if(await ifArticleExist(author, permlink)) {
-                        return {author: author, permlink: permlink};
+                    if(mentions) {
+                        for(const mention of mentions) {
+                            if(await isUserRegistered(mention.replace('@', ''))) {
+                                console.log("Mention:", mention);
+                            }
+                        }
+                    }
+                    
+                    if( parent_author != author && await isUserRegistered(parent_author)) {
+                        console.log("New comment: ", parent_author, author, permlink);
                     }
 
-                    if( parent_author != author && await isUserRegistered(parent_author)) {
-                        console.log("Notify new comment: ", parent_author, author, permlink);
+                    if(await ifArticleExist(author, permlink)) {
+                        return {author: author, permlink: permlink};
                     }
 
                 }                
@@ -47,7 +60,7 @@ export default async (tx: any): Promise<IUpdate> => {
                     const { from, to, amount } = operation[1];
                     
                     if(await isUserRegistered(to)) {
-                        console.log("Notify new transfer: ", from, to, amount);
+                        console.log("New transfer: ", from, to, amount);
                     }
                 }
                 break;
@@ -93,3 +106,9 @@ export default async (tx: any): Promise<IUpdate> => {
         return null;
     }
 }
+
+const getMentions = (body: string) => {
+    return body.match(/@[a-z](-[a-z0-9](-[a-z0-9])*)?(-[a-z0-9]|[a-z0-9])*(?:\.[a-z](-[a-z0-9](-[a-z0-9])*)?(-[a-z0-9]|[a-z0-9])*)*/g);
+}
+
+let uniq = (a: string[]) => [...new Set(a)];

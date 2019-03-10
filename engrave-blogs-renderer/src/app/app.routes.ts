@@ -3,6 +3,7 @@ import frontendApi from "../routes/frontend/frontend.routes";
 import postsApi from "../routes/posts/posts.routes";
 import loginApi from "../routes/login/login.routes";
 import actionApi from "../routes/action/action.routes";
+import commentsApi from "../routes/comments/comments.routes";
 
 function routes(app:any) {
     
@@ -12,6 +13,7 @@ function routes(app:any) {
     app.use('/posts', postsApi);
     app.use('/login', loginApi);
     app.use('/action', actionApi);
+    app.use('/comments', commentsApi);
     app.use('/', frontendApi);
     
     app.use(function (err:any, req:any, res:any, next:any) {

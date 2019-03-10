@@ -6,7 +6,7 @@ let parseDomain = require('parse-domain');
 
 export class BlogListModule {
 
-    private static prohibitedSubdomains = ['auth', 'vault', 'beta', 'alpha', 'staging', 'demo', 'live', 'm', 'api', 'www', 'blog'];
+    private static prohibitedSubdomains = ['auth', 'vault', 'beta', 'alpha', 'staging', 'demo', 'live', 'm', 'api', 'www', 'blog', "mg"];
     private static prohibitedDomains = ['example.com'].concat(JSON.parse(process.env.BLOGS_DOMAINS ? process.env.BLOGS_DOMAINS : "[]"));
 
     /**
@@ -97,9 +97,15 @@ export class BlogListModule {
      * Return array of registered and configured blogs
      * @param skip how many blogs to skip (used for pagination)
      */
-    static async getRegisteredBlogs(skip: number) {
+    static async getRegisteredBlogs(skip: number, category: string) {
         try {
-            const blogs = await Blogs.find({ configured: true })
+            let query: any = { configured: true };
+            
+            if(category && category != "") {
+                query.category = category;
+            }
+
+            const blogs = await Blogs.find(query)
               .skip(skip)
               .limit(12)
               .sort("-created")
