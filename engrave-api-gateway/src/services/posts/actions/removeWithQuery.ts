@@ -1,7 +1,7 @@
-import { Posts } from "../../../submodules/engrave-shared/models/Posts";
+import { Drafts } from "../../../submodules/engrave-shared/models/Posts";
 
 async function removeWithQuery(query: any) {
-    return await Posts.remove(query);
+    return await Drafts.remove(query);
 }
 
 export default removeWithQuery;

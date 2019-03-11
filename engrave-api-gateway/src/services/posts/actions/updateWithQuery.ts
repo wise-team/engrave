@@ -1,7 +1,7 @@
-import { Posts } from "../../../submodules/engrave-shared/models/Posts";
+import { Drafts } from "../../../submodules/engrave-shared/models/Posts";
 
 async function updateWithQuery(id: any, query: any) {
-    return await Posts.update({_id: id}, {
+    return await Drafts.update({_id: id}, {
         $set: query
     });
 }
