@@ -73,7 +73,7 @@ async function handler(req: Request, res: Response) {
             featured_image: thumbnail,
             status: PostStatus.DRAFT,
             decline_reward: true,
-            permlink: 'this-is-just-a-test-api-123123',
+            permlink: permlink,
             parent_category: null
         }
         
