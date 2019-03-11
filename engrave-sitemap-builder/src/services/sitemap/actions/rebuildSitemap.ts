@@ -12,12 +12,14 @@ export default async (domain: string) => {
     let sitemap = new XmlSitemap().setHost(`https://${domain}/`);
 
     const blog = await getBlog(domain);
-
-    blog.categories.forEach((category: ICategory) => {
-        sitemap.add(`category/${category.slug}`, {
-            priority: 1
-        })
-    });
+    
+    if(blog.categories.length) {
+        blog.categories.forEach((category: ICategory) => {
+            sitemap.add(`category/${category.slug}`, {
+                priority: 1
+            })
+        });    
+    }
 
     const articles = await getLatestArticles(blog._id, 0, 5000);
 
