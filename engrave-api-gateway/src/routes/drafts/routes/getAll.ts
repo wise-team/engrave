@@ -7,14 +7,14 @@ import validateBlogOwnership from '../../../services/blogs/actions/validateBlogO
 import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
 
 const middleware: any[] =  [
-    body('username').isString(),
     body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
-        const { username, blogId} = req.body;
+        const { username } = res.locals;
+        const { blogId} = req.body;
         
         await validateBlogOwnership(blogId, username);
 
