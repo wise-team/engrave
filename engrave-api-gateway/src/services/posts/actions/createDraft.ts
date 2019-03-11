@@ -1,4 +1,4 @@
-import { Drafts } from "../../../submodules/engrave-shared/models/Posts";
+import { Drafts } from "../../../submodules/engrave-shared/models/Drafts";
 import { PostStatus } from "../../../submodules/engrave-shared/enums/PostStatus";
 
 async function createPostWithQuery(query: any) {

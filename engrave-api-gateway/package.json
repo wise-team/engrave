@@ -34,7 +34,10 @@
     "striptags": "3.1.1",
     "cors": "2.8.5",
     "is-image-url": "1.1.8",
-    "remarkable": "1.7.1"
+    "remarkable": "1.7.1",
+    "get-urls": "9.0.0",
+    "is-image": "2.0.0",
+    "steemconnect": "2.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",

@@ -7,6 +7,12 @@ import validateBlogOwnership from '../../../services/blogs/actions/validateBlogO
 import { draftExists } from '../../../validators/drafts/draftExists';
 import postsService from '../../../services/posts/services.posts';
 import validatePostOwnership from '../../../services/posts/actions/validatePostOwnership';
+import getAccessToken from '../../../services/vault/actions/getAccessToken';
+import prepareOperations from '../../../services/article/actions/prepareOperations';
+import blogsService from '../../../services/blogs/services.blogs';
+import { IDraft } from '../../../submodules/engrave-shared/interfaces/IDraft';
+import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
+import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 
 const middleware: any[] =  [
     body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
@@ -29,7 +35,12 @@ async function handler(req: Request, res: Response) {
         const { 
             blogId, 
             permlink,
-            draftId
+            draftId,
+            title,
+            body,
+            thumbnail,
+            categories,
+            tags
         } = req.body;
 
         await validateBlogOwnership(blogId, username);
@@ -39,16 +50,47 @@ async function handler(req: Request, res: Response) {
         }
  
         if(await articleExists(username, permlink)) {
-            throw new Error("Article with that title already exists");
+            throw new Error("Article with that permlink already exists");
         }
 
-        // TODO publish here
+        const access_token = await getAccessToken(username);
 
+        if(!access_token) {
+            throw new Error("Could not authorize user (vault is sealed)");
+        }
+
+        const blog = await blogsService.getBlogByQuery({_id: blogId});
+
+        const article: any = {
+            blogId: blogId,
+            created: new Date(),
+            username: blog.owner,
+            scheduled: null,
+            title: title,
+            body: body,
+            categories: [],
+            tags: ['test4'],
+            featured_image: thumbnail,
+            status: PostStatus.DRAFT,
+            decline_reward: true,
+            permlink: 'this-is-just-a-test-api-123123',
+            parent_category: null
+        }
+        
+        const operations = prepareOperations(article, "publish", blog, {adopter: false});
+
+        console.log(access_token);
+                
+        sc.dashboard.setAccessToken(access_token);
+        const result = await sc.dashboard.broadcast(operations);
+
+        console.log(result);
+        
         if(draftId) {
             await postsService.removeWithQuery({_id: draftId});
         }
 
-        return res.json({ status: "OK" });
+        return res.json({ status: "OK", result });
 
     }, req, res);
 }

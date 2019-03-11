@@ -1,4 +1,4 @@
-import { Drafts } from "../../../submodules/engrave-shared/models/Posts";
+import { Drafts } from "../../../submodules/engrave-shared/models/Drafts";
 
 async function getWithQuery(query: any) {
     return await Drafts.findOne(query);
