@@ -9,7 +9,8 @@ async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         return res.json({
             message: 'pong',
-            instance: os.hostname()
+            instance: os.hostname(),
+            service: process.env.npm_package_name
         });
     }, req, res);
 }

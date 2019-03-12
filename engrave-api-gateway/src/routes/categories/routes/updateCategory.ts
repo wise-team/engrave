@@ -8,16 +8,14 @@ import { categoryExist } from '../../../validators/categories/categoryExist';
 import categoriesService from '../../../services/categories/categories.service';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
-import { isSlugUniquePerBlog } from '../../../validators/categories/isSlugUniquePerBlog';
+import { validateIsSlugUniquePerBlog } from '../../../validators/categories/validateIsSlugUniquePerBlog';
 import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 
 const middleware: any[] =  [
     body('id').isString().custom(categoryExist).withMessage('Category does not exist'),
 
-    body('name').isString().isLength({min: 2, max: 24}),
-    body('slug').isString().custom(isSlugValid).withMessage("Slug is invalid"),
-    
-    // optional
+    body('name').optional().isString().isLength({min: 2, max: 24}),
+    body('slug').optional().isString().custom(isSlugValid).withMessage("Slug is invalid"),
     body('abstract').optional().isString(),
     
     // prohibited
@@ -35,10 +33,7 @@ async function handler(req: Request, res: Response) {
         let [category]: ICategory[] = await categoriesService.getCategoriesByQuery({_id: id});
 
         await validateBlogOwnership(category.blogId, username);
-
-        if(!await isSlugUniquePerBlog(category.blogId, slug)) {
-            throw new Error("Category slug must be unique");
-        }
+        await validateIsSlugUniquePerBlog(category.blogId, slug, id);
 
         category = await categoriesService.updateWithQuery(id, req.body);
 

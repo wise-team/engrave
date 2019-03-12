@@ -59,6 +59,7 @@ services:
     depends_on:
       - redis
     ports:
+      - 3011:3000
       - 3012:3001
     environment:
       - STARTING_BLOCK=29543648

@@ -6,7 +6,7 @@ import { isSlugValid } from '../../../validators/categories/isSlugValid';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 import categoriesService from '../../../services/categories/categories.service';
 import { ICategory } from '../../../submodules/engrave-shared/interfaces/ICategory';
-import { isSlugUniquePerBlog } from '../../../validators/categories/isSlugUniquePerBlog';
+import { validateIsSlugUniquePerBlog } from '../../../validators/categories/validateIsSlugUniquePerBlog';
 import blogsService from '../../../services/blogs/services.blogs';
 import { setBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
@@ -29,9 +29,7 @@ async function handler(req: Request, res: Response) {
 
         await validateBlogOwnership(blogId, username);
         
-        if(!await isSlugUniquePerBlog(blogId, slug)) {
-            throw new Error("Category slug must be unique");
-        }
+        await validateIsSlugUniquePerBlog(blogId, slug, null);
 
         const category: ICategory = await categoriesService.createCategoryWithQuery({
             blogId,

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
 import { body } from 'express-validator/check';
 
-import { isAddressFree } from '../../../validators/url/isAddressFree';
+import { validateAddressIsFree } from '../../../validators/url/validateAddressIsFree';
 
 import blogsService from '../../../services/blogs/services.blogs';
 import { isValidSubdomain } from '../../../validators/url/isValidSubdomain';
@@ -13,8 +13,7 @@ import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 const middleware: any[] =  [
     body('domain').isString()
         .isURL().withMessage("Please provide valid subdomain address")
-        .custom(isValidSubdomain).withMessage("This is not proper subdomain")
-        .custom(isAddressFree).withMessage("This address is taken"),
+        .custom(isValidSubdomain).withMessage("This is not proper subdomain"),
     body('title').isString(),
     
     // optional
@@ -39,6 +38,8 @@ async function handler(req: Request, res: Response) {
             slogan
         } = req.body;
         
+        await validateAddressIsFree(domain, null);
+
         const blog: IBlog = await blogsService.createBlogWithQuery({
             email: Math.random().toString(),
             owner: username, 

@@ -4,7 +4,7 @@ import getMultipleWithQuery from './actions/getMultipleWithQuery';
 import removeBlogWithId from './actions/removeBlogWithId';
 import updateBlogWithQuery from './actions/updateBlogWithQuery';
 import validateBlogOwnership from './actions/validateBlogOwnership';
-import isUrlFree from './actions/isUrlFree';
+import getBlogsByDomain from './actions/getBlogsByDomain';
 
 
 const blogsService = {
@@ -13,7 +13,7 @@ const blogsService = {
     getMultipleWithQuery,
     removeBlogWithId,
     updateBlogWithQuery,
-    isUrlFree,
+    getBlogsByDomain,
     validateBlogOwnership
 }
 

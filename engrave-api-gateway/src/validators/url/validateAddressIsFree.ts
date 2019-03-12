@@ -5,25 +5,17 @@ const parseDomain = require('parse-domain');
 const prohibitedSubdomains = ['beta', 'alpha', 'staging', 'demo', 'live', 'm', 'api', 'www', 'blog', 'vault', 'auth', 'api', 'dashboard'];
 const prohibitedDomains = ['example.com'].concat(JSON.parse(process.env.BLOGS_DOMAINS ? process.env.BLOGS_DOMAINS : "[]"));
 
-export async function isAddressFree(url: any) {
-   
-    try {
-        const searchDomain = buildSearchableDomain(url);
-        
-        if (_.includes(prohibitedSubdomains, parseDomain(searchDomain).subdomain)) return false;
-        if (_.includes(prohibitedDomains, searchDomain)) return false;
-        
-        const blogs = await blogsService.isUrlFree(url);
+export async function validateAddressIsFree(url: string, blogId: string) {
 
-        if( blogs.length) return false;
-        
-        return true;
-        
-    } catch (error) {
-        return false;
-    }
-   
-    
+    const searchDomain = buildSearchableDomain(url);
+
+    if (_.includes(prohibitedSubdomains, parseDomain(searchDomain).subdomain)) return false;
+    if (_.includes(prohibitedDomains, searchDomain)) return false;
+
+    const blogs = await blogsService.getBlogsByDomain(url);
+
+    if (blogs.length != 0 && blogs[0]._id != blogId) throw new Error('This address is taken');
+
 }
 
 function buildSearchableDomain(domain: string): string {

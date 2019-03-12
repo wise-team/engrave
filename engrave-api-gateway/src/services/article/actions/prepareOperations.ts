@@ -1,8 +1,9 @@
 import { IBlog } from "../../../submodules/engrave-shared/interfaces/IBlog";
 import { IDraft } from "../../../submodules/engrave-shared/interfaces/IDraft";
 import prepareJsonMetadata from "./prepareJsonMetadata";
+import { OperationsScope } from "../../../submodules/engrave-shared/enums/OperationsScope";
 
-export default (article: IDraft, scope: string, blog: IBlog, user: any) => {
+export default (article: IDraft, scope: OperationsScope, blog: IBlog, user: any) => {
 
     const json_metadata = prepareJsonMetadata(article, blog);
 
@@ -21,10 +22,10 @@ export default (article: IDraft, scope: string, blog: IBlog, user: any) => {
     ];
 
     switch(scope) {
-        case 'edit':
+        case OperationsScope.EDIT:
         return operations;
 
-        case 'publish':
+        case OperationsScope.PUBLISH:
 
         let extensions: any = [];
 
