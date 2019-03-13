@@ -8,7 +8,7 @@
     "start": "tsc && NODE_ENV=production node dist/app.js",
     "debug": "tsc && NODE_ENV=production node --inspect=0.0.0.0:9229 dist/app.js",
     "test": "NODE_ENV=test mocha --exit --recursive --require ts-node/register \"test/**/*.ts\"",
-    "watch": "nodemon -L -e ts,pug,css,js -w ./src -x npm run debug"
+    "watch": "nodemon -L -e ts,pug,css,js -w ./src -w ./views -x npm run debug"
   },
   "dependencies": {
     "@cloudreach/docker-secrets": "1.0.3",
