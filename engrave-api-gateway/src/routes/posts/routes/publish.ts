@@ -22,8 +22,8 @@ const middleware: any[] =  [
     body('title').isString(),
     body('body').isString(),
     body('thumbnail').optional().isURL(),
-    body('categories').optional(),
-    body('tags').optional(),
+    body('categories').optional().isArray().withMessage("Categories need to be an array"),
+    body('tags').optional().isArray().withMessage("Tags need to be an array"),
     
     body('draftId').optional().isMongoId().custom(draftExists).withMessage('Draft does not exist'),
 ];
@@ -69,15 +69,15 @@ async function handler(req: Request, res: Response) {
             scheduled: null,
             title: title,
             body: body,
-            categories: [],
-            tags: ['test4'],
+            categories: categories,
+            tags: tags,
             featured_image: thumbnail,
             status: PostStatus.DRAFT,
             decline_reward: true,
             permlink: permlink,
             parent_category: null
         }
-        
+                
         const operations = prepareOperations(article, OperationsScope.PUBLISH , blog, {adopter: false});
 
         console.log(access_token);
