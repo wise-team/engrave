@@ -10,10 +10,10 @@ html
         link(href="/css/typicons.min.css" rel="stylesheet")
         link(href="/css/style.css" rel="stylesheet")
 
-        block scripts
-            include partials/scripts.pug
-
     body
+        div#app
+            h1 Hello world - {{ name }}
+
         #fb-root
         script.
             (function (d, s, id) {
@@ -27,5 +27,7 @@ html
         include partials/navigation.pug
 
         block content
-        
+
         include partials/footer.pug
+        block scripts
+            include partials/scripts.pug
