@@ -522,7 +522,13 @@ ul.author-social-media li .typcn:hover {
 
 
 /*============================= comments ============================================*/
+.tree-view .children {
+  margin-left: 40px;
+}
 
+.tree-view.comments-tree > .children {
+  margin-left: 0px;
+}
 
 .add.comment label{
     color: #212121;
