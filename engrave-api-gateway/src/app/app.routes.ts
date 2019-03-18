@@ -4,13 +4,15 @@ import blogsApi from "../routes/blogs/blogs.routes";
 import coinsApi from "../routes/coins/coins.routes";
 import draftsApi from "../routes/drafts/drafts.routes";
 import categoriesApi from "../routes/categories/categories.routes";
-
+import exploreApi from "../routes/explore/explore.routes";
 
 import * as httpCodes from 'http-status-codes';
 import { Request, Response } from "express";
 
 function routes(app:any) {
     app.use('/health', healthApi);
+    app.use('/explore', exploreApi);
+    
     app.use('/posts', postsApi);
     app.use('/blogs', blogsApi);
     app.use('/categories', categoriesApi);

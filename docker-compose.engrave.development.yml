@@ -97,10 +97,10 @@ services:
     image: bgornicki/engrave-dashboard:latest
 
   engrave-front-dashboard:
-    image: bgornicki/engrave-front-dashboard
+    image: bgornicki/engrave-dashboard
     ports:
       - 9229:9229
-      - 8080:80
+      - 8081:80
     environment:
       - STEEMCONNECT_REDIRECT_URI=http://127.0.0.1:8080/authorize/
       - PAYMENT_REDIRECT_URI=http://127.0.0.1:8080/dashboard/configure/
@@ -127,6 +127,19 @@ services:
     secrets:
       - NAMECOM_TOKEN
       - NAMECOM_USERNAME
+
+  frontpage:
+    image: bgornicki/engrave-frontpage
+    ports:
+      - 8080:80
+    environment:
+      - DASHBOARD_ADDR=http://127.0.0.1:8081
+      - DOMAIN=engrave.website
+      - FRONT=engrave
+    volumes:
+      - ./engrave-frontpage/src:/app/src
+      - ./engrave-frontpage/views:/app/views
+      - ./engrave-frontpage/public:/app/public
   
   auth:
     image: bgornicki/engrave-auth

@@ -19,6 +19,7 @@ const middleware: any[] =  [
     // optional
     body('slogan').optional().isString(),
     body('theme').optional().isString(), // isThemeValid
+    body('content_category').optional().isString(), // is specified Content Category
 
     // prohibited
     body('premium').not().exists().withMessage("You tried to become a hacker, don\'t you?"),
@@ -35,17 +36,21 @@ async function handler(req: Request, res: Response) {
         const {  
             domain, 
             title, 
-            slogan
+            slogan,
+            theme,
+            content_category
         } = req.body;
         
         await validateAddressIsFree(domain, null);
 
         const blog: IBlog = await blogsService.createBlogWithQuery({
-            email: Math.random().toString(),
+            email: Math.random().toString(), // ??
             owner: username, 
             domain,
             title,
-            slogan 
+            slogan,
+            theme,
+            content_category 
         });
 
         await setBlog(blog);

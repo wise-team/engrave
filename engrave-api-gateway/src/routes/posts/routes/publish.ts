@@ -14,6 +14,7 @@ import { IDraft } from '../../../submodules/engrave-shared/interfaces/IDraft';
 import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
 import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 import { OperationsScope } from '../../../submodules/engrave-shared/enums/OperationsScope';
+import publishedService from '../../../services/published/published.service';
 
 const middleware: any[] =  [
     body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
@@ -90,6 +91,8 @@ async function handler(req: Request, res: Response) {
         if(draftId) {
             await postsService.removeWithQuery({_id: draftId});
         }
+
+        await publishedService.addPublishedPost(article, blog);
 
         return res.json({ status: "OK", result });
 
