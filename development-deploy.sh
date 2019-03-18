@@ -1,6 +1,6 @@
 
 # docker build ./nginx/ -f ./nginx/Dockerfile.development -t bgornicki/nginx
-docker build ./engrave-front-dashboard/ -f ./engrave-front-dashboard/Dockerfile.development -t bgornicki/engrave-front-dashboard
+docker build ./engrave-dashboard/ -f ./engrave-dashboard/Dockerfile.development -t bgornicki/engrave-dashboard
 docker build ./engrave-frontpage/ -f ./engrave-frontpage/Dockerfile.development -t bgornicki/engrave-frontpage
 docker build ./engrave-statistics/ -f ./engrave-statistics/Dockerfile.development -t bgornicki/engrave-statistics
 docker build ./engrave-image-uploader/ -f ./engrave-image-uploader/Dockerfile.development -t bgornicki/engrave-image-uploader

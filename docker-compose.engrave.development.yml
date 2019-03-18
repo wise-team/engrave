@@ -96,7 +96,7 @@ services:
   beta-dashboard:
     image: bgornicki/engrave-dashboard:latest
 
-  engrave-front-dashboard:
+  dashboard:
     image: bgornicki/engrave-dashboard
     ports:
       - 9229:9229
@@ -119,9 +119,9 @@ services:
       - nginx_conf:/etc/nginx/conf.d
       - nginx_certs:/etc/letsencrypt
       - ./engrave-blogs-renderer/src/themes:/app/themes
-      - ./engrave-front-dashboard/src:/app/src
-      - ./engrave-front-dashboard/views:/app/views
-      - ./engrave-front-dashboard/public:/app/public
+      - ./engrave-dashboard/src:/app/src
+      - ./engrave-dashboard/views:/app/views
+      - ./engrave-dashboard/public:/app/public
     depends_on:
       - mongo
     secrets:
