@@ -11,7 +11,7 @@ block content
                 small.text-muted
                     ul
                         li.next-item
-                            span(class="oi oi-tag" title="icon tag" aria-hidden="true")
+                            span(class="oi oi-tag" aria-hidden="true")
                             =article.category.name
                         li.next-item
                             span(class="oi oi-clock" title= moment.utc(article.created).local().format('LLL') aria-hidden="true")
@@ -20,10 +20,10 @@ block content
                 small.text-muted
                     ul
                         li.next-item
-                            span(class="oi oi-comment-square" title="icon comment" aria-hidden="true")
+                            span(class="oi oi-comment-square" aria-hidden="true")
                             = "Comments" + ": " + article.comments
                         li.next-item
-                            span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                            span(class="oi oi-thumb-up" aria-hidden="true")
                             ="Votes" + ": " + article.votes_count
                         li.next-item
                             svg#Capa_1(version='1.1', xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', width="13" height="13", x='0px', y='-20px', viewBox='0 0 33 33', style='enable-background:new 0 0 33 33;', xml:space='preserve')

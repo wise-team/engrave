@@ -7,7 +7,7 @@
                 img.img-widget(src= item.thumbnail ? item.thumbnail : 'img/default.jpg')
             .col-8
                 a.title-widget(href= '/' + item.url) #{item.title}
-                a.tag-icon-widget(class="oi oi-tag" title="icon tag" aria-hidden="true" href="/category/" + item.category.slug)
+                a.tag-icon-widget(class="oi oi-tag" title="tag " + item.category.slug aria-hidden="true" href="/category/" + item.category.slug)
                 a.category-widget(href="/category/" + item.category.slug) &nbsp  #{item.category.name}
     if blog.fb_fanpage_url && blog.fb_fanpage_url != ''
         .fb-page(data-href=blog.fb_fanpage_url data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true")
