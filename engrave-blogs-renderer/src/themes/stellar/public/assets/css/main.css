@@ -3301,6 +3301,23 @@ input, select, textarea {
 						box-shadow: none;
 					}
 
+				#nav ul li .dropdown-menu {
+					border-radius: 8px;
+					background-color: #c79cc8;
+					border-style: none;
+				}
+
+					#nav ul li .dropdown-menu .dropdown-item {
+						color: white;
+						line-height: 2.25em;
+						font-weight: 200;
+					}
+
+						#nav ul li .dropdown-menu .dropdown-item:hover {
+							background-color: #f7f7f7;
+							color: #636363;
+						}
+
 		#nav.alt {
 			position: fixed;
 			top: 0;
@@ -3972,4 +3989,8 @@ button.submit-reply:hover{
 span.date {
 	font-size: medium;
 	font-style: italic;
+}
+
+section a.link-to-dashboard {
+	text-decoration: none;
 }

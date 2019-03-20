@@ -4,22 +4,27 @@ footer#footer
         p= blog.slogan
 
     section
-        if blog.link_twitter || blog.link_facebook || blog.link_instagram
-            h2 Social media
+        //if blog.link_twitter || blog.link_facebook || blog.link_instagram
+        h2 Social media
 
         ul.icons
-            if blog.link_twitter
-                li
-                    a.icon.fa-twitter.alt(href= blog.link_twitter)
-                        span.label Twitter
-            if blog.link_facebook
-                li
-                    a.icon.fa-facebook.alt(href= blog.link_facebook)
-                        span.label Facebook
-            if blog.link_instagram
-                li
-                    a.icon.fa-instagram.alt(href= blog.link_instagram)
-                        span.label Instagram
+            //if blog.link_twitter
+            li
+                a.icon.fa-twitter.alt(href= blog.link_twitter)
+                    span.label Twitter
+            //if blog.link_facebook
+            li
+                a.icon.fa-facebook.alt(href= blog.link_facebook)
+                    span.label Facebook
+            //if blog.link_instagram
+            li
+                a.icon.fa-instagram.alt(href= blog.link_instagram)
+                    span.label Instagram
+
+    section
+        //if login
+        a.link-to-dashboard(href="") Dashboard
+
 
     p.copyright
         | Powered by 

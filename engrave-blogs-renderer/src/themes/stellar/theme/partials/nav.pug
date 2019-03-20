@@ -4,4 +4,8 @@ nav#nav
             li
                 a.active(href="/category/" + nav.slug)= nav.name
         li
-            a.active(href='/login')#nav-login Login
+            .dropdown
+                a.active.dropdown-toggle(href='#' role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")="@Lenka"
+                .dropdown-menu(aria-labelledby="dropdownMenuLink")
+                    .dropdown-item(href="#")= "Dashboard"
+                    .dropdown-item(href="javascript:sslssso.logout();")= "Logout"
