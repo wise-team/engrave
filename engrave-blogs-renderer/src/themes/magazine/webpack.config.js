@@ -1,4 +1,3 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
@@ -15,10 +14,5 @@ module.exports = {
     path: __dirname + "/public/dist/",
     filename: "bundle.js"
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html"
-    }),
-    new VueLoaderPlugin()
-  ]
+  plugins: [new VueLoaderPlugin()]
 };
