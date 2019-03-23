@@ -103,9 +103,14 @@ Vue.component("comments", {
   }
 });
 
+import reksio from "./reksio.vue";
+
 var comments = new Vue({
   el: "#comments",
   data: {
     name: "lenka"
+  },
+  components: {
+    reksio
   }
 });
