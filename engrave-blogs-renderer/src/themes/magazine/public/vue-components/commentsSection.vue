@@ -1,7 +1,24 @@
 <template lang="pug">
   tree-view.comments-tree(:root='tree' :show-root='false')
     template(v-slot:item='{ node }')
-      | {{ node.body }}
+      .comment-tree
+        img.comment-avatar(src="//steemitimages.com/u/jblew/avatar")
+        .comment-content
+          h4= "jblew"
+          small.text-muted
+            span(class="oi oi-clock" title="icon clock" aria-hidden="true")
+            //- =moment(date).format('DD MMMM YYYY, h:mm:ss')
+          p {{ node.body }}
+          small.text-muted
+            ul
+              li.next-item
+                span(class="oi oi-thumb-up" title="icon like" aria-hidden="true")
+                ="5"
+              li.next-item
+                span(class="oi")
+                ="$" + "0.10"
+              li.next-item
+                span.comment-reply-link Reply
 </template>
 
 <script>
