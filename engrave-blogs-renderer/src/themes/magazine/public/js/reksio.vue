@@ -1,7 +1,5 @@
-<template>
-  <p>
-    hello from reksio
-  </p>
+<template lang="pug">
+  p hello from reksio
 </template>
 
 <script>
