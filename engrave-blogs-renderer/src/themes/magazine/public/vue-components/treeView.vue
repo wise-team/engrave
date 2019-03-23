@@ -1,21 +1,11 @@
-<template>
-  <div class="tree-view">
-    <div class="item" @click="toggleChildren" v-if="showRoot">
-      <slot name="item" :node="root" />
-    </div>
-
-    <div class="children" v-if="showChildren()">
-      <tree-view
-        v-for="(node, index) in root.children"
-        :key="index"
-        :root="node"
-      >
-        <template v-slot:item="props">
-          <slot name="item" :node="props.node" />
-        </template>
-      </tree-view>
-    </div>
-  </div>
+<template lang="pug">
+  .tree-view
+    .item(@click='toggleChildren' v-if='showRoot')
+      slot(name='item' :node='root')
+    .children(v-if='showChildren()')
+      tree-view(v-for='(node, index) in root.children' :key='index' :root='node')
+        template(v-slot:item='props')
+          slot(name='item' :node='props.node')
 </template>
 
 <script>
@@ -47,5 +37,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

@@ -1,9 +1,7 @@
-<template>
-  <tree-view :root="tree" :show-root="false" class="comments-tree">
-    <template v-slot:item="{ node }">
-      {{ node.body }}
-    </template>
-  </tree-view>
+<template lang="pug">
+  tree-view.comments-tree(:root='tree' :show-root='false')
+    template(v-slot:item='{ node }')
+      | {{ node.body }}
 </template>
 
 <script>
@@ -54,6 +52,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>
