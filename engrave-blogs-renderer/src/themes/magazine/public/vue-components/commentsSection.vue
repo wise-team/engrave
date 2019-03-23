@@ -19,6 +19,9 @@
                 ="$" + "0.10"
               li.next-item
                 span.comment-reply-link Reply
+              li.next-item
+                span(class="oi oi-caret-bottom" title="icon collapse" aria-hidden="true")
+                ="Collapse"
 </template>
 
 <script>

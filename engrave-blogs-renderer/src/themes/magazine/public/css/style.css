@@ -522,14 +522,6 @@ ul.author-social-media li .typcn:hover {
 
 
 /*============================= comments ============================================*/
-.tree-view .children {
-  margin-left: 40px;
-}
-
-.tree-view.comments-tree > .children {
-  margin-left: 0px;
-}
-
 .add.comment label{
     color: #212121;
     font-size: 12px;
@@ -570,6 +562,14 @@ button.add-comment-button {
     color: #fff;
 }
 
+.tree-view .children {
+    margin-left: 40px;
+}
+
+.tree-view.comments-tree > .children {
+    margin-left: 0;
+}
+
 img.comment-avatar {
     width: 40px;
     height: 40px;
@@ -590,12 +590,12 @@ img.comment-avatar {
     margin-bottom: 0;
 }
 
-.comment-tree > .comment-tree {
-    padding-left: 60px;
+.oi.oi-caret-bottom, .oi.oi-caret-top {
+    top: 2px;
 }
 
-.comment-tree > .comment-tree:nth-child(4){
-    padding-left: 0px;
+.tree-view .children > .comment-tree {
+    padding-left: 60px;
 }
 
 /*If max_accepted_payout - 0.000 SBD*/
@@ -604,8 +604,12 @@ img.comment-avatar {
 }
 
 @media only screen and (max-width: 540px) {
-    .comment-tree > .comment-tree {
-        padding-left: 20px;
+    .tree-view .children {
+        margin-left: 15px;
+    }
+
+    .tree-view.comments-tree > .children {
+        margin-left: 0;
     }
 }
 /*============================== steemit info login ============================================*/
