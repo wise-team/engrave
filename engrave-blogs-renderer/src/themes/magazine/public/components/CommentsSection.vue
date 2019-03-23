@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import treeView from "./treeView.vue";
+import TreeView from "./TreeView.vue";
 
-export default {
+export default Vue.extend({
   data() {
     return {
       url:
@@ -68,7 +68,7 @@ export default {
     };
   },
   components: {
-    treeView
+    TreeView
   }
-};
+});
 </script>

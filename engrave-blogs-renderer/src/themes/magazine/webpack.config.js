@@ -1,18 +1,73 @@
-const VueLoaderPlugin = require("vue-loader/lib/plugin");
+var path = require("path");
+var webpack = require("webpack");
 
 module.exports = {
-  entry: "./public/js/main.js",
-  module: {
-    rules: [
-      { test: /\.js$/, use: "babel-loader" },
-      { test: /\.vue$/, use: "vue-loader" },
-      { test: /\.pug$/, loader: "pug-plain-loader" },
-      { test: /\.css$/, use: ["vue-style-loader", "css-loader"] }
-    ]
-  },
+  entry: "./public/ts/index.ts",
   output: {
-    path: __dirname + "/public/dist/",
+    path: path.resolve(__dirname, "./public/dist"),
+    publicPath: "/public/dist/",
     filename: "bundle.js"
   },
-  plugins: [new VueLoaderPlugin()]
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: "vue-loader"
+      },
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        exclude: /node_modules/,
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
+        test: /\.pug$/,
+        loader: "pug-plain-loader"
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]?[hash]"
+        }
+      }
+    ]
+  },
+  resolve: {
+    extensions: [".ts", ".js", ".vue", ".json"],
+    alias: {
+      vue$: "vue/dist/vue.esm.js"
+    }
+  },
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true
+  },
+  performance: {
+    hints: false
+  },
+  devtool: "#eval-source-map"
 };
+
+if (process.env.NODE_ENV === "production") {
+  module.exports.devtool = "#source-map";
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    })
+  ]);
+}
