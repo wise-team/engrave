@@ -9,8 +9,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "vue": "^2.5.2",
     "vue-class-component": "^6.0.0",
+    "vue-moment": "^4.0.0",
     "vue-property-decorator": "^6.0.0"
   },
   "devDependencies": {

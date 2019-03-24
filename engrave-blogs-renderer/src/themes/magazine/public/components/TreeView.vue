@@ -1,11 +1,12 @@
 <template lang="pug">
   .tree-view
     .item(@click='toggleChildren' v-if='showRoot')
-      slot(name='item' :node='root')
+      slot(name='item' :node='root' :expanded='showChildren()')
+
     .children(v-if='showChildren()')
       tree-view(v-for='(node, index) in root.children' :key='index' :root='node')
         template(v-slot:item='props')
-          slot(name='item' :node='props.node')
+          slot(name='item' :node='props.node' :expanded='props.expanded')
 </template>
 
 <script lang="ts">
