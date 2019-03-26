@@ -155,7 +155,7 @@ services:
       - SC2_REDIRECT_DASHBOARD=http://127.0.0.1:3013/dashboard/authorize
       - SC2_REDIRECT_BLOG=http://127.0.0.1:3013/blog/authorize
       - STEEMCONNECT_ID=engrave.app
-      - DASHBOARD_ADDR=http://127.0.0.1:8080
+      - DASHBOARD_ADDR=http://localhost:8081
     secrets:
       - SC2_APP_SECRET
       - JWT_SECRET

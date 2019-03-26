@@ -1,26 +1,26 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import { body } from 'express-validator/check';
+import { header } from 'express-validator/check';
 import postsService from '../../../services/posts/services.posts';
 import { blogExists } from '../../../validators/blog/blogExiststs';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
 
 const middleware: any[] =  [
-    body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
+    header('blog_id').isString().isMongoId().custom(blogExists).withMessage('Blog does not exist'),
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
         
         const { username } = res.locals;
-        const { blogId} = req.body;
+        const { blog_id } = req.headers;
         
-        await validateBlogOwnership(blogId, username);
+        await validateBlogOwnership(<string>blog_id, username);
 
         const posts = await postsService.getMultipleWithQuery( { 
             username: username, 
-            blogId: blogId,
+            blogId: blog_id,
             status: PostStatus.DRAFT 
         });
 

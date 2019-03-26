@@ -25,7 +25,7 @@ async function handler(req: Request, res: Response) {
         await setUserRegistered(username);
         
         const tokenString = encodeURIComponent(token);
-        return res.redirect(process.env.DASHBOARD_ADDR + '?jwt=' + tokenString);
+        return res.redirect(process.env.DASHBOARD_ADDR + '/authorize?jwt=' + tokenString);
         
     }, req, res);
 }
