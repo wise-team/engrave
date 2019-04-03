@@ -158,7 +158,7 @@ services:
     volumes:
       - vault_db:/vault/file:rw
       - ./vault/config:/vault/config:rw
-    entrypoint: vault server -config=/vault/config/vault.json
+    entrypoint: vault server -config=/vault/config/production.json
 
 volumes:
   nginx_certs:

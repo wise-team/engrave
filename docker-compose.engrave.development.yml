@@ -189,6 +189,7 @@ services:
       - SC2_APP_SECRET
     volumes:
       - ./engrave-vault-connector/src:/app/src
+      - ./engrave-vault-connector/dist:/app/dist
     ports:
       - 3019:3000
       - 3020:3001
@@ -222,9 +223,11 @@ services:
     ports:
       - 8200:8200
     volumes:
-      - vault_db:/vault/file:rw
       - ./vault/config:/vault/config:rw
-    entrypoint: vault server -config=/vault/config/vault.json
+    environment:
+        - VAULT_DEV_ROOT_TOKEN_ID=development-root-token
+        - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    entrypoint: vault server -config=/vault/config/development.json -dev-kv-v1
 
 volumes:
   nginx_certs:
@@ -235,6 +238,8 @@ volumes:
   vault_db:
  
 secrets:
+  VAULT_TOKEN:
+    file: ./docker/secrets/VAULT_TOKEN
   NAMECOM_TOKEN:
     external: true
   NAMECOM_USERNAME:
@@ -246,8 +251,6 @@ secrets:
   SC2_APP_SECRET:
     external: true
   JWT_SECRET:
-    external: true
-  VAULT_TOKEN:
     external: true
   MAILGUN_DOMAIN:
     external: true

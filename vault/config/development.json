@@ -1,0 +1,6 @@
+{
+    "default_lease_ttl": "168h",
+    "max_lease_ttl": "0h",
+    "disable_mlock": true,
+    "ui": true
+}
