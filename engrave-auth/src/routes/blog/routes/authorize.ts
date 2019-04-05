@@ -19,7 +19,7 @@ async function handler(req: any, res: Response) {
     
         await vault.storeAccessToken(username, access_token, false);
 
-        const token = jwt.createJwt(username, jwt.Scope.BLOG);
+        const token = jwt.createJwt(username, jwt.Scope.BLOG, false);
         
         if(redirect) {
             const tokenString = encodeURIComponent(token);

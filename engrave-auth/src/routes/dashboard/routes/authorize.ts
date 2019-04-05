@@ -20,7 +20,7 @@ async function handler(req: Request, res: Response) {
         await vault.storeRefreshToken(username, refresh_token);
         await vault.storeAccessToken(username, access_token, true);
 
-        const token = jwt.createJwt(username, jwt.Scope.DASHBBOARD);
+        const token = jwt.createJwt(username, jwt.Scope.DASHBBOARD, false);
 
         await setUserRegistered(username);
         

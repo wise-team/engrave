@@ -14,6 +14,7 @@ import { IDraft } from '../../../submodules/engrave-shared/interfaces/IDraft';
 import { PostStatus } from '../../../submodules/engrave-shared/enums/PostStatus';
 import sc from '../../../submodules/engrave-shared/services/steemconnect/steemconnect.service';
 import { OperationsScope } from '../../../submodules/engrave-shared/enums/OperationsScope';
+import validateCategories from '../../../services/categories/actions/validateCategories';
 
 const middleware: any[] =  [
     body('blogId').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
@@ -22,8 +23,10 @@ const middleware: any[] =  [
     body('title').isString(),
     body('body').isString(),
     body('thumbnail').optional().isURL(),
-    body('categories').optional(),
-    body('tags').optional(),
+    body('categories').optional().isArray().withMessage("Categories need to be an array"),
+    body('categories.*').optional().isMongoId().withMessage("Should be category ID"),
+    body('tags').optional().isArray().withMessage("Tags need to be an array").custom(tags => (tags.length <= 5)).withMessage("Use no more than 5 tags"),
+    body('tags.*').optional().matches(/^(?=.{2,24}$)([[a-z][a-z0-9]*-?[a-z0-9]+)$/).withMessage("Invalid Steem tag"),
     
     body('draftId').optional().isMongoId().custom(draftExists).withMessage('Draft does not exist'),
 ];
@@ -41,14 +44,13 @@ async function handler(req: Request, res: Response) {
             body,
             thumbnail,
             categories,
+            decline_reward,
             tags
         } = req.body;
 
         await validateBlogOwnership(blogId, username);
-
-        if(draftId) {
-            await validatePostOwnership(draftId, username);
-        }
+        await validateCategories(categories, blogId);
+        await validatePostOwnership(draftId, username);
  
         if(await articleExists(username, permlink)) {
             throw new Error("Article with that permlink already exists");
@@ -69,11 +71,12 @@ async function handler(req: Request, res: Response) {
             scheduled: null,
             title: title,
             body: body,
-            categories: [],
-            tags: ['test4'],
+            categories: categories,
+            tags: tags,
             featured_image: thumbnail,
+            thumbnail_image: thumbnail,
             status: PostStatus.DRAFT,
-            decline_reward: true,
+            decline_reward: decline_reward,
             permlink: permlink,
             parent_category: null
         }

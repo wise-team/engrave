@@ -14,8 +14,11 @@ const middleware: any[] =  [
     body('thumbnail').optional().isURL(),
     
     body('scheduled').optional().isString(), // isDate
-    body('categories').optional(), 
-    body('tags').optional(),
+    body('categories').optional().isArray().withMessage("Categories need to be an array"),
+    body('categories.*').optional().isMongoId().withMessage("Should be category ID"),
+    body('tags').optional().isArray().withMessage("Tags need to be an array").custom(tags => (tags.length <= 5)).withMessage("Use no more than 5 tags"),
+    body('tags.*').optional().matches(/^(?=.{2,24}$)([[a-z][a-z0-9]*-?[a-z0-9]+)$/).withMessage("Invalid Steem tag"),
+    body('decline_reward').optional().isBoolean().toBoolean(),
 
     // prohibited
     body('username').not().exists().withMessage("Bad boy! You cannot change username"),
@@ -30,6 +33,7 @@ async function handler(req: Request, res: Response) {
         const { id } = req.body;
         const { username } = res.locals;
 
+        // todo validate categories
         await validatePostOwnership(id, username);
 
         await postsService.updateWithQuery(id, req.body);

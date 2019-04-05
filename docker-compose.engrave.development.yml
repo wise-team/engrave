@@ -239,20 +239,20 @@ volumes:
  
 secrets:
   VAULT_TOKEN:
-    file: ./docker/secrets/VAULT_TOKEN
+    file: ./docker/secrets/development/VAULT_TOKEN
   NAMECOM_TOKEN:
-    external: true
+    file: ./docker/secrets/development/NAMECOM_TOKEN
   NAMECOM_USERNAME:
-    external: true
+    file: ./docker/secrets/development/NAMECOM_USERNAME
   IMGUR_KEY:
-    external: true
+    file: ./docker/secrets/development/IMGUR_KEY
   IMGUR_CLIENT_ID:
-    external: true
+    file: ./docker/secrets/development/IMGUR_CLIENT_ID
   SC2_APP_SECRET:
-    external: true
+    file: ./docker/secrets/development/SC2_APP_SECRET
   JWT_SECRET:
-    external: true
+    file: ./docker/secrets/development/JWT_SECRET
   MAILGUN_DOMAIN:
-    external: true
+    file: ./docker/secrets/development/MAILGUN_DOMAIN
   MAILGUN_API_KEY:
-    external: true
+    file: ./docker/secrets/development/MAILGUN_API_KEY
