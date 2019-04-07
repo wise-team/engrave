@@ -11,6 +11,8 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
+        console.log('refresh/store', new Date());
+
         const { username } = req.params;
         const { token } = req.body;
 

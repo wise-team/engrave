@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import { body } from 'express-validator/check';
+import { param } from 'express-validator/check';
 
 import blogsService from '../../../services/blogs/services.blogs';
 import { blogExists } from '../../../validators/blog/blogExiststs';
 import { removeBlog } from '../../../submodules/engrave-shared/services/cache/cache';
 
 const middleware: any[] = [
-    body('id').isString().custom(blogExists).withMessage('Blog does not exist')
+    param('id').isString().custom(blogExists).withMessage('Blog does not exist')
 ];
 
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
-        const { id } = req.body;
+        const { id } = req.params;
         const { username } = res.locals;
 
         const blog = await blogsService.getBlogByQuery({ _id: id });

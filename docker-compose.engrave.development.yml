@@ -249,7 +249,7 @@ secrets:
   IMGUR_CLIENT_ID:
     file: ./docker/secrets/development/IMGUR_CLIENT_ID
   SC2_APP_SECRET:
-    file: ./docker/secrets/development/SC2_APP_SECRET
+    external: true
   JWT_SECRET:
     file: ./docker/secrets/development/JWT_SECRET
   MAILGUN_DOMAIN:

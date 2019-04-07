@@ -8,6 +8,8 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
+    	console.log('dashboard/login', new Date());
+
         const url = sc.dashboard.getLoginURL() + '&response_type=code';
 
         return res.redirect( url );

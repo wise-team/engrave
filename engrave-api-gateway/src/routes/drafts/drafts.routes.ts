@@ -10,7 +10,7 @@ const draftsApi: express.Router = express.Router();
 
 draftsApi.get('/', verifyToken, getAll.middleware, getAll.handler);
 draftsApi.post('/', verifyToken, create.middleware, create.handler);
-draftsApi.put('/', verifyToken, update.middleware, update.handler);
+draftsApi.put('/:id', verifyToken, update.middleware, update.handler);
 draftsApi.get('/:id', verifyToken, get.middleware, get.handler);
 draftsApi.delete('/:id', verifyToken, remove.middleware, remove.handler);
 

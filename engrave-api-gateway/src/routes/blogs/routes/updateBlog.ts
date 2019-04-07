@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { handleResponseError } from '../../../submodules/engrave-shared';
-import { body } from 'express-validator/check';
+import { body, param } from 'express-validator/check';
 import { blogExists } from '../../../validators/blog/blogExiststs';
 import isDomainValid from '../../../validators/domain/isDomainValid';
 import blogsService from '../../../services/blogs/services.blogs';
@@ -11,7 +11,7 @@ import rebuildSitemap from '../../../services/sitemap/actions/rebuildSitemap';
 import validateBlogOwnership from '../../../services/blogs/actions/validateBlogOwnership';
 
 const middleware: any[] = [
-    body('id').isString().custom(blogExists).withMessage('Blog does not exist'),
+    param('id').isMongoId().custom(blogExists).withMessage('Blog does not exist'),
     body('domain').optional()
         .isString().not().isEmpty()
         .isURL().withMessage("Please provide valid subdomain address")
@@ -31,7 +31,7 @@ const middleware: any[] = [
     body('link_linkedin').optional().isString().isURL(),
     body('link_instagram').optional().isString().isURL(),
 
-    body('opengraph_default_image_url').optional().isString().isURL(),
+    body('opengraph_default_image_url').optional().isString().isURL().withMessage("Please provide valid OpenGraph image URL"),
     body('opengraph_default_description').optional().isString(),
     body('onesignal_app_id').optional().isString(),
     body('onesignal_api_key').optional().isString(),
@@ -51,7 +51,8 @@ const middleware: any[] = [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
-        const { id, domain, custom_domain } = req.body;
+        const { id } = req.params;
+        const { domain, custom_domain } = req.body;
         const { username } = res.locals;
         
         await validateBlogOwnership(id, username);

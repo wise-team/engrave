@@ -13,6 +13,8 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
+        console.log('dashboard/authorize', new Date());
+
         const { code } = req.query;
        
         const { data: { access_token, refresh_token, username, expires_in} } = await sc.getRefreshToken(code, sc.dashboard.scope);

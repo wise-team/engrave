@@ -12,6 +12,8 @@ const middleware: any[] =  [
 async function handler(req: Request, res: Response) {
     return handleResponseError(async () => {
 
+        console.log('access/store', new Date());
+
         const { token } = req.body;
         const { username } = req.params;
         const elevated = (req.params.elevated == 'true');
