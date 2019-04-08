@@ -4,6 +4,6 @@ export async function validateIsSlugUniquePerBlog(blogId: string, slug: string, 
 
     const categories = await categoriesService.getCategoriesByQuery({blogId: blogId, slug: slug});
 
-    if (categories.length && categories[0]._id != categoryId) throw new Error("Category slug must be unique");
+    if (categories.length && categories[0]._id != categoryId) throw new Error("Categories must be unique");
 
 }

@@ -19,7 +19,7 @@ async function handler(req: Request, res: Response) {
 
         const draft = await postsService.getWithQuery({_id: id});
 
-        return res.json({ draft });
+        return res.json(draft);
 
     }, req, res);
 }
