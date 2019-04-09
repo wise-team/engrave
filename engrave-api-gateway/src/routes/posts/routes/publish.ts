@@ -83,13 +83,9 @@ async function handler(req: Request, res: Response) {
         }
                 
         const operations = prepareOperations(article, OperationsScope.PUBLISH , blog, {adopter: false});
-
-        console.log(access_token);
                 
         sc.dashboard.setAccessToken(access_token);
         const result = await sc.dashboard.broadcast(operations);
-
-        console.log(result);
         
         if(draftId) {
             await postsService.removeWithQuery({_id: draftId});

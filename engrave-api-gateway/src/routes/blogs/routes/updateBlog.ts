@@ -15,30 +15,32 @@ const middleware: any[] = [
     body('domain').optional()
         .isString().not().isEmpty()
         .isURL().withMessage("Please provide valid subdomain address")
-        .custom(isValidSubdomain).withMessage("This is not a proper subdomain"),
+        .custom(isValidSubdomain).withMessage("This is not a proper subdomain")
+        .trim(),
     body('custom_domain').optional()
         .isString().not().isEmpty()
         .isURL()
-        .custom(isDomainValid).withMessage("Domain not pointing to Engrave server"),
+        .custom(isDomainValid).withMessage("Domain not pointing to Engrave server")
+        .trim(),
     body('domain_redirect').optional().isBoolean(),
-    body('title').optional().isString(),
-    body('slogan').optional().isString(),
+    body('title').optional().isString().trim(),
+    body('slogan').optional().isString().trim(),
     body('logo_url').optional().isString().isURL(),
     body('main_image').optional().isString().isURL(),
 
-    body('link_facebook').optional().isString().isURL(),
-    body('link_twitter').optional().isString().isURL(),
-    body('link_linkedin').optional().isString().isURL(),
-    body('link_instagram').optional().isString().isURL(),
+    body('link_facebook').optional({checkFalsy: true}).isString().isURL(),
+    body('link_twitter').optional({checkFalsy: true}).isString().isURL(),
+    body('link_linkedin').optional({checkFalsy: true}).isString().isURL(),
+    body('link_instagram').optional({checkFalsy: true}).isString().isURL(),
 
-    body('opengraph_default_image_url').optional().isString().isURL().withMessage("Please provide valid OpenGraph image URL"),
-    body('opengraph_default_description').optional().isString(),
-    body('onesignal_app_id').optional().isString(),
-    body('onesignal_api_key').optional().isString(),
-    body('onesignal_body_length').optional().isString(),
-    body('onesignal_logo_url').optional().isString().isURL(),
-    body('analytics_gtag').optional().isString(),
-    body('webmastertools_id').optional().isString(),
+    body('opengraph_default_image_url').optional({checkFalsy: true}).isString().isURL().withMessage("Please provide valid OpenGraph image URL"),
+    body('opengraph_default_description').optional({checkFalsy: true}).isString(),
+    body('onesignal_app_id').optional({checkFalsy: true}).isString(),
+    body('onesignal_api_key').optional({checkFalsy: true}).isString(),
+    body('onesignal_body_length').optional({checkFalsy: true}).isNumeric(),
+    body('onesignal_logo_url').optional({checkFalsy: true}).isString().isURL(),
+    body('analytics_gtag').optional({checkFalsy: true}).isString(),
+    body('webmastertools_id').optional({checkFalsy: true}).isString(),
 
     // prohibited
     body('collaboration_type').not().exists().withMessage("You tried to become a hacker, don\'t you?"), // TODO 
