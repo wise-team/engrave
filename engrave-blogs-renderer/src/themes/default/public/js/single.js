@@ -262,6 +262,7 @@ function renderComment(comment, voted, list_id) {
     $(new_comment_box).addClass('comment-box');
 
     var image = document.createElement('img');
+    $(image).addClass('comment-image');
     $(image).prop('src', "https://steemitimages.com/u/" + comment.author + "/avatar");
 
     $(new_comment_box).append(image);

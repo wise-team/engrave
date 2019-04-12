@@ -1931,7 +1931,7 @@ ul.small-posts {
       .comment-area-box > ul li .comment-box {
         overflow: hidden;
         margin-bottom: 20px; }
-        .comment-area-box > ul li .comment-box img {
+        .comment-area-box > ul li .comment-box .comment-image {
           margin-left: 5px;
           object-fit: cover;
           width: 40px;
@@ -1970,6 +1970,8 @@ ul.small-posts {
             margin-bottom: 0px; }
           .comment-area-box > ul li .comment-box .comment-content ul li {
             list-style: circle; }
+          .comment-area-box > ul li .comment-box .comment-content img {
+            max-width: 100% }
           .comment-area-box > ul li .comment-box .comment-content blockquote {
             margin-left: 5px; 
             margin-top: 5px;
