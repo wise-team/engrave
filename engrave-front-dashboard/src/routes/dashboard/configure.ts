@@ -46,6 +46,8 @@ router.post(
             } else {
                 if ( ! await validateDomainPointingToEngrave(domain))
                     throw new Error("Please, change your domain's DNS settings as mentioned in this page and try again");
+                if ( ! await validateDomainPointingToEngrave(`www.${domain}`))
+                    throw new Error("Please, change your domain's DNS settings as mentioned in this page and try again");
             }
             
             let available = await BlogListModule.isBlogDomainAvailable(domain);
