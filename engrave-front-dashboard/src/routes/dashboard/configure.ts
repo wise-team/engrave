@@ -56,35 +56,34 @@ router.post(
             let blog = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
             if(blog.configured) throw new Error('You already configured your blog!');
 
-            if (!blog.configured) {
-                blog.configured = true;
-                blog.email = configuration.email;
-                blog.newsletter = configuration.newsletter == 'on' ? true : false;
-                blog.theme = configuration.theme;
-                blog.blog_title = configuration.blog_title;
-                blog.blog_slogan = configuration.blog_slogan;
-                blog.category = configuration.category;
-                blog.domain = domain;
-                blog.ssl = false;
+            blog.configured = true;
+            blog.email = configuration.email;
+            blog.newsletter = configuration.newsletter == 'on' ? true : false;
+            blog.theme = configuration.theme;
+            blog.blog_title = configuration.blog_title;
+            blog.blog_slogan = configuration.blog_slogan;
+            blog.category = configuration.category;
+            blog.domain = domain;
+            blog.ssl = false;
 
-                if (blog.tier == Tier.BASIC) {
-                    blog.ssl = true;
-                } else if (blog.tier == Tier.STANDARD || blog.tier == Tier.EXTENDED) {
-                    blog.is_domain_custom = true;
-                }
-
-                await blog.save();
-
-                await setUserRegistered(blog.steem_username);
-                
-                await generateNginxSettings(blog);
-                
-                if(blog.email && blog.email != '') {
-                    await sendWelcomeMail(blog.email, blog.steem_username, blog.domain);
-                }
-
-                res.json({ success: "Configured successfully!" });
+            if (blog.tier == Tier.BASIC) {
+                blog.ssl = true;
+            } else if (blog.tier == Tier.STANDARD || blog.tier == Tier.EXTENDED) {
+                blog.is_domain_custom = true;
             }
+
+            await blog.save();
+
+            await setUserRegistered(blog.steem_username);
+            
+            await generateNginxSettings(blog);
+            
+            if(blog.email && blog.email != '') {
+                await sendWelcomeMail(blog.email, blog.steem_username, blog.domain);
+            }
+
+            res.json({ success: "Configured successfully!" });
+        
         } catch (error) {
             res.status(400).json({ error: error.message });
         }     

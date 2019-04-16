@@ -230,14 +230,14 @@ export class Utils {
         let blogger = await Blogs.findOne({ steem_username: steemUsername });
         if (!blogger || blogger.tier) throw new Error('Blogger already exists');
         blogger.tier = tier;
-        return blogger.save();
+        return await blogger.save();
     }
 
     static async cancelBloggerTier(steemUsername: string) {
         let blogger = await Blogs.findOne({ steem_username: steemUsername });
         if (!blogger || blogger.configured) throw new Error("Can't change tier");
         blogger.tier = null;
-        return blogger.save();
+        return await blogger.save();
     }
 
     static CopySettings(new_settings: any, oldsettings: IBlog) {
