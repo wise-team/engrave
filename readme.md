@@ -28,6 +28,7 @@ echo "jwt secret" | sudo docker secret create JWT_SECRET -
 echo "vault token" | sudo docker secret create VAULT_TOKEN -
 echo "mailgun domain" | sudo docker secret create MAILGUN_DOMAIN -
 echo "mailgun api key" | sudo docker secret create MAILGUN_API_KEY -
+echo "grafana admin password" | sudo docker secret create GRAFANA_PASSWORD -
 ```
 
 5. Build development images with `./development-deploy.sh`
@@ -69,6 +70,7 @@ echo "steemconnect app secret" | sudo docker secret create SC2_APP_SECRET -
 echo "jwt secret" | sudo docker secret create JWT_SECRET -
 echo "vault token" | sudo docker secret create VAULT_TOKEN -
 echo "mailgun domain" | sudo docker secret create MAILGUN_DOMAIN -
+echo "mailgun api key" | sudo docker secret create MAILGUN_API_KEY -
 echo "mailgun api key" | sudo docker secret create MAILGUN_API_KEY -
 ```
 
