@@ -155,7 +155,6 @@ services:
       - ./vault/config:/vault/config:rw
     entrypoint: vault server -config=/vault/config/vault.json
 
-
   ### METRICS MONITORING ###
   
   prometheus:
@@ -188,7 +187,6 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-
 
 volumes:
   db-data:
