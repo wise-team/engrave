@@ -623,7 +623,7 @@
       },
       {
         "aliasColors": {
-          "{id=\"/\",instance=\"cadvisor:8080\",job=\"cadvisor\"}": "#BA43A9"
+          "{id=\"/\",instance=\"cadvisor:8080\",job=\"prometheus\"}": "#BA43A9"
         },
         "bars": false,
         "dashLength": 10,
