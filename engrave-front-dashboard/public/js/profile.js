@@ -60,7 +60,7 @@ $(document).ready(function () {
                     $('#progress-loader').remove();
                     $.notify({
                         icon: "nc-icon nc-fav-remove",
-                        message: "Coś poszło nie tak..."        
+                        message: "Something gone wrong..."        
                     }, {
                         type: 'danger',
                         timer: 8000,

@@ -51,7 +51,7 @@ router.get('/edit/:permlink', RoutesVlidators.isLoggedAndConfigured, (req: IExte
             }
 
             let tags = '';
-            let thumbnail = '';
+            let featured_image = '';
 
             if (steem_post.hasOwnProperty('json_metadata') && steem_post.json_metadata != '') {
                 let metadata = JSON.parse(steem_post.json_metadata);
@@ -62,8 +62,8 @@ router.get('/edit/:permlink', RoutesVlidators.isLoggedAndConfigured, (req: IExte
                         }
                     })
                 }
-                if (metadata && metadata.hasOwnProperty('image') && metadata.image.length) {
-                    thumbnail = metadata.image[0];
+                if (metadata && metadata.hasOwnProperty('featured_image')) {
+                    featured_image = metadata.featured_image;
                 }
             }
 
@@ -72,7 +72,7 @@ router.get('/edit/:permlink', RoutesVlidators.isLoggedAndConfigured, (req: IExte
                 title: steem_post.title,
                 body: Utils.removeWebsiteAdvertsElements(steem_post.body),
                 category: category,
-                image: thumbnail,
+                featured_image: featured_image,
                 tags: tags
             }
 
@@ -222,6 +222,7 @@ router.post('/draft', RoutesVlidators.isLoggedAndConfigured, async (req: IExtend
                 draft.image = post.image;
                 draft.links = post.links;
                 draft.thumbnail = post.thumbnail;
+                draft.featured_image = post.featured_image;
                 draft.steem_username = req.session.blogger.steem_username;
                 await draft.save();
                 res.json({ success: 'Draft updated', _id: draft._id });

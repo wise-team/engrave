@@ -10,8 +10,9 @@ export let PostSchema: Schema = new Schema({
     category: Object,
     tags: [String],
     links: [String],
-    image: [String],
-    thumbnail: String
+    image: [String], // this is misleading but it comes from steem blockchain article type and it is in fact an images array
+    thumbnail: String,
+    featured_image: String
 });
 
 export const Posts: Model<IArticle> = model<IArticle>("posts", PostSchema);

@@ -11,9 +11,9 @@ block content
     input(type='hidden', id='editorial', value= blog.username)
 
     section.main#content
-        if article.thumbnail
+        if article.featured_image
             span.image.main
-                img(src= article.thumbnail)
+                img(src= article.featured_image)
         span(class="date" title= moment.utc(article.created).local().format('LLL'))= moment.utc(article.created).local().fromNow()
         h2=article.title
         span

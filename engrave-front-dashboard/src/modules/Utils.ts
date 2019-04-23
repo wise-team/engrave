@@ -2,11 +2,16 @@ import { DashboardSteemConnect } from './SteemConnect';
 import { Tier } from "../helpers/TierEnum";
 import { IBlog } from "../helpers/IBlog";
 import { Blogs } from '../submodules/engrave-shared/models/BlogsModel';
+import * as slug from 'slug';
+import * as base58 from 'bs58';
 
-let steem = require('steem');
-var getSlug = require('speakingurl');
-let getUrls = require('get-urls');
+const secureRandom = require('secure-random');
+const steem = require('steem');
+const getUrls = require('get-urls');
 const isImage = require('is-image');
+
+const customCharMap = slug.charmap;
+customCharMap['_'] = '-';
 
 export class Utils {
 
@@ -84,6 +89,7 @@ export class Utils {
                         image: article.image,
                         links: article.links,
                         category: article.category,
+                        featured_image: article.featured_image,
                         app: `engrave`,
                         format: "markdown",
                         domain: blogger.domain
@@ -130,90 +136,95 @@ export class Utils {
 
     }
 
-
     static prepareBloggerPost(article: any, blogger: any) {
-
-        if(article.image != '' && !isImage(article.image)) {
+        
+        if(article.featured_image && article.featured_image != '' && !isImage(article.featured_image)) {
             throw new Error('Please use only direct image link as a thumbnail');
         }
 
-        if (article.body != '' && article.title != '') {
-
-            if (!article.permlink) {
-                article.permlink = getSlug(article.title);
-            }
-
-            var urls: string[] = getUrls(article.body);
-            var links: string[] = [];
-            var image: string[] = [];
-            var category: string = null;
-            var thumbnail: string = null;
-
-            if (article.image && article.image != '') {
-                let imageLink = article.image;
-                
-                if(Array.isArray(article.image)) {
-                    imageLink = article.image[0];
-                }
-
-                image.push(imageLink);
-                thumbnail = imageLink;
-            }
-
-            urls.forEach(url => {
-                if (url[url.length - 1] == ')') {
-                    var trimmed = url.substring(0, url.length - 1);
-                } else {
-                    var trimmed = url;
-                }
-
-                if (isImage(trimmed)) {
-                    image.push(trimmed);
-                } else {
-                    links.push(trimmed);
-                }
-            })
-
-            var tags: string[] = [];
-
-            if (!article.parent_category) {
-                for (var i = 0; i < blogger.categories.length; i++) {
-                    if (blogger.categories[i].name === article.category) {
-                        category = blogger.categories[i];
-                        tags.push(blogger.categories[i].steem_tag.toLowerCase()); // obtain category steemconnect tags
-                        break;
-                    }
-                }
-            } else {
-                tags.push(article.parent_category);
-            }
-            var tempTags = null;
-            if (typeof (article.tags) == 'string') {
-                tempTags = article.tags.split(" ");
-            } else {
-                tempTags = article.tags;
-            }
-
-            tempTags.forEach((tag: string) => {
-                if (tag != ' ' && tag != null && tag != '') {
-                    tags.push(tag.trim());
-                }
-            })
-
-            if (blogger.frontpage_language == 'pl') {
-                article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
-            } else {
-                article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
-            }
-            article.links = links;
-            article.tags = tags;
-            article.image = image;
-            article.category = category;
-            article.thumbnail = thumbnail;
-            return article;
-        } else {
-            throw new Error('Cannot parse article');
+        if(article.body === '') {
+            throw new Error('Article body cannot be empty');
         }
+
+        if(article.title === '') {
+            throw new Error('Article title cannot be empty');
+        }
+
+        if (!article.permlink) {
+            article.permlink = slug(article.title, { lower: true, charmap: customCharMap });
+            if(article.permlink === '' || article.permlink === '-') {
+                article.permlink = base58.encode(secureRandom.randomBuffer(8));
+                article.permlink = article.permlink.toLowerCase().replace(/[^a-z0-9-]+/g, '');
+            }
+        }
+
+        const urls: string[] = getUrls(article.body);
+        let links: string[] = [];
+        let image: string[] = []; // yes, it's an array :|
+        let category: string = null;
+        let thumbnail: string = null;
+
+        if(article.featured_image && article.featured_image != '') {
+            image.push(article.featured_image);
+            thumbnail = article.featured_image;
+        }
+
+        urls.forEach(url => {
+            let trimmed;
+            if (url[url.length - 1] == ')') {
+                trimmed = url.substring(0, url.length - 1);
+            } else {
+                trimmed = url;
+            }
+
+            if (isImage(trimmed)) {
+                image.push(trimmed);
+                if(!thumbnail) {
+                    thumbnail = trimmed;
+                }
+            } else {
+                links.push(trimmed);
+            }
+        })
+
+        let tags: string[] = [];
+
+        if (!article.parent_category) {
+            for (let i = 0; i < blogger.categories.length; i++) {
+                if (blogger.categories[i].name === article.category) {
+                    category = blogger.categories[i];
+                    tags.push(blogger.categories[i].steem_tag.toLowerCase());
+                    break;
+                }
+            }
+        } else {
+            tags.push(article.parent_category);
+        }
+        let tempTags = null;
+        if (typeof (article.tags) == 'string') {
+            tempTags = article.tags.split(" ");
+        } else {
+            tempTags = article.tags;
+        }
+
+        tempTags.forEach((tag: string) => {
+            if (tag != ' ' && tag != null && tag != '') {
+                tags.push(tag.trim());
+            }
+        })
+
+        if (blogger.frontpage_language == 'pl') {
+            article.body += '\n\n***\n<center><sup>Pierwotnie opublikowano na [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Blog na Steem napędzany przez [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+        } else {
+            article.body += '\n\n***\n<center><sup>Originally posted on [' + blogger.blog_title + '](https://' + blogger.domain + '/' + article.permlink + '). Steem blog powered by [' + process.env.FRONT.toUpperCase() + '](https://' + process.env.DOMAIN + ').</sup></center>';
+        }
+        article.links = links;
+        article.tags = tags;
+        article.image = image;
+        article.category = category;
+        article.featured_image = article.featured_image != "" ? article.featured_image : null ;
+        article.thumbnail = thumbnail;
+        return article;
     }
 
     static removeWebsiteAdvertsElements(body: string) {

@@ -41,7 +41,7 @@ $(document).ready(function () {
             },
             error: function (data) {
                 console.log(data);
-                toastr.error("Coś poszło nie tak...");
+                toastr.error("Something gone wrong...");
             }
         });
 

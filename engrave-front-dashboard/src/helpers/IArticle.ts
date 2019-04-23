@@ -12,4 +12,5 @@ export interface IArticle extends Document {
     links: [string];
     image: [string];
     thumbnail: string;
+    featured_image: string;
 }
