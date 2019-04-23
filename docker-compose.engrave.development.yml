@@ -196,6 +196,47 @@ services:
       - ./vault/config:/vault/config:rw
     entrypoint: vault server -config=/vault/config/vault.json
 
+  ### METRICS MONITORING ###
+  
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./metrics/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_db:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+  
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+        - '9091:9100'
+    volumes:
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /proc:/host/proc:ro
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+        - prometheus
+    ports:
+        - "9092:3000"
+    volumes:
+      - grafana_db:/var/lib/grafana
+      - ./metrics/grafana/:/etc/grafana/provisioning/
+
+  cadvisor:
+    image: google/cadvisor:latest
+    ports:
+     - "9093:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
 volumes:
   db-data:
   nginx_certs:
@@ -203,7 +244,9 @@ volumes:
   certbot:
   redis-data:
   vault_db:
- 
+  prometheus_db:
+  grafana_db:
+
 secrets:
   NAMECOM_TOKEN:
     external: true
