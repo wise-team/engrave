@@ -1,14 +1,14 @@
 .posts-block#featured-posts
-    h1= "Featured articles"
+    h1= __('Featured articles')
     .slider-news
         .flexslider
             ul.slides
                 li.flex-active-slide
                     img(src='/img/empty-featured.jpg')
                     .slider-caption
-                        a(href="#", class="category") Default category
+                        a(href="#", class="category")= __('Default category')
                         h2
-                            a(href="#") This blog seems to be empty
+                            a(href="#")= __('This blog seems to be empty')
                         ul.post-tags
                             li
                                 div

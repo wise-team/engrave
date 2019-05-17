@@ -1,3 +1,10 @@
 {
-    "name": "Magazine"
+    "name": "Magazine",
+    "languages": [{
+        "name": "Polski",
+        "locale": "pl"
+    }, {
+        "name": "English",
+        "locale": "en"
+    }]
 }
