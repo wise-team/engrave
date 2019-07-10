@@ -24,7 +24,7 @@ export class RoutesVlidators {
             const token = RoutesVlidators.prepareJwtTokenFromAccessToken(req.session.access_token);
 
             const decodedToken = jwt.decode(token);
-
+            
             const currentTime = new Date().getTime() / 1000;
 	        if (decodedToken.exp < currentTime) {
                 req.session.destroy();
@@ -58,15 +58,15 @@ export class RoutesVlidators {
 
     private static prepareJwtTokenFromAccessToken (access_token: string) {
 
-        const jwtHasHeader = (access_token.match(new RegExp('\\.')) || []).length > 1;
+        const dotsQuantity = (access_token.match(new RegExp('\\.')) || []).length;
 
-        if(!jwtHasHeader) {
+        if(dotsQuantity === 0) {
+             return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${access_token}.`;
+        } else if(dotsQuantity === 1) {
             return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${access_token}`;
         } else {
             return access_token;
         }
-
-
     }
 }
 
