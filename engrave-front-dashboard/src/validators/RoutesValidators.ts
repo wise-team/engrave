@@ -20,18 +20,18 @@ export class RoutesVlidators {
         try {
             
             if (!req.session.steemconnect) throw new Error("User not logged in");
-            
-            const token = RoutesVlidators.prepareJwtTokenFromAccessToken(req.session.access_token);
 
-            const decodedToken = jwt.decode(token);
+            const decodedToken = jwt.decode(req.session.access_token);
             
             const currentTime = new Date().getTime() / 1000;
-	        if (decodedToken.exp < currentTime) {
+            
+	        if (decodedToken && decodedToken.exp < currentTime) {
                 req.session.destroy();
                 throw new Error("Session expired");
             }
 
             let blogger = await Blogs.findOne({ steem_username: req.session.steemconnect.name });
+
             if (!blogger) throw new Error("Blogger not found");
             req.session.blogger = blogger;
             if (!blogger.tier) res.redirect('/tiers');
@@ -56,17 +56,5 @@ export class RoutesVlidators {
         }
     }
 
-    private static prepareJwtTokenFromAccessToken (access_token: string) {
-
-        const dotsQuantity = (access_token.match(new RegExp('\\.')) || []).length;
-
-        if(dotsQuantity === 0) {
-             return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${access_token}.`;
-        } else if(dotsQuantity === 1) {
-            return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${access_token}`;
-        } else {
-            return access_token;
-        }
-    }
 }
 
