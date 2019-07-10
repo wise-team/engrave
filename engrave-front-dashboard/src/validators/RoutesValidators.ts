@@ -20,8 +20,11 @@ export class RoutesVlidators {
         try {
             
             if (!req.session.steemconnect) throw new Error("User not logged in");
+            
+            const token = RoutesVlidators.prepareJwtTokenFromAccessToken(req.session.access_token);
 
-            const decodedToken = jwt.decode(req.session.access_token);
+            const decodedToken = jwt.decode(token);
+
             const currentTime = new Date().getTime() / 1000;
 	        if (decodedToken.exp < currentTime) {
                 req.session.destroy();
@@ -43,6 +46,7 @@ export class RoutesVlidators {
             }
 
         } catch (error) {
+            console.log(error);
             if(req.method == 'GET') {
                 res.redirect('/');
             } else {
@@ -50,6 +54,19 @@ export class RoutesVlidators {
             }
             
         }
+    }
+
+    private static prepareJwtTokenFromAccessToken (access_token: string) {
+
+        const jwtHasHeader = (access_token.match(new RegExp('\\.')) || []).length > 1;
+
+        if(!jwtHasHeader) {
+            return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${access_token}`;
+        } else {
+            return access_token;
+        }
+
+
     }
 }
 
