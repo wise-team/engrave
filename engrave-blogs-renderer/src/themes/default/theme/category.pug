@@ -5,6 +5,7 @@ append scripts
 
 block content
     meta(name="description", content= blog.opengraph_default_description)
+    input(type="hidden" value=blog.username)#author_indicator
     input(type="hidden" value=category.slug )#category_indicator
     .posts-block.standard-box
         .title-section
