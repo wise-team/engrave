@@ -157,36 +157,36 @@ services:
 
   ### METRICS MONITORING ###
   
-  prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./metrics/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_db:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   volumes:
+  #     - ./metrics/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_db:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
   
-  node-exporter:
-    image: prom/node-exporter:latest
-    volumes:
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-      - /proc:/host/proc:ro
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   volumes:
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #     - /proc:/host/proc:ro
 
-  grafana:
-    image: grafana/grafana:latest
-    depends_on:
-        - prometheus
-    volumes:
-      - grafana_db:/var/lib/grafana
-      - ./metrics/grafana/:/etc/grafana/provisioning/
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   depends_on:
+  #       - prometheus
+  #   volumes:
+  #     - grafana_db:/var/lib/grafana
+  #     - ./metrics/grafana/:/etc/grafana/provisioning/
 
-  cadvisor:
-    image: google/cadvisor:latest
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+  # cadvisor:
+  #   image: google/cadvisor:latest
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
 
 volumes:
   db-data:
