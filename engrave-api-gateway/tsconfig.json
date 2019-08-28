@@ -9,10 +9,11 @@
         "noImplicitAny": true,
     },
     "include": [
-        "./src/"
+        "./src"
     ],
     "exclude": [
-        "node_modules",
-        "dist"
+        "**/node_modules/**/*",
+        "**/typings/**/*",
+        "**/dist/**/*"
     ]
 }
