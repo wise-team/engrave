@@ -23,7 +23,7 @@
     "mongoose": "^5.4.0",
     "mongoose-auto-increment-reworked": "^1.2.1",
     "steem": "^0.7.3",
-    "axios": "0.18.0",
+    "axios": "0.21.1",
     "ioredis": "4.3.0",
     "redis-json": "2.2.2",
     "is-an-image-url": "1.0.3",
