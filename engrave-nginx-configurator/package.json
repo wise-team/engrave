@@ -25,7 +25,7 @@
     "steem": "^0.7.3",
     "le-store-certbot": "2.2.1",
     "greenlock": "2.6.7",
-    "axios": "0.18.0",
+    "axios": "0.21.1",
     "ioredis": "4.3.0",
     "redis-json": "2.2.2",
     "is-an-image-url": "1.0.3",
