@@ -44,7 +44,7 @@
     "mongoose": "5.3.6",
     "mongoose-auto-increment-reworked": "1.2.1",
     "parse-domain": "2.1.6",
-    "pug": "2.0.3",
+    "pug": "3.0.1",
     "redis-json": "2.2.2",
     "remarkable": "1.7.1",
     "secure-random": "^1.1.1",
