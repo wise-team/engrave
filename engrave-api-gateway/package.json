@@ -24,7 +24,7 @@
     "ioredis": "4.3.0",
     "is-an-image-url": "1.0.3",
     "jsonwebtoken": "8.4.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.21",
     "markdown-it": "8.4.2",
     "mongoose": "5.4.4",
     "mongoose-auto-increment-reworked": "1.2.1",
