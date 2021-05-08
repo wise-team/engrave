@@ -38,7 +38,7 @@
     "is-image": "2.0.0",
     "is-image-url": "1.1.8",
     "jsonwebtoken": "^8.4.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.21",
     "markdown-it": "8.4.2",
     "moment": "2.22.2",
     "mongoose": "5.3.6",
